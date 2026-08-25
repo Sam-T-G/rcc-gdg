@@ -1,0 +1,10 @@
+# Template chooser settings. Docs:
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+blank_issues_enabled: false
+contact_links:
+  - name: Quick question
+    url: "https://github.com/Sam-T-G/rcc-gdg/blob/main/docs/04-brand/links.md"
+    about: Ask on the club Discord; the invite is listed on the links page once it exists. Issues are for work that changes this repo.
+  - name: Where does this go?
+    url: "https://github.com/Sam-T-G/rcc-gdg/blob/main/docs/05-onboarding/repo-tour.md"
+    about: A map of the repo and what belongs in each folder.
