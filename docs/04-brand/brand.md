@@ -96,7 +96,7 @@ Plain-text references to Google products, links, and unaltered logos in teaching
 
 ## Design system
 
-How club web pages and design docs are built from these colors and faces: [design-system/](design-system/README.md). It holds the token stylesheet, component specs, page archetypes, the design-doc template, and the accessibility rules. This document outranks it; where they disagree, fix the design system.
+How club web pages and design docs are built from these colors and faces: [design-system/](design-system/README.md). It holds the token stylesheet, component specs, page archetypes, the design-doc template, the accessibility rules, and, since 2026-09-01, the export sizes for Instagram, share cards, slides, and print in [design-system/assets.md](design-system/assets.md). This document outranks it; where they disagree, fix the design system.
 
 ## Templates
 

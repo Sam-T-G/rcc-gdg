@@ -12,6 +12,7 @@ Brand authority runs: Google's Brand Resource Center, then [brand.md](../brand.m
 | [components.md](components.md) | Buttons, cards, tables, callouts, nav, and the five page archetypes |
 | [documents.md](documents.md) | The design-doc system and the copyable template |
 | [accessibility.md](accessibility.md) | Contrast, focus, keyboard, photo consent, and the Step |
+| [assets.md](assets.md) | Every size the club exports: Instagram, share cards, slides, print, with safe zones and type minimums. Added 2026-09-01 |
 | [checklist.md](checklist.md) | Before you publish |
 
 ## The short version

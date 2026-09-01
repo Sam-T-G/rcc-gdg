@@ -31,6 +31,10 @@ Run this on any public artifact. Any failure in 1 through 6 stops the publish.
 7. Nothing at rest is using elevation 4.
 8. Does the page look considered on GitHub with no CSS at all?
 
+## Social and print
+
+A post, a story, a share card, a slide deck, or a print piece also runs the export checks in [assets.md §10.9](assets.md): exact pixel size, the safe zone for its surface, 44 px minimum type on the 1080 master, custom alt text, and the independence sentence in the caption when the logo is in the image.
+
 ---
 
 ## 12. Open items, with owners
@@ -53,6 +57,12 @@ Run this on any public artifact. Any failure in 1 through 6 stops the publish.
 | 14 | The three Google Sans license contradictions, unresolved as of 2026-08-31. Recheck before any self-hosted binary, print vendor, or merch run | `LEAD` | Print and merch |
 | 15 | Reconcile against the GDG On Campus Brand Guide deck, which nobody on the club side has opened. It lists halftone and pastel variants that may conflict with the container tones here | `LEAD` | Semester start |
 | 16 | GitHub's dark canvas `#0d1117`, current as of 2026-08-31. If it changes, re-run the dual-mode table in §2.7 | `LEAD` | Semester start |
+| 17 | Instagram handle in `links.md`, and the Bevy event cover size read off the upload dialog into `assets.md` §10.4 | Secretary | First Instagram post |
+| 18 | `assets/templates/`: one SVG per export size in `assets.md`, text nodes and the Step only | Whoever builds the site | First event post made from a template |
+| 19 | The third callout slot is mapped two ways: `components.md` §7.7 says Receipt is `[!IMPORTANT]`, `documents.md` §3.2 says the third label is `[!CAUTION]` and bans `IMPORTANT`. Pick one and fix the other file | `LEAD` | The converter's alert transform |
+| 20 | The icon set is named two ways: `foundations.md` §5.5 and `components.md` say Lucide, `accessibility.md` §2.1 says Phosphor. Pick one and fix the other | Whoever builds the site | Icon adoption |
+| 21 | §9 (visual voice: the ledger line, the rung rail, what pictures are of, the diagram stroke ladder) is cited from `bright-lines.md`, `foundations.md`, and `components.md` but no file carries it. Either write it or repoint the citations at `accessibility.md` Part 2 | `LEAD` | Any build |
+| 22 | Type minimums and safe zones in `assets.md` §10.3, checked on a real phone; slide minimums in §10.5, checked on the A-210 projector | Whoever makes the first post | First event post |
 
 ---
 
