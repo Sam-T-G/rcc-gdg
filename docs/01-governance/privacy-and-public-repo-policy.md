@@ -17,7 +17,7 @@ The short version: the club's institutional memory belongs here; people's person
 | Names already published by the officer on a public Google Developer Groups on Campus (Google for Developers) chapter or organizer page | Name and title only, with a link to that page |
 | Meeting minutes with decisions and counts | "Voted 14 to 3 to run the workshop in week 6" |
 | Logos and brand files | SVG or PNG under 1 MB in `assets/` |
-| Room numbers and meeting times | BLCIS A-103, Wednesdays, 10:00 AM |
+| Room numbers and meeting times | BLCIS A-210 Simulation Lab, Thursdays, 2:30 to 3:30 PM |
 
 ## What may not be committed
 

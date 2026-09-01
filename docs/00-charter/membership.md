@@ -13,7 +13,7 @@ Guests from other colleges: [TBD].
 | Join the chapter on Bevy: <https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/> | RSVPs, live streams, recordings, and the "GDG on Campus member" badge on your Google Developer profile |
 | Join the Discord: <https://discord.gg/ddwjKJJN9v> | Day-to-day chat, team formation, announcements between meetings |
 | Follow Instagram: [TBD: add Instagram URL] | Event posters and photos |
-| Show up: Wednesdays, 10:00 AM, BLCIS A-103 | The actual club |
+| Show up: Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab | The actual club |
 
 Dues: [TBD].
 

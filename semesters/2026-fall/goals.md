@@ -4,13 +4,13 @@ Three to five goals. Each one has a number you can check at the end of the semes
 
 Draft status: these goals were drafted in August 2026 from what the club told ASRCC in the FY 2026-27 funding request and from the workshop playbooks. The Fall 2026 team confirms, edits, or replaces them by week 2 and changes each status from `not started` as work begins. Nothing here is binding until the team has said so at a meeting.
 
-Semester dates: classes begin 2026-08-24, no classes 2026-11-23 to 2026-11-29, finals 2026-12-12 to 2026-12-18, full-term classes end 2026-12-18. Holidays on a Wednesday: 2026-11-11 and 2026-11-25 (the latter falls inside the no-class week).
+Semester dates: classes begin 2026-08-24, no classes 2026-11-23 to 2026-11-29, finals 2026-12-12 to 2026-12-18, full-term classes end 2026-12-18. The meeting slot is Thursday, so neither campus holiday (2026-09-07 and 2026-11-11, both Mon/Wed) costs a meeting. The only dark Thursdays are 2026-11-26 (inside the no-class week) and 2026-12-17 (finals week).
 
 ## Goals
 
 | # | Goal | How we measure it | Owner (role) | Status |
 |---|---|---|---|---|
-| 1 | Hold the weekly meeting every instruction week (Wednesdays, 10:00 AM, BLCIS A-103) | Meeting notes filed in [meetings/](meetings/README.md) for at least 13 of the 14 instruction Wednesdays (Aug 26 to Dec 9, minus Nov 11 and Nov 25) | President | not started |
+| 1 | Hold the weekly meeting every instruction week (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab) | Meeting notes filed in [meetings/](meetings/README.md) for at least 13 of the 14 remaining instruction Thursdays (Sep 3 to Dec 10, minus Nov 26; Aug 27 passed before the plan existed). Session cards for all 14 are in [sessions/](sessions/README.md) | President | not started |
 | 2 | Publish at least one event a month on Bevy, September through December, each with a filed retro | 4 or more folders in [events/](events/README.md) with `retro.md` filled and a Bevy check-in count | Program lead | not started |
 | 3 | Run one Google guest speaker or workshop event in BLCIS at the scale promised to ASRCC | 50 or more checked in on Bevy for one event; depends on the FY 2026-27 allocation ([budget.md](budget.md)) | Event lead, Treasurer | not started |
 | 4 | Take part in DevFest 2026 (season Oct 1 to Dec 31), by hosting or by attending a nearby chapter's event | Mode decision logged by [TBD]; one DevFest event folder with a retro; see [devfest.md](../../docs/03-playbooks/devfest.md) | Event lead | not started |

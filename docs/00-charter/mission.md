@@ -10,7 +10,7 @@ Google describes a GDG on Campus member as someone who can "meet local developer
 
 | Activity | Example from Spring 2026 |
 |---|---|
-| Weekly meetings | Wednesdays, 10:00 AM, BLCIS A-103 |
+| Weekly meetings | Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab |
 | Hands-on workshops | "How to Vibe Code Like a Pro" (Mar 25, 2026); the 40-minute Modular Impact Sprint on Google AI Studio |
 | Team projects | "Tech Startups and Solving Problems: Team Creation Day" (Apr 1, 2026) leading into "Million Dollar Pitch" (Apr 22, 2026) |
 | Demo Day | Jun 3, 2026, the semester's closing event where teams present their projects |

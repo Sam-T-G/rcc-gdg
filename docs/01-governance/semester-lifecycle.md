@@ -18,7 +18,7 @@ Weeks are counted from the first day of classes. Fall and Spring are about 17 we
 
 | Week | Phase | What happens | Who |
 | --- | --- | --- | --- |
-| Before week 1 | Open | Run `scripts/new-semester.sh`. Copy open items from the previous `handoff.md` into `goals.md`. Fill `calendar.md` from the RCC academic calendar (holidays, breaks, finals). Confirm the meeting room and time still hold (Wednesdays, 10:00 AM, BLCIS A-103). Confirm the advisor is still the advisor. Confirm [MAINTAINERS.md](../../MAINTAINERS.md) has two admins. | President, repo admin |
+| Before week 1 | Open | Run `scripts/new-semester.sh`. Copy open items from the previous `handoff.md` into `goals.md`. Fill `calendar.md` from the RCC academic calendar (holidays, breaks, finals). Confirm the meeting room and time still hold (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab). Confirm the advisor is still the advisor. Confirm [MAINTAINERS.md](../../MAINTAINERS.md) has two admins. | President, repo admin |
 | 1 | Open | First weekly meeting. Announce the semester on Discord and Instagram. Start the club recharter packet (RCC requires it every semester; see [club-recognition-and-icc.md](../02-operations/club-recognition-and-icc.md)). | President, secretary, outreach |
 | 2 to 3 | Open | Club Rush (date set by Student Activities each term; record it in `calendar.md`). Update the member count in `roster.md`. Book rooms for the semester's events through the advisor (see [room-booking.md](../02-operations/room-booking.md)). | Outreach, advisor |
 | 4 to 6 | Run | Recharter packet submitted before the RCC deadline (published as the first six weeks of the semester; confirm each term). ICC representative attending ICC meetings. First workshop or event. | ICC rep, president, event lead |

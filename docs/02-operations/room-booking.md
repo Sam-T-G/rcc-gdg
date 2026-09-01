@@ -16,7 +16,7 @@ Source: Facilities Request Procedures in the [Club Advisor's Guide (PDF)](https:
 
 ## Weekly meeting room
 
-The regular meeting is Wednesdays, 10:00 AM in BLCIS A-103.
+The regular meeting is Thursdays, 2:30 to 3:30 PM in BLCIS A-210 Simulation Lab.
 
 - [ ] Before the semester starts, ask the advisor to confirm the recurring booking for the whole semester is in 25Live. How the recurring request is entered: [TBD, ask the advisor].
 - [ ] Keep the confirmation email in the advisor's records; note "room confirmed for the semester" with the date in the semester `README.md`.
