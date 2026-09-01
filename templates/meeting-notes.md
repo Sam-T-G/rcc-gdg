@@ -6,8 +6,8 @@
 | --- | --- |
 | Club | GDG on Campus @ RCC |
 | Date | <!-- fill: YYYY-MM-DD --> |
-| Time | Wednesdays, 10:00 AM <!-- fill: change if this meeting moved --> |
-| Room | BLCIS A-103 <!-- fill: change if this meeting moved --> |
+| Time | Thursdays, 2:30 to 3:30 PM <!-- fill: change if this meeting moved --> |
+| Room | BLCIS A-210 Simulation Lab <!-- fill: change if this meeting moved --> |
 | Facilitator (role) | <!-- fill: e.g. President --> |
 | Note taker (role) | <!-- fill: e.g. Secretary --> |
 | Attendance (count) | <!-- fill: number of people in the room, officers included --> |
@@ -65,5 +65,5 @@ Ideas raised but not discussed. Move them to an agenda or an issue, or delete th
 ## Next meeting
 
 - Date: <!-- fill: YYYY-MM-DD -->
-- Room: BLCIS A-103
+- Room: BLCIS A-210 Simulation Lab
 - Draft agenda: <!-- fill: one line -->

@@ -22,7 +22,7 @@ Tick boxes in this file as you go and commit it as-is. A half-finished checklist
 
 - [ ] Read last semester's `retrospective.md` and `handoff.md`. Copy open threads into `goals.md` or `calendar.md`.
 - [ ] Renew the club with Student Activities for this semester. Record the due date and the submitted date in `calendar.md`. See [club-recognition-and-icc.md](../../docs/02-operations/club-recognition-and-icc.md).
-- [ ] Confirm the weekly slot (Wednesdays, 10:00 AM, BLCIS A-103) and ask the advisor to book the room. See [room-booking.md](../../docs/02-operations/room-booking.md).
+- [ ] Confirm the weekly slot (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab) and ask the advisor to book the room. See [room-booking.md](../../docs/02-operations/room-booking.md).
 - [ ] Confirm who holds each role in `roster.md`. Every role listed there has a person, or the row says `open`.
 - [ ] Check [MAINTAINERS.md](../../MAINTAINERS.md) lists two repo admins plus the advisor. Fix it in this PR if not.
 - [ ] Write `goals.md`.

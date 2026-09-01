@@ -8,7 +8,7 @@ This playbook covers logistics and structure for any workshop. The content outli
 
 ## When
 
-Any regular meeting slot (Wednesdays, 10:00 AM, BLCIS A-103) or a separately booked slot when the workshop needs more than 50 minutes. Aim for at least one workshop a month during instruction.
+Any regular meeting slot (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab) or a separately booked slot when the workshop needs more than 50 minutes. Aim for at least one workshop a month during instruction.
 
 ## Owner
 

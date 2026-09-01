@@ -12,7 +12,7 @@ Types: `deadline`, `meeting`, `event`, `training`, `milestone`, `break`. Status:
 |---|---|---|---|---|
 | [TBD] | First day of classes | milestone | President | planned |
 | [TBD] | Club renewal packet due to Student Activities (due every semester, early in the term; confirm the exact deadline each term) | deadline | President | planned |
-| [TBD] | First weekly meeting (Wednesdays, 10:00 AM, BLCIS A-103) | meeting | President | planned |
+| [TBD] | First weekly meeting (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab) | meeting | President | planned |
 | [TBD] | Club Rush | event | Vice President | planned |
 | [TBD] | Clubs not in the ASRCC budget may approach the ASRCC Senate for funding (window opens in August; fall only) | milestone | Treasurer | planned |
 | [TBD] | ASRCC funding request packet released (early February; spring only) | milestone | Treasurer | planned |

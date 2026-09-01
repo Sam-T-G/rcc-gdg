@@ -10,8 +10,8 @@ GDG on Campus Riverside City College is an independent group; our activities and
 
 | | |
 |---|---|
-| Weekly meeting | Wednesdays, 10:00 AM |
-| Room | BLCIS A-103 |
+| Weekly meeting | Thursdays, 2:30 to 3:30 PM |
+| Room | BLCIS A-210 Simulation Lab |
 | Chapter page (events, RSVP, recordings) | <https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/> |
 | Discord | <https://discord.gg/ddwjKJJN9v> |
 | Instagram | [TBD: add Instagram URL] |
@@ -52,7 +52,7 @@ This repo is the club's memory. It holds the rules for running the club, the pla
 ### New member
 
 1. Join the chapter on Bevy so you get event RSVPs and recordings: <https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/>
-2. Show up Wednesdays at 10:00 AM in BLCIS A-103.
+2. Show up Thursdays at 2:30 PM in BLCIS A-210 Simulation Lab.
 3. Read [docs/05-onboarding/new-member.md](docs/05-onboarding/new-member.md) and [docs/00-charter/membership.md](docs/00-charter/membership.md).
 4. Read the [code of conduct](CODE_OF_CONDUCT.md). It applies at every meeting and event.
 5. Have an idea for a workshop or event? Open an issue with one of the forms under [.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/config.yml).

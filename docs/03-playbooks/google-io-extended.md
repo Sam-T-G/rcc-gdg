@@ -36,7 +36,7 @@ Google I/O 2027 dates: [TBD]. Check https://io.google/ and the I/O Extended hub 
 ## T-minus checklist (watch party)
 
 - [ ] T-6 weeks: confirm the I/O keynote date and Pacific time. Log the event go/no-go in the [decision log](../01-governance/decision-log.md).
-- [ ] T-6 weeks: advisor books a room with a projector and good audio in 25Live, at least two weeks ahead ([room-booking.md](../02-operations/room-booking.md)). The keynote may run outside the Wednesday 10:00 AM slot, so check the room's availability for the actual time. If the keynote is during class hours, a delayed replay later the same day is fine.
+- [ ] T-6 weeks: advisor books a room with a projector and good audio in 25Live, at least two weeks ahead ([room-booking.md](../02-operations/room-booking.md)). The keynote may run outside the Thursday 2:30 PM slot, so check the room's availability for the actual time. If the keynote is during class hours, a delayed replay later the same day is fine.
 - [ ] T-5 weeks: Student Activities Event Form; Food Authorization form if serving food ([event-checklist.md](../02-operations/event-checklist.md)).
 - [ ] T-4 weeks: publish on Bevy with "Google I/O Extended" in the title; then Discord, Instagram, classroom announcements ([communications.md](../02-operations/communications.md)).
 - [ ] T-2 weeks: create the event folder with `scripts/new-event.sh`; fill in the [plan](../../templates/event-plan.md) and [run sheet](../../templates/event-run-sheet.md).

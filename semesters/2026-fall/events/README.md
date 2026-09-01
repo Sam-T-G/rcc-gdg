@@ -14,11 +14,19 @@ From [goals.md](../goals.md). No folder exists until an event has a go decision;
 
 | Target window | Event | Playbook | Folder |
 |---|---|---|---|
-| [TBD] (early in the term) | Club Rush | [club-rush.md](../../../docs/03-playbooks/club-rush.md) | not yet |
+| week of 2026-09-08 | Club Rush (exact day [TBD] with Student Activities) | [club-rush.md](../../../docs/03-playbooks/club-rush.md) | not yet |
 | [TBD] | Guest speaker or workshop in BLCIS (50+ target) | [guest-speaker.md](../../../docs/03-playbooks/guest-speaker.md), [workshop.md](../../../docs/03-playbooks/workshop.md) | not yet |
 | [TBD] | Modular Impact Sprint dry run | [workshop-modular-impact-sprint.md](../../../docs/03-playbooks/workshop-modular-impact-sprint.md) | not yet |
 | Oct 1 to Dec 31 | DevFest 2026 (hosted or attended) | [devfest.md](../../../docs/03-playbooks/devfest.md) | not yet |
-| week of Dec 7 | Demo Day | [demo-day.md](../../../docs/03-playbooks/demo-day.md) | not yet |
+| 2026-12-10 | Demo Day (the last weekly meeting, run as a public event) | [demo-day.md](../../../docs/03-playbooks/demo-day.md), [session card](../sessions/2026-12-10-demo-day.md) | not yet |
+
+## Events and the weekly meeting are different things
+
+The weekly Thursday meeting is deliberately non-technical and aimed at every major: see [sessions/](../sessions/README.md) and [meeting-algorithm.md](../../../docs/03-playbooks/meeting-algorithm.md). Anything technical this term runs as a separate published event in this folder, announced from the meeting as the next rung.
+
+That is a decision, not an accident. The Modular Impact Sprint and DevFest are the club's on-ramp for people who want to build; keeping them out of the weekly slot is what lets a nursing or business student attend fourteen meetings without ever being the least equipped person in the room. Log any change to that in the [decision log](../../../docs/01-governance/decision-log.md).
+
+Demo Day on 2026-12-10 is the one overlap: it is both the last weekly meeting and a published Bevy event with guests. It has a session card and an event folder.
 
 ## Create a folder
 

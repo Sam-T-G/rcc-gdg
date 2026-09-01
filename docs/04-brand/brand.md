@@ -49,9 +49,19 @@ Source files, the animated GIFs, the sticker sheet, and the campus website banne
 | Use | Font | Fallback |
 |---|---|---|
 | Everything | Google Sans (Regular, Bold) | Sans-serif system font |
-| Code-style text | Google Sans Mono | Any monospace |
+| Code-style text | **Google Sans Code** | Any monospace |
 
-Source: GDG On Campus Brand Guide.
+Source for the faces: GDG On Campus Brand Guide. Source for the licensing: a check of the Google Fonts catalog metadata endpoint, the CSS2 API, `google/fonts`, `googlefonts/googlesans`, and the `name` tables of the served WOFF2 files, run 2026-08-31.
+
+**Correction, 2026-08-31: this table used to say Google Sans Mono. It is not licensed for web embedding.** Mono has no Google Fonts catalog entry, no public repo, no license file, and its binary reads `Copyright 2024 Google LLC. All Rights Reserved.` with no license record in name ID 14. The CSS2 API will serve it if asked; serving is not licensing, and the brand guide is a slide deck describing what Google hands chapters rather than a font license.
+
+**Google Sans Code replaces it.** It is in `google/fonts` at `ofl/googlesanscode/` with `license: "OFL"` in `METADATA.pb`, has a live upstream repo, and carries the OFL URL in its binary. Same licensor, same lineage, and it is the code face Google itself now ships. Google Sans itself is fine: catalogued, OFL in the binary, embeddable.
+
+Delivery: link the Google Fonts API, do not self-host Google Sans. The club cannot point at a license for a binary it would be redistributing. Recheck before any print vendor or merch run, where the sanctioned route is the brand guide's own templates anyway.
+
+Trademark is a separate question from license. `TRADEMARKS.txt` restricts the words "Google" and "Google Sans" as marks and forbids putting them in a company name, product name, domain, or social profile. It does not restrict setting the club's own text in the typeface. Drawing a club logotype out of Google Sans letterforms is where the "imitate Google's visual identity" rule below bites. The club already has logo files; type never becomes the mark.
+
+Full evidence, including three unresolved contradictions in Google's own paper trail: [design-system/foundations.md](design-system/foundations.md).
 
 ## Colors
 
@@ -83,6 +93,10 @@ Do not (Google Brand Resource Center, third-party guidance):
 - Imitate Google's visual identity for club-made graphics.
 
 Plain-text references to Google products, links, and unaltered logos in teaching material are allowed.
+
+## Design system
+
+How club web pages and design docs are built from these colors and faces: [design-system/](design-system/README.md). It holds the token stylesheet, component specs, page archetypes, the design-doc template, the accessibility rules, and, since 2026-09-01, the export sizes for Instagram, share cards, slides, and print in [design-system/assets.md](design-system/assets.md). This document outranks it; where they disagree, fix the design system.
 
 ## Templates
 
