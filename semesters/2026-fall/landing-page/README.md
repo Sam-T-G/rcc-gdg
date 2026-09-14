@@ -4,7 +4,7 @@ The club's public web page for this semester, live at <https://sam-t-g.github.io
 
 | File | What it is |
 |---|---|
-| `index.html` | The page: headline, the semester as a green staircase, when and where, one button, over an ambient Step field on a canvas. Styles come from `tokens.css`; the page layer marks the few rules `tokens.css` does not ship yet as PROPOSED |
+| `index.html` | The page: an opening headline, then one pinned scroll scene where the semester's staircase draws itself while the Voice chapter cuts an example answer from 20 to 12 to 8 seconds, then Ask and Evidence, then the next session and the Discord button. Styles come from `tokens.css`; rules it does not ship are marked PROPOSED |
 | `favicon.svg` | The Step mark, green on light and light green on dark |
 | `apple-touch-icon.png` | The Step on the page surface, 180 x 180, for home-screen bookmarks |
 | `og.png` | The share card shown when the link is pasted into Discord or a bio: headline, meeting time, and the staircase, 1200 x 630, no logo ([components.md §8.6](../../../docs/04-brand/design-system/components.md)) |
@@ -24,20 +24,19 @@ GitHub Pages picks up the push within a minute or two. The build copies this fol
 
 ## What the page keeps current on its own
 
-The "First up" line under the meeting time names the next session, chosen by script from today's date in Riverside using the session list in the `semester-data` block at the bottom of `index.html`. With JavaScript off, it shows the state as of the last edit. Add `?now=2026-11-20T09:00` to the URL to see the page as it will look on a given date.
+The landing block ("Your first step", the date, the session title) names the next session, chosen by script from today's date in Riverside using the session list in the `semester-data` block at the bottom of `index.html`. With JavaScript off, it shows the state as of the last edit.
 
 Change the session list here when a session moves, and change the matching card in [sessions/](../sessions/README.md) first.
 
 ## Rules this page follows
 
 - **Light only.** The horizontal lockup exists only as a light file and the logo may not be recolored, so the page ignores a dark system theme rather than swapping in the stacked lockup.
-- **One idea per block, one button.** The staircase carries the semester: the three arcs as three treads, each label on its own step, drawn once on load.
-- **The ambient field** is the Step field ([accessibility.md §2.3](../../../docs/04-brand/design-system/accessibility.md)) on one `<canvas>` inside `<main>`: lanes of small Step marks that draw in, rise, and breathe. It never runs behind the logo. Green only, one mark per lane so marks never stack. Marks reach alpha 0.24 in open space and are held to 0.072 wherever they could touch a text block, so grey text over a mark measures 5.97:1 or better. Measured on the canvas pixels: 0.21 in open space, 0.067 inside text blocks. It costs about 6 ms of script per second and pauses when the hero is off screen.
-- **GSAP 3.15.0** drives the field (ticker and tweens), loaded from cdnjs with a pinned version and an SRI hash that matches cdnjs's published one. It is used under the [GSAP standard license](https://gsap.com/standard-license) and is not vendored into this repo. Reduced motion, or GSAP failing to load, draws one still frame; the rest of the page never depends on it.
-- The independence sentence sits in the footer. The page is under two phone screens, so the second placement in [bright-lines.md §1.4](../../../docs/04-brand/design-system/bright-lines.md) does not apply; add it under the header if the page grows past three.
-- No officer names and no photos of people ([privacy-and-public-repo-policy.md](../../../docs/01-governance/privacy-and-public-repo-policy.md)).
-- No icons and no callouts, because the design system names two icon sets and two callout sets and neither question is settled.
-- Checked 2026-09-14 at 320, 390, 768, 1024, 1280, and 1440 px, with the system theme set to light and to dark: horizontal lockup at every size, no horizontal scroll, every text pair at 5.18:1 or better, no tap target under 44 px, zero axe-core 4.10.2 violations, skip link first in tab order, complete with JavaScript off, legible under forced colors, staircase labels 8 px above their treads. The field was checked moving, still under reduced motion, and still with cdnjs blocked, with no console errors in any case.
+- **One scroll scene carries the semester.** GSAP 3.15.0 and ScrollTrigger pin the stage and scrub one timeline: the Step staircase draws across the screen, the chapters hand off by opacity (so a screen reader still reads all three), and during Voice the example answer is cut in step with the scroll. Every state is computed from scroll position, so scrolling back rebuilds the sentence exactly.
+- **The example answer is labelled as an example.** Its three rounds are also written out in a list that screen readers read and that shows on its own for reduced motion or when scripts fail.
+- **GSAP loads from cdnjs**, pinned, with the SRI hashes cdnjs publishes, under the [GSAP standard license](https://gsap.com/standard-license), not vendored into this repo. Without it, or with reduced motion, the page is a static stack of the same content.
+- **The independence sentence appears twice:** at the bottom of the opening screen, because the page runs past three screens with the logo above the fold, and in the footer ([bright-lines.md §1.4](../../../docs/04-brand/design-system/bright-lines.md)).
+- No officer names and no photos of people ([privacy-and-public-repo-policy.md](../../../docs/01-governance/privacy-and-public-repo-policy.md)). No icons and no callouts.
+- Checked 2026-09-14. At 320, 390, 768, and 1280 px with the system theme light and dark: horizontal lockup everywhere, no horizontal scroll, every text pair 5.18:1 or better, no tap target under 44 px, zero axe-core 4.10.2 violations, skip link first. Through the scroll scene at 390 x 844, 375 x 667, 1024 x 768, and 1440 x 900: the answer matches the written rounds word for word at 20, 12, and 8, the chapters hand off in order, scrolling back rebuilds the full answer, and the drawn staircase never crosses text. Static fallback checked with reduced motion and with cdnjs blocked.
 
 ## Not in this folder
 
