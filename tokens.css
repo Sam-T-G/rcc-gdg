@@ -1,0 +1,745 @@
+/* ===========================================================================
+   GDG on Campus Riverside City College. Design tokens and base layer.
+   v1.0, 2026-08-31. One prefix: --rcc-.
+   Contrast audited light and dark; see docs/04-brand/design-system/foundations.md §2.5.
+   =========================================================================== */
+
+/* --- Reset. The system depends on both of these. ------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+img, svg, video { max-width: 100%; height: auto; }
+
+:root {
+  color-scheme: light;
+
+  /* =========================== COLOR: LIGHT =============================== */
+  /* Page surfaces and ink: neutral tinted toward the lead hue at OKLCh
+     chroma 0.005. Container fills at 0.012, so a card reads as paper. */
+  --rcc-surface:                   #f7faf8;
+  --rcc-surface-container-lowest:  #ffffff;
+  --rcc-surface-container-low:     #eef6ef;
+  --rcc-surface-container:         #e8f0e9;
+  --rcc-surface-container-high:    #e3eae3;
+  --rcc-surface-container-highest: #dde5de;
+
+  --rcc-on-surface:                #1e201e;
+  --rcc-on-surface-variant:        #575a58;
+  --rcc-outline:                   #727873;   /* boundaries that carry meaning */
+  --rcc-outline-variant:           #ccd4cd;   /* dividers only. 1.44:1 by design */
+
+  /* Primary: Green 500 derived. The lead. */
+  --rcc-primary:                   #00732d;
+  --rcc-on-primary:                #ffffff;
+  --rcc-primary-container:         #cff1d3;
+  --rcc-on-primary-container:      #003a13;
+
+  /* Secondary: Blue 500 derived. Cross-references out. Nothing else. */
+  --rcc-secondary:                 #1b5eca;
+  --rcc-on-secondary:              #ffffff;
+  --rcc-secondary-container:       #dbe9ff;
+  --rcc-on-secondary-container:    #092e69;
+
+  /* Error: Red 500 derived. Failure and destruction only. */
+  --rcc-error:                     #c5150f;
+  --rcc-on-error:                  #ffffff;
+  --rcc-error-container:           #ffeae6;
+  --rcc-on-error-container:        #6f0604;
+
+  /* Highlight: Yellow 600 derived. A FILL under dark text, never a bare mark.
+     As a bare shape on --rcc-surface it measures 2.18:1. */
+  --rcc-highlight:                 #e09f2e;
+  --rcc-on-highlight:              #392300;
+  --rcc-highlight-container:       #ffe5c0;
+  --rcc-on-highlight-container:    #4f3400;
+
+  --rcc-code-surface:              #eef6ef;
+  --rcc-code-on-surface:           #2f312f;
+  --rcc-inverse-surface:           #2c312c;
+  --rcc-inverse-on-surface:        #f1f4f2;
+  --rcc-inverse-primary:           #96d6a0;
+
+  --rcc-focus-ring:                #00732d;
+  --rcc-focus-gap:                 var(--rcc-surface);
+
+  /* The two sanctioned licensed fills. Both hold 4.5:1 with --rcc-on-surface
+     (green 5.37, yellow 8.48). Blue and red ship no fill token: see §2.2. */
+  --rcc-fill-green:                #34a853;
+  --rcc-fill-yellow:               #f9ab00;
+
+  /* Diagram marks that work on BOTH GitHub canvases (#ffffff and #0d1117).
+     Each clears 4.33:1 on both. The theoretical ceiling is 4.350:1. */
+  --rcc-mark-lead:      #008c39;
+  --rcc-mark-xref:      #3376e3;
+  --rcc-mark-highlight: #a36f00;
+  --rcc-mark-neutral:   #777a77;
+  --rcc-mark-failure:   #e13a2d;
+
+  /* State layers: the content's own color at these opacities. */
+  --rcc-state-hover:   0.08;
+  --rcc-state-focus:   0.10;
+  --rcc-state-pressed: 0.10;
+  --rcc-state-row:     0.04;
+  --rcc-state-dragged: 0.16;
+  --rcc-scrim:         #000000;
+  --rcc-scrim-opacity: 0.32;
+
+  /* ============================ TYPOGRAPHY =============================== */
+  --rcc-font-brand: "Google Sans", "Inter",
+                    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --rcc-font-text:  "Google Sans", "Inter",
+                    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --rcc-font-code:  "Google Sans Code", "JetBrains Mono",
+                    ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* GRAD shifts apparent weight with no change to advance widths, so it
+     retunes per theme with zero reflow. Set ONCE on body; opsz is left to
+     font-optical-sizing: auto so the fallback stack works too. */
+  --rcc-grad: 0;
+
+  --rcc-weight-body:   400;
+  --rcc-weight-strong: 500;
+  --rcc-weight-loud:   700;
+
+  /* Fluid roles interpolate 360px -> 1440px viewport. Ordering is strictly
+     monotonic at every width. Fixed roles never move. */
+  --rcc-size-display-lg:  clamp(2.25rem,  1.8125rem + 1.944vw, 3.5625rem); /* 36->57 */
+  --rcc-size-display-sm:  clamp(1.75rem,  1.5rem    + 1.111vw, 2.5rem);    /* 28->40 */
+  --rcc-size-headline-lg: clamp(1.5rem,   1.3333rem + 0.741vw, 2rem);      /* 24->32 */
+  --rcc-size-headline-sm: clamp(1.25rem,  1.1667rem + 0.370vw, 1.5rem);    /* 20->24 */
+  --rcc-size-title-lg:    1.125rem;   /* 18 */
+  --rcc-size-title-sm:    0.9375rem;  /* 15 */
+  --rcc-size-body-lg:     1.0625rem;  /* 17 */
+  --rcc-size-body-md:     0.9375rem;  /* 15 */
+  --rcc-size-body-sm:     0.8125rem;  /* 13 */
+  --rcc-size-label-lg:    0.9375rem;  /* 15 */
+  --rcc-size-label-md:    0.8125rem;  /* 13 */
+  --rcc-size-label-sm:    0.6875rem;  /* 11 */
+  --rcc-size-code-lg:     0.9375rem;  /* 15 */
+  --rcc-size-code-md:     0.875rem;   /* 14 */
+  --rcc-size-code-sm:     0.8125rem;  /* 13 */
+
+  --rcc-lh-display-lg:  1.05;
+  --rcc-lh-display-sm:  1.12;
+  --rcc-lh-headline-lg: 1.25;
+  --rcc-lh-headline-sm: 1.30;
+  --rcc-lh-title-lg:    1.5rem;   /* 24 */
+  --rcc-lh-title-sm:    1.25rem;  /* 20 */
+  --rcc-lh-body-lg:     1.75rem;  /* 28 */
+  --rcc-lh-body-md:     1.5rem;   /* 24 */
+  --rcc-lh-body-sm:     1.25rem;  /* 20 */
+  --rcc-lh-label-lg:    1.25rem;  /* 20 */
+  --rcc-lh-label-md:    1rem;     /* 16 */
+  --rcc-lh-label-sm:    1rem;     /* 16 */
+  --rcc-lh-code-lg:     1.5rem;   /* 24 */
+  --rcc-lh-code-md:     1.5rem;   /* 24 */
+  --rcc-lh-code-sm:     1.25rem;  /* 20 */
+
+  /* Tracking flips sign around 20px: negative above, zero at title-lg,
+     positive below. */
+  --rcc-track-display-lg:  -0.02em;
+  --rcc-track-display-sm:  -0.015em;
+  --rcc-track-headline-lg: -0.01em;
+  --rcc-track-headline-sm: -0.005em;
+  --rcc-track-title-lg:     0;
+  --rcc-track-title-sm:     0.005em;
+  --rcc-track-body-lg:      0.005em;
+  --rcc-track-body-md:      0.008em;
+  --rcc-track-body-sm:      0.01em;
+  --rcc-track-label-lg:     0.01em;
+  --rcc-track-label-md:     0.015em;
+  --rcc-track-label-sm:     0.06em;
+  --rcc-track-code:         0;
+  --rcc-track-code-sm:      0.02em;
+  --rcc-track-ledger:       0.08em;
+
+  --rcc-measure-prose:   68ch;
+  --rcc-measure-narrow:  46ch;
+  --rcc-measure-display: 20ch;
+
+  /* ============================== SPACE ================================== */
+  --rcc-space-0:    0;
+  --rcc-space-0-5:  0.125rem;  /*   2 */
+  --rcc-space-1:    0.25rem;   /*   4 */
+  --rcc-space-2:    0.5rem;    /*   8 */
+  --rcc-space-3:    0.75rem;   /*  12 */
+  --rcc-space-4:    1rem;      /*  16 */
+  --rcc-space-5:    1.25rem;   /*  20 */
+  --rcc-space-6:    1.5rem;    /*  24 */
+  --rcc-space-8:    2rem;      /*  32 */
+  --rcc-space-10:   2.5rem;    /*  40 */
+  --rcc-space-12:   3rem;      /*  48 */
+  --rcc-space-16:   4rem;      /*  64 */
+  --rcc-space-20:   5rem;      /*  80 */
+  --rcc-space-30:   7.5rem;    /* 120 */
+
+  /* Section rhythm. The only fluid space tokens; nothing aligns across a
+     section gap, so intermediate drift is invisible. */
+  --rcc-rhythm-block:   clamp(2rem,   4vw,  3rem);    /*  32 ->  48 */
+  --rcc-rhythm-section: clamp(3rem,   7vw,  5rem);    /*  48 ->  80 */
+  --rcc-rhythm-band:    clamp(4.5rem, 10vw, 7.5rem);  /*  72 -> 120 */
+
+  /* Prose flow. Heading space is 2:1, above to below, at every level. */
+  --rcc-flow-paragraph: var(--rcc-space-4);
+  --rcc-flow-list-item: var(--rcc-space-2);
+  --rcc-flow-block:     var(--rcc-space-6);
+  --rcc-flow-h1-above:  var(--rcc-space-16);
+  --rcc-flow-h1-below:  var(--rcc-space-8);
+  --rcc-flow-h2-above:  var(--rcc-space-12);
+  --rcc-flow-h2-below:  var(--rcc-space-6);
+  --rcc-flow-h3-above:  var(--rcc-space-8);
+  --rcc-flow-h3-below:  var(--rcc-space-4);
+  --rcc-flow-h4-above:  var(--rcc-space-6);
+  --rcc-flow-h4-below:  var(--rcc-space-3);
+
+  /* ============================== GRID =================================== */
+  --rcc-grid-cols:    4;
+  --rcc-grid-gutter:  var(--rcc-space-4);
+  --rcc-page-margin:  var(--rcc-space-4);
+  --rcc-span-half:    2;
+  --rcc-span-third:   4;
+  --rcc-span-quarter: 2;
+
+  --rcc-container-prose:   40rem;  /*  640 */
+  --rcc-container-doc:     56rem;  /*  896 */
+  --rcc-container-content: 75rem;  /* 1200 */
+  --rcc-container-wide:    90rem;  /* 1440 */
+
+  --rcc-target-min:  3rem;      /* 48, hit area floor */
+  --rcc-control:     2.5rem;    /* 40, visible control */
+  --rcc-control-sm:  2.25rem;   /* 36, dense control */
+  --rcc-icon:        1.5rem;    /* 24 */
+  --rcc-icon-sm:     1.25rem;   /* 20 */
+  --rcc-icon-stroke: 1.5;
+
+  --rcc-card-padding:         var(--rcc-space-6);
+  --rcc-card-padding-compact: var(--rcc-space-4);
+  --rcc-row-padding:          var(--rcc-space-3);
+  --rcc-row-padding-compact:  var(--rcc-space-2);
+
+  /* ============================== SHAPE ================================== */
+  --rcc-radius-none: 0;
+  --rcc-radius-xs:   0.25rem;  /*  4 */
+  --rcc-radius-sm:   0.5rem;   /*  8 */
+  --rcc-radius-md:   0.75rem;  /* 12 */
+  --rcc-radius-lg:   1rem;     /* 16 */
+  --rcc-radius-xl:   1.5rem;   /* 24 */
+  --rcc-radius-full: 9999px;   /* actions and avatars only */
+  --rcc-hairline:    1px;
+
+  /* ============================ ELEVATION ================================ */
+  /* Ink is --rcc-on-surface (#1e201e) so shadows carry the same cast as the
+     greys. Level 0 is a ZERO-ALPHA shadow so it interpolates. */
+  --rcc-elevation-ink:     30 32 30;
+  --rcc-elevation-key:     0.30;
+  --rcc-elevation-ambient: 0.15;
+
+  --rcc-elevation-0:
+    0 0 0 0 rgb(var(--rcc-elevation-ink) / 0),
+    0 0 0 0 rgb(var(--rcc-elevation-ink) / 0);
+  --rcc-elevation-1:
+    0 1px 2px 0   rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-key)),
+    0 1px 3px 1px rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-ambient));
+  --rcc-elevation-2:
+    0 1px 2px 0   rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-key)),
+    0 2px 6px 2px rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-ambient));
+  --rcc-elevation-3:
+    0 1px 3px 0   rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-key)),
+    0 4px 8px 3px rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-ambient));
+  --rcc-elevation-4:                       /* interaction only, never at rest */
+    0 2px 3px 0    rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-key)),
+    0 6px 10px 4px rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-ambient));
+
+  /* ============================== MOTION ================================= */
+  --rcc-dur-fast-effects:    90ms;
+  --rcc-dur-default-effects: 140ms;
+  --rcc-dur-slow-effects:    220ms;
+  --rcc-dur-fast-spatial:    200ms;
+  --rcc-dur-default-spatial: 320ms;
+  --rcc-dur-slow-spatial:    480ms;
+
+  --rcc-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --rcc-ease-spatial:  cubic-bezier(0.34, 1.28, 0.64, 1);
+  --rcc-ease-exit:     cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ============================== DARK ====================================
+   System preference, guarded so an explicit light choice still wins. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; }
+  :root:not([data-theme="light"]) {
+    --rcc-surface:                   #121412;
+    --rcc-surface-container-lowest:  #0b0f0b;
+    --rcc-surface-container-low:     #171c18;
+    --rcc-surface-container:         #1b211c;
+    --rcc-surface-container-high:    #262b27;
+    --rcc-surface-container-highest: #313731;
+
+    --rcc-on-surface:                #e6e9e6;
+    --rcc-on-surface-variant:        #b9bcba;
+    --rcc-outline:                   #919791;
+    --rcc-outline-variant:           #424943;
+
+    --rcc-primary:                   #96d6a0;
+    --rcc-on-primary:                #003410;
+    --rcc-primary-container:         #00531e;
+    --rcc-on-primary-container:      #c6eccb;
+
+    --rcc-secondary:                 #a6c8ff;
+    --rcc-on-secondary:              #092e69;
+    --rcc-secondary-container:       #104394;
+    --rcc-on-secondary-container:    #d2e3ff;
+
+    --rcc-error:                     #ffb3a8;
+    --rcc-on-error:                  #660604;
+    --rcc-error-container:           #910906;
+    --rcc-on-error-container:        #ffdbd4;
+
+    --rcc-highlight:                 #e7ae58;
+    --rcc-on-highlight:              #392300;
+    --rcc-highlight-container:       #624000;
+    --rcc-on-highlight-container:    #fcdeb5;
+
+    --rcc-code-surface:              #1b211c;
+    --rcc-code-on-surface:           #dadedb;
+    --rcc-inverse-surface:           #dde5de;
+    --rcc-inverse-on-surface:        #2f312f;
+    --rcc-inverse-primary:           #006928;
+
+    --rcc-focus-ring:                #96d6a0;
+
+    --rcc-grad: -25;
+
+    --rcc-elevation-ink:     0 0 0;
+    --rcc-elevation-key:     0.44;
+    --rcc-elevation-ambient: 0.24;
+  }
+}
+
+/* Explicit toggle, so it wins in both directions. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --rcc-surface:                   #121412;
+  --rcc-surface-container-lowest:  #0b0f0b;
+  --rcc-surface-container-low:     #171c18;
+  --rcc-surface-container:         #1b211c;
+  --rcc-surface-container-high:    #262b27;
+  --rcc-surface-container-highest: #313731;
+
+  --rcc-on-surface:                #e6e9e6;
+  --rcc-on-surface-variant:        #b9bcba;
+  --rcc-outline:                   #919791;
+  --rcc-outline-variant:           #424943;
+
+  --rcc-primary:                   #96d6a0;
+  --rcc-on-primary:                #003410;
+  --rcc-primary-container:         #00531e;
+  --rcc-on-primary-container:      #c6eccb;
+
+  --rcc-secondary:                 #a6c8ff;
+  --rcc-on-secondary:              #092e69;
+  --rcc-secondary-container:       #104394;
+  --rcc-on-secondary-container:    #d2e3ff;
+
+  --rcc-error:                     #ffb3a8;
+  --rcc-on-error:                  #660604;
+  --rcc-error-container:           #910906;
+  --rcc-on-error-container:        #ffdbd4;
+
+  --rcc-highlight:                 #e7ae58;
+  --rcc-on-highlight:              #392300;
+  --rcc-highlight-container:       #624000;
+  --rcc-on-highlight-container:    #fcdeb5;
+
+  --rcc-code-surface:              #1b211c;
+  --rcc-code-on-surface:           #dadedb;
+  --rcc-inverse-surface:           #dde5de;
+  --rcc-inverse-on-surface:        #2f312f;
+  --rcc-inverse-primary:           #006928;
+
+  --rcc-focus-ring:                #96d6a0;
+
+  --rcc-grad: -25;
+
+  --rcc-elevation-ink:     0 0 0;
+  --rcc-elevation-key:     0.44;
+  --rcc-elevation-ambient: 0.24;
+}
+
+/* ============================ GRID TIERS ================================
+   Three breakpoints. Never a fourth. 4 / 8 / 12 share divisors, so a span
+   of 4 is full at the base tier, half at 8, and a third at 12. */
+@media (min-width: 600px) {
+  :root {
+    --rcc-grid-cols:    8;
+    --rcc-grid-gutter:  var(--rcc-space-6);
+    --rcc-page-margin:  var(--rcc-space-8);
+    --rcc-span-half:    4;
+    --rcc-span-quarter: 2;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --rcc-grid-cols:    12;
+    --rcc-grid-gutter:  var(--rcc-space-6);
+    --rcc-page-margin:  var(--rcc-space-12);
+    --rcc-span-half:    6;
+    --rcc-span-quarter: 3;
+  }
+}
+
+/* ============================== BASE ==================================== */
+html { font-size: 100%; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--rcc-surface);
+  color: var(--rcc-on-surface);
+  font-family: var(--rcc-font-text);
+  font-optical-sizing: auto;                       /* drives opsz, both stacks */
+  font-variation-settings: "GRAD" var(--rcc-grad); /* set ONCE, inherited */
+  font-synthesis: weight;                          /* real 500 in fallback, no fake italics */
+  font-size: var(--rcc-size-body-lg);
+  line-height: var(--rcc-lh-body-lg);
+  letter-spacing: var(--rcc-track-body-lg);
+  font-weight: var(--rcc-weight-body);
+  text-wrap: pretty;
+}
+
+/* --- Headings. Same result whether they arrive as markdown or as markup. -- */
+h1, h2, h3, h4 {
+  font-family: var(--rcc-font-brand);
+  font-weight: var(--rcc-weight-strong);
+  text-wrap: balance;
+  max-width: var(--rcc-measure-display);
+}
+h1 { font-size: var(--rcc-size-display-sm);  line-height: var(--rcc-lh-display-sm);  letter-spacing: var(--rcc-track-display-sm);
+     margin-block: 0 var(--rcc-flow-h1-below); }
+h2 { font-size: var(--rcc-size-headline-lg); line-height: var(--rcc-lh-headline-lg); letter-spacing: var(--rcc-track-headline-lg);
+     margin-block: var(--rcc-flow-h2-above) var(--rcc-flow-h2-below); }
+h3 { font-size: var(--rcc-size-headline-sm); line-height: var(--rcc-lh-headline-sm); letter-spacing: var(--rcc-track-headline-sm);
+     margin-block: var(--rcc-flow-h3-above) var(--rcc-flow-h3-below); }
+h4 { font-size: var(--rcc-size-title-lg);    line-height: var(--rcc-lh-title-lg);    letter-spacing: var(--rcc-track-title-lg);
+     margin-block: var(--rcc-flow-h4-above) var(--rcc-flow-h4-below); }
+
+/* h5 and h6 change FACE and CASE rather than shrinking below body size.
+   This is the ledger line (§9.1) doing structural work. */
+h5, h6 {
+  font-family: var(--rcc-font-code);
+  font-weight: var(--rcc-weight-strong);
+  text-transform: uppercase;
+  letter-spacing: var(--rcc-track-ledger);
+  color: var(--rcc-on-surface-variant);
+  margin-block: var(--rcc-flow-h4-above) var(--rcc-flow-h4-below);
+  max-width: var(--rcc-measure-prose);
+}
+h5 { font-size: var(--rcc-size-label-lg); line-height: var(--rcc-lh-label-lg); }
+h6 { font-size: var(--rcc-size-label-md); line-height: var(--rcc-lh-label-md); }
+
+/* --- Prose flow. Margins live here and nowhere else. --------------------- */
+p, ul, ol, blockquote, table, pre, figure { max-width: var(--rcc-measure-prose); }
+p  { margin-block: 0 var(--rcc-flow-paragraph); }
+ul, ol { margin-block: 0 var(--rcc-flow-paragraph); padding-inline-start: var(--rcc-space-6); }
+li + li { margin-block-start: var(--rcc-flow-list-item); }
+pre, table, figure, blockquote { margin-block: var(--rcc-flow-block); }
+strong, b { font-weight: var(--rcc-weight-strong); }
+
+/* --- Links carry a non-color cue. primary vs body ink is 2.73:1 light,
+       1.38:1 dark, both below the 3:1 that colour-alone needs. ------------ */
+a { color: var(--rcc-primary); text-decoration: underline;
+    text-underline-offset: 0.15em; text-decoration-thickness: from-font; }
+a[data-xref] { color: var(--rcc-secondary); }
+nav a, .rcc-button, a.rcc-button { text-decoration: none; }
+
+/* --- Focus. Shadow for the ring, transparent outline so forced-colors
+       substitutes a system colour. :focus-visible only. ------------------- */
+:focus-visible {
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--rcc-focus-gap), 0 0 0 5px var(--rcc-focus-ring);
+  border-radius: inherit;
+}
+
+/* --- Code. Ligatures off so the Google logo substitutions can never fire. */
+code, kbd, samp, pre {
+  font-family: var(--rcc-font-code);
+  font-variant-ligatures: none;
+  letter-spacing: var(--rcc-track-code);
+}
+:not(pre) > code {
+  font-size: 0.9375em; line-height: inherit;
+  font-weight: var(--rcc-weight-strong);
+  background: var(--rcc-code-surface); color: var(--rcc-code-on-surface);
+  padding: 0.1em 0.35em; border-radius: var(--rcc-radius-xs);
+}
+pre { overflow-x: auto; background: var(--rcc-code-surface);
+      color: var(--rcc-code-on-surface); padding: var(--rcc-space-4);
+      border-radius: var(--rcc-radius-sm);
+      box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline-variant); }
+pre code { font-size: var(--rcc-size-code-md); line-height: var(--rcc-lh-code-md);
+           font-weight: var(--rcc-weight-body); background: none; padding: 0; }
+
+/* --- Tables. Horizontal rules only. No verticals, no zebra, no merges. --- */
+table { border-collapse: collapse; width: 100%;
+        font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md);
+        font-variant-numeric: tabular-nums lining-nums; }
+th, td { text-align: start; padding: var(--rcc-space-2);
+         border-block-end: var(--rcc-hairline) solid var(--rcc-outline-variant); }
+thead th { background: var(--rcc-surface-container-high);
+           font-size: var(--rcc-size-label-lg); font-weight: var(--rcc-weight-strong);
+           letter-spacing: var(--rcc-track-label-lg); }
+.rcc-table-scroll { overflow-x: auto; }
+
+/* --- Numerals that change, and clock columns. --------------------------- */
+.rcc-tabular, time, .rcc-stat { font-variant-numeric: tabular-nums lining-nums; }
+.rcc-time { font-feature-settings: "ss02" 1, "tnum" 1;
+            font-variant-numeric: tabular-nums; }
+
+/* --- The ledger line: the club's voice for metadata. §9.1. --------------- */
+.rcc-ledger {
+  font-family: var(--rcc-font-code);
+  font-size: var(--rcc-size-code-sm);
+  line-height: var(--rcc-lh-code-sm);
+  letter-spacing: var(--rcc-track-ledger);
+  font-weight: var(--rcc-weight-strong);
+  text-transform: uppercase;
+  color: var(--rcc-on-surface-variant);
+}
+
+/* --- Emphasized tier. One weight step up at identical size, so applying it
+       to a container can never reflow a layout. --------------------------- */
+[data-emphasis="on"],
+[data-emphasis="on"] p,
+[data-emphasis="on"] li            { font-weight: var(--rcc-weight-strong); }
+[data-emphasis="on"] h1, [data-emphasis="on"] h2,
+[data-emphasis="on"] h3, [data-emphasis="on"] h4,
+[data-emphasis="on"] .rcc-ledger,
+[data-emphasis="on"] [class*="rcc-label"] { font-weight: var(--rcc-weight-loud); }
+
+/* ========================== LAYOUT PRIMITIVES =========================== */
+.rcc-container {
+  width: 100%;
+  max-width: calc(var(--rcc-container, var(--rcc-container-content))
+                  + var(--rcc-page-margin) * 2);
+  margin-inline: auto;
+  padding-inline: var(--rcc-page-margin);
+}
+.rcc-container--prose { --rcc-container: var(--rcc-container-prose); }
+.rcc-container--doc   { --rcc-container: var(--rcc-container-doc); }
+.rcc-container--wide  { --rcc-container: var(--rcc-container-wide); }
+
+/* minmax(0, 1fr), not 1fr: one long unbroken string otherwise blows the
+   whole track out. */
+.rcc-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--rcc-grid-cols), minmax(0, 1fr));
+  gap: var(--rcc-grid-gutter);
+}
+.rcc-col-full    { grid-column: 1 / -1; }
+.rcc-col-half    { grid-column: span var(--rcc-span-half); }
+.rcc-col-third   { grid-column: span var(--rcc-span-third); }
+.rcc-col-quarter { grid-column: span var(--rcc-span-quarter); }
+
+.rcc-stack   { display: flex; flex-direction: column; gap: var(--rcc-rhythm-block); }
+.rcc-section { padding-block: var(--rcc-rhythm-section); }
+.rcc-band    { padding-block: var(--rcc-rhythm-band); }
+
+.rcc-measure-prose   { max-width: var(--rcc-measure-prose); }
+.rcc-measure-narrow  { max-width: var(--rcc-measure-narrow); }
+.rcc-measure-display { max-width: var(--rcc-measure-display); }
+
+/* ============================= CONTROLS ================================= */
+.rcc-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--rcc-space-2);
+  min-block-size: var(--rcc-target-min);
+  padding-inline: var(--rcc-space-6);
+  border: 0; border-radius: var(--rcc-radius-full);
+  font-family: var(--rcc-font-text);
+  font-size: var(--rcc-size-label-lg); line-height: 1;
+  font-weight: var(--rcc-weight-strong);
+  letter-spacing: var(--rcc-track-label-lg);
+  cursor: pointer;
+  background: var(--rcc-primary); color: var(--rcc-on-primary);
+  transition: border-radius var(--rcc-dur-fast-spatial) var(--rcc-ease-spatial),
+              background-color var(--rcc-dur-fast-effects) var(--rcc-ease-standard);
+}
+.rcc-button:has(> .rcc-icon:first-child) { padding-inline-start: var(--rcc-space-5); }
+.rcc-button:active { border-radius: var(--rcc-radius-sm); }
+.rcc-button--secondary {
+  background: transparent; color: var(--rcc-on-surface);
+  box-shadow: 0 0 0 var(--rcc-hairline) var(--rcc-outline);
+}
+.rcc-button--text { background: transparent; color: var(--rcc-primary);
+                    padding-inline: var(--rcc-space-3); }
+.rcc-button[disabled] { opacity: 0.38; cursor: not-allowed; }
+.rcc-button--secondary:focus-visible {
+  box-shadow: 0 0 0 var(--rcc-hairline) var(--rcc-outline),
+              0 0 0 3px var(--rcc-focus-gap), 0 0 0 6px var(--rcc-focus-ring);
+}
+
+/* State layer: the content's own colour, so it needs no per-theme tuning. */
+.rcc-state { position: relative; isolation: isolate; }
+.rcc-state::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: currentColor; opacity: 0; pointer-events: none; z-index: -1;
+  transition: opacity var(--rcc-dur-fast-effects) var(--rcc-ease-standard);
+}
+.rcc-state:hover::before  { opacity: var(--rcc-state-hover); }
+.rcc-state:active::before { opacity: var(--rcc-state-pressed); }
+
+/* ============================== CARD ==================================== */
+.rcc-card {
+  position: relative;
+  padding: var(--rcc-card-padding);
+  border-radius: var(--rcc-radius-md);
+  background: var(--rcc-surface-container-lowest);
+  box-shadow: var(--rcc-elevation-0);
+  container-type: inline-size;
+  transition: box-shadow var(--rcc-dur-default-effects) var(--rcc-ease-standard),
+              transform  var(--rcc-dur-default-spatial) var(--rcc-ease-spatial);
+}
+.rcc-card::after {                       /* hairline drawn on top of media */
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline-variant);
+  pointer-events: none;
+}
+.rcc-card:hover { box-shadow: var(--rcc-elevation-1); transform: translateY(-2px); }
+.rcc-card--status::after {               /* any card carrying status */
+  box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline);
+}
+/* Nesting: 12px outer minus 8px of inlay leaves 4px inside. */
+.rcc-card__media {
+  border-radius: var(--rcc-radius-xs);
+  margin: calc(var(--rcc-card-padding) * -1 + var(--rcc-space-2));
+  margin-block-end: var(--rcc-space-4);
+  overflow: hidden;
+}
+.rcc-card__link { position: absolute; inset: 0; z-index: 1; }
+.rcc-card__actions { position: relative; z-index: 9; }
+
+/* ============================= CALLOUTS ================================= */
+/* Closed set of three. Note is neutral, so a doc page carries at most two
+   hues. Every status container pairs with an --rcc-outline hairline,
+   because container fills measure 1.10:1 to 1.17:1 against the ground. */
+.rcc-callout {
+  padding: var(--rcc-space-3) var(--rcc-space-5) var(--rcc-space-3)
+           calc(var(--rcc-space-5) + var(--rcc-space-8));
+  border-radius: var(--rcc-radius-lg);
+  font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md);
+  max-width: var(--rcc-measure-prose);
+  box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline);
+}
+.rcc-callout--note    { background: var(--rcc-surface-container-high); color: var(--rcc-on-surface); }
+.rcc-callout--warning { background: var(--rcc-highlight-container);    color: var(--rcc-on-highlight-container); }
+.rcc-callout--receipt { background: var(--rcc-primary-container);      color: var(--rcc-on-primary-container); }
+.rcc-callout + .rcc-callout { margin-block-start: var(--rcc-rhythm-block); }
+
+/* ============================ TIMELINE ================================== */
+.rcc-phase {
+  display: grid;
+  grid-template-columns: 5.5ch 1fr;      /* fits "12:00" with no reflow */
+  gap: var(--rcc-space-4);
+  padding-block: var(--rcc-space-4);
+}
+.rcc-phase:not(:last-child)::after {
+  content: ""; grid-column: 1 / -1;
+  border-block-end: var(--rcc-hairline) solid var(--rcc-outline-variant);
+  margin-block-start: var(--rcc-space-4);
+}
+.rcc-phase__time { font-variant-numeric: tabular-nums; }
+
+/* ============================= FOOTER =================================== */
+.rcc-footer { background: var(--rcc-surface-container); padding-block: var(--rcc-space-12); }
+.rcc-footer__notice {                    /* required independence sentence */
+  max-width: var(--rcc-measure-prose);
+  margin-block-start: var(--rcc-rhythm-band);
+  font-size: var(--rcc-size-body-md);
+  color: var(--rcc-on-surface-variant);
+}
+
+/* ======================= REDUCED MOTION: the two lines ================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --rcc-dur-fast-spatial: 0ms;
+    --rcc-dur-default-spatial: 0ms;
+    --rcc-dur-slow-spatial: 0ms;
+  }
+  html { scroll-behavior: auto; }
+  .rcc-card:hover { transform: none; }
+}
+
+/* ============================ FORCED COLORS ============================= */
+@media (forced-colors: active) {
+  .rcc-card, .rcc-callout, .rcc-button--secondary { border: 1px solid CanvasText; }
+  .rcc-card::after { display: none; }
+}
+
+/* ================================ PRINT ================================= */
+@media print {
+  :root { color-scheme: light; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  nav, .rcc-skip, .rcc-theme-toggle, .rcc-copy { display: none; }
+  a { color: #000; }
+  a[href^="http"]::after { content: " (" attr(href) ")";
+                           font-size: 9pt; word-break: break-all; }
+  .rcc-card, .rcc-callout { box-shadow: none; border: 1px solid #999;
+                            break-inside: avoid; }
+  h1, h2, h3, h4 { break-after: avoid; }
+  table, figure, pre { break-inside: avoid; }
+  .rcc-footer__notice { border-top: 1px solid #999;
+                        padding-top: 8pt; margin-top: 12pt; }
+}
+
+/* ===========================================================================
+   THE STEP  -  the club's own signature device.
+   A single stroke that runs, rises through two right angles, and runs on.
+   Outer corner of each turn is round, inner corner is sharp. That asymmetry
+   is the identity, and it is not derived from any Google-owned mark.
+   =========================================================================== */
+
+/* The arc is set ONCE per page on the root element. Do not set --step-x on
+   .step-rule itself; a value declared on the element shadows the inherited
+   one and the page-level switch stops working. */
+:root { --rcc-step-arc: 12%; }        /* club pages, footer, non-session */
+:root[data-arc="voice"]    { --rcc-step-arc: 25%; }
+:root[data-arc="ask"]      { --rcc-step-arc: 50%; }
+:root[data-arc="evidence"] { --rcc-step-arc: 75%; }
+
+.rcc-step-rule {
+  --step-x: var(--rcc-step-arc, 50%);
+  --step-w: 2px;
+  --step-rise: var(--rcc-space-3, 10px);
+  position: relative;
+  height: calc(var(--step-rise) + var(--step-w));
+  color: var(--rcc-outline);
+}
+.rcc-step-rule::before {               /* low run plus the riser */
+  content: "";
+  position: absolute; left: 0; bottom: 0;
+  width: var(--step-x); height: 100%;
+  border-bottom: var(--step-w) solid currentColor;
+  border-right:  var(--step-w) solid currentColor;
+  /* Inner border radius = outer minus border width, floored at 0. Using
+     step-w/2 clamps the inner corner to 0 and matches the SVG's round join
+     (outer radius = stroke-width / 2). A larger value rounds the INSIDE too
+     and destroys the asymmetry. */
+  border-bottom-right-radius: calc(var(--step-w) / 2);
+}
+.rcc-step-rule::after {                /* high run */
+  content: "";
+  position: absolute; top: 0; right: 0;
+  left: calc(var(--step-x) - var(--step-w));
+  border-top: var(--step-w) solid currentColor;
+}
+
+/* The Mark, for favicon and lockup. Stroke is 12.5% of the box at every size.
+   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+     <path d="M3 19.5H12V4.5H21" fill="none" stroke="currentColor"
+           stroke-width="3" stroke-linecap="butt" stroke-linejoin="round"/>
+   </svg>
+   The Staircase, three rises, for banners and the semester landing:
+   <svg viewBox="0 0 32 24" aria-hidden="true" focusable="false">
+     <path d="M2 21H11V13.5H21V6H30" fill="none" stroke="currentColor"
+           stroke-width="3" stroke-linecap="butt" stroke-linejoin="round"/>
+   </svg> */
