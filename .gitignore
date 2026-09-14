@@ -15,6 +15,9 @@ lychee/
 .lycheecache
 *.log
 
+# Built landing page. scripts/publish-site.sh writes it and pushes it to gh-pages.
+site/
+
 # Local scratch. Drafts you are not ready to share stay here.
 scratch/
 *.draft.md

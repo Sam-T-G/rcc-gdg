@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>GDG on Campus Riverside City College</title>
+<meta name="description" content="Walk into any room ready. Every Thursday at 2:30 in BLCIS A-210, students from any major practice the skills careers are built on. Nothing technical.">
+<meta name="theme-color" content="#f7faf8">
+<link rel="canonical" href="https://sam-t-g.github.io/rcc-gdg/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sam-t-g.github.io/rcc-gdg/">
+<meta property="og:title" content="GDG on Campus Riverside City College">
+<meta property="og:description" content="Walk into any room ready. Every Thursday at 2:30 in BLCIS A-210, students from any major practice the skills careers are built on. Nothing technical.">
+<meta property="og:image" content="https://sam-t-g.github.io/rcc-gdg/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Walk into any room ready. Thursdays, 2:30 PM, BLCIS A-210. A green staircase rises beside the words.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<!-- GSAP and ScrollTrigger drive the scroll scene. Pinned, integrity-checked, optional:
+     without them, or with reduced motion, the page is a static stack of the same content. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" integrity="sha512-OaIE7ud4P04EhnBuhEcm0wQSceIxbi2pV03oBLS/+F6ampfxsnxcIxOp7H2eF9G7N0kEht0VAzOLG+dTLSo17Q==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<style>
+  /* Light only: the horizontal lockup exists only as a light file and may not be
+     recolored. Values come from tokens.css; rules it does not ship are marked PROPOSED. */
+  body { overflow-x: clip; }
+  .wrap { padding-inline: var(--rcc-page-margin); max-width: calc(90rem + var(--rcc-page-margin) * 2); margin-inline: auto; }
+
+  /* PROPOSED: skip link, off screen until focused, then a Primary button. */
+  .rcc-skip {
+    position: absolute; z-index: 10; white-space: nowrap;
+    inset-block-start: var(--rcc-space-2); inset-inline-start: 50%;
+    transform: translate(-50%, calc(-100% - var(--rcc-space-6)));
+  }
+  .rcc-skip:focus { transform: translate(-50%, 0); }
+  main:focus { outline: none; box-shadow: none; }
+
+  /* --- Opening screen: the headline is the image --------------------------- */
+  .intro {
+    min-block-size: 100svh; display: grid; grid-template-rows: auto 1fr auto;
+    padding-block: var(--rcc-space-6) var(--rcc-space-8);
+  }
+  .lockup { display: block; block-size: 3rem; inline-size: auto; }
+  .intro h1 {
+    align-self: end; margin: 0; max-width: none;
+    font-size: clamp(3.5rem, 0.5rem + 13vw, 10.5rem); line-height: 0.92; letter-spacing: -0.045em;
+  }
+  .intro h1 .mask { display: inline-block; overflow: clip; overflow-clip-margin: 0.12em; vertical-align: top; padding-block-end: 0.08em; }
+  .intro h1 .w { display: inline-block; }
+  .intro__foot { display: grid; gap: var(--rcc-space-4); margin-block-start: var(--rcc-space-8); align-items: end; }
+  .intro__sub { margin: 0; max-width: 34ch; font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem); line-height: 1.4; }
+  .cue { margin: 0; display: flex; align-items: center; gap: var(--rcc-space-3); color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-md); }
+  .cue svg { inline-size: 28px; block-size: 21px; color: var(--rcc-primary); flex: none; }
+  /* The page runs past three screens with the logo above the fold, so the
+     independence sentence also sits in the opening block (bright-lines.md §1.4). */
+  .notice {
+    grid-column: 1 / -1; margin: 0; max-width: 70ch; padding-block-start: var(--rcc-space-4);
+    border-block-start: 1px solid var(--rcc-outline-variant);
+    font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); color: var(--rcc-on-surface-variant);
+  }
+  @media (min-width: 1024px) { .intro__foot { grid-template-columns: 1fr auto; } }
+
+  /* --- The climb. Static stack by default; a pinned scroll scene when live. -- */
+  .climb { padding-block: var(--rcc-space-12); }
+  .chapter { padding-block: var(--rcc-space-10); border-block-start: 2px solid var(--rcc-outline-variant); }
+  .chapter__when { margin: 0; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-md); }
+  .chapter__name {
+    margin: var(--rcc-space-1) 0 var(--rcc-space-4); max-width: none; color: var(--rcc-primary);
+    font-size: clamp(4rem, 1rem + 13vw, 13rem); line-height: 0.9; letter-spacing: -0.05em;
+  }
+  .chapter__line { margin: 0 0 var(--rcc-space-3); max-width: 22ch; font-size: clamp(1.5rem, 1rem + 2vw, 2.75rem); line-height: 1.12; letter-spacing: -0.015em; font-weight: var(--rcc-weight-strong); }
+  .chapter__receipt { margin: 0; max-width: 36ch; font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem); color: var(--rcc-on-surface-variant); }
+
+  /* The rep inside Voice: "So, what do you do?", answered three times, less time each round. */
+  .rep { margin-block: var(--rcc-space-6); max-width: 46rem; }
+  .rep__prompt { margin: 0 0 var(--rcc-space-3); color: var(--rcc-on-surface-variant); font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.375rem); }
+  .rounds { margin: 0; padding: 0; list-style: none; max-width: none; display: grid; gap: var(--rcc-space-4); }
+  .rounds > li + li { margin: 0; }
+  .rounds b { display: block; color: var(--rcc-primary); font-size: var(--rcc-size-body-md); }
+  .rounds span { font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); line-height: 1.3; }
+  .rep__stage { display: none; }
+  .rep__caption { margin: var(--rcc-space-3) 0 0; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm); }
+  .answer { margin: 0; font-size: clamp(1.375rem, 0.9rem + 2.2vw, 2.75rem); line-height: 1.14; letter-spacing: -0.02em; font-weight: var(--rcc-weight-strong); }
+  .t.cutting .word { color: var(--rcc-on-surface-variant); text-decoration: line-through; text-decoration-thickness: 0.07em; text-decoration-color: var(--rcc-primary); }
+  .clock { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--rcc-space-4); margin-block-start: var(--rcc-space-4); }
+  .clock__num { min-inline-size: 2ch; color: var(--rcc-primary); font-size: clamp(2rem, 1.4rem + 2.4vw, 3.5rem); line-height: 1; font-weight: var(--rcc-weight-strong); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .clock__rail { position: relative; block-size: 8px; border-radius: 99px; background: var(--rcc-surface-container-high); overflow: hidden; }
+  .clock__bar { position: absolute; inset: 0; border-radius: 99px; background: var(--rcc-primary); transform-origin: left center; }
+
+  .climb__svg, .progress { display: none; }
+  .climb.is-live { padding: 0; max-width: none; }
+  .climb.is-live .stage { position: relative; block-size: 100svh; overflow: hidden; }
+  .climb.is-live .chapter {
+    position: absolute; inset-inline: var(--rcc-page-margin); inset-block-start: clamp(3.5rem, 9vh, 7rem);
+    border: 0; padding: 0; max-width: 64rem;
+  }
+  .climb.is-live .chapter__name { font-size: clamp(3.5rem, 1rem + 11vw, 12rem); }
+  .climb.is-live .rounds { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } /* still read aloud */
+  .climb.is-live .rep__stage { display: block; }
+  .climb.is-live .climb__svg { display: block; position: absolute; inset: 0; inline-size: 100%; block-size: 100%; pointer-events: none; }
+  .climb__path { fill: none; stroke: var(--rcc-primary); stroke-linejoin: round; stroke-linecap: butt; }
+  .climb__dot { fill: var(--rcc-primary); stroke: var(--rcc-surface); stroke-width: 5; }
+  .climb.is-live .progress {
+    display: flex; position: absolute; inset-inline-end: var(--rcc-page-margin); inset-block-start: clamp(3.5rem, 9vh, 7rem);
+    flex-direction: column; align-items: flex-end; gap: var(--rcc-space-2);
+    font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant);
+  }
+  .progress [aria-current="step"] { color: var(--rcc-on-surface); font-weight: var(--rcc-weight-strong); }
+  /* Wide screens: Voice sets its words beside the rep, so neither reaches the staircase. */
+  @media (min-width: 1024px) {
+    .climb.is-live .chapter--voice {
+      max-width: min(86rem, 100% - 11rem);
+      display: grid; column-gap: var(--rcc-space-12); align-items: start;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      grid-template-areas: "when rep" "name rep" "line rep" "receipt rep";
+      grid-template-rows: auto auto auto 1fr;
+    }
+    .chapter--voice .chapter__when { grid-area: when; }
+    .chapter--voice .chapter__name { grid-area: name; }
+    .chapter--voice .chapter__line { grid-area: line; }
+    .chapter--voice .chapter__receipt { grid-area: receipt; }
+    .climb.is-live .chapter--voice .rep { grid-area: rep; margin: var(--rcc-space-6) 0 0; }
+  }
+  /* Short phones: the Voice chapter tightens so the rep clears the staircase. */
+  @media (max-width: 599px) and (max-height: 760px) {
+    .climb.is-live .chapter { inset-block-start: var(--rcc-space-8); }
+    .climb.is-live .chapter__name { font-size: 3rem; }
+    .climb.is-live .rep { margin-block: var(--rcc-space-3); }
+    .climb.is-live .rep__prompt { font-size: var(--rcc-size-body-md); }
+    .climb.is-live .answer { font-size: 1.25rem; }
+    .climb.is-live .rep__caption { display: none; }
+  }
+  @media (max-width: 599px) {
+    .climb.is-live .progress { display: none; }
+    .climb.is-live .chapter--voice .chapter__line { display: none; } /* the rep says it on a phone */
+    .climb.is-live .chapter--voice .chapter__receipt { display: none; }
+  }
+
+  /* --- Landing -------------------------------------------------------------- */
+  .landing { min-block-size: 92svh; display: grid; align-content: center; padding-block: var(--rcc-space-20); }
+  .landing__kicker { margin: 0; color: var(--rcc-primary); font-weight: var(--rcc-weight-strong); font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem); }
+  .landing h2 {
+    margin: var(--rcc-space-2) 0 var(--rcc-space-4); max-width: 12ch;
+    font-size: clamp(3rem, 1rem + 8vw, 8.5rem); line-height: 0.95; letter-spacing: -0.04em;
+  }
+  .landing__meta { margin: 0; font-size: clamp(1.25rem, 1rem + 1vw, 2rem); line-height: 1.25; font-weight: var(--rcc-weight-strong); letter-spacing: -0.01em; }
+  .landing__session { margin: var(--rcc-space-2) 0 var(--rcc-space-8); max-width: 48ch; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-lg); }
+  .big { justify-self: start; min-block-size: 3.5rem; padding-inline: var(--rcc-space-8); font-size: 1.125rem; }
+  .landing__note { margin: var(--rcc-space-4) 0 0; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-md); }
+
+  footer { background: var(--rcc-surface-container); padding-block: var(--rcc-space-10); }
+  footer nav { display: flex; flex-wrap: wrap; gap: 0 var(--rcc-space-6); margin-block-end: var(--rcc-space-4); }
+  footer nav a { display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min); text-decoration: underline; }
+  footer p { margin: 0 0 var(--rcc-space-2); max-width: 70ch; font-size: var(--rcc-size-body-md); color: var(--rcc-on-surface-variant); }
+
+  @media (forced-colors: active) {
+    .rcc-button { border: 1px solid ButtonText; }
+    .climb__path { stroke: CanvasText; } .climb__dot { fill: CanvasText; }
+  }
+</style>
+</head>
+<body>
+<a class="rcc-skip rcc-button" href="#main">Skip to main content</a>
+
+<header class="wrap intro">
+  <div>
+    <img class="lockup" src="assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+  </div>
+  <h1><span class="mask"><span class="w">Walk</span></span> <span class="mask"><span class="w">into</span></span> <span class="mask"><span class="w">any</span></span> <span class="mask"><span class="w">room</span></span> <span class="mask"><span class="w">ready.</span></span></h1>
+  <div class="intro__foot">
+    <p class="intro__sub">Every Thursday, students from any major practice the skills careers are built on. Out loud, together, nothing technical.</p>
+    <p class="cue"><svg viewBox="0 0 32 24" aria-hidden="true" focusable="false"><path d="M2 21H11V13.5H21V6H30" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg>Scroll to climb the semester</p>
+    <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="climb wrap" aria-label="The semester in three arcs">
+    <div class="stage">
+      <svg class="climb__svg" aria-hidden="true" focusable="false"><path class="climb__path"/><circle class="climb__dot" r="10"/></svg>
+      <div class="progress" aria-hidden="true"><span>Voice</span><span>Ask</span><span>Evidence</span></div>
+
+      <article class="chapter chapter--voice">
+        <p class="chapter__when">September 17 to October 8</p>
+        <h2 class="chapter__name">Voice</h2>
+        <p class="chapter__line">Find the sentence that gets you in the room.</p>
+        <div class="rep">
+          <p class="rep__prompt">“So, what do you do?” Answer three times, with less time each round.</p>
+          <ol class="rounds">
+            <li><b>20 seconds</b><span>Um, so I’m a nursing major, and I kind of work part time at a clinic, and I sort of redesigned the clinic’s intake form, so check-in is faster now, I think.</span></li>
+            <li><b>12 seconds</b><span>I’m a nursing major, and I work at a clinic, and I redesigned the clinic’s intake form, so check-in is faster now.</span></li>
+            <li><b>8 seconds</b><span>Nursing major. I redesigned the clinic’s intake form. Check-in is faster now.</span></li>
+          </ol>
+          <div class="rep__stage" aria-hidden="true">
+            <p class="answer" id="answer"></p>
+            <div class="clock"><span class="clock__num" id="secs">20</span><span class="clock__rail"><span class="clock__bar" id="bar"></span></span></div>
+          </div>
+          <p class="rep__caption">Example answer. Each round cuts what was there for the speaker’s comfort.</p>
+        </div>
+        <p class="chapter__receipt">October 8, you send the cold message before you leave.</p>
+      </article>
+
+      <article class="chapter chapter--ask">
+        <p class="chapter__when">October 15 to November 5</p>
+        <h2 class="chapter__name">Ask</h2>
+        <p class="chapter__line">Ask for what you want, and keep going after the no.</p>
+        <p class="chapter__receipt">November 5, you book the meeting with someone who can say yes.</p>
+      </article>
+
+      <article class="chapter chapter--evidence">
+        <p class="chapter__when">November 12 to December 10</p>
+        <h2 class="chapter__name">Evidence</h2>
+        <p class="chapter__line">Turn what you did into proof other people can check.</p>
+        <p class="chapter__receipt">December 10, Demo Day: three minutes in front of outsiders.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="landing wrap" aria-labelledby="first-step">
+    <p class="landing__kicker" id="step-kicker">Your first step</p>
+    <h2 id="first-step"><span id="step-date">Thursday, September 17</span></h2>
+    <p class="landing__meta">2:30 to 3:30 PM, BLCIS A-210 Simulation Lab</p>
+    <p class="landing__session" id="step-session">First session: The Sentence That Gets You In The Room</p>
+    <a class="rcc-button rcc-state big" href="https://discord.gg/ddwjKJJN9v">Join the Discord</a>
+    <p class="landing__note">Any major. Walk in any week; every session works as your first.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/">Chapter page on Bevy</a>
+      <a href="https://github.com/Sam-T-G/rcc-gdg/blob/main/CODE_OF_CONDUCT.md">Code of conduct</a>
+    </nav>
+    <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <p>Last updated <time datetime="2026-09-14">September 14, 2026</time>.</p>
+  </div>
+</footer>
+
+<script type="application/json" id="semester-data">
+[
+  {"date": "2026-09-17", "title": "The Sentence That Gets You In The Room"},
+  {"date": "2026-09-24", "title": "Hostile Room"},
+  {"date": "2026-10-01", "title": "The Thing You Actually Want"},
+  {"date": "2026-10-08", "title": "Send It"},
+  {"date": "2026-10-15", "title": "Anatomy of an Ask"},
+  {"date": "2026-10-22", "title": "The No Drill"},
+  {"date": "2026-10-29", "title": "What You Are Owed"},
+  {"date": "2026-11-05", "title": "Office Hours"},
+  {"date": "2026-11-12", "title": "Nobody Saw You Do It"},
+  {"date": "2026-11-19", "title": "The Failure Story"},
+  {"date": "2026-12-03", "title": "Defend It"},
+  {"date": "2026-12-10", "title": "Demo Day"}
+]
+</script>
+<script>
+/* Landing: name the next session by Riverside time. The static HTML is right until September 17. */
+(function () {
+  'use strict';
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var sessions;
+  try { sessions = JSON.parse(document.getElementById('semester-data').textContent); } catch (e) { return; }
+  var override = /[?&]now=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/.exec(location.search), now;
+  if (override) now = override[1];
+  else {
+    var p = {};
+    new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+      .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+    now = p.year + '-' + p.month + '-' + p.day + 'T' + p.hour + ':' + p.minute;
+  }
+  var next = sessions.filter(function (s) { return s.date + 'T15:30' > now; })[0];
+  var kicker = document.getElementById('step-kicker'), date = document.getElementById('step-date'), session = document.getElementById('step-session');
+  if (!next) {
+    kicker.textContent = 'Fall 2026 is complete';
+    date.textContent = 'See you next semester';
+    session.textContent = 'The Discord has what comes next.';
+    return;
+  }
+  var first = next === sessions[0], today = next.date === now.slice(0, 10);
+  kicker.textContent = first ? 'Your first step' : 'Your next step';
+  date.textContent = today ? 'Today' : 'Thursday, ' + MONTHS[+next.date.slice(5, 7) - 1] + ' ' + (+next.date.slice(8, 10));
+  session.textContent = (first ? 'First session: ' : 'Next session: ') + next.title;
+})();
+</script>
+<script>
+/* The climb. One pinned scene: the staircase draws with the scroll, and during Voice the
+   example answer is cut down in step with it. Every visual state is computed from the
+   scroll position, so scrubbing backwards rebuilds the sentence exactly. */
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+  var gsap = window.gsap, ST = window.ScrollTrigger;
+  if (!gsap || !ST || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ST);
+  ST.config({ ignoreMobileResize: true });
+
+  gsap.from('.intro h1 .w', { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.08, delay: 0.15 });
+  gsap.from('.intro__foot > *', { autoAlpha: 0, y: 16, duration: 0.8, ease: 'power2.out', stagger: 0.1, delay: 0.7 });
+
+  var climb = document.querySelector('.climb');
+  climb.classList.add('is-live');
+  var stage = climb.querySelector('.stage'), svg = climb.querySelector('.climb__svg');
+  var path = climb.querySelector('.climb__path'), dot = climb.querySelector('.climb__dot');
+  var chapters = gsap.utils.toArray('.chapter'), marks = gsap.utils.toArray('.progress span');
+
+  // --- The rep: tokens with the round they leave in (out), arrive in (in), or get capitalized in (cap).
+  var TOKENS = [
+    ['Um,', 0, { out: 12 }], ['so', 1, { out: 12 }], ['I’m', 1, { out: 8 }], ['a', 1, { out: 8 }],
+    ['nursing', 1, { cap: 8 }], ['major', 1], [',', 0, { out: 8 }], ['.', 0, { in: 8 }],
+    ['and', 1, { out: 8 }], ['I', 1, { out: 8 }], ['kind of', 1, { out: 12 }], ['work', 1, { out: 8 }],
+    ['part time', 1, { out: 12 }], ['at', 1, { out: 8 }], ['a', 1, { out: 8 }], ['clinic', 1, { out: 8 }],
+    [',', 0, { out: 8 }], ['and', 1, { out: 8 }], ['I', 1], ['sort of', 1, { out: 12 }], ['redesigned', 1],
+    ['the', 1], ['clinic’s', 1], ['intake', 1], ['form', 1], [',', 0, { out: 8 }], ['.', 0, { in: 8 }],
+    ['so', 1, { out: 8 }], ['check-in', 1, { cap: 8 }], ['is', 1], ['faster', 1], ['now', 1],
+    [',', 0, { out: 12 }], ['I', 1, { out: 12 }], ['think', 1, { out: 12 }], ['.', 0]
+  ];
+  var answer = document.getElementById('answer'), secs = document.getElementById('secs'), bar = document.getElementById('bar');
+  var tokens = TOKENS.map(function (t) {
+    var el = document.createElement('span'), word = document.createElement('span'), space = document.createTextNode('');
+    el.className = 't'; word.className = 'word'; word.textContent = t[0];
+    el.appendChild(space); el.appendChild(word); answer.appendChild(el);
+    return { el: el, word: word, space: space, text: t[0], lead: t[1] ? ' ' : '', rule: t[2] || {} };
+  });
+
+  function ramp(x, a, b) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+  // t runs 0 to 1 across the Voice segment: hold, cut to 12, hold, cut to 8, hold.
+  function renderRep(t) {
+    var gone12 = ramp(t, 0.24, 0.44), gone8 = ramp(t, 0.66, 0.86), arrive8 = ramp(t, 0.8, 0.92);
+    var firstShown = null;
+    tokens.forEach(function (k) {
+      var size = 1, alpha = 1, cutting = false, r = k.rule;
+      if (r.out === 12) { size = 1 - gone12; alpha = 1 - ramp(t, 0.2, 0.34); cutting = t > 0.1; }
+      if (r.out === 8) { size = 1 - gone8; alpha = 1 - ramp(t, 0.62, 0.76); cutting = t > 0.54; }
+      if (r.in === 8) { size = arrive8; alpha = arrive8; }
+      k.el.style.fontSize = size < 0.001 ? '0' : size + 'em';
+      k.el.style.opacity = alpha;
+      k.el.classList.toggle('cutting', cutting && size > 0.001);
+      k.word.textContent = r.cap === 8 && t > 0.8 ? k.text.charAt(0).toUpperCase() + k.text.slice(1) : k.text;
+      if (!firstShown && size > 0.5) firstShown = k;
+      k.space.textContent = k.lead;
+    });
+    if (firstShown) firstShown.space.textContent = '';
+    var v = 20 - 8 * ramp(t, 0.1, 0.44) - 4 * ramp(t, 0.54, 0.86);
+    secs.textContent = Math.round(v);
+    bar.style.transform = 'scaleX(' + (v / 20) + ')';
+  }
+
+  // --- The staircase, laid out for the screen it is on.
+  var draw = { p: 0 }, rep = { t: 0 }, len = 1;
+  function layout() {
+    var w = stage.clientWidth, h = stage.clientHeight, phone = w < 600;
+    var m = phone ? 20 : 48, stroke = phone ? 10 : 18;
+    var top = h * (phone ? (h < 760 ? 0.76 : 0.72) : 0.52), bottom = h - (phone ? 32 : 72), mid = (top + bottom) / 2;
+    var x0 = m, x3 = w - m, x1 = x0 + (x3 - x0) / 3, x2 = x0 + (x3 - x0) * 2 / 3;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    path.setAttribute('d', 'M' + x0 + ' ' + bottom + 'H' + x1 + 'V' + mid + 'H' + x2 + 'V' + top + 'H' + x3);
+    path.style.strokeWidth = stroke;
+    dot.setAttribute('r', phone ? 8 : 11);
+    len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    // Hold the answer's box at its full height so nothing below it jumps as words go.
+    answer.style.minBlockSize = '';
+    renderRep(0);
+    answer.style.minBlockSize = answer.offsetHeight + 'px';
+    render();
+  }
+  function render() {
+    path.style.strokeDashoffset = len * (1 - draw.p);
+    var pt = path.getPointAtLength(Math.max(0.001, draw.p) * len);
+    dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+    renderRep(rep.t);
+    var i = draw.p < 1 / 3 ? 0 : draw.p < 2 / 3 ? 1 : 2;
+    marks.forEach(function (mk, k) { if (k === i) mk.setAttribute('aria-current', 'step'); else mk.removeAttribute('aria-current'); });
+  }
+
+  // Chapters fade by opacity only, so a screen reader can still read all three.
+  gsap.set(chapters.slice(1), { opacity: 0, y: 40 });
+  var tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: { trigger: climb, start: 'top top', end: '+=460%', scrub: 0.6, pin: stage, invalidateOnRefresh: true, onRefresh: layout }
+  });
+  tl.to(draw, { p: 1 / 3, duration: 2, onUpdate: render })
+    .to(rep, { t: 1, duration: 2, onUpdate: render }, 0)
+    .to(chapters[0], { opacity: 0, y: -40, duration: 0.25, ease: 'power1.in' }, '>-0.05')
+    .to(chapters[1], { opacity: 1, y: 0, duration: 0.25, ease: 'power1.out' }, '>-0.05')
+    .to(draw, { p: 2 / 3, duration: 1, onUpdate: render }, '<')
+    .to(chapters[1], { opacity: 0, y: -40, duration: 0.25, ease: 'power1.in' }, '>-0.1')
+    .to(chapters[2], { opacity: 1, y: 0, duration: 0.25, ease: 'power1.out' }, '>-0.05')
+    .to(draw, { p: 1, duration: 1, onUpdate: render }, '<')
+    .to({}, { duration: 0.35 });
+  layout();
+  document.fonts && document.fonts.ready.then(function () { ST.refresh(); });
+
+  gsap.from('.landing > *', { autoAlpha: 0, y: 32, duration: 0.9, ease: 'power3.out', stagger: 0.09,
+    scrollTrigger: { trigger: '.landing', start: 'top 75%' } });
+});
+</script>
+</body>
+</html>

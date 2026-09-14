@@ -14,7 +14,7 @@ From [goals.md](../goals.md). No folder exists until an event has a go decision;
 
 | Target window | Event | Playbook | Folder |
 |---|---|---|---|
-| week of 2026-09-08 | Club Rush (exact day [TBD] with Student Activities) | [club-rush.md](../../../docs/03-playbooks/club-rush.md) | not yet |
+| 2026-09-15 and 2026-09-16 | Club Rush (time and table location [TBD] with Student Activities; the table QR code points at the [landing page](../landing-page/README.md)) | [club-rush.md](../../../docs/03-playbooks/club-rush.md) | not yet |
 | [TBD] | Guest speaker or workshop in BLCIS (50+ target) | [guest-speaker.md](../../../docs/03-playbooks/guest-speaker.md), [workshop.md](../../../docs/03-playbooks/workshop.md) | not yet |
 | [TBD] | Modular Impact Sprint dry run | [workshop-modular-impact-sprint.md](../../../docs/03-playbooks/workshop-modular-impact-sprint.md) | not yet |
 | Oct 1 to Dec 31 | DevFest 2026 (hosted or attended) | [devfest.md](../../../docs/03-playbooks/devfest.md) | not yet |

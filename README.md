@@ -45,7 +45,7 @@ This repo is the club's memory. It holds the rules for running the club, the pla
 | [assets/](assets/gdg-on-campus-horizontal-light.svg) | Logos and brand files (SVG and PNG, under 1 MB each) |
 | [templates/](templates/README.md) | Blank meeting notes, event plans, run sheets, retros, decision records, and more |
 | [semesters/](semesters/README.md) | One folder per semester, created from `semesters/_template/` |
-| [scripts/](scripts/check.sh) | `new-semester.sh`, `new-event.sh`, `new-meeting.sh`, and `check.sh` |
+| [scripts/](scripts/check.sh) | `new-semester.sh`, `new-event.sh`, `new-meeting.sh`, `check.sh`, and `publish-site.sh` |
 
 ## Start here
 
