@@ -1,36 +1,32 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>GDG on Campus Riverside City College</title>
-<meta name="description" content="Thursdays, 2:30 to 3:30 PM in BLCIS A-210. Practice saying what you do, asking for what you want, and showing what you did. Any major, nothing technical.">
-<meta name="theme-color" content="#f7faf8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121412" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Practice asking for what you want. Thursdays, 2:30 to 3:30 PM in BLCIS A-210. Any major, nothing technical.">
+<meta name="theme-color" content="#f7faf8">
 <link rel="canonical" href="https://sam-t-g.github.io/rcc-gdg/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sam-t-g.github.io/rcc-gdg/">
 <meta property="og:title" content="GDG on Campus Riverside City College">
-<meta property="og:description" content="Thursdays, 2:30 to 3:30 PM in BLCIS A-210. Any major, nothing technical.">
+<meta property="og:description" content="Practice asking for what you want. Thursdays, 2:30 to 3:30 PM in BLCIS A-210. Any major, nothing technical.">
 <meta property="og:image" content="https://sam-t-g.github.io/rcc-gdg/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Fall 2026, Thursdays 2:30 PM, BLCIS A-210: Practice asking for what you want.">
+<meta property="og:image:alt" content="Practice asking for what you want. Thursdays, 2:30 PM, BLCIS A-210. A green staircase rises beside the words.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&display=swap">
 <link rel="stylesheet" href="tokens.css">
 <style>
-  /* Page layer. Values come from tokens.css; the few that tokens.css does not
-     ship yet (skip link, hero size, header, forced-colors fill buttons) are
-     marked PROPOSED and belong in tokens.css once this page has been used. */
-
-  /* PROPOSED: hero H1, display-sm on a 360px phone rising to display-lg at 1440px
-     (components.md §7.9). 28px -> 57px. */
-  :root { --rcc-size-hero: clamp(1.75rem, 1.1458rem + 2.6852vw, 3.5625rem); }
+  /* Light only. The horizontal lockup exists only as a light file, and the
+     logo may not be recolored, so the page does not follow a dark system theme.
+     Values come from tokens.css; rules it does not ship yet are marked PROPOSED. */
 
   /* PROPOSED: skip link. Off screen until focused, then a Primary button. */
   .rcc-skip {
@@ -39,336 +35,225 @@
     transform: translate(-50%, calc(-100% - var(--rcc-space-6)));
   }
   .rcc-skip:focus { transform: translate(-50%, 0); }
+  main:focus { outline: none; box-shadow: none; } /* focus target, not a control */
 
-  .rcc-visually-hidden {
-    position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden;
-    clip-path: inset(50%); white-space: nowrap;
-  }
+  .page { min-block-size: 100svh; display: flex; flex-direction: column; }
+  main { flex: 1; }
 
-  /* <main> takes focus from the skip link. It is not a control, so no ring. */
-  main:focus { outline: none; box-shadow: none; }
-
-  /* --- Header: the lockup, unaltered, on the flat page surface. ------------ */
+  /* --- Header ------------------------------------------------------------- */
   .site-header { padding-block-start: var(--rcc-space-6); }
   .lockup { display: block; block-size: 3rem; inline-size: auto; }
-  /* No horizontal dark lockup exists; the stacked one takes the slot (B3). */
-  @media (prefers-color-scheme: dark) { .lockup { block-size: 8rem; } }
-  /* The page runs past three phone screens with the logo above the fold, so the
-     independence sentence also sits under the header (bright-lines.md §1.4). */
-  .header-notice {
-    max-width: var(--rcc-measure-prose); margin-block: var(--rcc-space-4) 0;
-    font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md);
-    color: var(--rcc-on-surface-variant);
-  }
 
   /* --- Hero --------------------------------------------------------------- */
-  .hero { padding-block: var(--rcc-rhythm-section) var(--rcc-rhythm-block); }
+  .hero {
+    display: grid; gap: 0 var(--rcc-grid-gutter);
+    grid-template-areas: "title" "sub" "climb" "when" "cta";
+    padding-block: var(--rcc-rhythm-section) var(--rcc-rhythm-section);
+  }
   .hero h1 {
-    font-size: var(--rcc-size-hero); line-height: 1.08;
+    grid-area: title;
+    font-size: var(--rcc-size-display-lg); line-height: var(--rcc-lh-display-lg);
     letter-spacing: var(--rcc-track-display-lg);
-    margin-block: var(--rcc-space-3) var(--rcc-space-4);
+    max-width: 18ch; margin: 0 0 var(--rcc-space-4);
   }
-  .hero__sub { margin-block: 0 var(--rcc-space-6); }
-  .actions { display: flex; flex-wrap: wrap; gap: var(--rcc-space-3); }
+  .hero__sub { grid-area: sub; margin: 0; max-width: 40ch; color: var(--rcc-on-surface-variant); }
 
-  /* --- Sections ----------------------------------------------------------- */
-  .section { padding-block: var(--rcc-rhythm-block); }
-  .section > h2 { margin-block: 0 var(--rcc-flow-h2-below); }
-  .section > p { margin-block: 0 var(--rcc-flow-block); }
-  .section > p:last-child { margin-block-end: 0; }
-
-  /* --- The semester rail -------------------------------------------------- */
-  .rail__stair { display: none; }
-  .rail__list, .sessions, .doors {
-    list-style: none; padding: 0; margin: 0; max-width: none;
+  /* --- The climb: the semester as the Staircase ---------------------------- */
+  /* Three treads, one per arc. Each label sits on its own tread, so the words
+     climb with the line. Rise, stroke, and label room are tokens for this block. */
+  .climb {
+    grid-area: climb; position: relative;
+    --rise: 3.5rem; --stroke: 8px; --room: 5rem;
+    padding-block-start: var(--room);
+    margin-block: var(--rcc-rhythm-block);
   }
-  .rail__list > li + li, .sessions > li + li, .doors > li + li { margin-block-start: 0; }
-  .rail__list { display: grid; gap: var(--rcc-space-6); }
-  .rail__arc {
-    border-inline-start: 2px solid var(--rcc-outline);
-    padding-inline-start: var(--rcc-space-4);
+  .climb__line { display: block; inline-size: 100%; block-size: calc(var(--rise) * 2 + var(--stroke)); color: var(--rcc-primary); }
+  .climb__line--lg { display: none; }
+  .climb__steps {
+    position: absolute; inset: 0; margin: 0; padding: 0; max-width: none; list-style: none;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .rail__arc[data-emphasis="on"] { border-inline-start-color: var(--rcc-primary); }
-  .rail__arc h3 {
-    display: flex; flex-wrap: wrap; align-items: center; gap: var(--rcc-space-2);
+  .climb__steps > li + li { margin-block-start: 0; }
+  .climb__steps li {
+    align-self: end;
+    margin-block-end: calc(var(--stroke) + var(--i) * var(--rise) + var(--rcc-space-2));
+    padding-inline: var(--rcc-space-3) var(--rcc-space-2);
+    font-size: var(--rcc-size-body-sm); line-height: var(--rcc-lh-body-sm);
+    color: var(--rcc-on-surface-variant);
+  }
+  .climb__steps li:first-child { padding-inline-start: 0; }
+  .climb__steps strong {
+    display: block; color: var(--rcc-on-surface);
     font-size: var(--rcc-size-title-lg); line-height: var(--rcc-lh-title-lg);
-    letter-spacing: var(--rcc-track-title-lg);
-    margin-block: 0 var(--rcc-space-1);
-  }
-  .rail__arc p {
-    margin: 0; font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md);
-  }
-  .rail__receipt { color: var(--rcc-on-surface-variant); }
-  .tag {
-    font-family: var(--rcc-font-code); font-size: var(--rcc-size-code-sm);
-    line-height: var(--rcc-lh-code-sm); letter-spacing: var(--rcc-track-ledger);
-    text-transform: uppercase; font-weight: var(--rcc-weight-strong);
-    padding: 0 var(--rcc-space-2); border-radius: var(--rcc-radius-xs);
-    background: var(--rcc-primary-container); color: var(--rcc-on-primary-container);
-    box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline);
-  }
-  @media (min-width: 1024px) {
-    .rail__stair {
-      display: block; inline-size: 100%; block-size: 3rem;
-      margin-block-end: var(--rcc-space-4); color: var(--rcc-outline); overflow: visible;
-    }
-    .rail__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--rcc-grid-gutter); }
-    .rail__arc { border-inline-start: 0; padding-inline-start: 0; }
+    font-weight: var(--rcc-weight-strong);
   }
 
-  /* --- Coming up ---------------------------------------------------------- */
-  .session { display: flex; flex-direction: column; gap: var(--rcc-space-2); }
-  .session:hover { transform: none; box-shadow: var(--rcc-elevation-0); } /* not a link */
-  .session h3 {
-    margin: 0; font-size: var(--rcc-size-headline-sm); line-height: var(--rcc-lh-headline-sm);
-    letter-spacing: var(--rcc-track-headline-sm);
+  /* One moment on load: the line climbs left to right, each label arrives as the
+     line reaches its tread. Opacity only on the labels; no overshoot. */
+  @keyframes climb-draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes climb-label { from { opacity: 0; } }
+  .climb__line { animation: climb-draw 900ms var(--rcc-ease-standard) 150ms backwards; }
+  .climb__steps li { animation: climb-label var(--rcc-dur-slow-effects) var(--rcc-ease-standard) backwards;
+                     animation-delay: calc(250ms + var(--i) * 300ms); }
+  @media (prefers-reduced-motion: reduce) {
+    .climb__line, .climb__steps li { animation: none; }
   }
-  .session p { margin: 0; }
-  .session__line { font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); }
-  .gap-note {
-    grid-column: 1 / -1; margin: 0;
+
+  /* --- When and where ----------------------------------------------------- */
+  .when { grid-area: when; margin: 0 0 var(--rcc-space-6); }
+  .when__time {
+    display: block; font-size: var(--rcc-size-headline-lg); line-height: var(--rcc-lh-headline-lg);
+    letter-spacing: var(--rcc-track-headline-lg); font-weight: var(--rcc-weight-strong);
+  }
+  .when__room { display: block; }
+  .when__next {
+    display: block; margin-block-start: var(--rcc-space-3); max-width: 44ch;
     font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md);
     color: var(--rcc-on-surface-variant);
+  }
+  .cta { grid-area: cta; justify-self: start; }
+
+  @media (min-width: 1024px) {
+    .hero {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-areas:
+        "title title title title title title climb climb climb climb climb climb"
+        "sub   sub   sub   sub   sub   sub   climb climb climb climb climb climb"
+        "when  when  when  when  when  when  climb climb climb climb climb climb"
+        "cta   cta   cta   cta   cta   cta   climb climb climb climb climb climb";
+      grid-template-rows: auto auto auto 1fr;
+      padding-block: var(--rcc-rhythm-section) var(--rcc-rhythm-band);
+    }
+    .hero__sub { margin-block-end: var(--rcc-space-10); }
+    .climb { --rise: 8rem; --stroke: 12px; --room: 4.5rem; align-self: end; margin: 0; }
+    .climb__line--sm { display: none; }
+    .climb__line--lg { display: block; }
+    .climb__steps li { font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); }
   }
 
   /* --- Footer ------------------------------------------------------------- */
-  .rcc-footer h2 { margin-block: 0 var(--rcc-flow-h2-below); }
-  .doors h3 {
-    font-size: var(--rcc-size-title-lg); line-height: var(--rcc-lh-title-lg);
-    letter-spacing: var(--rcc-track-title-lg); margin-block: 0 var(--rcc-space-1);
-  }
-  .doors p { margin-block: 0 var(--rcc-space-3); }
-  .doors { row-gap: var(--rcc-space-8); }
-  .footer-links {
-    display: flex; flex-wrap: wrap; gap: var(--rcc-space-1) var(--rcc-space-6);
-    margin-block: var(--rcc-rhythm-block) 0;
-  }
-  .footer-links a { display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min); }
-  .rcc-footer__notice { margin-block-start: var(--rcc-rhythm-block); }
-  .updated {
-    margin-block: var(--rcc-space-2) 0; font-size: var(--rcc-size-body-md);
+  .site-footer { background: var(--rcc-surface-container); padding-block: var(--rcc-space-10) var(--rcc-space-12); }
+  .site-footer nav { display: flex; flex-wrap: wrap; gap: 0 var(--rcc-space-6); }
+  .site-footer nav a { display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min); text-decoration: underline; }
+  .site-footer p {
+    margin: var(--rcc-space-4) 0 0; max-width: var(--rcc-measure-prose);
+    font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md);
     color: var(--rcc-on-surface-variant);
   }
 
   /* PROPOSED: a filled button loses its fill in forced colors, so give it a border. */
-  @media (forced-colors: active) { .rcc-button { border: 1px solid ButtonText; } }
+  @media (forced-colors: active) {
+    .rcc-button { border: 1px solid ButtonText; }
+    .climb__line { color: CanvasText; }
+  }
 </style>
 </head>
 <body>
+<div class="page">
 <a class="rcc-skip rcc-button" href="#main">Skip to main content</a>
 
 <header class="site-header">
   <div class="rcc-container">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330">
-      <img class="lockup" src="assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
-    </picture>
-    <p class="header-notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <img class="lockup" src="assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
   </div>
 </header>
 
 <main id="main" tabindex="-1">
   <section class="hero rcc-container" aria-labelledby="page-title">
-    <p class="rcc-ledger">Fall 2026 · Any major · Nothing technical</p>
     <h1 id="page-title">Practice asking for what you want</h1>
-    <p class="hero__sub">Thursdays, <time class="rcc-time" datetime="14:30">2:30</time> to <time class="rcc-time" datetime="15:30">3:30 PM</time>, BLCIS A-210. <strong id="next-line">First session Thursday, <time datetime="2026-09-17">September 17</time>.</strong></p>
-    <div class="actions">
-      <a class="rcc-button rcc-state" href="https://discord.gg/ddwjKJJN9v">Join the Discord</a>
-      <a class="rcc-button rcc-button--secondary rcc-state" href="https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/">See the chapter on Bevy</a>
-    </div>
-  </section>
+    <p class="hero__sub">An hour every Thursday, out loud, with students from any major. Nothing technical.</p>
 
-  <section class="section rcc-container" aria-labelledby="room">
-    <h2 id="room">What happens in the room</h2>
-    <p>Each Thursday the room practices one skill out loud for an hour: the sentence that gets a stranger to ask you a follow-up question, holding your ground when the listener is not interested, asking for the thing you actually want. Every session works as your first one, so walk in any week.</p>
-  </section>
-
-  <section class="section rcc-container" aria-labelledby="semester">
-    <h2 id="semester">The semester</h2>
-    <p>Three arcs, each ending with something you did for real.</p>
-    <div class="rail">
-      <svg class="rail__stair" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path d="M1.5 46.5H333.3V24H666.7V1.5H998.5" fill="none" stroke="currentColor" stroke-width="3"
+    <div class="climb">
+      <ol class="climb__steps" aria-label="The semester in three arcs">
+        <li style="--i: 0"><strong>Voice</strong>Send a real message</li>
+        <li style="--i: 1"><strong>Ask</strong>Book a real appointment</li>
+        <li style="--i: 2"><strong>Evidence</strong>Present at Demo Day</li>
+      </ol>
+      <svg class="climb__line climb__line--sm" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0 116H100V60H200V4H300" fill="none" stroke="currentColor" stroke-width="8"
               stroke-linecap="butt" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
       </svg>
-      <ol class="rail__list">
-        <li class="rail__arc" data-start="2026-09-17" data-end="2026-10-08">
-          <h3>Voice <span class="tag" hidden>Now</span></h3>
-          <p><time datetime="2026-09-17">September 17</time> to <time datetime="2026-10-08">October 8</time></p>
-          <p class="rail__receipt">Ends with a real message you send from the room</p>
-        </li>
-        <li class="rail__arc" data-start="2026-10-15" data-end="2026-11-05">
-          <h3>Ask <span class="tag" hidden>Now</span></h3>
-          <p><time datetime="2026-10-15">October 15</time> to <time datetime="2026-11-05">November 5</time></p>
-          <p class="rail__receipt">Ends with an appointment you book with someone who has power</p>
-        </li>
-        <li class="rail__arc" data-start="2026-11-12" data-end="2026-12-10">
-          <h3>Evidence <span class="tag" hidden>Now</span></h3>
-          <p><time datetime="2026-11-12">November 12</time> to <time datetime="2026-12-10">December 10</time></p>
-          <p class="rail__receipt">Ends at Demo Day: three minutes in front of outsiders</p>
-        </li>
-      </ol>
+      <svg class="climb__line climb__line--lg" viewBox="0 0 300 268" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0 262H100V134H200V6H300" fill="none" stroke="currentColor" stroke-width="12"
+              stroke-linecap="butt" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+      </svg>
     </div>
-  </section>
 
-  <section class="section rcc-container" aria-labelledby="coming-up">
-    <h2 id="coming-up">Coming up</h2>
-    <ol class="sessions rcc-grid" id="sessions">
-      <li class="rcc-card session rcc-col-third">
-        <p class="rcc-ledger"><time datetime="2026-09-17T14:30">Thu, Sep 17</time> · Voice</p>
-        <h3>The Sentence That Gets You In The Room</h3>
-        <p class="session__line">Build the one sentence that makes a stranger with something to give you ask a follow-up question.</p>
-      </li>
-      <li class="rcc-card session rcc-col-third">
-        <p class="rcc-ledger"><time datetime="2026-09-24T14:30">Thu, Sep 24</time> · Voice</p>
-        <h3>Hostile Room</h3>
-        <p class="session__line">Say your sentence to a listener who is indifferent, distracted, or skeptical, and hold your ground without getting louder.</p>
-      </li>
-      <li class="rcc-card session rcc-col-third">
-        <p class="rcc-ledger"><time datetime="2026-10-01T14:30">Thu, Oct 1</time> · Voice</p>
-        <h3>The Thing You Actually Want</h3>
-        <p class="session__line">Say the real thing you want and have been avoiding asking for; the room reflects back what it heard.</p>
-      </li>
-    </ol>
-  </section>
-
-  <section class="section rcc-container" aria-labelledby="code">
-    <h2 id="code">If you write code</h2>
-    <p>Every session ends by naming the technical version of the skill. Saying what you do in twenty seconds is the first paragraph of a README; asking a question someone can act on is a bug report. Technical events run separately and are announced in the Discord.</p>
+    <p class="when">
+      <span class="when__time">Thursdays, <time datetime="14:30">2:30</time> to <time datetime="15:30">3:30 PM</time></span>
+      <span class="when__room">BLCIS A-210 Simulation Lab</span>
+      <span class="when__next" id="next-line">First up <time datetime="2026-09-17">September 17</time>: The Sentence That Gets You In The Room</span>
+    </p>
+    <a class="rcc-button rcc-state cta" href="https://discord.gg/ddwjKJJN9v">Join the Discord</a>
   </section>
 </main>
 
-<footer class="rcc-footer">
+<footer class="site-footer">
   <div class="rcc-container">
-    <h2>Three ways in</h2>
-    <ul class="doors rcc-grid">
-      <li class="rcc-col-third">
-        <h3>Come Thursday</h3>
-        <p><time class="rcc-time" datetime="14:30">2:30</time> to <time class="rcc-time" datetime="15:30">3:30 PM</time>, BLCIS A-210 Simulation Lab. Everyone is welcome.</p>
-      </li>
-      <li class="rcc-col-third">
-        <h3>Join the Discord</h3>
-        <p>Meeting reminders, event announcements, and questions.</p>
-        <a class="rcc-button rcc-button--secondary rcc-state" href="https://discord.gg/ddwjKJJN9v">Open the Discord invite</a>
-      </li>
-      <li class="rcc-col-third">
-        <h3>Find us on Bevy</h3>
-        <p>The chapter page, where events are listed.</p>
-        <a class="rcc-button rcc-button--secondary rcc-state" href="https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/">Open the chapter page</a>
-      </li>
-    </ul>
-    <nav class="footer-links" aria-label="Footer">
+    <nav aria-label="Footer">
+      <a href="https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/">Chapter page on Bevy</a>
       <a href="https://github.com/Sam-T-G/rcc-gdg/blob/main/CODE_OF_CONDUCT.md">Code of conduct</a>
-      <a href="https://github.com/Sam-T-G/rcc-gdg">Club docs on GitHub</a>
     </nav>
-    <p class="rcc-footer__notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
-    <p class="updated">Last updated <time datetime="2026-09-14">September 14, 2026</time>.</p>
+    <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <p>Last updated <time datetime="2026-09-14">September 14, 2026</time>.</p>
   </div>
 </footer>
+</div>
 
 <script type="application/json" id="semester-data">
-{
-  "sessions": [
-    {"date": "2026-09-17", "arc": "Voice", "title": "The Sentence That Gets You In The Room", "line": "Build the one sentence that makes a stranger with something to give you ask a follow-up question."},
-    {"date": "2026-09-24", "arc": "Voice", "title": "Hostile Room", "line": "Say your sentence to a listener who is indifferent, distracted, or skeptical, and hold your ground without getting louder."},
-    {"date": "2026-10-01", "arc": "Voice", "title": "The Thing You Actually Want", "line": "Say the real thing you want and have been avoiding asking for; the room reflects back what it heard."},
-    {"date": "2026-10-08", "arc": "Voice", "title": "Send It", "line": "Write and send one real message to one real person outside the club, before you leave the room."},
-    {"date": "2026-10-15", "arc": "Ask", "title": "Anatomy of an Ask", "line": "Learn what makes a request easy to say yes to by rewriting five terrible asks."},
-    {"date": "2026-10-22", "arc": "Ask", "title": "The No Drill", "line": "Make an ask, get refused, and practice the sentence that comes after the no."},
-    {"date": "2026-10-29", "arc": "Ask", "title": "What You Are Owed", "line": "Bring a real negotiation you are avoiding, like a grade, a schedule, or a workload, and rehearse it against someone playing the other side."},
-    {"date": "2026-11-05", "arc": "Ask", "title": "Office Hours", "line": "Book a real appointment with a real person in a position of power, in the room, before you leave."},
-    {"date": "2026-11-12", "arc": "Evidence", "title": "Nobody Saw You Do It", "line": "Turn a semester of invisible effort into three lines another person can verify."},
-    {"date": "2026-11-19", "arc": "Evidence", "title": "The Failure Story", "line": "Tell something that went wrong so the listener trusts you more afterwards, and let the room score the trust rather than the polish."},
-    {"date": "2026-12-03", "arc": "Evidence", "title": "Defend It", "line": "Bring one decision you made this semester, let the room attack it, and either hold it with reasons or update it out loud."},
-    {"date": "2026-12-10", "arc": "Evidence", "title": "Demo Day", "line": "Three minutes in front of a room with outsiders: one thing you did this semester, why you did it that way, and what comes next."}
-  ],
-  "dark": [{"date": "2026-11-26", "note": "No meeting November 26. There are no classes that week."}]
-}
+[
+  {"date": "2026-09-17", "title": "The Sentence That Gets You In The Room"},
+  {"date": "2026-09-24", "title": "Hostile Room"},
+  {"date": "2026-10-01", "title": "The Thing You Actually Want"},
+  {"date": "2026-10-08", "title": "Send It"},
+  {"date": "2026-10-15", "title": "Anatomy of an Ask"},
+  {"date": "2026-10-22", "title": "The No Drill"},
+  {"date": "2026-10-29", "title": "What You Are Owed"},
+  {"date": "2026-11-05", "title": "Office Hours"},
+  {"date": "2026-11-12", "title": "Nobody Saw You Do It"},
+  {"date": "2026-11-19", "title": "The Failure Story"},
+  {"date": "2026-12-03", "title": "Defend It"},
+  {"date": "2026-12-10", "title": "Demo Day"}
+]
 </script>
 <script>
 (function () {
   'use strict';
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                 'August', 'September', 'October', 'November', 'December'];
-  var SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var END = 'T15:30'; // a meeting counts as upcoming until it ends
+  var sessions;
+  try { sessions = JSON.parse(document.getElementById('semester-data').textContent); }
+  catch (e) { return; } // the static line is correct as of the last edit
 
-  var data;
-  try { data = JSON.parse(document.getElementById('semester-data').textContent); }
-  catch (e) { return; } // the static HTML is already correct as of the build date
-
-  // "Now" as a Riverside wall-clock string, so comparisons match the room's calendar.
-  function nowInRiverside() {
+  // Riverside wall-clock time, so "next" matches the room's calendar.
+  function now() {
     var override = /[?&]now=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/.exec(location.search);
-    if (override) return override[1]; // for checking the page on a future date
-    var parts = {};
+    if (override) return override[1]; // preview the page on a given date
+    var p = {};
     new Intl.DateTimeFormat('en-CA', {
       timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit',
       hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
-    }).formatToParts(new Date()).forEach(function (p) { parts[p.type] = p.value; });
-    return parts.year + '-' + parts.month + '-' + parts.day + 'T' + parts.hour + ':' + parts.minute;
+    }).formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+    return p.year + '-' + p.month + '-' + p.day + 'T' + p.hour + ':' + p.minute;
   }
-  function el(tag, attrs, text) {
-    var n = document.createElement(tag);
-    for (var k in attrs) n.setAttribute(k, attrs[k]);
-    if (text != null) n.textContent = text;
-    return n;
-  }
-  function month(d) { return MONTHS[+d.slice(5, 7) - 1]; }
-  function day(d) { return String(+d.slice(8, 10)); }
 
-  var now = nowInRiverside();
-  var today = now.slice(0, 10);
-  var upcoming = data.sessions.filter(function (s) { return s.date + END > now; });
-
-  // Hero line.
+  var t = now();
+  var next = sessions.filter(function (s) { return s.date + 'T15:30' > t; })[0];
   var line = document.getElementById('next-line');
   line.textContent = '';
-  if (!upcoming.length) {
-    line.textContent = 'Fall 2026 meetings have ended.';
-  } else {
-    var next = upcoming[0];
-    var isFirst = next.date === data.sessions[0].date;
-    if (next.date === today) {
-      line.append('Next session today.');
-    } else {
-      line.append((isFirst ? 'First' : 'Next') + ' session Thursday, ');
-      line.append(el('time', { datetime: next.date }, month(next.date) + ' ' + day(next.date)));
-      line.append('.');
-    }
-  }
-
-  // Current arc.
-  document.querySelectorAll('.rail__arc').forEach(function (arc) {
-    var on = today >= arc.dataset.start && now <= arc.dataset.end + END;
-    if (on) arc.setAttribute('data-emphasis', 'on'); else arc.removeAttribute('data-emphasis');
-    arc.querySelector('.tag').hidden = !on;
-  });
-
-  // Coming up: the next three meetings, with a note when a dark week falls between them.
-  var list = document.getElementById('sessions');
-  list.textContent = '';
-  var shown = upcoming.slice(0, 3);
-  if (!shown.length) {
-    list.append(el('li', { class: 'gap-note' },
-      'Fall 2026 meetings have ended. Join the Discord for what comes next.'));
+  if (!next) {
+    line.textContent = 'Fall 2026 meetings have ended. The Discord has what comes next.';
     return;
   }
-  shown.forEach(function (s, i) {
-    var after = i > 0 ? shown[i - 1].date : today; // a dark week still ahead of the reader
-    data.dark.forEach(function (d) {
-      if (d.date + END > now && d.date >= after && d.date < s.date) {
-        list.append(el('li', { class: 'gap-note' }, d.note));
-      }
-    });
-    var card = el('li', { class: 'rcc-card session rcc-col-third' });
-    var ledger = el('p', { class: 'rcc-ledger' });
-    ledger.append(el('time', { datetime: s.date + 'T14:30' },
-      'Thu, ' + SHORT[+s.date.slice(5, 7) - 1] + ' ' + day(s.date)));
-    ledger.append(' · ' + s.arc + (s.date === today ? ' · Today' : ''));
-    card.append(ledger, el('h3', null, s.title), el('p', { class: 'session__line' }, s.line));
-    list.append(card);
-  });
+  var lead = next.date === t.slice(0, 10) ? 'Today' : (next === sessions[0] ? 'First up ' : 'Next up ');
+  line.append(lead);
+  if (lead !== 'Today') {
+    var time = document.createElement('time');
+    time.setAttribute('datetime', next.date);
+    time.textContent = MONTHS[+next.date.slice(5, 7) - 1] + ' ' + (+next.date.slice(8, 10));
+    line.append(time);
+  }
+  line.append(': ' + next.title);
 })();
 </script>
 </body>
