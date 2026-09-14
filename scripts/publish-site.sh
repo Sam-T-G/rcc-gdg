@@ -5,7 +5,7 @@
 # Example: scripts/publish-site.sh 2026-fall --push
 #
 # Source: semesters/<YYYY-term>/landing-page/ (index.html, favicon.svg, og.png, apple-touch-icon.png).
-# The build copies that folder, docs/04-brand/design-system/tokens.css, and the two logo files the
+# The build copies that folder, docs/04-brand/design-system/tokens.css, and the horizontal logo the
 # page uses into site/ (gitignored). Without --push it stops there so you can open site/index.html.
 # With --push it commits site/ to the gh-pages branch on origin, which GitHub Pages serves at
 # https://sam-t-g.github.io/rcc-gdg/. gh-pages holds build output only; never edit it by hand.
@@ -19,7 +19,7 @@ usage: scripts/publish-site.sh <YYYY-term> [--push]
   <YYYY-term>  semester folder that holds landing-page/, e.g. 2026-fall
   --push       also commit the build to the gh-pages branch on origin
 
-Builds site/ from semesters/<YYYY-term>/landing-page/ plus tokens.css and the logo files.
+Builds site/ from semesters/<YYYY-term>/landing-page/ plus tokens.css and the horizontal logo.
 USAGE
 }
 
@@ -46,12 +46,12 @@ rm -rf site
 mkdir -p site/assets
 cp "$src/index.html" "$src/favicon.svg" "$src/og.png" "$src/apple-touch-icon.png" site/
 cp docs/04-brand/design-system/tokens.css site/
-cp assets/gdg-on-campus-horizontal-light.svg assets/gdg-on-campus-stacked-dark.svg site/assets/
+cp assets/gdg-on-campus-horizontal-light.svg site/assets/
 touch site/.nojekyll   # serve files as-is; no Jekyll processing
 
 # Every file the page references must exist in the build.
 missing=0
-for ref in tokens.css favicon.svg apple-touch-icon.png assets/gdg-on-campus-horizontal-light.svg assets/gdg-on-campus-stacked-dark.svg; do
+for ref in tokens.css favicon.svg apple-touch-icon.png assets/gdg-on-campus-horizontal-light.svg; do
   grep -q "$ref" site/index.html || { printf '  page no longer references %s\n' "$ref"; }
   [ -f "site/$ref" ] || { printf '  missing from build: %s\n' "$ref"; missing=1; }
 done
