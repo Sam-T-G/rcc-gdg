@@ -17,6 +17,7 @@ Tick boxes in this file as you go and commit it as-is. A half-finished checklist
 | [sessions/](sessions/README.md) | the facilitator script for every meeting this term, written in advance | done: all 14 written 2026-08-31 |
 | [meetings/](meetings/README.md) | one notes file per meeting, written afterwards | within 48 hours of each meeting |
 | [events/](events/README.md) | one folder per event: plan, run sheet, retro | when an event gets a yes |
+| [landing-page/](landing-page/README.md) | the public web page at sam-t-g.github.io/rcc-gdg, and how to publish it | done: live 2026-09-14 |
 | [projects/](projects/README.md) | member projects running this semester | as they start |
 | [retrospective.md](retrospective.md) | what happened, what to change | last 2 weeks |
 | [handoff.md](handoff.md) | access transfers and open threads for the next team | last 2 weeks |

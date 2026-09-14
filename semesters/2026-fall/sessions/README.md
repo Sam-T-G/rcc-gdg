@@ -110,7 +110,7 @@ Log any mid-semester swap in [meetings/](../meetings/README.md) for that week. A
 
 ## Why the first two are different
 
-Club Rush lands the week of September 8 and official programming starts after it. September 3 and September 10 are hook sessions: no arc, no continuity, built for a room of strangers where half will never come back and the other half decide that day whether they will. They are front-loaded on purpose, and September 10 exists specifically to arm members for tabling that same week.
+Club Rush runs September 15 and 16, and official programming starts the next day. September 3 and September 10 are hook sessions: no arc, no continuity, built for a room of strangers where half will never come back and the other half decide that day whether they will. They are front-loaded on purpose, and September 10 exists specifically to arm members for tabling the following week.
 
 ## Not in this folder
 
