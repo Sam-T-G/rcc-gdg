@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>GDG on Campus Riverside City College</title>
-<meta name="description" content="Practice asking for what you want. Thursdays, 2:30 to 3:30 PM in BLCIS A-210. Any major, nothing technical.">
+<meta name="description" content="Walk into any room ready. Every Thursday at 2:30 in BLCIS A-210, students from any major practice the skills careers are built on. Nothing technical.">
 <meta name="theme-color" content="#f7faf8">
 <link rel="canonical" href="https://sam-t-g.github.io/rcc-gdg/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sam-t-g.github.io/rcc-gdg/">
 <meta property="og:title" content="GDG on Campus Riverside City College">
-<meta property="og:description" content="Practice asking for what you want. Thursdays, 2:30 to 3:30 PM in BLCIS A-210. Any major, nothing technical.">
+<meta property="og:description" content="Walk into any room ready. Every Thursday at 2:30 in BLCIS A-210, students from any major practice the skills careers are built on. Nothing technical.">
 <meta property="og:image" content="https://sam-t-g.github.io/rcc-gdg/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Practice asking for what you want. Thursdays, 2:30 PM, BLCIS A-210. A green staircase rises beside the words.">
+<meta property="og:image:alt" content="Walk into any room ready. Thursdays, 2:30 PM, BLCIS A-210. A green staircase rises beside the words.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -23,6 +23,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&display=swap">
 <link rel="stylesheet" href="tokens.css">
+<!-- GSAP drives the ambient field only. Pinned, integrity-checked, and optional: without it the field is a still frame. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <style>
   /* Light only. The horizontal lockup exists only as a light file, and the
      logo may not be recolored, so the page does not follow a dark system theme.
@@ -38,7 +40,15 @@
   main:focus { outline: none; box-shadow: none; } /* focus target, not a control */
 
   .page { min-block-size: 100svh; display: flex; flex-direction: column; }
-  main { flex: 1; }
+  main { flex: 1; position: relative; isolation: isolate; }
+
+  /* --- Ambient field --------------------------------------------------------
+     The Step field (accessibility.md §2.3) on one canvas behind the hero. Small
+     Step marks draw in, rise slowly, and breathe. It sits inside <main>, so it
+     never runs behind the logo, which needs a flat ground (bright-lines.md §1.5).
+     Green only, peak alpha 0.10, one mark per lane so marks never stack: grey
+     text over a mark measures 5.72:1 at worst, and marks fade further behind text. */
+  .ambient { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; z-index: -1; pointer-events: none; }
 
   /* --- Header ------------------------------------------------------------- */
   .site-header { padding-block-start: var(--rcc-space-6); }
@@ -51,7 +61,7 @@
     padding-block: var(--rcc-rhythm-section) var(--rcc-rhythm-section);
   }
   .hero h1 {
-    grid-area: title;
+    grid-area: title; text-wrap: balance;
     font-size: var(--rcc-size-display-lg); line-height: var(--rcc-lh-display-lg);
     letter-spacing: var(--rcc-track-display-lg);
     max-width: 18ch; margin: 0 0 var(--rcc-space-4);
@@ -159,15 +169,16 @@
 </header>
 
 <main id="main" tabindex="-1">
+  <canvas class="ambient" aria-hidden="true"></canvas>
   <section class="hero rcc-container" aria-labelledby="page-title">
-    <h1 id="page-title">Practice asking for what you want</h1>
-    <p class="hero__sub">An hour every Thursday, out loud, with students from any major. Nothing technical.</p>
+    <h1 id="page-title">Walk into any room ready</h1>
+    <p class="hero__sub">Every Thursday, students from any major practice the skills careers are built on, out loud and together. Nothing technical.</p>
 
     <div class="climb">
       <ol class="climb__steps" aria-label="The semester in three arcs">
-        <li style="--i: 0"><strong>Voice</strong>Send a real message</li>
-        <li style="--i: 1"><strong>Ask</strong>Book a real appointment</li>
-        <li style="--i: 2"><strong>Evidence</strong>Present at Demo Day</li>
+        <li style="--i: 0"><strong>Voice</strong>Send the cold message</li>
+        <li style="--i: 1"><strong>Ask</strong>Get the meeting</li>
+        <li style="--i: 2"><strong>Evidence</strong>Own the room at Demo Day</li>
       </ol>
       <svg class="climb__line climb__line--sm" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path d="M0 116H100V60H200V4H300" fill="none" stroke="currentColor" stroke-width="8"
@@ -255,6 +266,178 @@
   }
   line.append(': ' + next.title);
 })();
+</script>
+<script>
+/* Ambient field. Lanes of small Step marks rise, draw in, and breathe on one canvas.
+   GSAP owns time (ticker) and every eased value (draw-in, breath, fade-in).
+   Reduced motion, or GSAP failing to load, renders one still frame. */
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+  var stage = document.getElementById('main');
+  var canvas = stage && stage.querySelector('.ambient');
+  if (!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var gsap = window.gsap;
+  var GREEN = getComputedStyle(document.documentElement).getPropertyValue('--rcc-primary').trim() || '#00732d';
+  var PEAK = 0.10;   // highest alpha a mark reaches
+  var QUIET = 0.3;   // what is left of that behind text
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  var W = 0, H = 0, lanes = [], quiet = [], running = false, visible = true, ticking = false;
+  var field = { alpha: 0 };
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+  function smooth(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
+
+  function measure() {
+    var r = stage.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    quiet = Array.prototype.map.call(stage.querySelectorAll('h1, .hero__sub, .when, .climb, .cta'), function (el) {
+      var b = el.getBoundingClientRect();
+      return { l: b.left - r.left, t: b.top - r.top, r: b.right - r.left, b: b.bottom - r.top };
+    });
+  }
+
+  // 1 in open space, easing down to QUIET within 32px of any text block.
+  function quietAt(x, y) {
+    var d = Infinity;
+    for (var i = 0; i < quiet.length; i++) {
+      var q = quiet[i];
+      var dx = Math.max(q.l - x, 0, x - q.r), dy = Math.max(q.t - y, 0, y - q.b);
+      d = Math.min(d, Math.sqrt(dx * dx + dy * dy));
+    }
+    return QUIET + (1 - QUIET) * smooth(d / 32);
+  }
+
+  function place(lane, y) {
+    var s = rand(14, 26);
+    return { x: lane.x + rand(0.15, 1) * (lane.w - s * 1.3), y: y, s: s, a: rand(0.45, 1), p: 1 };
+  }
+
+  function build(animated) {
+    lanes.forEach(function (lane) { if (gsap) { gsap.killTweensOf(lane); gsap.killTweensOf(lane.marks); } });
+    var cell = W < 600 ? 64 : 88, cols = Math.max(1, Math.floor(W / cell)), cw = W / cols;
+    lanes = [];
+    for (var c = 0; c < cols; c++) {
+      var lane = { x: c * cw, w: cw, cell: cell, speed: rand(5, 11), b: 0.5, marks: [] };
+      for (var y = rand(-cell, cell); y < H + cell; y += cell * rand(1, 1.7)) {
+        if (Math.random() < 0.5) lane.marks.push(place(lane, y));
+      }
+      if (animated) {
+        var breath = gsap.fromTo(lane, { b: 0 }, { b: 1, duration: rand(5, 9), ease: 'sine.inOut', repeat: -1, yoyo: true });
+        breath.totalTime(rand(0, 18));
+        lane.marks.forEach(function (m) {
+          m.p = 0;
+          gsap.to(m, { p: 1, duration: rand(1.4, 2.2), ease: 'power2.inOut', delay: rand(0.9, 3) });
+        });
+      }
+      lanes.push(lane);
+    }
+  }
+
+  // Low run, rise, high run: the Mark from accessibility.md §2.4, drawn up to p of its length.
+  function drawMark(m, alpha, grow) {
+    var s = m.s * grow, x = m.x - (s - m.s) / 2, y = m.y - (s - m.s) / 2;
+    var pts = [x + 0.125 * s, y + 0.8125 * s, x + 0.5 * s, y + 0.8125 * s,
+               x + 0.5 * s, y + 0.1875 * s, x + 0.875 * s, y + 0.1875 * s];
+    var lens = [0.375 * s, 0.625 * s, 0.375 * s], left = 1.375 * s * m.p;
+    ctx.globalAlpha = alpha;
+    ctx.lineWidth = 0.125 * s;
+    ctx.beginPath();
+    ctx.moveTo(pts[0], pts[1]);
+    for (var i = 0; i < 3 && left > 0; i++) {
+      var f = Math.min(1, left / lens[i]), j = i * 2;
+      ctx.lineTo(pts[j] + (pts[j + 2] - pts[j]) * f, pts[j + 1] + (pts[j + 3] - pts[j + 1]) * f);
+      left -= lens[i];
+    }
+    ctx.stroke();
+  }
+
+  function frame(dt) {
+    var step = Math.min(dt || 0, 64) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = GREEN; ctx.lineJoin = 'round'; ctx.lineCap = 'butt';
+    for (var l = 0; l < lanes.length; l++) {
+      var lane = lanes[l], marks = lane.marks;
+      for (var k = 0; k < marks.length; k++) {
+        var m = marks[k];
+        m.y -= lane.speed * step;
+        var cx = m.x + m.s / 2, cy = m.y + m.s / 2;
+        var alpha = PEAK * m.a * field.alpha * (0.7 + 0.3 * lane.b)
+                  * smooth(cy / 96) * smooth((H - cy) / 72) * quietAt(cx, cy);
+        if (alpha > 0.004 && m.p > 0) drawMark(m, alpha, 1 + 0.05 * lane.b);
+      }
+      // Recycle the mark that has risen out of the top into a slot below the bottom.
+      if (step > 0 && marks.length && marks[0].y + marks[0].s < 0) {
+        var gone = marks.shift(), last = marks[marks.length - 1];
+        var ny = Math.max(H + lane.cell * 0.5, last ? last.y + lane.cell * rand(1, 1.7) : 0);
+        var fresh = place(lane, ny);
+        fresh.p = 0;
+        gsap.to(fresh, { p: 1, duration: rand(1.4, 2.2), ease: 'power2.inOut',
+                         delay: Math.max(0, (ny - H + 24) / lane.speed) });
+        marks.push(fresh);
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function tick(time, deltaTime) { frame(deltaTime); }
+  function ticker(on) {
+    if (on === ticking) return;
+    ticking = on;
+    if (on) gsap.ticker.add(tick); else gsap.ticker.remove(tick);
+  }
+
+  function still() {
+    stop();
+    build(false);
+    field.alpha = 1;
+    frame(0);
+  }
+  function start() {
+    build(true);
+    gsap.fromTo(field, { alpha: 0 }, { alpha: 1, duration: 1.8, ease: 'sine.out', delay: 0.8 });
+    running = true;
+    ticker(visible);
+  }
+  function stop() {
+    if (gsap) { ticker(false); gsap.killTweensOf(field); }
+    running = false;
+  }
+  function apply() {
+    measure();
+    if (!gsap || reduce.matches) { still(); return; }
+    if (running) { build(true); return; } // new size: new lanes, the fade-in carries on
+    start();
+  }
+
+  // Pause while the hero is off screen.
+  if ('IntersectionObserver' in window && gsap) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (running) ticker(visible);
+    }).observe(stage);
+  }
+
+  // Rebuild on a real size change (rotation, window resize), not on every pixel.
+  var lastW = 0, lastH = 0, pending = 0;
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(function () {
+      var r = stage.getBoundingClientRect();
+      if (Math.abs(r.width - lastW) < 1 && Math.abs(r.height - lastH) < 1) return;
+      lastW = r.width; lastH = r.height;
+      cancelAnimationFrame(pending);
+      pending = requestAnimationFrame(apply);
+    }).observe(stage);
+  } else {
+    apply();
+  }
+  if (reduce.addEventListener) reduce.addEventListener('change', apply);
+  document.fonts && document.fonts.ready.then(function () { measure(); if (!running) frame(0); });
+});
 </script>
 </body>
 </html>
