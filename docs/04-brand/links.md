@@ -13,7 +13,7 @@ Last full check: 2026-08-24.
 | Discord | <https://discord.gg/ddwjKJJN9v> | The Bevy chapter page shows a Discord link; confirm it is the current invite before adding it here. The "Quick question" link in `.github/ISSUE_TEMPLATE/config.yml` points at this page until then; switch it to the invite when you fill this row |
 | Instagram | [TBD: add Instagram URL] | |
 | LinkedIn | [TBD] | The Bevy chapter page shows a LinkedIn link; capture the URL |
-| Website | [TBD] | No club website exists as of this writing |
+| Website | <https://sam-t-g.github.io/rcc-gdg/> | Landing page on GitHub Pages, served from the `gh-pages` branch. Source is `semesters/<term>/landing-page/`; publish with `scripts/publish-site.sh`. Live 2026-09-14 |
 | Shared drive (large media, source files, rosters) | [TBD] | Private to officers and advisor |
 
 ## Related repos
