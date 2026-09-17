@@ -78,17 +78,52 @@
   .chapter__line { margin: 0 0 var(--rcc-space-3); max-width: 22ch; font-size: clamp(1.5rem, 1rem + 2vw, 2.75rem); line-height: 1.12; letter-spacing: -0.015em; font-weight: var(--rcc-weight-strong); }
   .chapter__receipt { margin: 0; max-width: 36ch; font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem); color: var(--rcc-on-surface-variant); }
 
-  /* The rep inside Voice: "So, what do you do?", answered three times, less time each round. */
+  /* The rep inside Voice: a stranger asks what you do, answered three times.
+     Rounds 1 and 2 cut padding; round 3 spends the time that freed up on one
+     real detail, so the short answer carries more than the long one did. */
   .rep { margin-block: var(--rcc-space-6); max-width: 46rem; }
   .rep__prompt { margin: 0 0 var(--rcc-space-3); color: var(--rcc-on-surface-variant); font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.375rem); }
+
+  /* Major picker. The radios drive everything through :has(), so it works with
+     scripts off; without :has() all four sets show with their own heading. */
+  .majors { border: 0; margin: 0 0 var(--rcc-space-5); padding: 0; min-inline-size: 0; }
+  .majors legend { padding: 0; margin-block-end: var(--rcc-space-2); color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm); }
+  .majors__row { display: flex; flex-wrap: wrap; gap: var(--rcc-space-2); }
+  .chip { cursor: pointer; }
+  .chip input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+  .chip span {
+    display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min);
+    padding-inline: var(--rcc-space-4); border-radius: var(--rcc-radius-full);
+    box-shadow: 0 0 0 var(--rcc-hairline) var(--rcc-outline);
+    font-size: var(--rcc-size-label-lg); font-weight: var(--rcc-weight-strong); letter-spacing: var(--rcc-track-label-lg);
+    transition: background-color var(--rcc-dur-fast-effects) var(--rcc-ease-standard);
+  }
+  .chip:has(input:checked) span { background: var(--rcc-primary); color: var(--rcc-on-primary); box-shadow: none; }
+  .chip:has(input:focus-visible) span { box-shadow: 0 0 0 3px var(--rcc-focus-gap), 0 0 0 6px var(--rcc-focus-ring); }
+
+  .round-set { display: none; }
+  .round-set__who { display: none; }
+  .rep:has(input[value="nursing"]:checked)  .round-set[data-major="nursing"],
+  .rep:has(input[value="business"]:checked) .round-set[data-major="business"],
+  .rep:has(input[value="econ"]:checked)     .round-set[data-major="econ"],
+  .rep:has(input[value="cs"]:checked)       .round-set[data-major="cs"] { display: block; }
+  @supports not (selector(:has(*))) {
+    .majors { display: none; }
+    .round-set, .round-set__who { display: block; }
+    .round-set + .round-set { margin-block-start: var(--rcc-space-6); }
+  }
+
   .rounds { margin: 0; padding: 0; list-style: none; max-width: none; display: grid; gap: var(--rcc-space-4); }
   .rounds > li + li { margin: 0; }
   .rounds b { display: block; color: var(--rcc-primary); font-size: var(--rcc-size-body-md); }
-  .rounds span { font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); line-height: 1.3; }
+  .rounds__said { display: block; font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); line-height: 1.3; }
+  .rounds__why { display: block; margin-block-start: var(--rcc-space-1); color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm); }
   .rep__stage { display: none; }
   .rep__caption { margin: var(--rcc-space-3) 0 0; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm); }
   .answer { margin: 0; font-size: clamp(1.375rem, 0.9rem + 2.2vw, 2.75rem); line-height: 1.14; letter-spacing: -0.02em; font-weight: var(--rcc-weight-strong); }
   .t.cutting .word { color: var(--rcc-on-surface-variant); text-decoration: line-through; text-decoration-thickness: 0.07em; text-decoration-color: var(--rcc-primary); }
+  .t.fresh .word { color: var(--rcc-primary); }
+  .rep__note { margin: var(--rcc-space-3) 0 0; max-width: 40ch; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-md); }
   .clock { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--rcc-space-4); margin-block-start: var(--rcc-space-4); }
   .clock__num { min-inline-size: 2ch; color: var(--rcc-primary); font-size: clamp(2rem, 1.4rem + 2.4vw, 3.5rem); line-height: 1; font-weight: var(--rcc-weight-strong); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
   .clock__rail { position: relative; block-size: 8px; border-radius: 99px; background: var(--rcc-surface-container-high); overflow: hidden; }
@@ -102,7 +137,7 @@
     border: 0; padding: 0; max-width: 64rem;
   }
   .climb.is-live .chapter__name { font-size: clamp(3.5rem, 1rem + 11vw, 12rem); }
-  .climb.is-live .rounds { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } /* still read aloud */
+  .climb.is-live .rep__rounds { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } /* still read aloud */
   .climb.is-live .rep__stage { display: block; }
   .climb.is-live .climb__svg { display: block; position: absolute; inset: 0; inline-size: 100%; block-size: 100%; pointer-events: none; }
   .climb__path { fill: none; stroke: var(--rcc-primary); stroke-linejoin: round; stroke-linecap: butt; }
@@ -134,13 +169,16 @@
     .climb.is-live .chapter__name { font-size: 3rem; }
     .climb.is-live .rep { margin-block: var(--rcc-space-3); }
     .climb.is-live .rep__prompt { font-size: var(--rcc-size-body-md); }
-    .climb.is-live .answer { font-size: 1.25rem; }
-    .climb.is-live .rep__caption { display: none; }
+    .climb.is-live .answer { font-size: 1.125rem; }
+    .climb.is-live .majors { margin-block-end: var(--rcc-space-3); }
+    .climb.is-live .chip span { padding-inline: var(--rcc-space-3); font-size: var(--rcc-size-label-md); }
+    .climb.is-live .rep__note { font-size: var(--rcc-size-body-sm); }
   }
   @media (max-width: 599px) {
     .climb.is-live .progress { display: none; }
     .climb.is-live .chapter--voice .chapter__line { display: none; } /* the rep says it on a phone */
     .climb.is-live .chapter--voice .chapter__receipt { display: none; }
+    .climb.is-live .rep__caption { display: none; } /* the live note under the clock says it */
   }
 
   /* --- Landing -------------------------------------------------------------- */
@@ -192,17 +230,62 @@
         <h2 class="chapter__name">Voice</h2>
         <p class="chapter__line">Find the sentence that gets you in the room.</p>
         <div class="rep">
-          <p class="rep__prompt">“So, what do you do?” Answer three times, with less time each round.</p>
-          <ol class="rounds">
-            <li><b>20 seconds</b><span>Um, so I’m a nursing major, and I kind of work part time at a clinic, and I sort of redesigned the clinic’s intake form, so check-in is faster now, I think.</span></li>
-            <li><b>12 seconds</b><span>I’m a nursing major, and I work at a clinic, and I redesigned the clinic’s intake form, so check-in is faster now.</span></li>
-            <li><b>8 seconds</b><span>Nursing major. I redesigned the clinic’s intake form. Check-in is faster now.</span></li>
-          </ol>
+          <p class="rep__prompt">Someone who can help you asks what you do. Here is one answer, three times.</p>
+
+          <fieldset class="majors">
+            <legend>Pick a major</legend>
+            <div class="majors__row">
+              <label class="chip"><input type="radio" name="major" value="nursing" checked><span>Nursing</span></label>
+              <label class="chip"><input type="radio" name="major" value="business"><span>Business</span></label>
+              <label class="chip"><input type="radio" name="major" value="econ"><span>Econ</span></label>
+              <label class="chip"><input type="radio" name="major" value="cs"><span>CS</span></label>
+            </div>
+          </fieldset>
+
+          <div class="rep__rounds">
+            <div class="round-set" data-major="nursing">
+              <h3 class="round-set__who">Nursing</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m a nursing major, I’m taking anatomy and pharmacology right now, and I kind of work part time at the campus clinic, and I’ve been helping them fix their paperwork, which has honestly been pretty interesting.</span><span class="rounds__why">All of that is there for you. None of it is for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m a nursing major, and I work part time at the campus clinic, and I’ve been helping them fix their paperwork, which has been pretty interesting.</span><span class="rounds__why">Same answer with the hedging and the course list gone.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I work at the campus clinic, where check-in took eleven minutes. I rewrote the intake form, and now it’s four.</span><span class="rounds__why">Now the seconds you saved buy the part they can ask about.</span></li>
+              </ol>
+            </div>
+
+            <div class="round-set" data-major="business">
+              <h3 class="round-set__who">Business</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m a business major, I’m taking marketing and accounting right now, and I kind of do the social media for my family’s restaurant, and I think it’s been going pretty well.</span><span class="rounds__why">All of that is there for you. None of it is for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m a business major, and I do the social media for my family’s restaurant, and it’s been going pretty well.</span><span class="rounds__why">Same answer with the hedging and the course list gone.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I do the social media for my family’s restaurant. I took Tuesday nights from twelve tables to forty.</span><span class="rounds__why">Now the seconds you saved buy the part they can ask about.</span></li>
+              </ol>
+            </div>
+
+            <div class="round-set" data-major="econ">
+              <h3 class="round-set__who">Econ</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m an econ major, I’m taking micro and statistics right now, and I kind of did a research project on housing for a class, and it was honestly pretty interesting.</span><span class="rounds__why">All of that is there for you. None of it is for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m an econ major, and I did a research project on housing for a class, and it was pretty interesting.</span><span class="rounds__why">Same answer with the hedging and the course list gone.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I did a research project on housing near campus. Rent rose forty percent in five years while three bus routes disappeared.</span><span class="rounds__why">Now the seconds you saved buy the part they can ask about.</span></li>
+              </ol>
+            </div>
+
+            <div class="round-set" data-major="cs">
+              <h3 class="round-set__who">CS</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m a CS major, I’m taking data structures right now, and I’m kind of building an app for the tutoring center, and it’s honestly been pretty cool so far.</span><span class="rounds__why">All of that is there for you. None of it is for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m a CS major, and I’m building an app for the tutoring center, and it’s been pretty cool so far.</span><span class="rounds__why">Same answer with the hedging and the course list gone.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I’m building the scheduling app for the tutoring center. Ninety students booked through it last month instead of waiting in line.</span><span class="rounds__why">Now the seconds you saved buy the part they can ask about.</span></li>
+              </ol>
+            </div>
+          </div>
+
           <div class="rep__stage" aria-hidden="true">
             <p class="answer" id="answer"></p>
             <div class="clock"><span class="clock__num" id="secs">20</span><span class="clock__rail"><span class="clock__bar" id="bar"></span></span></div>
+            <p class="rep__note" id="rep-note"></p>
           </div>
-          <p class="rep__caption">Example answer. Each round cuts what was there for the speaker’s comfort.</p>
+          <p class="rep__caption">An example, not a script. Round three spends what rounds one and two gave back.</p>
         </div>
         <p class="chapter__receipt">October 8, you send the cold message before you leave.</p>
       </article>
@@ -240,7 +323,7 @@
       <a href="https://github.com/Sam-T-G/rcc-gdg/blob/main/CODE_OF_CONDUCT.md">Code of conduct</a>
     </nav>
     <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
-    <p>Last updated <time datetime="2026-09-14">September 14, 2026</time>.</p>
+    <p>Last updated <time datetime="2026-09-17">September 17, 2026</time>.</p>
   </div>
 </footer>
 
@@ -309,39 +392,117 @@ document.addEventListener('DOMContentLoaded', function () {
   var path = climb.querySelector('.climb__path'), dot = climb.querySelector('.climb__dot');
   var chapters = gsap.utils.toArray('.chapter'), marks = gsap.utils.toArray('.progress span');
 
-  // --- The rep: tokens with the round they leave in (out), arrive in (in), or get capitalized in (cap).
-  var TOKENS = [
-    ['Um,', 0, { out: 12 }], ['so', 1, { out: 12 }], ['I’m', 1, { out: 8 }], ['a', 1, { out: 8 }],
-    ['nursing', 1, { cap: 8 }], ['major', 1], [',', 0, { out: 8 }], ['.', 0, { in: 8 }],
-    ['and', 1, { out: 8 }], ['I', 1, { out: 8 }], ['kind of', 1, { out: 12 }], ['work', 1, { out: 8 }],
-    ['part time', 1, { out: 12 }], ['at', 1, { out: 8 }], ['a', 1, { out: 8 }], ['clinic', 1, { out: 8 }],
-    [',', 0, { out: 8 }], ['and', 1, { out: 8 }], ['I', 1], ['sort of', 1, { out: 12 }], ['redesigned', 1],
-    ['the', 1], ['clinic’s', 1], ['intake', 1], ['form', 1], [',', 0, { out: 8 }], ['.', 0, { in: 8 }],
-    ['so', 1, { out: 8 }], ['check-in', 1, { cap: 8 }], ['is', 1], ['faster', 1], ['now', 1],
-    [',', 0, { out: 12 }], ['I', 1, { out: 12 }], ['think', 1, { out: 12 }], ['.', 0]
-  ];
-  var answer = document.getElementById('answer'), secs = document.getElementById('secs'), bar = document.getElementById('bar');
-  var tokens = TOKENS.map(function (t) {
-    var el = document.createElement('span'), word = document.createElement('span'), space = document.createTextNode('');
-    el.className = 't'; word.className = 'word'; word.textContent = t[0];
-    el.appendChild(space); el.appendChild(word); answer.appendChild(el);
-    return { el: el, word: word, space: space, text: t[0], lead: t[1] ? ' ' : '', rule: t[2] || {} };
-  });
+  // --- The rep. The three written rounds are the source of truth: the timeline is
+  // diffed out of them, so the animation cannot drift from the text a screen reader
+  // gets, and a new major is three sentences rather than a hand-built token list.
+  var answer = document.getElementById('answer'), secs = document.getElementById('secs');
+  var bar = document.getElementById('bar'), note = document.getElementById('rep-note');
+  var repEl = climb.querySelector('.rep');
+  var MAJORS = gsap.utils.toArray('.round-set').map(function (s) { return s.dataset.major; });
+  var tokens = [], notes = [];
 
+  var PUNCT = /^[,.;:!?]+$/;
+  function words(s) {
+    var out = [];
+    s.trim().split(/\s+/).forEach(function (chunk) {
+      var m = /^(.*[^\s,.;:!?])([,.;:!?]+)$/.exec(chunk);
+      if (m) { out.push(m[1]); m[2].split('').forEach(function (p) { out.push(p); }); }
+      else out.push(chunk);
+    });
+    return out;
+  }
+  // Longest common subsequence, walked out as keep / del (from a) / ins (from b), in order.
+  function diff(a, b) {
+    var n = a.length, m = b.length, i, j, L = [];
+    for (i = 0; i <= n; i++) { L.push([]); for (j = 0; j <= m; j++) L[i].push(0); }
+    for (i = n - 1; i >= 0; i--) for (j = m - 1; j >= 0; j--)
+      L[i][j] = a[i] === b[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+    var ops = []; i = 0; j = 0;
+    while (i < n && j < m) {
+      if (a[i] === b[j]) ops.push({ op: 'keep', i: i++, j: j++ });
+      else if (L[i + 1][j] >= L[i][j + 1]) ops.push({ op: 'del', i: i++ });
+      else ops.push({ op: 'ins', j: j++ });
+    }
+    while (i < n) ops.push({ op: 'del', i: i++ });
+    while (j < m) ops.push({ op: 'ins', j: j++ });
+    return ops;
+  }
+  // One ordered token list: each token knows the round it arrives in and the round it leaves in.
+  function build(rounds) {
+    var all = words(rounds[0]).map(function (w) { return { text: [w, null, null], from: 0, out: -1 }; });
+    var cur = all.slice();
+    for (var r = 1; r < rounds.length; r++) {
+      var bw = words(rounds[r]), nextAll = [], nextCur = [], p = 0;
+      var ops = diff(cur.map(function (t) { return t.text[r - 1].toLowerCase(); }),
+                     bw.map(function (w) { return w.toLowerCase(); }));
+      for (var q = 0; q < ops.length; q++) {
+        var o = ops[q];
+        if (o.op === 'ins') {
+          var born = { text: [null, null, null], from: r, out: -1 };
+          born.text[r] = bw[o.j]; nextAll.push(born); nextCur.push(born);
+          continue;
+        }
+        var target = cur[o.i];   // p < all.length holds: cur is always in all's order
+        while (p < all.length && all[p] !== target) nextAll.push(all[p++]);
+        nextAll.push(all[p++]);
+        if (o.op === 'keep') { target.text[r] = bw[o.j]; nextCur.push(target); }
+        else target.out = r;
+      }
+      while (p < all.length) nextAll.push(all[p++]);
+      all = nextAll; cur = nextCur;
+    }
+    return all;
+  }
+  function textAt(k, r) { for (; r >= 0; r--) if (k.text[r] != null) return k.text[r]; return ''; }
+
+  function mount(major) {
+    var set = repEl.querySelector('.round-set[data-major="' + major + '"]');
+    var rounds = [];
+    notes = [];
+    gsap.utils.toArray(set.querySelectorAll('.rounds > li')).forEach(function (li) {
+      rounds.push(li.querySelector('.rounds__said').textContent);
+      notes.push(li.querySelector('.rounds__why').textContent);
+    });
+    answer.textContent = '';
+    tokens = build(rounds).map(function (k) {
+      var el = document.createElement('span'), word = document.createElement('span'), space = document.createTextNode('');
+      el.className = 't'; word.className = 'word';
+      el.appendChild(space); el.appendChild(word); answer.appendChild(el);
+      k.el = el; k.word = word; k.space = space;
+      k.lead = PUNCT.test(textAt(k, 2)) ? '' : ' ';   // punctuation closes up to the word before it
+      return k;
+    });
+  }
+
+  // Each round gets a window. Arrivals start while the cut is still running, so a
+  // replaced phrase reads as a trade; if they waited their turn the line would sit
+  // for a moment as a stub with orphaned punctuation, which is the opposite of the point.
+  var WIN = [null,
+    { cut: [0.24, 0.44], fade: [0.20, 0.34], arrive: [0.26, 0.46] },
+    { cut: [0.62, 0.82], fade: [0.60, 0.74], arrive: [0.66, 0.86] }];
   function ramp(x, a, b) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
-  // t runs 0 to 1 across the Voice segment: hold, cut to 12, hold, cut to 8, hold.
+  // t runs 0 to 1 across the Voice segment: hold, cut to 12, hold, cut to 8 and spend it, hold.
   function renderRep(t) {
-    var gone12 = ramp(t, 0.24, 0.44), gone8 = ramp(t, 0.66, 0.86), arrive8 = ramp(t, 0.8, 0.92);
-    var firstShown = null;
+    var r = t > 0.74 ? 2 : t > 0.35 ? 1 : 0, firstShown = null;
     tokens.forEach(function (k) {
-      var size = 1, alpha = 1, cutting = false, r = k.rule;
-      if (r.out === 12) { size = 1 - gone12; alpha = 1 - ramp(t, 0.2, 0.34); cutting = t > 0.1; }
-      if (r.out === 8) { size = 1 - gone8; alpha = 1 - ramp(t, 0.62, 0.76); cutting = t > 0.54; }
-      if (r.in === 8) { size = arrive8; alpha = arrive8; }
+      var size = 1, alpha = 1, cutting = false, fresh = false, w;
+      if (k.from > 0) {
+        w = WIN[k.from].arrive;
+        size = alpha = ramp(t, w[0], w[1]);
+        fresh = alpha < 0.999;
+      }
+      if (k.out > 0) {
+        w = WIN[k.out];
+        size = Math.min(size, 1 - ramp(t, w.cut[0], w.cut[1]));
+        alpha = Math.min(alpha, 1 - ramp(t, w.fade[0], w.fade[1]));
+        cutting = t > w.fade[0] - 0.1;
+        fresh = false;
+      }
       k.el.style.fontSize = size < 0.001 ? '0' : size + 'em';
       k.el.style.opacity = alpha;
       k.el.classList.toggle('cutting', cutting && size > 0.001);
-      k.word.textContent = r.cap === 8 && t > 0.8 ? k.text.charAt(0).toUpperCase() + k.text.slice(1) : k.text;
+      k.el.classList.toggle('fresh', fresh && size > 0.001);
+      k.word.textContent = textAt(k, r);
       if (!firstShown && size > 0.5) firstShown = k;
       k.space.textContent = k.lead;
     });
@@ -349,7 +510,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var v = 20 - 8 * ramp(t, 0.1, 0.44) - 4 * ramp(t, 0.54, 0.86);
     secs.textContent = Math.round(v);
     bar.style.transform = 'scaleX(' + (v / 20) + ')';
+    if (notes[r] && note.textContent !== notes[r]) note.textContent = notes[r];
   }
+
+  function selected() {
+    var on = repEl.querySelector('input[name="major"]:checked');
+    return on ? on.value : MAJORS[0];
+  }
+  repEl.addEventListener('change', function (e) {
+    if (e.target.name !== 'major') return;
+    mount(e.target.value);
+    render();
+  });
 
   // --- The staircase, laid out for the screen it is on.
   var draw = { p: 0 }, rep = { t: 0 }, len = 1;
@@ -364,10 +536,16 @@ document.addEventListener('DOMContentLoaded', function () {
     dot.setAttribute('r', phone ? 8 : 11);
     len = path.getTotalLength();
     path.style.strokeDasharray = len;
-    // Hold the answer's box at its full height so nothing below it jumps as words go.
+    // Hold the answer's box at its tallest across every major and round, so nothing
+    // below it moves as words go or arrive, and picking a major never shifts the page.
     answer.style.minBlockSize = '';
-    renderRep(0);
-    answer.style.minBlockSize = answer.offsetHeight + 'px';
+    var tallest = 0, chosen = selected();
+    MAJORS.forEach(function (m) {
+      mount(m);
+      [0, 0.55, 1].forEach(function (t) { renderRep(t); tallest = Math.max(tallest, answer.offsetHeight); });
+    });
+    mount(chosen);
+    answer.style.minBlockSize = tallest + 'px';
     render();
   }
   function render() {
