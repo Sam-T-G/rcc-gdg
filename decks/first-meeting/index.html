@@ -473,6 +473,38 @@ body {
 .slide[data-surface] { background: var(--rcc-surface); color: var(--rcc-on-surface); }
 .chrome .ledger, .chrome .counter { transition: color var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
 
+/* --- photo: one photograph and the words beside it, never over it --------- */
+/* Ported from rcc-acm/deck-kit on 2026-09-24 (visual-voice.md §9.3, fourth image
+   type). bleed-right (default) and bleed-left run the photo off the stage edge,
+   from the top down to the rail band; framed sits it inside the margins. The
+   credit is a link, on the slide, in the ledger face. */
+.slide[data-kind="photo"] { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(96 * var(--u)); align-items: center; }
+.photo__text { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
+.photo { margin: 0; }
+.photo img { display: block; object-fit: cover; }
+.credit { font-family: var(--rcc-font-code); font-size: var(--s-ledger); line-height: 1.25; letter-spacing: 0.02em; color: var(--rcc-on-surface-variant); font-variant-ligatures: none; }
+.credit a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+.slide[data-kind="photo"]:not([data-layout="framed"]) .photo img { position: absolute; top: 0; width: calc(50% - 48 * var(--u)); height: calc(960 * var(--u)); }
+.slide[data-kind="photo"]:not([data-layout]) .photo img, .slide[data-kind="photo"][data-layout="bleed-right"] .photo img { right: 0; }
+.slide[data-kind="photo"][data-layout="bleed-left"] .photo img { left: 0; }
+.slide[data-kind="photo"][data-layout="bleed-left"] .photo__text { grid-column: 2; grid-row: 1; }
+.slide[data-kind="photo"]:not([data-layout="framed"]) .credit { position: absolute; bottom: calc(136 * var(--u)); left: var(--s-margin); max-width: calc(760 * var(--u)); }
+.slide[data-kind="photo"][data-layout="bleed-left"] .credit { left: calc(50% + 48 * var(--u)); }
+.slide[data-kind="photo"][data-layout="framed"] .photo { display: grid; gap: calc(16 * var(--u)); }
+.slide[data-kind="photo"][data-layout="framed"] .photo img { width: 100%; height: auto; max-height: calc(640 * var(--u)); border-radius: calc(24 * var(--u)); }
+/* The photo is the only thing that bleeds, so the chrome over its corner steps aside. */
+.deck.on-bleed-right .chrome .counter, .deck.on-bleed-left .chrome .ledger { visibility: hidden; }
+/* Stacked and no-script: the photo sits in the flow. */
+:root:not(.is-presenting) .slide[data-kind="photo"] .photo img { position: static; width: 100%; height: auto; }
+/* Entrance: the photo wipes in from its edge and settles, each time its slide
+   becomes current. Spatial track, so reduced motion makes it a cut. */
+@keyframes photo-in-right { from { clip-path: inset(0 0 0 100%); transform: scale(1.06); } to { clip-path: inset(0); transform: none; } }
+@keyframes photo-in-left  { from { clip-path: inset(0 100% 0 0); transform: scale(1.06); } to { clip-path: inset(0); transform: none; } }
+@keyframes photo-in-up    { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"] .photo img { animation: photo-in-right var(--rcc-dur-move) var(--rcc-ease-arrive) both; animation-delay: 120ms; }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout="bleed-left"] .photo img { animation-name: photo-in-left; }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout="framed"] .photo img { animation-name: photo-in-up; }
+
 /* --- Stage transitions (motion.md §5.9) ----------------------------------- */
 /* While a stage transition runs, both slides are visible and the engine moves
    the slides themselves. applyState() clears every inline style this sets. */
@@ -556,6 +588,7 @@ body {
   .chrome, .deck-notes, .deck-help, .deck-toast { display: none !important; }
   [data-beat] { visibility: visible !important; }
   .w__in, .blk__in { transform: none !important; }
+  .photo img { animation: none !important; clip-path: none !important; }
 }
 
 </style>
@@ -1208,6 +1241,9 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.setAttribute('data-surface', surf(slide));
     deck.classList.toggle('on-cover', slide._kind === 'cover');
     deck.classList.toggle('on-rung', !!slide._rung);
+    var bleed = slide._kind === 'photo' ? (slide.getAttribute('data-layout') || 'bleed-right') : '';
+    deck.classList.toggle('on-bleed-right', bleed === 'bleed-right');
+    deck.classList.toggle('on-bleed-left', bleed === 'bleed-left');
     ledger.textContent = slide.getAttribute('data-ledger') || deck.getAttribute('data-ledger') || '';
     var text = pad(pos + 1) + ' / ' + pad(V.length);
     if (S.room) text += ' · Room';
