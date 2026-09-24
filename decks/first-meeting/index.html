@@ -231,6 +231,12 @@ body {
   animation-delay: calc(var(--i, 0) * 56ms);
 }
 
+/* Boxes without GSAP: the same wipe up and pop by CSS (reduced motion zeroes them). */
+@keyframes deck-box { from { clip-path: inset(100% 0 0 0 round calc(28 * var(--u))); transform: translateY(calc(32 * var(--u))); } to { clip-path: inset(0 round calc(28 * var(--u))); transform: none; } }
+@keyframes deck-pop { from { transform: scale(0); } }
+.deck-live.no-gsap .slide.is-entering .box, .deck-live.no-gsap .box.is-revealing { animation: deck-box var(--rcc-dur-beat) var(--rcc-ease-arrive) both; }
+.deck-live.no-gsap .slide.is-entering .beats li::before, .deck-live.no-gsap .beats li.is-revealing::before { animation: deck-pop var(--rcc-dur-beat) cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
 /* Beats not yet reached. Hidden, not removed: a screen reader walking the
    stacked view gets them, and the presenting view reveals them in order. */
 .deck-live.is-presenting [data-beat].is-pending { visibility: hidden; }
@@ -309,6 +315,8 @@ body {
   margin-top: calc(-6 * var(--u));
 }
 .beats li > .body { display: block; }
+/* The number dot pops when its item arrives; deck.js tweens --pop (0 to 1). */
+.beats li::before { transform: scale(var(--pop, 1)); }
 .beats li .detail { display: block; font-size: var(--s-body-sm); color: var(--rcc-on-surface-variant); margin-top: calc(8 * var(--u)); }
 
 /* --- card ----------------------------------------------------------------- */
@@ -505,11 +513,21 @@ body {
 .deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout="bleed-left"] .photo img { animation-name: photo-in-left; }
 .deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout="framed"] .photo img { animation-name: photo-in-up; }
 
+/* --- The ground: one color under the stage, crossfading (motion.md §5.9) --- */
+/* Presenting, the slides are transparent and the deck paints the current surface
+   (deck.js sets it), so a cut between surfaces fades instead of snapping. Effects
+   track: reduced motion keeps the fade and zeroes only the spatial moves. */
+.deck-live.is-presenting .deck { transition: background-color calc(3 * var(--rcc-dur-slow-effects)) var(--rcc-ease-standard); }
+.deck-live.is-presenting .slide { background: transparent; }
+.deck-live.is-presenting .deck.is-moving .slide { background: var(--rcc-surface); }
+.chrome .rail__fill, .chrome .rail__track, .chrome .rail__label { transition: fill var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+
 /* --- Stage transitions (motion.md §5.9) ----------------------------------- */
 /* While a stage transition runs, both slides are visible and the engine moves
    the slides themselves. applyState() clears every inline style this sets. */
 .deck-live.is-presenting .slide.is-leaving { visibility: visible; }
-.deck-live.is-presenting .deck.is-staging { background: #0b0f0b; }
+/* The backstage wins over the ground while a cube turns or a card is dealt. */
+.deck-live.is-presenting .deck.is-staging { background-color: #0b0f0b !important; transition: none; }
 .deck-live.is-presenting .deck.is-3d { perspective: calc(2600 * var(--u)); }
 .deck-live.is-presenting .deck.is-3d .slide { backface-visibility: hidden; transform-style: preserve-3d; }
 .stage-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible; display: none; }
@@ -750,6 +768,42 @@ document.addEventListener('DOMContentLoaded', function () {
       u.el.style.setProperty('--i', u.k);
     });
   }
+  // Boxes: containers with a fill (tiles, panels) wipe up from their bottom edge
+  // like the words rise through their masks; a list's number dot pops. Without
+  // this the words rose into a box that was already sitting there at full size.
+  var BOX = '.slide[data-layout="tiles"] .beats > li, .slide[data-layout="panel"] .contrast > div';
+  var DOT = '.slide:not([data-layout="tiles"]) .beats > li';
+  function buildBoxes(slide) {
+    var beats = all('[data-beat]', slide);
+    function beatOf(el) { var h = el.closest('[data-beat]'); return h && slide.contains(h) ? beats.indexOf(h) + 1 : 0; }
+    return all(BOX, slide).map(function (el) { el.classList.add('box'); return { el: el, beat: beatOf(el), dot: false }; })
+      .concat(all(DOT, slide).map(function (el) { return { el: el, beat: beatOf(el), dot: true }; }));
+  }
+  function boxesFor(slide, a, b) { return slide._boxes.filter(function (x) { return x.beat >= a && x.beat <= b; }); }
+  function clearBoxes(slide) {
+    slide._boxes.forEach(function (x) { x.el.style.clipPath = ''; x.el.style.transform = ''; x.el.style.removeProperty('--pop'); });
+  }
+  function boxClip(el, top, bottom) {
+    var r = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
+    return 'inset(' + top + '% 0% ' + bottom + '% 0% round ' + r2(r) + 'px)';
+  }
+  // Add entrances to a timeline at a position, staggered in reading order.
+  function boxesIn(tl, list, at, back) {
+    var u = deck.clientWidth / 1920 || 1, d = dur('beat') * (back || 1);
+    list.forEach(function (x, k) {
+      var when = at + k * 0.07;
+      if (x.dot) tl.fromTo(x.el, { '--pop': 0 }, { '--pop': 1, duration: d * 0.9, ease: 'back.out(2.2)' }, when);
+      else tl.fromTo(x.el, { clipPath: boxClip(x.el, 100, 0), y: 32 * u }, { clipPath: boxClip(x.el, 0, 0), y: 0, duration: d * 1.15, ease: EASE.arrive }, when);
+    });
+  }
+  // Exits go the way the words go: up and out forward, down and out backward.
+  function boxesOut(tl, list, at, sign) {
+    list.forEach(function (x) {
+      if (x.dot) tl.to(x.el, { '--pop': 0, duration: 0.3 * dur('beat'), ease: EASE.exit }, at);
+      else tl.to(x.el, { clipPath: sign > 0 ? boxClip(x.el, 0, 100) : boxClip(x.el, 100, 0), duration: 0.3 * dur('beat'), ease: EASE.exit }, at);
+    });
+  }
+
   function unitsFor(slide, beatFrom, beatTo) {
     return slide._units.filter(function (u) { return u.beat >= beatFrom && u.beat <= beatTo; });
   }
@@ -1133,7 +1187,7 @@ document.addEventListener('DOMContentLoaded', function () {
       x += w + RAIL.gap;
       return s;
     });
-    G.segs.forEach(function (s) { try { s.fits = s.label.getComputedTextLength() <= s.w - 8; } catch (e) { s.fits = true; } });
+    G.segs.forEach(function (s) { try { s.lw = s.label.getComputedTextLength(); } catch (e) { s.lw = 0; } s.fits = s.lw <= s.w - 8; });
     var arc = parseFloat(token('--rcc-step-arc')) / 100 || 0.12;
     G.flat = [RAIL.left, y, lerp(RAIL.left, RAIL.right, arc), y, RAIL.right];
     // The cover Step lives in the .cover__step box, in stage units.
@@ -1171,6 +1225,9 @@ document.addEventListener('DOMContentLoaded', function () {
       // A label too wide for its segment shows only while it is the current one.
       s.label.classList.toggle('is-hidden', !s.fits && k !== at);
     });
+    // A current label wider than its segment runs over the next ones; hide what it covers.
+    var cur = G.segs[at];
+    if (cur && !cur.fits) G.segs.forEach(function (s, k) { if (k > at && s.x < cur.x + cur.lw + 24) s.label.classList.add('is-hidden'); });
   }
 
   /* ---------- Build every slide ------------------------------------------- */
@@ -1191,6 +1248,7 @@ document.addEventListener('DOMContentLoaded', function () {
     slide._figure = makeFigure(slide);
     slide._rung = makeRung(slide);
     slide._units = buildUnits(slide);
+    slide._boxes = buildBoxes(slide);
     slide._beatEls = all('[data-beat]', slide);
     slide._beats = slide._compress ? slide._compress.steps : slide._beatEls.length;
   });
@@ -1220,8 +1278,11 @@ document.addEventListener('DOMContentLoaded', function () {
       s.classList.toggle('is-current', on);
       if (!on && s._clock) s._clock.pause();
       clearStage(s);
+      clearBoxes(s);
     });
-    deck.classList.remove('is-3d', 'is-staging');
+    var moved = deck.classList.contains('is-moving');
+    deck.classList.remove('is-3d', 'is-staging', 'is-moving');
+    setGround(slide, moved);
     fxEdge.setAttribute('d', ''); fxBand.setAttribute('points', '');
     setBeats(slide, b);
     resetUnits(unitsFor(slide, 0, b));
@@ -1232,6 +1293,17 @@ document.addEventListener('DOMContentLoaded', function () {
     chromeText();
   }
   function surf(s) { return s.getAttribute('data-surface') || ''; }
+  // The stage's ground. While presenting, slides are transparent and the deck
+  // paints the current surface, so a change of color with no stage move behind it
+  // (a cut, the offline fallback) crossfades on the effects track instead of
+  // snapping. During a stage move the slides paint their own surfaces (.is-moving),
+  // because the wipe's edge is the color change. Instant after a move: the
+  // incoming slide already covers the stage in that color.
+  function setGround(slide, instant) {
+    var c = getComputedStyle(slide).getPropertyValue('--rcc-surface').trim();
+    if (instant) { deck.style.transition = 'none'; deck.style.backgroundColor = c; void deck.offsetWidth; deck.style.transition = ''; }
+    else deck.style.backgroundColor = c;
+  }
   function clearStage(s) {
     s.classList.remove('is-leaving');
     ['transform', 'transformOrigin', 'clipPath', 'filter', 'zIndex', 'borderRadius', 'boxShadow'].forEach(function (p) { s.style[p] = ''; });
@@ -1358,6 +1430,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var i = S.i, b = S.b, kind = kindOf(i, ni);
     S.last = kind + (dir < 0 ? '-back' : ''); S.style = kind;
     var from = slides[i], to = slides[ni];
+    if (kind !== 'hold') setGround(to, false);      // the fade starts with the press
     if (kind === 'cut') { applyState(ni, nb); announce(to, ni === i ? nb : 0); return; }
     if (!motionOn()) { applyState(ni, nb); cssEntrance(to, ni === i ? b : -1, nb, dir); announce(to, ni === i ? nb : 0); return; }
 
@@ -1372,10 +1445,12 @@ document.addEventListener('DOMContentLoaded', function () {
         setBeats(from, nb);
         var inU = unitsFor(from, nb, nb).map(function (u) { return u.el; });
         var ks = unitsFor(from, nb, nb).map(function (u) { return u.k; });
-        tl.fromTo(inU, { yPercent: 110 }, { yPercent: 0, duration: beat, ease: EASE.arrive, delay: 0, stagger: function (q) { return ks[q] * STAGGER; } });
+        boxesIn(tl, boxesFor(from, nb, nb), 0);
+        tl.fromTo(inU, { yPercent: 110 }, { yPercent: 0, duration: beat, ease: EASE.arrive, stagger: function (q) { return ks[q] * STAGGER; } }, 0.06);
       } else {
         var outU = unitsFor(from, b, b).map(function (u) { return u.el; });
         tl.to(outU, { yPercent: 110, duration: 0.3 * beat, ease: EASE.exit });
+        boxesOut(tl, boxesFor(from, b, b), 0, -1);
       }
       announce(from, nb);
       return;
@@ -1392,6 +1467,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var inList = unitsFor(to, 0, nb), inEls = inList.map(function (u) { return u.el; }), inK = inList.map(function (u) { return u.k; });
     var sign = dir < 0 ? -1 : 1;
     tl.to(outEls, { yPercent: -110 * sign, duration: 0.3 * beat, ease: EASE.exit });
+    boxesOut(tl, boxesFor(from, 0, b), 0, sign);
     tl.add(function () {
       gsap.set(inEls, { yPercent: 110 * sign });
       slides.forEach(function (s, k) { s.classList.toggle('is-current', k === ni); });
@@ -1408,6 +1484,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var rt = railTarget(ni);
     tl.to(R, { t: rt.t, fill: rt.fill, duration: D, ease: EASE.arrive, onUpdate: renderRail });
     tl.to(inEls, { yPercent: 0, duration: D, delay: hold, ease: EASE.arrive, stagger: function (q) { return inK[q] * STAGGER; } }, '<');
+    boxesIn(tl, boxesFor(to, 0, nb), tl.recent().startTime() + hold, back);
     if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, '<0.25'); }
     if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, '<'); }
     announce(to, 0);
@@ -1428,6 +1505,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (to._rung) to._rung.render(dir > 0 ? 0 : 1);
     if (from._clock) from._clock.pause();
     chromeText();
+    deck.classList.add('is-moving');
     if (style === 'rotate' || style === 'deal') deck.classList.add('is-3d', 'is-staging');
     if (style === 'step' || style === 'sweep') { from.style.zIndex = 0; to.style.zIndex = 1; }
     var render = stageRender(style, from, to, dir), P = { p: 0 };
@@ -1440,7 +1518,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (style === 'step' || style === 'sweep') {
       gsap.set(inEls, { yPercent: 110 * sign });
       tl.to(inEls, { yPercent: 0, duration: move * back, ease: EASE.arrive, stagger: function (q) { return inK[q] * STAGGER; } }, D * 0.26);
-    } else gsap.set(inEls, { yPercent: 0 });
+      boxesIn(tl, boxesFor(to, 0, nb), D * 0.22, back);
+    } else {
+      gsap.set(inEls, { yPercent: 0 });
+      // The slide itself is moving on a turn or a deal; its boxes land a beat after it.
+      boxesIn(tl, boxesFor(to, 0, nb), D * 0.55, back);
+    }
     var late = D * 0.6;
     if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, late); }
     if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, late); }
@@ -1536,7 +1619,7 @@ document.addEventListener('DOMContentLoaded', function () {
     else applyState(S.i, S.b);
     say(on ? 'Room mode: ' + V.length + ' slides' : 'Full deck: ' + V.length + ' slides');
   }
-  function setTheme(t) { root.setAttribute('data-theme', t); store('theme', t); }
+  function setTheme(t) { root.setAttribute('data-theme', t); store('theme', t); if (S.presenting) setGround(slides[S.i], true); }
   var FORCE_STACK = /[?&]stack\b/.test(location.search);
   function setMode() {
     var presenting = !FORCE_STACK && window.innerWidth >= 700;
@@ -1546,6 +1629,7 @@ document.addEventListener('DOMContentLoaded', function () {
     root.classList.toggle('is-presenting', presenting);
     if (presenting) layoutRail();
     if (!presenting) {
+      deck.style.backgroundColor = '';
       slides.forEach(function (s) {
         if (gsap) gsap.set(s._units.map(function (u) { return u.el; }), { clearProps: 'transform' });
         s._beatEls.forEach(function (el) { el.classList.remove('is-pending', 'is-past'); });
