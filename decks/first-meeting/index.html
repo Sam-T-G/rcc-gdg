@@ -237,7 +237,7 @@ body {
 .beats li.is-past { color: var(--rcc-on-surface-variant); transition: color var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
 
 /* --- Chrome: ledger, counter, rail. Stays still across every transition. -- */
-.chrome { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.chrome { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
 .chrome .ledger { position: absolute; top: calc(52 * var(--u)); left: var(--s-margin); margin: 0; max-width: calc(1300 * var(--u)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chrome .counter { position: absolute; top: calc(52 * var(--u)); right: var(--s-margin); margin: 0; }
 .deck.on-cover .chrome .ledger { visibility: hidden; }
@@ -435,6 +435,83 @@ body {
 :root[data-theme="dark"] .ask__lockup--light { display: none; }
 .ask__lockup--dark { display: none; }
 :root[data-theme="dark"] .ask__lockup--dark { display: block; height: calc(110 * var(--u)); }
+
+/* --- Surfaces (presentation.md §13.11) ------------------------------------- */
+/* A slide's color says what kind of moment it is. Each surface remaps the role
+   tokens, so every archetype renders on it unchanged; the chrome takes the
+   current slide's surface so the ledger, counter, and rail stay legible. Every
+   ink pair here measures 5.5:1 or better (check.mjs recomputes them). Paper is
+   the root tokens, so it follows the D preview; the other five are fixed. */
+[data-surface="mint"] {
+  --rcc-surface: #cff1d3; --rcc-surface-container-lowest: #effaf0; --rcc-surface-container-highest: #a8dcb0;
+  --rcc-on-surface: #0f2a16; --rcc-on-surface-variant: #2f5a3a; --rcc-outline-variant: #93c79c;
+  --rcc-primary: #00632a; --rcc-on-primary: #ffffff;
+}
+[data-surface="sand"] {
+  --rcc-surface: #ffe5c0; --rcc-surface-container-lowest: #fff6ea; --rcc-surface-container-highest: #f1c98f;
+  --rcc-on-surface: #2e2006; --rcc-on-surface-variant: #5c4513; --rcc-outline-variant: #e0b877;
+  --rcc-primary: #7a4f00; --rcc-on-primary: #ffffff;
+}
+[data-surface="sun"] {
+  --rcc-surface: #f9ab00; --rcc-surface-container-lowest: #ffd67a; --rcc-surface-container-highest: #d99200;
+  --rcc-on-surface: #1e1a10; --rcc-on-surface-variant: #3d2e05; --rcc-outline-variant: #c98700;
+  --rcc-primary: #1e1a10; --rcc-on-primary: #f9ab00;
+  --rcc-highlight: #1e1a10; --rcc-highlight-container: #1e1a10; --rcc-on-highlight-container: #f9ab00;
+}
+[data-surface="forest"] {
+  --rcc-surface: #00531e; --rcc-surface-container-lowest: #0b3d1c; --rcc-surface-container-highest: #1f6b37;
+  --rcc-on-surface: #ffffff; --rcc-on-surface-variant: #c6eccb; --rcc-outline-variant: #2f7a45;
+  --rcc-primary: #96d6a0; --rcc-on-primary: #003410;
+  --rcc-highlight: #f9ab00; --rcc-highlight-container: #f9ab00; --rcc-on-highlight-container: #1e1a10;
+}
+[data-surface="ink"] {
+  --rcc-surface: #121412; --rcc-surface-container-lowest: #1b211c; --rcc-surface-container-highest: #313731;
+  --rcc-on-surface: #e6e9e6; --rcc-on-surface-variant: #b9bcba; --rcc-outline-variant: #424943;
+  --rcc-primary: #96d6a0; --rcc-on-primary: #003410;
+  --rcc-highlight: #e7ae58; --rcc-highlight-container: #624000; --rcc-on-highlight-container: #fcdeb5;
+}
+.slide[data-surface] { background: var(--rcc-surface); color: var(--rcc-on-surface); }
+.chrome .ledger, .chrome .counter { transition: color var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+
+/* --- Stage transitions (motion.md §5.9) ----------------------------------- */
+/* While a stage transition runs, both slides are visible and the engine moves
+   the slides themselves. applyState() clears every inline style this sets. */
+.deck-live.is-presenting .slide.is-leaving { visibility: visible; }
+.deck-live.is-presenting .deck.is-staging { background: #0b0f0b; }
+.deck-live.is-presenting .deck.is-3d { perspective: calc(2600 * var(--u)); }
+.deck-live.is-presenting .deck.is-3d .slide { backface-visibility: hidden; transform-style: preserve-3d; }
+.stage-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible; display: none; }
+.deck-live.is-presenting .stage-fx { display: block; }
+.stage-fx path { fill: none; stroke-linejoin: miter; stroke-linecap: butt; }
+.stage-fx__band { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; }
+
+/* --- Layout variants ------------------------------------------------------ */
+/* poster: one statement, set as large as the stage allows. */
+.slide[data-layout="poster"] h2 { font-size: calc(150 * var(--u)); line-height: 1.0; letter-spacing: -0.03em; max-width: calc(1700 * var(--u)); }
+.slide[data-layout="poster"] .sub { font-size: var(--s-body); max-width: 48ch; }
+.slide[data-layout="poster"] .eyebrow { color: var(--rcc-on-surface-variant); }
+
+/* tiles: beats as a row of cards with a large index, read left to right. */
+.slide[data-layout="tiles"] .beats { grid-auto-flow: column; grid-auto-columns: 1fr; gap: calc(32 * var(--u)); align-items: stretch; }
+.slide[data-layout="tiles"] .beats li {
+  display: flex; flex-direction: column; gap: calc(28 * var(--u)); max-width: none;
+  background: var(--rcc-surface-container-lowest); border-radius: calc(28 * var(--u));
+  padding: calc(40 * var(--u)) calc(40 * var(--u)) calc(44 * var(--u));
+}
+.slide[data-layout="tiles"] .beats li::before {
+  width: auto; height: auto; box-shadow: none; border-radius: 0; place-items: start; margin: 0;
+  font-family: var(--rcc-font-brand); font-size: calc(120 * var(--u)); line-height: 0.85; letter-spacing: -0.04em;
+  content: counter(beat, decimal-leading-zero);
+}
+.slide[data-layout="tiles"] .beats li.is-past { color: inherit; }
+.slide[data-layout="tiles"] .beats li .detail { margin-top: calc(16 * var(--u)); }
+
+/* panel: the strong side of a contrast sits on its own color. */
+.slide[data-layout="panel"] .contrast { gap: calc(48 * var(--u)); align-items: stretch; }
+.slide[data-layout="panel"] .contrast > div { padding: calc(48 * var(--u)) calc(52 * var(--u)); border-radius: calc(28 * var(--u)); }
+.slide[data-layout="panel"] .contrast > .is-weak { box-shadow: inset 0 0 0 calc(3 * var(--u)) var(--rcc-outline-variant); }
+.slide[data-layout="panel"] .contrast > .is-strong { background: var(--rcc-primary); color: var(--rcc-on-primary); }
+.slide[data-layout="panel"] .contrast > .is-strong > .label { color: var(--rcc-on-primary); opacity: 0.85; }
 
 /* --- Overlays: notes, help, toast. Viewport pixels, outside the stage. ---- */
 .deck-notes, .deck-help, .deck-toast { font-family: var(--rcc-font-brand); }
@@ -985,6 +1062,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ---------- Chrome: ledger, counter, rail -------------------------------- */
+  // Stage effects: the Step's edge on a step wipe and the band on a sweep. Sits
+  // over the slides and under the chrome; empty whenever nothing is moving.
+  var fx = svgEl('svg', { class: 'stage-fx', viewBox: '0 0 1920 1080', preserveAspectRatio: 'none', 'aria-hidden': 'true', focusable: 'false' }, deck);
+  var fxEdge = svgEl('path', { d: '' }, fx), fxBand = svgEl('polygon', { points: '' }, fx);
   var chrome = make('div', 'chrome', deck); chrome.setAttribute('aria-hidden', 'true');
   var ledger = make('p', 'ledger', chrome), counter = make('p', 'counter', chrome);
   var rail = svgEl('svg', { class: 'rail', viewBox: '0 0 1920 1080', focusable: 'false' }, chrome);
@@ -1082,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /* ---------- State -------------------------------------------------------- */
-  var S = { i: 0, b: 0, room: recall('room') === '1', tl: null, last: 'none', presenting: false };
+  var S = { i: 0, b: 0, room: recall('room') === '1', tl: null, last: 'none', style: 'none', presenting: false };
   function visible() {
     if (!S.room) return slides.map(function (s, i) { return i; });
     var v = slides.map(function (s, i) { return s.hasAttribute('data-room') ? i : -1; }).filter(function (i) { return i >= 0; });
@@ -1105,7 +1186,10 @@ document.addEventListener('DOMContentLoaded', function () {
       var on = k === i;
       s.classList.toggle('is-current', on);
       if (!on && s._clock) s._clock.pause();
+      clearStage(s);
     });
+    deck.classList.remove('is-3d', 'is-staging');
+    fxEdge.setAttribute('d', ''); fxBand.setAttribute('points', '');
     setBeats(slide, b);
     resetUnits(unitsFor(slide, 0, b));
     if (slide._compress) { slide._compress.state.v = b; slide._compress.render(b); }
@@ -1114,8 +1198,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var rt = railTarget(i); R.t = rt.t; R.fill = rt.fill; R.draw = 1; renderRail();
     chromeText();
   }
+  function surf(s) { return s.getAttribute('data-surface') || ''; }
+  function clearStage(s) {
+    s.classList.remove('is-leaving');
+    ['transform', 'transformOrigin', 'clipPath', 'filter', 'zIndex', 'borderRadius', 'boxShadow'].forEach(function (p) { s.style[p] = ''; });
+  }
   function chromeText() {
     var slide = slides[S.i], V = visible(), pos = V.indexOf(S.i);
+    chrome.setAttribute('data-surface', surf(slide));
     deck.classList.toggle('on-cover', slide._kind === 'cover');
     deck.classList.toggle('on-rung', !!slide._rung);
     ledger.textContent = slide.getAttribute('data-ledger') || deck.getAttribute('data-ledger') || '';
@@ -1144,10 +1234,93 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   function finish() { if (S.tl) { var tl = S.tl; S.tl = null; tl.progress(1); tl.kill(); } }
 
+  // The stage moves only when the meaning changes (motion.md §5.9). A slide may
+  // name the style it arrives with; going back plays the style that brought the
+  // current slide in, mirrored. Otherwise: a new movement climbs (step), a new
+  // surface sweeps in, and anything else is the plain rise.
+  var STYLES = ['rise', 'step', 'sweep', 'rotate', 'deal'];
+  function styleOf(kind, from, to, dir) {
+    var named = (dir < 0 ? from : to).getAttribute('data-transition');
+    if (named && STYLES.indexOf(named) >= 0) return named;
+    if (kind === 'turn') return 'step';
+    return surf(from) !== surf(to) ? 'sweep' : 'rise';
+  }
+  var IN_OUT = cubicBezier(0.65, 0, 0.35, 1), TURN = cubicBezier(0.6, 0, 0.25, 1);
+  function pct(n) { return r2(n) + '%'; }
+
+  // Each style is a pure function of p in [0, 1] (and the direction), so a
+  // transition in flight can be landed at any point and reversed exactly.
+  function stageRender(style, from, to, dir) {
+    var W = deck.clientWidth || 1920, u = W / 1920;
+    var acc = getComputedStyle(to).getPropertyValue('--rcc-primary').trim() || '#00732d';
+    if (style === 'step') {
+      var N = 4, lag = 0.14, xs = [];
+      for (var q = 0; q <= N; q++) xs.push(q * 100 / N);
+      fxEdge.setAttribute('stroke', acc); fxEdge.setAttribute('stroke-width', 14);
+      return function (p) {
+        var hs = [];
+        for (var c = 0; c < N; c++) {
+          var col = dir > 0 ? c : N - 1 - c;            // forward climbs left to right
+          hs.push(EASE.arrive(clamp((p - col * lag) / (1 - (N - 1) * lag), 0, 1)) * 100);
+        }
+        var pts = dir > 0 ? ['0% 100%'] : ['0% 0%'], d = '';
+        hs.forEach(function (h, c) {
+          var y = dir > 0 ? 100 - h : h;
+          pts.push(pct(xs[c]) + ' ' + pct(y), pct(xs[c + 1]) + ' ' + pct(y));
+          d += (c ? 'L' : 'M') + r2(xs[c] * 19.2) + ' ' + r2(y * 10.8) + 'H' + r2(xs[c + 1] * 19.2);
+        });
+        pts.push(dir > 0 ? '100% 100%' : '100% 0%');
+        to.style.clipPath = 'polygon(' + pts.join(', ') + ')';
+        fxEdge.setAttribute('d', d);
+        fxEdge.style.opacity = 1 - ramp(p, 0.72, 0.96);
+        chrome.setAttribute('data-surface', surf(p < 0.55 ? from : to));
+      };
+    }
+    if (style === 'sweep') {
+      var sk = 14, band = 4;
+      return function (p) {
+        var e = IN_OUT(p) * (100 + sk + band);
+        function X(x) { return pct(dir > 0 ? x : 100 - x); }
+        to.style.clipPath = 'polygon(' + [X(0) + ' 0%', X(e) + ' 0%', X(e - sk) + ' 100%', X(0) + ' 100%'].join(', ') + ')';
+        var b = [[e, 0], [e + band, 0], [e + band - sk, 100], [e - sk, 100]];
+        fxBand.setAttribute('points', b.map(function (v) { return r2((dir > 0 ? v[0] : 100 - v[0]) * 19.2) + ',' + r2(v[1] * 10.8); }).join(' '));
+        fxBand.setAttribute('fill', acc);
+        from.style.transform = 'translateX(' + r2(-5 * dir * IN_OUT(p)) + '%)';
+        from.style.filter = 'brightness(' + r2(1 - 0.18 * p) + ')';
+        chrome.setAttribute('data-surface', surf(e - sk / 2 < 60 ? from : to));
+      };
+    }
+    if (style === 'rotate') {
+      var half = W / 2;
+      return function (p) {
+        var t = TURN(p), s = 1 - 0.12 * Math.sin(Math.PI * t);
+        function face(a) { return 'scale(' + r2(s * 1000) / 1000 + ') translateZ(' + r2(-half) + 'px) rotateY(' + r2(a) + 'deg) translateZ(' + r2(half) + 'px)'; }
+        from.style.transform = face(-90 * dir * t);
+        to.style.transform = face(90 * dir * (1 - t));
+        from.style.filter = 'brightness(' + r2(1 - 0.55 * t) + ')';
+        to.style.filter = 'brightness(' + r2(0.45 + 0.55 * t) + ')';
+        chrome.setAttribute('data-surface', surf(t < 0.5 ? from : to));
+      };
+    }
+    // deal: forward, the next card lands on the stack; back, the top card lifts away.
+    var top = dir > 0 ? to : from, under = dir > 0 ? from : to, R0 = 28 * u;
+    top.style.zIndex = 1; under.style.zIndex = 0; top.style.transformOrigin = '50% 100%';
+    return function (p) {
+      var t = dir > 0 ? EASE.arrive(p) : 1 - EASE.exit(p);     // t = how landed the top card is
+      top.style.transform = 'translateY(' + r2((1 - t) * 104) + '%) rotateX(' + r2((1 - t) * 16) + 'deg)';
+      top.style.borderRadius = r2(R0 * (1 - t)) + 'px';
+      top.style.boxShadow = t < 0.999 ? '0 ' + r2(-24 * u) + 'px ' + r2(80 * u) + 'px rgb(0 0 0 / ' + r2(0.35 * (1 - t) + 0.1) + ')' : '';
+      under.style.transform = 'scale(' + r2((1 - 0.08 * t) * 1000) / 1000 + ')';
+      under.style.filter = 'brightness(' + r2(1 - 0.4 * t) + ')';
+      under.style.borderRadius = r2(R0 * t) + 'px';
+      chrome.setAttribute('data-surface', surf(t > 0.5 ? top : under));
+    };
+  }
+
   function go(ni, nb, dir) {
     finish();
     var i = S.i, b = S.b, kind = kindOf(i, ni);
-    S.last = kind + (dir < 0 ? '-back' : '');
+    S.last = kind + (dir < 0 ? '-back' : ''); S.style = kind;
     var from = slides[i], to = slides[ni];
     if (kind === 'cut') { applyState(ni, nb); announce(to, ni === i ? nb : 0); return; }
     if (!motionOn()) { applyState(ni, nb); cssEntrance(to, ni === i ? b : -1, nb, dir); announce(to, ni === i ? nb : 0); return; }
@@ -1171,6 +1344,10 @@ document.addEventListener('DOMContentLoaded', function () {
       announce(from, nb);
       return;
     }
+
+    var style = styleOf(kind, from, to, dir);
+    S.style = style;
+    if (style !== 'rise') { stageGo(tl, style, from, to, ni, nb, dir, kind, back); return; }
 
     // Ascend, Turn, Unfold. Forward climbs: out goes up, in rises from below.
     // Backward runs the other way at the tier below (§5.9).
@@ -1197,6 +1374,40 @@ document.addEventListener('DOMContentLoaded', function () {
     tl.to(inEls, { yPercent: 0, duration: D, delay: hold, ease: EASE.arrive, stagger: function (q) { return inK[q] * STAGGER; } }, '<');
     if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, '<0.25'); }
     if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, '<'); }
+    announce(to, 0);
+  }
+
+  // A stage transition: both slides are on the stage and the slides themselves
+  // move. The deck's state switches at the start, so the chrome, the notes, and a
+  // press in flight all read the new slide; applyState() clears it all at the end.
+  function stageGo(tl, style, from, to, ni, nb, dir, kind, back) {
+    var inList = unitsFor(to, 0, nb), inEls = inList.map(function (u) { return u.el; }), inK = inList.map(function (u) { return u.k; });
+    var sign = dir < 0 ? -1 : 1, move = dur('move');
+    from.classList.add('is-leaving');
+    slides.forEach(function (s) { s.classList.toggle('is-current', s === to); });
+    setBeats(to, nb);
+    S.i = ni; S.b = nb;
+    if (to._compress) to._compress.render(nb);
+    if (to._figure) to._figure.render(dir > 0 ? 0 : 1);
+    if (to._rung) to._rung.render(dir > 0 ? 0 : 1);
+    if (from._clock) from._clock.pause();
+    chromeText();
+    if (style === 'rotate' || style === 'deal') deck.classList.add('is-3d', 'is-staging');
+    if (style === 'step' || style === 'sweep') { from.style.zIndex = 0; to.style.zIndex = 1; }
+    var render = stageRender(style, from, to, dir), P = { p: 0 };
+    render(0);
+    var D = { step: 1.35, sweep: 1.15, rotate: 1.3, deal: 1.0 }[style] * move * back;
+    tl.to(P, { p: 1, duration: D, ease: 'none', onUpdate: function () { render(P.p); } }, 0);
+    var rt = railTarget(ni);
+    tl.to(R, { t: rt.t, fill: rt.fill, duration: D, ease: EASE.arrive, onUpdate: renderRail }, 0);
+    // On the wipes the words still rise, once the edge has passed them.
+    if (style === 'step' || style === 'sweep') {
+      gsap.set(inEls, { yPercent: 110 * sign });
+      tl.to(inEls, { yPercent: 0, duration: move * back, ease: EASE.arrive, stagger: function (q) { return inK[q] * STAGGER; } }, D * 0.26);
+    } else gsap.set(inEls, { yPercent: 0 });
+    var late = D * 0.6;
+    if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, late); }
+    if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, late); }
     announce(to, 0);
   }
 
@@ -1231,7 +1442,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (pos < 0) pos = V.filter(function (k) { return k < S.i; }).length;
     if (pos - 1 >= 0) { var p = V[pos - 1]; go(p, slides[p]._beats, -1); }
   }
-  function jump(i) { finish(); S.last = 'cut'; applyState(i, 0); announce(slides[i], 0); }
+  function jump(i) { finish(); S.last = 'cut'; S.style = 'cut'; applyState(i, 0); announce(slides[i], 0); }
 
   /* ---------- Cover: the opening, and the optional countdown ------------- */
   function coverEntrance() {
@@ -1385,7 +1596,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.__deck = {
     state: function () {
       var V = visible();
-      return { i: S.i, b: S.b, pos: V.indexOf(S.i), count: V.length, room: S.room, last: S.last,
+      return { i: S.i, b: S.b, pos: V.indexOf(S.i), count: V.length, room: S.room, last: S.last, style: S.style,
                busy: !!S.tl, presenting: S.presenting, gsap: !!gsap, theme: root.getAttribute('data-theme') || 'light',
                rail: { t: R.t, frac: V.length ? R.fill / V.length : 0, draw: R.draw } };
     },
@@ -1416,7 +1627,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </section>
 
 <!-- 2. What is GDG. -->
-<section class="slide" data-kind="beats" data-move="arrive" aria-label="What GDG is">
+<section class="slide" data-kind="beats" data-move="arrive" data-surface="mint" data-layout="tiles" aria-label="What GDG is">
   <p class="eyebrow">What is GDG?</p>
   <h2>Google Developer Groups</h2>
   <ol class="beats">
@@ -1427,7 +1638,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <aside class="notes"><p>Sources: Google renamed Google Developer Student Clubs to GDG on Campus starting with the 2024-25 year; the RCC chapter was founded Spring 2026 (repo roster). If anyone was in a GDSC in high school or at another school, this is the same program.</p></aside>
 </section>
 
-<section class="slide" data-kind="contrast" data-move="arrive" aria-label="Google’s part and ours">
+<section class="slide" data-kind="contrast" data-move="arrive" data-surface="mint" data-layout="panel" data-transition="deal" aria-label="Google’s part and ours">
   <h2>What Google gives us, and what’s ours.</h2>
   <div class="contrast">
     <div class="is-weak"><p class="label">From Google</p><p>The name, a network of chapters, and programs like DevFest and Build with AI.</p></div>
@@ -1436,7 +1647,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <aside class="notes"><p>Press once for the right side. Organizers are volunteers, not Google employees or agents (mission.md). The club is chartered through ASRCC and Student Activities and follows RCC’s club rules.</p></aside>
 </section>
 
-<section class="slide" data-kind="beats" data-move="arrive" aria-label="What being part of GDG gets you">
+<section class="slide" data-kind="beats" data-move="arrive" data-surface="mint" data-layout="tiles" data-transition="deal" aria-label="What being part of GDG gets you">
   <h2>What being part of GDG gets you</h2>
   <ol class="beats">
     <li data-beat><span class="body">A network bigger than RCC.<span class="detail">Other chapters, other campuses, and working developers.</span></span></li>
@@ -1449,7 +1660,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- TENSION =============================================================== -->
 
 <!-- 3. What our GDG is about. -->
-<section class="slide" data-kind="statement" data-move="tension" aria-label="Our GDG">
+<section class="slide" data-kind="statement" data-move="tension" data-surface="forest" data-layout="poster" aria-label="Our GDG">
   <p class="eyebrow">Our GDG</p>
   <h2>A practice floor for the skills no class assigns.</h2>
   <p class="sub">Say what you want. Ask someone who can say no. Show the work to someone who wasn’t there.</p>
@@ -1457,7 +1668,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </section>
 
 
-<section class="slide" data-kind="contrast" data-move="tension" aria-label="Most weeks against Thursdays">
+<section class="slide" data-kind="contrast" data-move="tension" data-layout="panel" data-transition="sweep" aria-label="Most weeks against Thursdays">
   <h2>Most people have these conversations in their head.</h2>
   <div class="contrast">
     <div class="is-weak"><p class="label">Most weeks</p><p>You hear about the internship after the deadline. You rehearse the interview alone, in the car.</p></div>
@@ -1468,7 +1679,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- WORK ================================================================== -->
 
-<section class="slide" data-kind="beats" data-move="work" aria-label="How we run it">
+<section class="slide" data-kind="beats" data-move="work" data-layout="tiles" aria-label="How we run it">
   <p class="eyebrow">Our philosophy</p>
   <h2>How we run it</h2>
   <ol class="beats">
@@ -1481,7 +1692,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </section>
 
 <!-- 3.5 Social activity. -->
-<section class="slide" data-kind="clock" data-move="work" data-room data-timer="60" aria-label="Your story so far">
+<section class="slide" data-kind="clock" data-move="work" data-room data-timer="60" data-surface="sun" aria-label="Your story so far">
   <p class="eyebrow">Meet someone · Pairs · One minute each</p>
   <h2>Your story so far, in one minute.</h2>
   <div class="clock"><p class="clock__digits">1:00</p><span class="clock__rail"><span class="clock__fill"></span></span><p class="clock__hint">Where you started. Where you are. Where you’re headed. T to start, R for the second person.</p></div>
@@ -1491,21 +1702,21 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- TURN ================================================================== -->
 
 <!-- 3.51 Storytelling and signaling. -->
-<section class="slide" data-kind="statement" data-move="turn" aria-label="Debrief">
+<section class="slide" data-kind="statement" data-move="turn" data-surface="ink" data-layout="poster" aria-label="Debrief">
   <p class="eyebrow">Hands up</p>
   <h2>Whose story do you still remember?</h2>
   <p class="sub">Now say why. What made it stick?</p>
   <aside class="notes"><p>Two or three answers. Listen for the pattern and say it back: a specific detail, a number, a person, a turn in the story. Almost nobody remembers the adjectives.</p></aside>
 </section>
 
-<section class="slide" data-kind="statement" data-move="turn" aria-label="Storytelling is signaling">
+<section class="slide" data-kind="statement" data-move="turn" data-surface="ink" data-layout="poster" aria-label="Storytelling is signaling">
   <p class="eyebrow">Storytelling is signaling</p>
   <h2>People believe what you show them, not what you claim.</h2>
   <p class="sub">Every story you just told was sending signals about you, on purpose or not.</p>
   <aside class="notes"><p>Signaling: the qualities people read off what you choose to say, not the qualities you name. It works the same at a party, in office hours, in an interview, and in a pitch. What you lead with, what you skip, and what you sound sure about all get read.</p></aside>
 </section>
 
-<section class="slide" data-kind="contrast" data-move="turn" aria-label="Claiming against signaling">
+<section class="slide" data-kind="contrast" data-move="turn" data-layout="panel" data-transition="rotate" aria-label="Claiming against signaling">
   <h2>Claim it, or signal it.</h2>
   <div class="contrast">
     <div class="is-weak"><p class="label">Claiming</p><p>“I’m really passionate about healthcare.”</p></div>
@@ -1515,7 +1726,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </section>
 
 <!-- 4. Activities and topics. -->
-<section class="slide" data-kind="beats" data-move="turn" aria-label="What we’ll work on">
+<section class="slide" data-kind="beats" data-move="turn" data-layout="tiles" aria-label="What we’ll work on">
   <p class="eyebrow">This semester</p>
   <h2>What we’ll work on</h2>
   <ol class="beats">
@@ -1565,14 +1776,14 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- ASK =================================================================== -->
 
 <!-- 5 (second). The hackathon. -->
-<section class="slide" data-kind="statement" data-move="ask" data-room aria-label="Next semester">
+<section class="slide" data-kind="statement" data-move="ask" data-room data-surface="sand" data-layout="poster" aria-label="Next semester">
   <p class="eyebrow">Next semester</p>
   <h2>We’re hosting a hackathon for community college students.</h2>
   <p class="sub">Most hackathons are built around four-year schools. This one’s built around us.</p>
   <aside class="notes"><p>Source: the CC Hacks charter (working name, private planning repo). Don’t say a size, a date, or a venue out loud; none is set, and the room will remember the number. Eligibility: current community college students and recent CC grads, transfers welcome.</p></aside>
 </section>
 
-<section class="slide" data-kind="beats" data-move="ask" aria-label="What we want the hackathon to do">
+<section class="slide" data-kind="beats" data-move="ask" data-surface="sand" data-layout="tiles" data-transition="deal" aria-label="What we want the hackathon to do">
   <h2>What we want it to do</h2>
   <ol class="beats">
     <li data-beat><span class="body">Your first hackathon, free.<span class="detail">Built for people who’ve never been to one.</span></span></li>
