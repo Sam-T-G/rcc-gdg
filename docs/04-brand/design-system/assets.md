@@ -16,7 +16,7 @@ This is the only table that differs between the GDG and ACM copies of this file.
 | Required text when ASRCC paid | "This event is funded by ASRCC (Associated Students of Riverside City College)." On the piece and in the caption |
 | Hashtag | #GDGOnCampus |
 | Logo files | `assets/gdg-on-campus-horizontal-light.svg`, the stacked light and dark variants. The club-made PNG is blocked pending review ([bright-lines.md §1.5](bright-lines.md)) |
-| Device | The Step, rise by arc ([accessibility.md §2.4](accessibility.md)) |
+| Device | The Step, rise by arc ([visual-voice.md §9.6](visual-voice.md)) |
 | Lead hue | Green, `--rcc-primary` and the two sanctioned fills ([foundations.md §2](foundations.md)) |
 | Tokens | [tokens.css](tokens.css) |
 | Instagram | `[TBD: add the handle to links.md]` |
@@ -27,7 +27,7 @@ This is the only table that differs between the GDG and ACM copies of this file.
 
 One master per event, and every other size is exported from it. The master is the Instagram feed image at 1080 x 1440 (3:4), because it is the most constrained surface the club publishes to: the smallest type, the tightest safe zone, and a grid thumbnail that shows a third of a phone screen. Anything that reads there reads everywhere.
 
-The master is built from the type system, not drawn. Three sanctioned image types exist ([accessibility.md §2.3](accessibility.md)): type as the image, a diagram, and the Step field. Event assets are type as the image. No photo sits behind text, ever, because the contrast of text over a photo cannot be measured ([accessibility.md §1.2](accessibility.md)).
+The master is built from the type system, not drawn. Three sanctioned image types exist ([visual-voice.md §9.3](visual-voice.md)): type as the image, a diagram, and a photograph of the room with the text beside it. Event assets are type as the image. (The Step field this line used to name was retired on 2026-09-21; §9.3 says why.) No photo sits behind text, ever, because the contrast of text over a photo cannot be measured ([accessibility.md §1.2](accessibility.md)).
 
 **Template contract.** One SVG template per export size in `assets/templates/`, each holding text nodes with placeholder strings, the Step, and nothing else. An officer changes the strings and exports. `[TBD: the templates do not exist yet; the sizes below are their spec.]` Until they exist, build the master in whatever tool is at hand at exactly the pixel sizes here.
 
@@ -70,7 +70,7 @@ Sizes are a judgment call to be checked on a real phone and marked here when the
 
 Margins 72 px on every side (one fifteenth of the width), giving a 936 x 1296 content box. Top to bottom:
 
-1. Ledger line: the arc name, or "Fall 2026", or the club's casual name. `label-sm` at 44 px, uppercase, `--rcc-on-surface-variant`.
+1. Ledger line ([visual-voice.md §9.7](visual-voice.md)): the arc name, or "Fall 2026", or the club's casual name. 44 px, code face, uppercase, `--rcc-on-surface-variant`.
 2. Title. `display-lg`, `--rcc-on-surface`, capped at three lines. If it needs four, the title is wrong.
 3. The Step rule, full content width, rise at the page's arc position.
 4. Date and time, then the room, then one line of who it is for or what to bring.
@@ -123,7 +123,7 @@ Export at 1920 x 1080. Margins 96 px. A-210 projects onto a wall in daylight, wh
 | Body | 40 px |
 | Ledger line, footers, sources | 32 px |
 
-Judgment call, to be tested on the projector and recorded here. `[TBD: A-210 projector native resolution.]` One idea per slide. The Step once, on the title slide, and the Step rule as the only section divider. At most one callout per slide. The independence sentence on the title slide and the last slide when the logo appears ([bright-lines.md §1.4](bright-lines.md)).
+Judgment call, to be tested on the projector and recorded here. `[TBD: A-210 projector native resolution.]` This section owns the export size, margins, and minimums only. How a deck is structured, how it moves, and the kit that builds one are in [presentation.md](presentation.md) (§13) and [deck-kit/](../../../deck-kit/README.md). One idea per slide. The Step once, on the title slide, and the Step rule as the only section divider. At most one callout per slide. The independence sentence on the title slide and the last slide when the logo appears ([bright-lines.md §1.4](bright-lines.md)).
 
 ## 10.6 Print
 
@@ -183,4 +183,4 @@ Any failure in the first five stops the post.
 
 ---
 
-Last updated: 2026-09-01. Reviewed at each semester start alongside [brand.md](../brand.md). A platform size that changes gets a dated row edit here, not a new file.
+Last updated: 2026-09-23 (cross-references only; sizes unchanged since 2026-09-01). Reviewed at each semester start alongside [brand.md](../brand.md). A platform size that changes gets a dated row edit here, not a new file.

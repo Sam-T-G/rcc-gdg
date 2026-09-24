@@ -18,6 +18,9 @@ lychee/
 # Built landing page. scripts/publish-site.sh writes it and pushes it to gh-pages.
 site/
 
+# Single-file decks from deck-kit/bundle.mjs. Build output; the source deck is what gets committed.
+*.bundle.html
+
 # Local scratch. Drafts you are not ready to share stay here.
 scratch/
 *.draft.md

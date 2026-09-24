@@ -46,6 +46,10 @@ Blank files that the scripts copy from. Meeting notes, event plan, run sheet, re
 
 Start with [templates/meeting-notes.md](../../templates/meeting-notes.md) to see the shape.
 
+## `deck-kit/`
+
+How the club makes slide decks. A stylesheet, an engine, a working template deck for a real session, and a check that walks a deck with real key presses. Copy the template next to a session card and replace the slides; [deck-kit/README.md](../../deck-kit/README.md) walks through it, and [presentation.md](../04-brand/design-system/presentation.md) is the design language it follows.
+
 ## `semesters/`
 
 One folder per term, named `YYYY-term` (`2026-fall`, `2027-spring`). Each is a copy of `_template/` filled in over the term. [semesters/README.md](../../semesters/README.md) explains the open, run, close cycle.
@@ -69,14 +73,16 @@ The current semester is the highest-numbered folder. As of this repo's creation 
 
 ## `scripts/`
 
-Four shell scripts. Run them from the repo root.
+Six shell scripts. Run them from the repo root.
 
 | Script | Does |
 | --- | --- |
 | `new-semester.sh` | Copies `_template/` to `semesters/YYYY-term/`, fills in the semester name, adds a row to the semesters index. |
 | `new-event.sh` | Creates `semesters/<sem>/events/YYYY-MM-DD-slug/` with plan, run sheet, and retro. |
 | `new-meeting.sh` | Creates `semesters/<sem>/meetings/YYYY-MM-DD.md`. |
+| `new-deck.sh` | Creates the weekly meeting deck beside a session card, with the facts filled from the card and the sessions index and a fill marker wherever a person has to decide. |
 | `check.sh` | Pre-PR check: leftover placeholders and semester literals, personal-data patterns, em dashes, broken relative links, files over 1 MB, leftover template fill markers, and markdownlint if installed. It also counts open `[TBD]` markers without failing on them. Run it before every PR. |
+| `publish-site.sh` | Builds the landing page into a gitignored `site/` and, with `--push`, commits it to the `gh-pages` branch. |
 
 ## How a change flows
 

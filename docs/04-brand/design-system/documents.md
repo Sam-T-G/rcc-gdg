@@ -2,7 +2,7 @@
 
 The system for the club's written artifacts: playbooks, session cards, semester plans, event plans, and the HTML pages built from them. It covers what a document is made of, how it is structured, what markdown constructs are legal, and how a `.md` file becomes a styled page.
 
-**Scope.** This section owns document structure and markdown legality. The `components` section owns what a callout, table, and code block *look like*; this section owns which ones exist and when an author is allowed to use one. The `type`, `color`, `space`, and `motion` sections own every value. Nothing here restates a token value.
+**Scope.** This section owns document structure and markdown legality. [components.md](components.md) owns what a callout, table, and code block *look like*; this section owns which ones exist and when an author is allowed to use one. [foundations.md](foundations.md) and [motion.md](motion.md) own every value. Nothing here restates a token value.
 
 **Governing principle, and everything below follows from it:** *an author writes structure, never appearance.* GitHub strips `class`, `style`, `id`, and all CSS from markdown. Any convention that depends on an attribute an author types works in exactly one of the two renderers. So the converter derives styling from structure the author already had to write, and the author has no styling controls at all.
 
@@ -61,6 +61,7 @@ Two sanctioned exceptions, both already live in the repo. Keeping the exception 
 
 1. **Session card titles carry their index and keep their own capitalization.** `# 5 - Anatomy of an Ask` stays. The number is the card's identity in the semester table, and the session name is the title of a work. Its GitHub anchor is `#5---anatomy-of-an-ask`; link to the file, not to that anchor.
 2. **Seat names in table cells stay in backticks.** That is a cell, not a heading, and it is fine.
+3. **The design system's own files number their sections** (`## 2.5 Contrast audit`), so that a citation like §2.5 stays stable when a file is split or a section moves; §5 moved whole from `foundations.md` to `motion.md` on 2026-09-21 and no citation broke. Nothing else in the repo numbers a heading.
 
 ### Ordering
 
@@ -92,7 +93,7 @@ Split when any one of these is true. They are triggers, not a scoring system.
 
 ## 3. Constructs that render correctly on GitHub and as HTML
 
-**Provenance note before the rules:** none of the GitHub renderer behavior below is in the research survey. It comes from my knowledge of GitHub Flavored Markdown and should be treated as accurate but unverified against today's github.com. Section 3.5 gives the canary that turns it into verified fact, and the club should run that once before trusting any line of it.
+**Provenance note before the rules:** none of the GitHub renderer behavior below is in the research survey. It is general knowledge of GitHub Flavored Markdown, not a dated check against github.com, so treat it as plausible and unverified. Section 3.5 gives the canary that turns it into verified fact, and the club should run that once before trusting any line of it.
 
 ### 3.1 The two hard constraints
 
@@ -103,13 +104,15 @@ Split when any one of these is true. They are triggers, not a scoring system.
 
 Use GitHub alert syntax. It is the only native callout on GitHub, and it is plain blockquote structure, so a converter can detect it with no author-supplied attribute.
 
-The club's set is closed at three. GitHub offers five (`NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`); `TIP` and `IMPORTANT` are banned so the remaining three keep their distinctiveness. The names are GitHub's rather than Google's Note / Caution / Warning trio, because remapping the labels would invert GitHub's own severity coloring and produce a red block labeled "Caution" sitting under an amber one labeled "Warning".
+The club's set is closed at three, and it is the set in [components.md §7.7](components.md): Note, Warning, and Receipt. GitHub offers five (`NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`); `TIP` and `CAUTION` are banned so the remaining three keep their distinctiveness. Until 2026-09-21 this section banned `IMPORTANT` and kept `CAUTION`, which contradicted §7.7; the Receipt won, because it is the semester's thesis, and Caution's meaning folded into Warning, which already covered anything that cannot be undone.
 
 | Syntax | Means | Example use |
 |---|---|---|
 | `> [!NOTE]` | Useful, not critical. The reader can skip it and still succeed | "ACM has the room until 2:30, so expect two minutes of furniture" |
-| `> [!WARNING]` | Get this wrong and the session or event degrades | "The receipt is produced in the room. Assigning it as homework loses most of it" |
-| `> [!CAUTION]` | Irreversible or public. Money, a sent message, a name in a public repo, anything with the logo on it | "This repo is public. A name here without written consent needs a history rewrite, not a delete commit" |
+| `> [!WARNING]` | Get this wrong and the session degrades, or it cannot be undone: money, a sent message, a name in a public repo, anything with the logo on it | "This repo is public. A name here without written consent needs a history rewrite, not a delete commit" |
+| `> [!IMPORTANT]` with a bold `**Receipt:**` lead-in | The artifact a member leaves the session holding | "**Receipt:** one real message, to one real person outside this club, sent from this room" |
+
+On GitHub, `IMPORTANT` renders purple with GitHub's own label, so the bold lead-in is what carries the meaning there. In the HTML build it renders on `--rcc-primary-container`.
 
 Admission test, applied before anything becomes a callout. All three conditions must hold:
 
@@ -161,7 +164,7 @@ Banned callout forms: `!!! note` (MkDocs), `:::note` (Docusaurus), a bolded `> *
 | Footnotes `[^1]` | Supported | Needs an enabled plugin | Allowed, rarely needed |
 | `<details>` / `<summary>` | Supported | Native HTML | Allowed. Leave a blank line after `</summary>` or the markdown inside is not parsed |
 | `<br>` | Supported | Native | Allowed inside table cells only |
-| HTML comments | Hidden in both | Hidden | Use for `<!-- fill: -->` markers, which `check.sh` counts |
+| HTML comments | Hidden in both | Hidden | Use for the fill markers the templates carry (a comment starting `fill:`), which `check.sh` counts |
 | YAML front matter | Rendered as a visible table, not hidden | Depends on the converter | Do not use. Metadata goes in the facts table |
 | Emoji shortcodes `:warning:` | Expands | Does not expand | Banned |
 | `#gh-dark-mode-only` image suffix | Deprecated GitHub-only hack | No effect | Banned. Use one image that reads in both themes |
@@ -180,73 +183,13 @@ Add `docs/04-brand/render-canary.md`: one file that uses every legal construct o
 
 ## 4. The template
 
-Copy to `templates/design-doc.md`. Adding it to `templates/` needs a decision-log entry first (repo rule 3). Run `scripts/check.sh` on a filled copy before shipping it.
-
-````markdown
-<!-- Design doc. Copy into docs/<section>/ for evergreen material, or
-     semesters/<YYYY-term>/ for anything tied to a date, a person, or a dollar figure.
-     Delete every block you do not need. Do not add h4 headings; split the doc instead.
-     Run scripts/check.sh before opening the PR. -->
-
-# <!-- fill: sentence case title, matches the filename slug -->
-
-<!-- fill: one or two sentences. What this file does, and what it is the source of truth for.
-     No preamble. Do not announce what the sections below will say. -->
-
-| | |
-|---|---|
-| Owner | <!-- fill: a SEAT, never a person's name --> |
-| Applies to | <!-- fill: what this governs --> |
-| Inputs | <!-- fill: what a reader needs in hand, or "none" --> |
-| Related | <!-- fill: relative link to the nearest doc, or "none" --> |
-
-## <!-- fill: the shape. Noun phrase. -->
-
-<!-- fill: a complete sentence introducing the table below. -->
-
-| <!-- fill: head --> | <!-- fill: head --> | <!-- fill: head --> |
-|---|---|---|
-| | | |
-
-## The rules
-
-These do not bend for a good idea.
-
-1. **<!-- fill: rule, as an imperative -->** <!-- fill: one sentence on the consequence of breaking it. -->
-2. **<!-- fill: -->** <!-- fill: -->
-
-## To <!-- fill: task, bare infinitive -->
-
-<!-- fill: state any condition before the step it applies to, not after. -->
-
-1. <!-- fill: -->
-2. <!-- fill: -->
-
-> [!NOTE]
-> <!-- fill: only if all three hold: relevant but not necessary, does not block
->      the reader, does not flow from the sentence above. Otherwise delete.
->      Maximum two callouts in this file, never two in a row. -->
-
-## Failure modes
-
-- **<!-- fill: the symptom, recognizable in the moment -->.** <!-- fill: the correction, one sentence. -->
-- **<!-- fill: -->.** <!-- fill: -->
-
-## Not in this doc
-
-- <!-- fill: adjacent thing --> lives in <!-- fill: relative link -->.
-
----
-
-Last reviewed: <!-- fill: YYYY-MM-DD -->. Owner: <!-- fill: SEAT -->.
-Unknowns are marked `[TBD]`. Never guess a date, a room, a name, or an amount.
-````
+The blank design doc is [templates/design-doc.md](../../../templates/design-doc.md). It moved there from this file on 2026-09-23: its fill markers sat outside `templates/`, so `scripts/check.sh --strict`, which the semester close requires, failed on this page. Copy it into `docs/<section>/` for evergreen material or `semesters/<YYYY-term>/` for anything tied to a date, a person, or a dollar figure, and run `scripts/check.sh` on the filled copy before opening the PR.
 
 ---
 
 ## 5. Length and density
 
-Every line loads every time someone reads the file, and instruction files load every turn for the tooling that reads them. A line that is not load-bearing costs something on every read.
+Every line loads every time someone reads the file. A line that is not load-bearing costs something on every read.
 
 ### Budgets
 
@@ -285,7 +228,9 @@ Apply these in review, in this order. The first three come from Google's technic
 
 ## 6. From markdown to a styled page
 
-The `.md` file in the repo stays the source of truth. HTML is build output, never checked in beside the markdown. Build to a gitignored `site/` and publish with a GitHub Pages Actions artifact, so `scripts/check.sh` (which walks every file and enforces the 1 MB limit) never sees generated output.
+The `.md` file in the repo stays the source of truth. HTML is build output, never checked in beside the markdown. Build to a gitignored `site/` and publish from the `gh-pages` branch, as `scripts/publish-site.sh` already does, so `scripts/check.sh` (which walks every file and enforces the 1 MB limit) never sees generated output.
+
+**Status, 2026-09-23.** No converter exists. The one page the club publishes, the landing page, is hand-written HTML in `semesters/2026-fall/landing-page/`, and `publish-site.sh` copies it into `site/` with `tokens.css` and the logo files. This section is the specification a converter will be built to.
 
 ### 6.1 Toolchain
 
@@ -316,11 +261,11 @@ Build fails on: a second h1, an h4, a callout without one of the three legal lab
 
 ### 6.3 The page shell
 
-One HTML shell, one stylesheet, tokens only. Referenced by role name; if the sibling sections use different role names, rename here and nowhere else.
+One HTML shell, one stylesheet, tokens only, by the role names in `tokens.css`.
 
-- **Type.** h1 takes the `headline` role, h2 `title`, prose `body`. Table and callout text sit one step below prose, and code takes the `code` role. Hierarchy is carried by size and space; weight stays flat. On Google's own documentation surface h1, h2, h3, and body are all weight 400, and weight 500 appears only on table column heads and small UI labels. That restraint is most of why those pages read as calm rather than promotional.
+- **Type.** As `tokens.css` sets the elements: h1 takes `display-sm`, h2 `headline-lg`, h3 `headline-sm`, prose `body-lg`. Table and callout text sit one step below prose at `body-md`, and code takes the `code` roles. Hierarchy is carried by size and space: every heading is weight 500 and body is 400 ([foundations.md §3.3](foundations.md)), and no heading is bolder than another. Google's own documentation surface goes one step further and sets its headings at 400; the club keeps 500 so a heading still reads as one while the fallback face is showing. Until 2026-09-23 this bullet said weight stays flat at 400, which contradicted §3.3 and the stylesheet.
 - **Rhythm.** Space above a heading is exactly twice the space below it, at every level, in units from the `space` scale. That one ratio does all the sectioning work, with no rules, boxes, or background changes needed to mark a boundary. It is also why documents do not need `---` separators, and why adding them fights GitHub, which already draws its own hairline under h1 and h2.
-- **Callouts.** Tinted ground plus a darker same-hue foreground plus the bold label, no border and no corner radius, with an asymmetric left inset so the block reads as an interruption. Colors come from the `color` section's tonal roles derived from the four GDG brand colors. Google's own notice palette (`#e8f0fe` on `#303f9f` and the rest of that set) is not used; the mechanism transfers, that specific palette is recognizably Google's.
+- **Callouts.** As [components.md §7.7](components.md) and `tokens.css` specify: a tinted container with its paired foreground, the bold inline label, an `--rcc-outline` hairline (the fills measure under 1.2:1 against the ground, so the boundary needs it), `--rcc-radius-lg`, and an asymmetric inline-start inset so the block reads as an interruption. Colors come from the tonal roles derived from the four GDG brand colors. Google's own notice palette (`#e8f0fe` on `#303f9f` and the rest of that set) is not used; the mechanism transfers, that specific palette is recognizably Google's. Until 2026-09-23 this bullet said no border and no radius, which contradicted both.
 - **Callout icons: none, or a club-drawn glyph.** Material Symbols are openly licensed, and their silhouettes are one of the strongest signals of Google authorship on a page. The label and the tint carry the meaning on their own.
 - **Tables.** Horizontal rules only, tinted header row, denser than surrounding prose.
 - **Code blocks.** The most interior padding of any element on the page. If a copy button is added later, compute the top padding as `max(normal padding, button size)` so the control can never collide with the first line.
@@ -341,7 +286,7 @@ And the line this whole section sits on: the page takes Google's documentation *
 
 - **Sourced from the survey:** sentence case for all headings and titles; the heading grammar rule and the `-ing` ban; one h1, no skipped levels, no numbers or links or code in headings; the closed callout set, its three-condition admission test, its non-uses, and the scarcity rule; the list-versus-table decision rule; table column-head rules and the introducing-sentence rule; the 2:1 heading space ratio (measured at 48/24 for h2 and 32/16 for h3 on developers.google.com); flat heading weights; callouts as tint plus same-hue text with zero border and zero radius; tables at one step below prose with horizontal rules only; code blocks holding the most padding; second person, active voice, conditions before instructions, the prescriptive vocabulary set, "don't pre-announce", the paragraph test, and the Orwell escape hatch; last-updated dates on published documents; the brand-versus-plain typeface split behind the h4 argument.
 - **Derived, not sourced:** every word budget in section 5; the split triggers in section 2; the six-column table ceiling; the mapping of the club's three callouts onto GitHub's five labels; the anatomy block order.
-- **Unverified, and not from the survey at all:** all GitHub renderer behavior in section 3, including the sanitizer's tag and attribute whitelist, alert label set and coloring, front-matter rendering, and info-string handling. This is my knowledge of GFM, current as of my training. The canary in 3.5 is how the club converts it into fact, and it should be run before this section is relied on.
-- **Also unverified:** the licensing status of Google Sans. The survey found a live contradiction inside Google's own font repo (an OFL release commit and an `OFL-1.1` detection against a `metadata/METADATA.pb` that still reads `license: "GOOGLE_RESTRICTED"` and `visibility: "INTERNAL"` as of 2026-02-11). The club's use rests on the GDG On Campus Brand Guide grant recorded in `docs/04-brand/brand.md`, not on that repo's OFL status. If that grant is ever questioned, the fallback is Roboto and Roboto Mono, both SIL OFL 1.1 and self-hostable, and the `type` section's role names survive the swap without a single component change.
+- **Unverified, and not from the survey at all:** all GitHub renderer behavior in section 3, including the sanitizer's tag and attribute whitelist, alert label set and coloring, front-matter rendering, and info-string handling. It is general GFM knowledge, not a dated check. The canary in 3.5 is how the club converts it into fact, and it should be run before this section is relied on.
+- **Also unverified:** the licensing status of Google Sans. The survey found a live contradiction inside Google's own font repo (an OFL release commit and an `OFL-1.1` detection against a `metadata/METADATA.pb` that still reads `license: "GOOGLE_RESTRICTED"` and `visibility: "INTERNAL"` as of 2026-02-11). The club's use rests on the GDG On Campus Brand Guide grant recorded in `docs/04-brand/brand.md`, not on that repo's OFL status. If that grant is ever questioned, the fallback is the substitute stack in [foundations.md §3.8](foundations.md), Inter and JetBrains Mono, both OFL and self-hostable; Roboto is deliberately not it, because Roboto plus a Google blue plus a card grid reads as stock Android. The role names survive the swap without a single component change.
 
 Source files read: `docs/03-playbooks/meeting-algorithm.md`, `semesters/2026-fall/sessions/README.md`, `templates/event-plan.md`, `CONTRIBUTING.md`, `docs/README.md`, `.markdownlint.yml`, `lychee.toml`, `scripts/check.sh`, `.github/workflows/docs-check.yml`.

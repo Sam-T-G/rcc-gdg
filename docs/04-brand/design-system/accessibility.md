@@ -1,6 +1,6 @@
-# Accessibility and visual voice
+# Accessibility and photo consent
 
-Verified by an adversarial checker: all 17 contrast ratios below were recomputed with WCAG 2.x sRGB linearization and match to 2dp. The Step device was checked for collision against the Gemini spark, the four-dot Assistant mark, the Google G, the Google for Developers lockup, and the GDG on Campus lockup, and collides with none of them.
+Verified by an adversarial checker: all 17 contrast ratios below were recomputed with WCAG 2.x sRGB linearization and match to 2dp.
 
 The CSS here is the explanation. The shipping copy lives in [tokens.css](tokens.css), which carries the corner-radius and custom-property fixes the checker found.
 
@@ -12,7 +12,7 @@ The goal is that anyone on the team can check a page in ten minutes and get a ye
 
 All ratios below were computed with the WCAG 2.x sRGB relative-luminance formula (`(L1 + 0.05) / (L2 + 0.05)`, sRGB linearization at the 0.03928 threshold). They are computed values, not quoted from Google, and they are reproducible: any of the tools in 1.9 returns the same number.
 
-Ink `#1a1c1e` is used below as a stand-in near-black. The color section owns the real `on-surface` token; if its value differs, re-measure. Marked **derived** where I produced a hex myself.
+Ink `#1a1c1e` is used below as a stand-in near-black. The shipped ink is `#1e201e`, and every shipped pair was measured separately in [foundations.md §2.5](foundations.md); this table is the four licensed hexes as a baseline. Marked **derived** where the hex was produced here rather than licensed.
 
 | Foreground | Background | Ratio | Body text (4.5:1) | Large text / UI (3:1) |
 | --- | --- | --- | --- | --- |
@@ -42,7 +42,7 @@ Five rules follow directly from that table, and they are not negotiable:
 4. **Red is never a fill behind body-size text at all.** White gives 3.92:1, ink gives 4.36:1. Neither clears 4.5:1. Red fills carry only large text (24px regular or 18.66px bold and up) or an icon.
 5. **All four brand colors clear body contrast on the dark theme** (4.73:1 to 9.58:1 against `#131316`). Dark mode is the permissive case. Light mode is where things break, so check light first.
 
-Design-time shortcut, so nobody has to open a tool for every decision: Google's Material Color Utilities documents that a 40-point tone gap guarantees at least 3:1 and a 50-point gap guarantees 4.5:1. The color section is built on tonal roles, so pairing a tone-40 role against a tone-90 or tone-98 role is safe by construction. Treat the shortcut as design-time only and measure before publishing anyway; the 40/50 rule is Google's claim about their own tone scale, and I did not independently verify it across hues.
+Design-time shortcut, so nobody has to open a tool for every decision: Google's Material Color Utilities documents that a 40-point tone gap guarantees at least 3:1 and a 50-point gap guarantees 4.5:1. The color section is built on tonal roles, so pairing a tone-40 role against a tone-90 or tone-98 role is safe by construction. Treat the shortcut as design-time only and measure before publishing anyway; the 40/50 rule is Google's claim about their own tone scale and has not been independently verified here across hues. [bright-lines.md §1.4](bright-lines.md) records the worst case: 50 points gives 4.484:1, which is under the floor.
 
 ### 1.2 What has to be measured, and what does not
 
@@ -62,17 +62,20 @@ The traps specific to this club's page set:
 
 Never `outline: none` without a replacement in the same rule. The one legitimate pattern is `:focus:not(:focus-visible) { outline: none }` paired with a `:focus-visible` rule that draws a real ring.
 
-The specified indicator:
+The indicator, as `tokens.css` ships it:
 
 ```css
 :focus-visible {
-  outline: 3px solid var(--color-on-surface);
+  outline: 3px solid transparent;
   outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--rcc-focus-gap), 0 0 0 5px var(--rcc-focus-ring);
   border-radius: inherit;
 }
 ```
 
-Why `on-surface` and not a brand color: the ring then measures **17.09:1** in light and **18.54:1** in dark against the page surface, it never collides with a brand-colored fill sitting underneath it, and it needs no per-component retuning. This clears WCAG 2.2 SC 1.4.11 (3:1 non-text) with a very wide margin, and it also meets the AAA SC 2.4.13 shape requirement: at least 2 CSS px thick, fully enclosing the control, 3:1 against adjacent colors.
+The ring is `--rcc-focus-ring`, which is `--rcc-primary`: **5.73:1** against the light surface and **10.95:1** against the dark one ([foundations.md §2.5](foundations.md)). It sits outside a 2px gap in the surface color, so it is measured against the surface and never against the fill it happens to be around. It is 3px thick and fully encloses the control, which clears WCAG 2.2 SC 1.4.11 (3:1 non-text) and meets the AAA SC 2.4.13 shape requirement: at least 2 CSS px thick, fully enclosing, 3:1 against adjacent colors.
+
+Why a box-shadow with a transparent outline rather than a solid outline: a box-shadow ring is clipped by an ancestor with `overflow: hidden`, so a card that clips its media puts the ring on the card and not on an inner element ([components.md §7.1](components.md)); and under Windows High Contrast Mode `box-shadow` is dropped while `outline` survives, so the transparent 3px outline is what forced-colors substitutes a system color into. An earlier draft of this section specified a solid `on-surface` outline at 17.09:1; `tokens.css` is what ships, and this section was corrected to it on 2026-09-23.
 
 Rules around it:
 
@@ -80,7 +83,7 @@ Rules around it:
 - **No interactive control sits directly on a photograph.** The photo makes the ring's contrast unmeasurable. Give the control a solid fill first.
 - Never remove focus from the skip link, from custom-styled checkboxes and radios, or from anything with `tabindex="0"`.
 - SC 2.4.11 Focus Not Obscured is AA in WCAG 2.2: a focused control must not be fully hidden behind a sticky header or footer. If the nav is sticky, add `scroll-margin-top` equal to the nav height on every focusable element, or drop the stickiness on small screens.
-- The ring is visible on the dark theme, on the light theme, and under Windows High Contrast Mode. Test the last one with Chrome DevTools rendering panel, "Emulate CSS forced-colors". Under forced colors, `outline` survives and `box-shadow` does not, which is the reason the ring is an outline.
+- The ring is visible on the dark theme, on the light theme, and under Windows High Contrast Mode. Test the last one with Chrome DevTools rendering panel, "Emulate CSS forced-colors"; the transparent outline is what carries the ring there.
 
 ### 1.4 Target sizes
 
@@ -115,7 +118,7 @@ Heading level is structure, not size. If an `h3` needs to look big, the type sec
 - `tabindex="-1"` on `<main>` is required or the skip link will not move focus in Safari.
 - If there are two `<nav>` elements on a page, each needs a distinct `aria-label` ("Main", "Session arcs", "Footer").
 - Use `<ul>` for lists of things. The agenda is a list. The session grid is a list. Screen readers announce "list, 14 items", which is real information.
-- Tables get `<th scope="col">` or `scope="row"`, and a `<caption>`. Never use a table for layout.
+- Tables get `<th scope="col">` or `scope="row"`. GFM has no `<caption>`, so the complete introducing sentence that [documents.md §3.3](documents.md) requires does the caption's job in both renderings. Never use a table for layout.
 - `<time datetime="2026-12-10T14:30">` for every date and time on event pages.
 - The independence disclaimer is real text in the footer. Not an image, not a background, not `title` attribute text.
 
@@ -129,17 +132,19 @@ Heading level is structure, not size. If an `h3` needs to look big, the type sec
 - Skip link:
 
 ```css
-.skip-link {
+.rcc-skip {
   position: absolute;
   left: -9999px;
 }
-.skip-link:focus {
-  left: var(--space-200);
-  top: var(--space-200);
+.rcc-skip:focus {
+  left: var(--rcc-space-4);
+  top: var(--rcc-space-4);
   z-index: 100;
-  /* solid surface fill, on-surface text, focus ring per 1.3 */
+  /* becomes a real Primary button; focus ring per 1.3 */
 }
 ```
+
+`tokens.css` does not ship this rule yet; the landing page carries its own copy.
 
 Do not use `display: none` or `visibility: hidden` to hide the skip link. Both remove it from the tab order, which defeats the point.
 
@@ -151,7 +156,7 @@ The rule that decides every case: **alt text replaces the image for someone who 
 | --- | --- |
 | GDG on Campus RCC logo, linked to the home page | `alt="GDG on Campus Riverside City College"`. The alt names the destination, because the accessible name of a link is what a screen reader announces. Never `alt="logo"`. |
 | The same logo sitting next to the club name already in text | `alt=""`. Do not make a screen reader hear the name twice. |
-| The Step device (Part 2) | `aria-hidden="true" focusable="false"` on the inline SVG, or `alt=""`. It is decorative and the arc name is always in text beside it. |
+| The Step device ([visual-voice.md §9.6](visual-voice.md)) | `aria-hidden="true" focusable="false"` on the inline SVG, or `alt=""`. It is decorative and the arc name is always in text beside it. |
 | A session-card thumbnail that is pure decoration | `alt=""` |
 | A diagram (the three-arc map, a flow) | Short `alt` naming what it shows, plus the same content in text or a table nearby. A diagram whose information exists nowhere else in text is a defect. Mermaid diagrams in markdown need the same treatment. |
 | A slide screenshot with text on it | The alt carries the slide's text. If it is more than about 150 characters, put it in the page body and use `alt=""`. |
@@ -228,9 +233,8 @@ Run this before any page goes public, and before the Demo Day page on 2026-12-10
 
 **Step 8. CI, so this does not depend on anyone remembering (setup once).**
 
-- `markdownlint-cli2` over `docs/**/*.md` in a GitHub Action, with MD001, MD034, MD045 enabled. This protects the repo docs, which is most of what the club actually ships.
-- `pa11y-ci` or `@axe-core/cli` over the built HTML in the same Action. Fail the PR on serious and critical.
-- The privacy policy already references `scripts/check.sh` running before every PR. Add the markdown lint call there so it runs locally too, and so the accessibility check and the privacy check are one habit rather than two.
+- `markdownlint-cli2` over every `.md` file already runs in the `docs-check` Action and in `scripts/check.sh` when it is installed locally, with MD001 and MD045 on (MD034 is off on purpose; see 1.8). This protects the repo docs, which is most of what the club actually ships.
+- `pa11y-ci` or `@axe-core/cli` over the built HTML in the same Action, failing the PR on serious and critical, is not set up. The landing page is checked by hand with the harness in its `scratch/` folder instead.
 
 **Step 9. Two things a tool cannot check.** Read the page and confirm: no information is carried by color alone (WCAG 1.4.1), and no instruction refers to a control by shape or position alone ("the round button", "the box on the right").
 
@@ -238,27 +242,11 @@ Run this before any page goes public, and before the Demo Day page on 2026-12-10
 
 ## Part 2: Visual voice
 
+Most of what was here moved to [visual-voice.md](visual-voice.md) on 2026-09-21, when the §9 that three other files cite was finally written: iconography (was 2.1) is now §9.5, illustration (was 2.3) is §9.3, and the Step (was 2.4) is §9.6. The section numbers below are kept so existing links still land. What stays is the photography and consent procedure, because it is a policy with paperwork, not a drawing decision.
+
 ### 2.1 Iconography
 
-**Set: Phosphor Icons.** MIT licensed, drawn on a 256-unit grid, six weights. Verify the LICENSE file in the release you vendor before shipping; do not take the license on my word or on a blog post's.
-
-**Weight: Bold, one weight, everywhere.** Icons on these pages live at 20 and 24px next to 14 to 16px body text, and get projected onto a lab wall and read on a phone in a bright room. Bold holds up in both. One weight is also the only rule a rotating officer team can follow correctly. If a specific icon reads too heavy at 40px or larger, that is the moment to make a documented exception in the brand doc, not to start mixing freely.
-
-**Why not Material Symbols.** It is openly licensed and technically available, so this is not a legal call. It is that Material Symbols silhouettes are one of the strongest signals of Google authorship in existence. A page using Material Symbols, a tonal Material palette, and Material corner radii reads as a Google property regardless of what the wordmark says. The club is taking Google's method, and an icon set is chrome. This is the single cheapest place to buy back a distinct identity.
-
-**Licensing position, stated plainly:**
-
-- Vendor the SVGs the club actually uses into `assets/icons/`. Do not hotlink a CDN, do not ship a webfont of the whole set, do not pull from `fonts.googleapis.com` for anything.
-- Commit the upstream `LICENSE` file alongside them at `assets/icons/LICENSE`.
-- Add a one-line attribution row to `docs/04-brand/brand.md` naming the set, the version, and the license.
-- Icons are never modified beyond color and size. If a needed icon does not exist in the set, use a word instead of drawing one.
-
-**Usage rules:**
-
-- An icon never appears alone as the only label for an action unless it has an `aria-label` and a tooltip.
-- Icons are `currentColor`, always. They inherit the text color and therefore inherit dark mode and forced-colors for free.
-- Meaningful icons need 3:1 against their background. Decorative ones do not, but hold them to 3:1 anyway so they survive a projector and a grayscale print.
-- One icon per row maximum. Icons on both the left and the right of an agenda row is noise.
+Moved to [visual-voice.md §9.5](visual-voice.md). Phosphor, Bold, vendored SVGs with the upstream LICENSE committed beside them.
 
 ### 2.2 Imagery and photography
 
@@ -281,7 +269,7 @@ These need no consent, go in `assets/` if under 1 MB, and carry the pages perfec
 
 **Where the paperwork lives.** The signed slips and the form responses go to the club's shared Drive, never to the repo, because they carry names and signatures and the policy forbids both. What goes in the repo is what the policy already prescribes for officer names: a line in the semester's `handoff.md` under account and consent records, recording the date and the count. Reference published photos by filename, never by subject name.
 
-**Before publication, check that the college does not already have a media release form.** RCC Student Activities very likely has one, and using the college's existing instrument is better than the club inventing one. Treat this as `[TBD: confirm with Student Activities whether an RCC media release form exists and supersedes the club slip]`. I have not verified this and the club should not ship the slip until someone asks.
+**Before publication, check that the college does not already have a media release form.** RCC Student Activities very likely has one, and using the college's existing instrument is better than the club inventing one. Treat this as `[TBD: confirm with Student Activities whether an RCC media release form exists and supersedes the club slip]`. It is unverified; do not ship the slip until someone asks.
 
 **Minors.** RCC has dual-enrollment high school students. A person under 18 cannot give this consent themselves. Default rule: **if a subject may be under 18, no identifiable photo is published, period**, unless a guardian release has been obtained through the college's process. Do not attempt to assess age visually and do not build a workaround.
 
@@ -308,114 +296,8 @@ These need no consent, go in `assets/` if under 1 MB, and carry the pages perfec
 
 ### 2.3 Illustration, with no illustrator on the team
 
-The club has no illustrator and will not have one next semester either. So the answer is not "keep it simple", it is **no freehand illustration exists in this system.** Three sanctioned image types, all of which are made by editing text.
-
-**1. Type as the image.** The default hero for every event page, session page, and social card: the session title set at the type section's display role on a flat surface role, with the Step rule (2.4) beneath it and the date and room in the label role. No picture at all. This is the highest-quality output the club can reliably produce, because it is just the type system doing its job.
-
-**2. Diagrams, not drawings.** Mermaid, in fenced code blocks. GitHub renders it natively in markdown, and the standalone HTML build can render it too. Use it for the three-arc map, session flows, the Demo Day run of show, the officer handoff chain. It is text, so it diffs in a PR, and it survives an officer transition. Every diagram gets alt text and a text equivalent per 1.7.
-
-**3. The Step field.** A low-contrast background pattern generated from the signature device (2.4), used behind heroes and on the Demo Day page. It is CSS or a tiled SVG. Nobody draws anything.
-
-**Template contract.** Ship one SVG template per export size in `assets/templates/`, sized by [assets.md](assets.md): the 3:4 Instagram feed master at 1080 x 1440 (Instagram's grid has shown 3:4 since January 2025, so the `1x1` this line used to name would be cropped 135 px off each side), the 9:16 story, the 1200 x 630 share card, 16:9 for slides and the projector, and 3:1 for the repo banner and page hero. Each template contains text nodes with placeholder strings, the Step, and nothing else. An officer opens it in a text editor, changes the strings, and exports. No drawing tool, no design decisions, no way to break the grid. This is the same discipline that makes the club's markdown docs survivable: the author picks meaning, the system picks measurements.
-
-**Not used:** clip art, 3D blob renders, gradient meshes, hand-drawn doodle borders, isometric illustration packs, and anything with the soft rounded optimistic character of Google's AI illustration style. That last one is the specific trap: it is the most imitated look on the internet right now and copying it lands the club inside the forbidden zone by accident.
+Moved to [visual-voice.md §9.3](visual-voice.md): type as the image, diagrams instead of drawings, photographs of the room, and the template contract.
 
 ### 2.4 The signature device: the Step
 
-This is the piece that makes the pages the club's own rather than a de-branded Material template. It is one geometric construction, it costs nothing to produce, and it does actual work in the information architecture instead of just sitting in a corner.
-
-**The form.** A single stroke that runs horizontally, rises through two right angles, and continues horizontally at a higher level. One stroke weight throughout. Fill none. **The outer corner of the turn is round; the inner corner is sharp.**
-
-That asymmetry is the whole identity. It happens automatically from `stroke-linejoin="round"` on a stroked path, because a round join rounds the outside of a turn and leaves the inside as a hard intersection. It costs one attribute and it is the tell that separates an authored mark from a shape somebody found.
-
-**The Mark, fixed geometry, for the favicon and the lockup:**
-
-```html
-<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
-  <path d="M3 19.5H12V4.5H21"
-        fill="none" stroke="currentColor" stroke-width="3"
-        stroke-linecap="butt" stroke-linejoin="round"/>
-</svg>
-```
-
-- Stroke weight is 3 of 24, which is 12.5% of the box. That ratio is the constant. At a 16px favicon it renders 2px; at a 480px banner it renders 60px.
-- Runs are 9 units each, the rise is 15 units, the turn is centered at x=12. Symmetric, which is what a favicon needs.
-- `stroke-linecap="butt"` keeps the ends flat, so the round corner is the only soft point in the mark and reads as deliberate.
-
-**The Rule, variable geometry, which is what gives pages identity.** The same construction stretched to a container's full width and used as the divider under section headings. Its one variable is where the rise sits:
-
-```css
-.rcc-step-rule {
-  --step-x: var(--rcc-step-arc, 50%);  /* set --rcc-step-arc on :root, never here */
-  --step-w: 2px;                       /* matches the components section hairline */
-  --step-rise: 10px;                   /* one step from the space scale */
-  position: relative;
-  height: calc(var(--step-rise) + var(--step-w));
-  color: var(--rcc-outline);            /* role from the color section */
-}
-.rcc-step-rule::before {                    /* low run, plus the riser */
-  content: "";
-  position: absolute; left: 0; bottom: 0;
-  width: var(--step-x); height: 100%;
-  border-bottom: var(--step-w) solid currentColor;
-  border-right:  var(--step-w) solid currentColor;
-  border-bottom-right-radius: calc(var(--step-w) / 2);   /* round OUTER only; see tokens.css */
-}
-.rcc-step-rule::after {                     /* high run */
-  content: "";
-  position: absolute; top: 0; right: 0;
-  left: calc(var(--step-x) - var(--step-w));
-  border-top: var(--step-w) solid currentColor;
-}
-```
-
-The one-stroke-width overlap in `::after`'s `left` is intentional; it prevents a hairline gap at the joint. Verify in a browser at 1x and at 2x device pixel ratio before shipping.
-
-**The rise position encodes the Fall 2026 curriculum.** One custom property, three values, no new artwork:
-
-| Arc | `--step-x` |
-| --- | --- |
-| Voice | `25%` |
-| Ask | `50%` |
-| Evidence | `75%` |
-| Neutral (club pages, footer, non-session content) | `12%` |
-
-Set it once on the page's root element and every rule on the page carries the arc. Someone who has read three session pages will recognize which arc a page belongs to before reading the heading. Nothing else in the system does that, and it costs one line of CSS per page.
-
-**The Staircase, for banners and the semester landing.** Three rises instead of one, which reads as the three arcs of the semester:
-
-```html
-<svg viewBox="0 0 32 24" aria-hidden="true" focusable="false">
-  <path d="M2 21H11V13.5H21V6H30"
-        fill="none" stroke="currentColor" stroke-width="3"
-        stroke-linecap="butt" stroke-linejoin="round"/>
-</svg>
-```
-
-Used at large sizes only: the semester landing hero, the repo banner, the Demo Day page. Never in chrome.
-
-**Why this is derived from nothing Google owns.**
-
-- It is not a spark or star of any point count, so it cannot be mistaken for the Gemini mark, whose construction Google Design describes as the negative space of four adjoining circles.
-- It is not a robot head, a dot, a chevron, a bracket, or a globe, which is the entire I/O glyph vocabulary.
-- It is **monochrome by construction** and uses `currentColor`. It has no color meaning at all, so it can never read as the blue/red/yellow/green sequence, which is the mistake that gets clubs into trouble no matter how the shapes are drawn.
-- It uses no gradient. The gradient-field technique is the strongest current Google identity signal, and the club is not going near it.
-- Material's shape language is filled rounded rectangles with uniform corner treatment. The Step is an unfilled stroke with one round corner and one sharp one. It is a deliberate counter-move against the system it sits next to.
-
-**Why it is worth having.**
-
-- **One variable does real work.** `--step-x` turns one drawing into a semester's worth of page-specific art, which is the one genuinely transferable idea from Google's event design: parameterize a single construction instead of drawing new assets. The club gets the benefit with a CSS custom property instead of a mesh gradient.
-- **It survives the whole range.** 16px favicon to a printed banner, because the stroke is a percentage of the box.
-- **It survives every theme.** `currentColor` means light, dark, forced-colors, and a grayscale print all work without a second asset.
-- **A student can build it.** It is one `<path>` and two pseudo-elements. Nobody has to open a drawing tool, which is the constraint that actually determines whether a design system survives an officer transition.
-- **It is semantically honest.** A soft-skills curriculum whose entire premise is that you get better one session at a time gets a mark that is literally one step up. The reasoning is legible without a paragraph explaining it.
-
-**Rules of use, and these matter more than the geometry:**
-
-- **The Step is never the club's logo and never replaces the GDG on Campus lockup.** It is a page device. Where both appear, they are separated by at least the height of the lockup, and they never sit in a shared box, a shared color field, or any arrangement that could read as one combined mark. Locking a club-made mark to a Google mark is the forbidden move.
-- **Once per screen.** Repetition kills it. One Step in the hero, one Rule per major section boundary, never both in the same block.
-- **It never carries meaning alone.** The arc name is always in text next to it. Shape alone cannot convey information (WCAG 1.4.1), and a rise at 25% versus 50% is invisible to a lot of people.
-- **It is decorative in the accessibility tree.** `aria-hidden="true" focusable="false"` on every inline SVG instance. `focusable="false"` matters: older IE and some assistive tech put SVGs in the tab order without it.
-- **Contrast:** decorative, so no minimum applies, but hold it to 3:1 against its surface anyway. It should survive a projector in a bright lab and a photocopied flyer.
-- **Favicon:** ship an SVG favicon with an embedded `@media (prefers-color-scheme: dark)` block so the stroke flips, and a 32px PNG fallback with a solid container square. SVG favicon and in-SVG media query support varies by browser and version; check the browsers the club's audience actually uses and do not assume Safari behaves like Chrome. Mark this `[unverified]` until someone opens it in Safari, Chrome, and Firefox.
-- **Merchandise:** the Step alone on a shirt or sticker is fine, because it is the club's own mark. The GDG logo on merchandise is forbidden by the brand guidance. Do not put them on the same object.
+Moved to [visual-voice.md §9.6](visual-voice.md), unchanged except for cross-references. The accessibility rules for it are the ones in the alt-text table above: decorative, `aria-hidden="true" focusable="false"`, never the only carrier of an arc's name, held to 3:1 against its surface anyway.

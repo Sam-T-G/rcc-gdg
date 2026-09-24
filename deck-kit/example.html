@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-arc="voice">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sentence That Gets You In The Room</title>
+<!--
+  Deck kit example. A finished deck for Voice week 1 (install), built only from
+  the session card, the landing page's Voice rep, and the meeting algorithm, so
+  every line on it is copy the club already uses. No dates on purpose.
+
+  This is the worked example, not the blank. To start a weekly deck, run
+  scripts/new-deck.sh <YYYY-term> <YYYY-MM-DD>; it fills deck-kit/weekly.html
+  from the session card. deck-kit/README.md walks through it.
+  The language this implements: docs/04-brand/design-system/presentation.md.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&display=swap">
+<link rel="stylesheet" href="deck.css">
+<!-- GSAP drives the motion. Pinned, integrity-checked, optional: without it the
+     deck runs with CSS-only motion (presentation.md §13.6). -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="deck.js" defer></script>
+</head>
+<body>
+<main class="deck" data-deck="voice-1-the-sentence" data-ledger="GDG on Campus RCC · Voice · Week 1 of 4">
+
+<!-- ARRIVE ================================================================ -->
+
+<!-- cover: lockup, eyebrow, title, sub, the Step, the independence sentence.
+     Only the title and the Step move. data-starts shows a countdown in the
+     half hour before the start time, for the room while it fills. -->
+<section class="slide" data-kind="cover" data-move="arrive" data-starts="14:30" aria-label="The sentence that gets you in the room">
+  <img class="cover__lockup cover__lockup--light" src="../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+  <img class="cover__lockup cover__lockup--dark" src="../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
+  <p class="eyebrow">Voice · Install · Week 1 of 4</p>
+  <h1>The sentence that gets you in the room</h1>
+  <p class="sub">Build the one sentence that makes a stranger ask you a follow-up question.</p>
+  <div class="cover__step" aria-hidden="true"></div>
+  <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+  <aside class="notes"><p>Up from 2:25 while people arrive. The countdown appears on its own in the last half hour before the start time.</p></aside>
+</section>
+
+<!-- figure: one number that is the point. It counts from data-from to data-to.
+     The number must be real and sourced in the notes (§13.5). -->
+<section class="slide" data-kind="figure" data-move="arrive" aria-label="Thirty minutes">
+  <p class="eyebrow">How the hour works</p>
+  <p class="figure"><span class="figure__num" data-from="0" data-to="30">30</span><span class="figure__unit">minutes</span></p>
+  <p class="sub">of every hour, you&#8217;re the one doing it. Not listening to us.</p>
+  <aside class="notes"><p>Source: the meeting algorithm, Law 3. At least 30 of the 60 minutes are students doing the thing.</p></aside>
+</section>
+
+<!-- rail: the semester. The list IS the data and the text equivalent; the
+     drawing is built from it, and names are copied from the sessions index
+     verbatim (new-deck.sh does this). aria-current marks this week,
+     data-receipt a receipt week. Two styles: the default climbs (the Step at poster scale, and
+     the camera opens on this week); data-style="ledger" sets the arcs as stepped
+     columns of numbered sessions instead. Never second: the chrome rail steps
+     aside on this slide, and the cover's unfold needs a screen that shows it. -->
+<section class="slide" data-kind="rail" data-move="arrive" data-room aria-label="The semester">
+  <p class="eyebrow">This semester</p>
+  <h2>Three arcs. This is week one.</h2>
+  <ol class="rung-src" data-here="This week">
+    <li data-arc="hook">The Cold Open</li>
+    <li data-arc="hook" data-receipt>The Twenty-Second Answer</li>
+    <li data-arc="voice" aria-current="step">The Sentence That Gets You In The Room</li>
+    <li data-arc="voice">Hostile Room</li>
+    <li data-arc="voice">The Thing You Actually Want</li>
+    <li data-arc="voice" data-receipt>Send It</li>
+    <li data-arc="ask">Anatomy of an Ask</li>
+    <li data-arc="ask">The No Drill</li>
+    <li data-arc="ask">What You Are Owed</li>
+    <li data-arc="ask" data-receipt>Office Hours</li>
+    <li data-arc="evidence">Nobody Saw You Do It</li>
+    <li data-arc="evidence">The Failure Story</li>
+    <li data-arc="evidence">Defend It</li>
+    <li data-arc="evidence" data-receipt>Demo Day</li>
+  </ol>
+  <aside class="notes"><p>Say the arc out loud: Voice now, then Ask, then Evidence, which ends at Demo Day. The last week of this arc ends with everyone sending a real message to a real person from this room. Flag it now so nobody is ambushed.</p></aside>
+</section>
+
+<!-- TENSION =============================================================== -->
+
+<!-- clock: a timed exercise. data-timer is in seconds and matches the card.
+     T starts and pauses, R resets. Transitions become Cuts while it runs. -->
+<section class="slide" data-kind="clock" data-move="tension" data-room data-timer="60" aria-label="Warm rep">
+  <p class="eyebrow">Warm rep · Pairs</p>
+  <h2>Something you changed your mind about this year.</h2>
+  <div class="clock"><p class="clock__digits">1:00</p><span class="clock__rail"><span class="clock__fill"></span></span><p class="clock__hint">Sixty seconds each way. T to start, R for the second person.</p></div>
+  <aside class="notes"><p>Pairs, sixty seconds each way. Everyone speaks before 2:42; that is the only job of this rep.</p></aside>
+</section>
+
+<!-- statement: one sentence, fourteen words or fewer. -->
+<section class="slide" data-kind="statement" data-move="tension" aria-label="This arc">
+  <p class="eyebrow">This arc</p>
+  <h2>Get understood by someone with no reason to listen.</h2>
+  <aside class="notes"><p>This week is the install: the mechanics, at the lowest stakes, with a partner you picked. Next week adds a listener who doesn&#8217;t want to hear it, the week after makes it about something you actually want, and the last week sends it to a real person.</p></aside>
+</section>
+
+<!-- WORK ================================================================== -->
+
+<!-- beats: up to four items, one per press. Earlier items step back. -->
+<section class="slide" data-kind="beats" data-move="work" data-room aria-label="Three mechanics">
+  <h2>Three mechanics</h2>
+  <ol class="beats">
+    <li data-beat><span class="body">Specific beats important.<span class="detail">&#8220;I want to know why the clinic intake form takes eleven minutes&#8221; starts a conversation.</span></span></li>
+    <li data-beat><span class="body">A number beats an adjective.<span class="detail">&#8220;Forty-one people through the same chemistry unit&#8221; can be asked about. &#8220;A lot&#8221; can&#8217;t.</span></span></li>
+    <li data-beat><span class="body">Name a person, not a category.<span class="detail">Who&#8217;s worse off if you never do this? Say them.</span></span></li>
+  </ol>
+  <aside class="notes"><p>Leave this slide up for the whole Rep. Press once per mechanic.</p></aside>
+</section>
+
+<!-- compress: two to four versions, each li one version. data-label counts
+     (a leading number animates), data-why is the caption. The last version
+     must be something a person would actually say out loud (§13.5). -->
+<section class="slide" data-kind="compress" data-move="work" aria-label="Same answer, three times">
+  <p class="eyebrow">Watch the mechanics work</p>
+  <h2>Same answer, three times.</h2>
+  <ol class="versions compress-src">
+    <li data-label="20 seconds" data-why="That whole answer was for you. None of it was for them.">Um, so I&#8217;m a nursing major, I&#8217;m in anatomy and pharm right now, and I kind of work part time at the campus clinic, and I&#8217;ve been helping them fix their paperwork, which has honestly been pretty interesting.</li>
+    <li data-label="12 seconds" data-why="Same answer, minus the hedging and the class list.">I&#8217;m a nursing major, and I work part time at the campus clinic, and I&#8217;ve been helping them fix their paperwork, which has been pretty interesting.</li>
+    <li data-label="8 seconds" data-why="Now there&#8217;s something in there they can actually ask about.">I work at the campus clinic. Check-in used to take eleven minutes, and I rewrote the intake form, and now it&#8217;s four.</li>
+  </ol>
+  <aside class="notes"><p>Press once per version. Words on the way out strike through, then close up; new words arrive in green. Same example as the club landing page. It&#8217;s an example, not a script.</p></aside>
+</section>
+
+<!-- contrast: two things side by side, same size, same weight. The words win
+     the comparison, not the styling. A side marked data-beat waits for a press. -->
+<section class="slide" data-kind="contrast" data-move="work" aria-label="Important against specific">
+  <h2>Important says nothing. Specific gets a conversation.</h2>
+  <div class="contrast">
+    <div class="is-weak"><p class="label">Important</p><p>&#8220;I&#8217;m interested in healthcare technology.&#8221;</p></div>
+    <div class="is-strong" data-beat><p class="label">Specific</p><p>&#8220;I want to know why the intake form at the campus clinic takes eleven minutes.&#8221;</p></div>
+  </div>
+</section>
+
+<!-- card: the prompt the room works from, ruled like the real index cards.
+     data-clock-slot says where the generated clock goes. -->
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="300" aria-label="Write both lines">
+  <h2>Write both lines on your card.</h2>
+  <div class="card">
+    <p class="label">Your card</p>
+    <ol class="card__lines">
+      <li><span class="hint">1. Your sentence.</span></li>
+      <li></li>
+      <li><span class="hint">2. The question you hope it gets.</span></li>
+      <li></li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot>
+    <p>If you can&#8217;t predict the question, the sentence isn&#8217;t doing its job yet.</p>
+  </div>
+  <aside class="notes"><p>Five minutes. Both lines go on the card. The second line is the test.</p></aside>
+</section>
+
+<!-- TURN ================================================================== -->
+
+<section class="slide" data-kind="statement" data-move="turn" aria-label="Debrief">
+  <p class="eyebrow">Debrief</p>
+  <h2>What did the room hear that you didn&#8217;t say?</h2>
+  <aside class="notes"><p>Then: which mechanic was hardest to add? Almost always the number, because it requires having counted something. Then: what would you have to go do this month so that a better number exists by December? That last one seeds the Evidence arc. Let it sit; don&#8217;t answer it.</p></aside>
+</section>
+
+<section class="slide" data-kind="statement" data-move="turn" aria-label="The rung">
+  <p class="eyebrow">The rung</p>
+  <h2>It&#8217;s the first line of a project description.</h2>
+  <p class="sub">Same three mechanics. Most say &#8220;a web app for productivity&#8221; and stop there.</p>
+  <aside class="notes"><p>Ten seconds. Name it, never teach it (Law 4).</p></aside>
+</section>
+
+<!-- ASK =================================================================== -->
+
+<!-- ask: one action, verb first, with when. The QR, the lockup, and the
+     independence sentence never move. -->
+<section class="slide" data-kind="ask" data-move="ask" data-room aria-label="Before next Thursday">
+  <div class="ask__main">
+    <p class="eyebrow">Before next Thursday</p>
+    <h2>Say it to two people.</h2>
+    <p class="sub">Write down the question each of them asked back. Bring both next week.</p>
+    <p class="ask__meta">Thursdays, 2:30 to 3:30 PM · BLCIS A-210</p>
+  </div>
+  <a class="qr" href="https://sam-t-g.github.io/rcc-gdg/"><span class="qr__tile"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 41 41" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h41v41H0z"/><path stroke="#000000" d="M4 4.5h7m2 0h5m1 0h1m1 0h4m2 0h2m1 0h7M4 5.5h1m5 0h1m1 0h1m1 0h3m1 0h2m2 0h1m2 0h3m2 0h1m5 0h1M4 6.5h1m1 0h3m1 0h1m1 0h2m2 0h4m1 0h1m1 0h4m1 0h1m1 0h1m1 0h3m1 0h1M4 7.5h1m1 0h3m1 0h1m2 0h1m2 0h1m1 0h1m5 0h3m3 0h1m1 0h3m1 0h1M4 8.5h1m1 0h3m1 0h1m2 0h2m4 0h1m1 0h1m2 0h2m1 0h1m2 0h1m1 0h3m1 0h1M4 9.5h1m5 0h1m2 0h4m1 0h2m1 0h1m1 0h2m3 0h1m1 0h1m5 0h1M4 10.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M14 11.5h2m1 0h1m2 0h2m2 0h1m1 0h2M5 12.5h3m1 0h2m2 0h4m2 0h1m1 0h1m1 0h3m2 0h1m5 0h2M4 13.5h1m1 0h1m1 0h2m1 0h1m2 0h4m2 0h1m1 0h4m1 0h1m2 0h2m1 0h2m1 0h1M5 14.5h2m1 0h1m1 0h2m1 0h1m1 0h2m2 0h3m2 0h1m2 0h7m2 0h1M11 15.5h1m3 0h1m2 0h1m1 0h1m1 0h2m4 0h1m1 0h2m1 0h1m2 0h1M4 16.5h4m2 0h2m4 0h2m4 0h2m1 0h1m1 0h3m1 0h3m1 0h2M6 17.5h2m1 0h1m1 0h3m2 0h1m1 0h2m2 0h1m3 0h3m2 0h1m2 0h2M4 18.5h1m1 0h2m1 0h4m2 0h1m1 0h1m1 0h4m2 0h1m1 0h1m2 0h5M7 19.5h1m6 0h2m3 0h1m1 0h7m1 0h2m1 0h3M9 20.5h4m2 0h3m1 0h1m3 0h3m3 0h2m1 0h1m1 0h1M6 21.5h3m2 0h1m1 0h1m4 0h1m1 0h2m2 0h4m2 0h1m1 0h2m1 0h2M5 22.5h2m1 0h1m1 0h1m1 0h2m1 0h2m2 0h4m3 0h1m2 0h1m1 0h2m1 0h2M5 23.5h1m3 0h1m1 0h1m1 0h1m1 0h1m2 0h1m6 0h1m1 0h2m1 0h1m1 0h1m2 0h2M7 24.5h1m2 0h1m1 0h2m2 0h3m2 0h4m2 0h1m5 0h4M4 25.5h1m1 0h2m4 0h1m2 0h1m1 0h1m2 0h1m1 0h1m5 0h1m1 0h2m2 0h1m1 0h1M6 26.5h5m4 0h1m1 0h4m1 0h1m2 0h4m1 0h7M5 27.5h3m1 0h1m1 0h1m2 0h2m2 0h1m1 0h2m1 0h1m2 0h3m1 0h1m1 0h2m1 0h2M4 28.5h1m1 0h1m1 0h3m1 0h3m1 0h1m1 0h2m1 0h2m1 0h1m1 0h7M12 29.5h1m2 0h2m6 0h1m3 0h2m3 0h2M4 30.5h7m2 0h1m3 0h1m2 0h1m1 0h3m1 0h3m1 0h1m1 0h1M4 31.5h1m5 0h1m1 0h3m1 0h2m1 0h1m2 0h1m2 0h4m3 0h3m1 0h1M4 32.5h1m1 0h3m1 0h1m2 0h1m3 0h3m1 0h1m1 0h2m2 0h6m1 0h2M4 33.5h1m1 0h3m1 0h1m1 0h1m2 0h2m2 0h3m1 0h2m2 0h1m3 0h1m3 0h2M4 34.5h1m1 0h3m1 0h1m1 0h1m2 0h1m5 0h1m1 0h1m2 0h1m1 0h1m1 0h2m1 0h1M4 35.5h1m5 0h1m1 0h1m1 0h3m1 0h1m1 0h4m2 0h7m3 0h1M4 36.5h7m4 0h2m2 0h4m2 0h1m4 0h1m1 0h1m1 0h1"/></svg></span><span class="label">The club site</span></a>
+  <div class="ask__foot">
+    <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <img class="ask__lockup ask__lockup--light" src="../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+    <img class="ask__lockup ask__lockup--dark" src="../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
+  </div>
+  <aside class="notes"><p>Say the sentence to two people before next Thursday, and write down the question each of them asked back. Next week uses this sentence against a listener who doesn&#8217;t want to hear it.</p></aside>
+</section>
+
+</main>
+</body>
+</html>

@@ -44,8 +44,9 @@ This repo is the club's memory. It holds the rules for running the club, the pla
 | [docs/05-onboarding/](docs/05-onboarding/new-member.md) | Start-here guides for new members and new officers, plus a repo tour |
 | [assets/](assets/gdg-on-campus-horizontal-light.svg) | Logos and brand files (SVG and PNG, under 1 MB each) |
 | [templates/](templates/README.md) | Blank meeting notes, event plans, run sheets, retros, decision records, and more |
+| [deck-kit/](deck-kit/README.md) | The slide deck kit: stylesheet, engine, the blank weekly deck that `scripts/new-deck.sh` fills from a session card, a finished example, and its check |
 | [semesters/](semesters/README.md) | One folder per semester, created from `semesters/_template/` |
-| [scripts/](scripts/check.sh) | `new-semester.sh`, `new-event.sh`, `new-meeting.sh`, `check.sh`, and `publish-site.sh` |
+| [scripts/](scripts/check.sh) | `new-semester.sh`, `new-event.sh`, `new-meeting.sh`, `new-deck.sh`, `check.sh`, and `publish-site.sh` |
 
 ## Start here
 

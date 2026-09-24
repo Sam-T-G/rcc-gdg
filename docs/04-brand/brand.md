@@ -51,6 +51,8 @@ Source files, the animated GIFs, the sticker sheet, and the campus website banne
 | Everything | Google Sans (Regular, Bold) | Sans-serif system font |
 | Code-style text | **Google Sans Code** | Any monospace |
 
+The variable font covers 400 to 700 continuously, so the weight 500 the design system uses for every heading, label, and button is inside the grant.
+
 Source for the faces: GDG On Campus Brand Guide. Source for the licensing: a check of the Google Fonts catalog metadata endpoint, the CSS2 API, `google/fonts`, `googlefonts/googlesans`, and the `name` tables of the served WOFF2 files, run 2026-08-31.
 
 **Correction, 2026-08-31: this table used to say Google Sans Mono. It is not licensed for web embedding.** Mono has no Google Fonts catalog entry, no public repo, no license file, and its binary reads `Copyright 2024 Google LLC. All Rights Reserved.` with no license record in name ID 14. The CSS2 API will serve it if asked; serving is not licensing, and the brand guide is a slide deck describing what Google hands chapters rather than a font license.
@@ -96,7 +98,7 @@ Plain-text references to Google products, links, and unaltered logos in teaching
 
 ## Design system
 
-How club web pages and design docs are built from these colors and faces: [design-system/](design-system/README.md). It holds the token stylesheet, component specs, page archetypes, the design-doc template, the accessibility rules, and, since 2026-09-01, the export sizes for Instagram, share cards, slides, and print in [design-system/assets.md](design-system/assets.md). This document outranks it; where they disagree, fix the design system.
+How club web pages and design docs are built from these colors and faces: [design-system/](design-system/README.md). It holds the token stylesheet, component specs, page archetypes, the accessibility rules, the export sizes for Instagram, share cards, slides, and print ([design-system/assets.md](design-system/assets.md), since 2026-09-01), and, since 2026-09-21, the motion language, the visual voice, and the presentation language whose kit lives in [deck-kit/](../../deck-kit/README.md). The blank design doc is [templates/design-doc.md](../../templates/design-doc.md). This document outranks it; where they disagree, fix the design system.
 
 ## Templates
 

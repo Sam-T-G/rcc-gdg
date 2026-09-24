@@ -156,7 +156,7 @@ Receipt is the club's own type and it exists because the receipt is the semester
 
 **The admission test is the spec.** All three conditions must hold: the information is relevant but not necessary to the current task, the interruption does not obstruct the reader's progress, and the content does not flow from the sentence before it. Named non-uses: cross-references, prerequisites, procedural steps, and anything critical to succeeding. Most callout systems specify the appearance and let authors decide the usage, which is backwards.
 
-**Scarcity is part of the spec.** Two callouts never sit adjacent. A page with more than three loses the distinctiveness that makes the tint mean anything. If a session card needs four warnings, they belong in Failure modes as prose.
+**Scarcity is part of the spec.** At most two callouts per document, never adjacent ([documents.md §3.2](documents.md)); a third loses the distinctiveness that makes the tint mean anything. If a session card needs three warnings, they belong in Failure modes as prose. Until 2026-09-23 this paragraph allowed three while `documents.md` allowed two; two is the rule.
 
 **GitHub form.** GFM alerts render natively with their own icon and color, so all three survive. The set is capped at three to keep parity with what GitHub shows.
 
@@ -301,7 +301,7 @@ The Facts table is the same field set as `templates/announcement.md`, so the pag
 
 `--rcc-container-content`, and it is the page the whole system is designed around.
 
-Structure: hero with the date and the ask, the full rung rail with the terminal tick filled, a live agenda built from the timeline component with the current phase in the emphasized tier, a project wall as a card grid at `--rcc-col-third`, the three-door closer, and the footer with the disclaimer.
+Structure: hero with the date and the ask, the full rung rail with Demo Day as this week, a live agenda built from the timeline component with the current phase in the emphasized tier, a project wall as a card grid at `--rcc-col-third`, the three-door closer, and the footer with the disclaimer.
 
 The live agenda is the only place in the system where content updates during a page view. Everything that changes uses `tabular-nums` and the emphasized tier, so nothing reflows while someone is reading.
 

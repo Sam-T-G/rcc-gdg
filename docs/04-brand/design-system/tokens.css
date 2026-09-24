@@ -1,6 +1,7 @@
 /* ===========================================================================
    GDG on Campus Riverside City College. Design tokens and base layer.
    v1.0, 2026-08-31. One prefix: --rcc-.
+   2026-09-21: narrative motion tokens added (motion.md §5.2 and §5.3).
    Contrast audited light and dark; see docs/04-brand/design-system/foundations.md §2.5.
    =========================================================================== */
 
@@ -260,6 +261,12 @@ img, svg, video { max-width: 100%; height: auto; }
   --rcc-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --rcc-ease-spatial:  cubic-bezier(0.34, 1.28, 0.64, 1);
   --rcc-ease-exit:     cubic-bezier(0.4, 0, 1, 1);
+
+  /* Narrative tier: decks, scroll scenes, page-load entrances. Never a control.
+     Spatial track, so reduced motion zeroes them. See motion.md §5.2 and §5.3. */
+  --rcc-dur-beat: 700ms;
+  --rcc-dur-move: 1100ms;
+  --rcc-ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ============================== DARK ====================================
@@ -423,7 +430,7 @@ h4 { font-size: var(--rcc-size-title-lg);    line-height: var(--rcc-lh-title-lg)
      margin-block: var(--rcc-flow-h4-above) var(--rcc-flow-h4-below); }
 
 /* h5 and h6 change FACE and CASE rather than shrinking below body size.
-   This is the ledger line (§9.1) doing structural work. */
+   This is the ledger line (visual-voice.md §9.7) doing structural work. */
 h5, h6 {
   font-family: var(--rcc-font-code);
   font-weight: var(--rcc-weight-strong);
@@ -495,7 +502,7 @@ thead th { background: var(--rcc-surface-container-high);
 .rcc-time { font-feature-settings: "ss02" 1, "tnum" 1;
             font-variant-numeric: tabular-nums; }
 
-/* --- The ledger line: the club's voice for metadata. §9.1. --------------- */
+/* --- The ledger line: the club's voice for metadata. visual-voice.md §9.7. -- */
 .rcc-ledger {
   font-family: var(--rcc-font-code);
   font-size: var(--rcc-size-code-sm);
@@ -664,6 +671,8 @@ thead th { background: var(--rcc-surface-container-high);
     --rcc-dur-fast-spatial: 0ms;
     --rcc-dur-default-spatial: 0ms;
     --rcc-dur-slow-spatial: 0ms;
+    --rcc-dur-beat: 0ms;
+    --rcc-dur-move: 0ms;
   }
   html { scroll-behavior: auto; }
   .rcc-card:hover { transform: none; }

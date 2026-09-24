@@ -1,6 +1,6 @@
 # Foundations
 
-Color, typography, space, grid, shape, elevation, and motion. Every value here resolves to a custom property in [tokens.css](tokens.css). Nothing else in the system names a raw color or size.
+Color, typography, space, grid, shape, and elevation. Every value here resolves to a custom property in [tokens.css](tokens.css). Nothing else in the system names a raw color or size. Motion was §5 of this file until 2026-09-21 and now has its own, [motion.md](motion.md); the section numbers did not change.
 
 ## 2. Foundations: color
 
@@ -47,11 +47,13 @@ This is a judgment call, not something the brand guide ranks. The mechanics work
 | Red | `error` | Errors, destructive actions, and failure paths in a diagram. Semantic. | Decoration, headings, accents, callouts, prose. |
 | Yellow | `highlight` | The "live now" and "changed" marker, and the warning callout. Small areas, always as a fill under dark text. | As a text color or a bare mark on any surface. |
 
-**Three checks that keep it off Google**, all verifiable by looking at a page:
+**Three checks that keep it off Google**, all verifiable by looking at a page. Rewritten 2026-09-21 to match the 2026-09-16 decision that deleted "the club owns no four-color object" ([decision log](../../01-governance/decision-log.md)); the earlier wording failed against the club's own lockup and the Club Rush flyers.
 
-1. No composition contains all four. Not in a row, an arc, logo order, or four equal shapes.
-2. No single component uses more than two.
-3. Green covers at least 70% of the non-neutral area on any surface. A page that is a spread of four colors at similar weight has failed regardless of hex.
+1. **No arrangement of the four reads as a Google mark.** Not on one letterform, a dot ring, a rounded-square tile, a four-dot or conic loader, or as four equal shapes in logo order ([bright-lines.md §1.3](bright-lines.md)). The four together are allowed as a labeled device on print and promotional pieces: the Club Rush flyers run them as four bars, each under its own word, and that is the reference.
+2. **No single interface component uses more than two**, and a row of components never cycles through them ([components.md §7.1](components.md)). This covers web pages, docs, and decks. The labeled print device in check 1 is not a component.
+3. **On web pages, docs, and decks, green covers at least 70% of the non-neutral area**, not counting the GDG lockup, which is licensed art and four-color by construction. A page that is a spread of four colors at similar weight has failed regardless of hex. Print and promotional pieces using the device in check 1 are exempt, and green still leads them through the headline accent or the Step.
+
+Check 3's exemptions are a judgment call made in the 2026-09-21 cleanup, the smallest change that stops the rule failing against the logo and the flyers. Tightening or dropping it is a decision-log entry.
 
 The Fall 2026 arcs (Voice, Ask, Evidence) get no hue. §9.2 gives them a form instead. A three-arc hue system breaks all three checks at once and puts a 1.84:1 yellow on a chip label.
 
@@ -223,7 +225,7 @@ Checked 2026-08-31 against the Google Fonts catalog metadata endpoint, the CSS2 
 | Google Sans Text | No | Copyright 2015 Google LLC. All Rights Reserved. | none | No |
 | Product Sans | No | served CSS carries `fonts.google.com/license/googlerestricted` | n/a | No |
 
-**Google Sans Mono is out and Google Sans Code replaces it (B1).** Mono has no catalog entry, no public repo, no license file, and an All-Rights-Reserved binary with no license record. The CSS2 API will serve it if asked; serving is not licensing. The brand guide is a slide deck describing what Google hands chapters, not a font license. Code is in `google/fonts` at `ofl/googlesanscode/` with `license: "OFL"` in `METADATA.pb`, has a live upstream repo, and carries the OFL URL in its binary. Same lineage, same licensor, and it is the code face Google itself now ships.
+**Google Sans Mono is out and Google Sans Code replaces it ([checklist.md](checklist.md) item 1).** Mono has no catalog entry, no public repo, no license file, and an All-Rights-Reserved binary with no license record. The CSS2 API will serve it if asked; serving is not licensing. The brand guide is a slide deck describing what Google hands chapters, not a font license. Code is in `google/fonts` at `ofl/googlesanscode/` with `license: "OFL"` in `METADATA.pb`, has a live upstream repo, and carries the OFL URL in its binary. Same lineage, same licensor, and it is the code face Google itself now ships.
 
 **Three unresolved contradictions in Google's own paper trail**, stated rather than smoothed over: `googlefonts/googlesans/metadata/METADATA.pb` still reads `license: "GOOGLE_RESTRICTED"` and `visibility: "INTERNAL"` while the README, `OFL.txt`, the catalog, and the binary all say OFL; there is no `ofl/googlesans` directory in `google/fonts` even though the family is in the catalog; and `googlefonts/googlesans/OFL.txt` opens with a copyright line naming a different project whose repo 404s. Our read is that the METADATA lines are stale leftovers from the internal-only era. That is not provable from outside.
 
@@ -432,7 +434,7 @@ The gutter holds at 24px across both larger tiers rather than growing. Card padd
 | `--rcc-container-content` | 1200px | Card grids, event pages, the Demo Day project wall. |
 | `--rcc-container-wide` | 1440px | Hero media and full-bleed bands. |
 
-The container's `max-width` measures the **content**, with page margin added on top. This requires `box-sizing: border-box`, which the reset in §5.1 ships. Without it the padding lands outside the max-width and the column band is wrong.
+The container's `max-width` measures the **content**, with page margin added on top. This requires `box-sizing: border-box`, which the reset at the top of [tokens.css](tokens.css) ships. Without it the padding lands outside the max-width and the column band is wrong.
 
 **Control sizing.** The visible control is 40px; the hit area is 48px minimum. Two tokens, and every button, checkbox, and icon link clears the touch minimum without anyone thinking about it.
 
@@ -460,7 +462,7 @@ Material's scale runs ten steps to 48dp. Seven, capping at 24px, is a trim. The 
 
 **The radius numbers are spacing numbers.** 4, 8, 12, 16, 24 all appear in the spacing scale, so corners and gaps agree automatically and there is one fewer scale to remember.
 
-**Nesting math, two subtractions.** Inner radius equals outer radius minus the padding between them: a 24px card with 8px of padding around an inner panel gives that panel 16px. And inner radius equals outer radius minus the border width: an 8px container with a 1px border wants 7px inside. The earlier draft stated both rules correctly and then got its only worked example wrong (12px outer minus 8px inlay is 4px, `--rcc-radius-xs`, not 8px). §5 has it right.
+**Nesting math, two subtractions.** Inner radius equals outer radius minus the padding between them: a 24px card with 8px of padding around an inner panel gives that panel 16px. And inner radius equals outer radius minus the border width: an 8px container with a 1px border wants 7px inside. The earlier draft stated both rules correctly and then got its only worked example wrong (12px outer minus 8px inlay is 4px, `--rcc-radius-xs`, not 8px). `tokens.css` has it right.
 
 **Asymmetric corners are first-class.** A card docked to a section boundary rounds only its free corners. Do not round a corner that has nothing on the other side of it.
 
@@ -500,53 +502,6 @@ Chosen here and open to argument: the breakpoints 600/1024/1440; holding the gut
 
 ## 5. Foundations: motion
 
-Motion did not exist in the drafts and three sections referenced its tokens. Here it is.
-
-## 5.1 Two tracks
-
-**Spatial** covers position, size, rotation, and corner radius. It may overshoot.
-**Effects** covers opacity, color, and state layers. It never overshoots.
-
-That split is the whole system, and it is what makes the reduced-motion override two lines rather than an audit.
-
-## 5.2 Durations
-
-Three tiers per track. Spatial runs roughly 2.2 times the effects duration at the same tier, which is the ratio at which a movement and the color change riding along with it feel like one event.
-
-| Tier | Effects | Spatial | Use |
-|---|---|---|---|
-| fast | 90ms | 200ms | State layers, hover, press, focus ring |
-| default | 140ms | 320ms | Card lift, disclosure, chip selection, radius morph |
-| slow | 220ms | 480ms | Dialog and sheet enter, page-level transitions |
-
-**Enter is slower than exit.** An exit uses the tier below its enter. A dialog enters on slow and leaves on default.
-
-All chosen, not sourced. The ratio and the tier count come from the surveyed method; the millisecond values are ours.
-
-## 5.3 Easing
-
-| Token | Curve | Use |
-|---|---|---|
-| `--rcc-ease-standard` | `cubic-bezier(0.2, 0, 0, 1)` | Effects, always. Spatial moves that must land exactly. |
-| `--rcc-ease-spatial` | `cubic-bezier(0.34, 1.28, 0.64, 1)` | Spatial only. Overshoots and settles. |
-| `--rcc-ease-exit` | `cubic-bezier(0.4, 0, 1, 1)` | Anything leaving. Accelerates out. |
-
-`--rcc-ease-spatial` is the only curve with a control point above 1, which is what produces the overshoot. Never apply it to opacity or color: a color that overshoots renders as a flash.
-
-## 5.4 Reduced motion
-
-Zero the spatial durations, leave effects intact. Every state change survives, every movement stops. The compliance draft counted `prefers-reduced-motion` across nine Google surfaces and found it on two, then shipped no block of its own. This one ships.
-
-## 5.5 Icons
-
-The club needs an icon set and compliance forbids Material Symbols, Google Symbols, and the Cloud product icons as our identity, so a replacement is named here.
-
-**Lucide**, at 24×24 with a 1.5px stroke and one locked weight everywhere. Two sizes: 24px inside a `lg` control and in prose, 20px inside `md` and `sm` controls.
-
-Stroke icons are a deliberate departure. The surveyed Material convention is fill-only silhouettes with counters knocked out; a 1.5px stroke on a 24 grid reads as not-Material at a glance and it agrees with the diagram stroke ladder in §9.4, which means one drawing logic covers icons and diagrams.
-
-**Unverified in this document: Lucide's license.** It is understood to be ISC. Read the LICENSE file in the Lucide repository and record the result in `brand.md` before committing the dependency. If it does not check out, Phosphor and Heroicons are the alternates on the same terms.
-
-Conventions: one base glyph plus a consistent modifier for a variant. Never the Gemini spark, the Android robot, or the `{}` and `<>` code-punctuation glyphs from Google's community pages. Decorative icons are `aria-hidden="true"`; an icon that is the only content of a control carries an accessible name.
+Moved to [motion.md](motion.md) on 2026-09-21 and expanded from five sections to twelve: the four registers, the ambient rule, choreography, scrubbed motion, the transition vocabulary, a performance budget, and motion accessibility beyond the reduced-motion preference. Every `§5.x` citation still resolves there. Icons, which were §5.5, are now [visual-voice.md §9.5](visual-voice.md).
 
 ---
