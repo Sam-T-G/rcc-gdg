@@ -19,8 +19,9 @@ Academic dates below are from the RCCD 2026-2027 academic calendar (Fall 2026: c
 | [TBD] | Clubs not in the ASRCC budget may approach the ASRCC Senate for funding (window opens in August; only if the FY 2026-27 request was not funded; Senate meets Tuesdays 12:50 to 2:00 PM, Heritage Room, per rcc.edu) | milestone | Treasurer | planned |
 | 2026-09-03 | Meeting H1: [The Cold Open](sessions/2026-09-03-the-cold-open.md) (hook, pre-rush) | meeting | President | planned |
 | 2026-09-07 | Holiday (no classes; Monday, does not affect the Thursday slot) | break | | n/a |
-| [TBD] | Club Rush (week of 2026-09-08; exact day, time, and table location not yet confirmed with Student Activities) | event | Outreach lead | planned |
-| 2026-09-10 | Meeting H2: [The Twenty-Second Answer](sessions/2026-09-10-the-twenty-second-answer.md) (hook, Club Rush week, arms members for tabling) | meeting | President | planned |
+| 2026-09-10 | Meeting H2: [The Twenty-Second Answer](sessions/2026-09-10-the-twenty-second-answer.md) (hook, arms members for Club Rush tabling the following week) | meeting | President | planned |
+| 2026-09-15 | Club Rush, day 1 of 2 (time and table location [TBD] with Student Activities). The table QR code points at the [landing page](landing-page/README.md) | event | Outreach lead | planned |
+| 2026-09-16 | Club Rush, day 2 of 2 | event | Outreach lead | planned |
 | [TBD] | Club renewal packet due to Student Activities (within the first six weeks of the fall semester per rcc.edu; confirm the exact deadline with Student Activities) | deadline | President | planned |
 | [TBD] | DevFest mode decision: host on campus or attend a nearby chapter's event (log it in the decision log) | milestone | Event lead | planned |
 | 2026-09-17 | Meeting 1: [The Sentence That Gets You In The Room](sessions/2026-09-17-the-sentence.md) (Voice, install) | meeting | President | planned |

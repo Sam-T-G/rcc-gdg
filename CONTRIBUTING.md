@@ -91,5 +91,6 @@ CI runs these for you, but running them locally saves a round trip.
 | markdownlint-cli2 | `npm install -g markdownlint-cli2` | `markdownlint-cli2 "**/*.md"` |
 | lychee | see <https://github.com/lycheeverse/lychee> | `lychee --offline './**/*.md'` (relative links only) or `lychee './**/*.md'` (external too) |
 | check.sh | none (bash) | `scripts/check.sh` |
+| publish-site.sh | none (bash, git) | `scripts/publish-site.sh <term>` to build `site/`; add `--push` to publish to GitHub Pages |
 
 Config lives in `.markdownlint.yml` and `lychee.toml` at the repo root.

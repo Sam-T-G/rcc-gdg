@@ -19,7 +19,7 @@ Read [01-governance/maintenance-rules.md](01-governance/maintenance-rules.md) be
 | --- | --- |
 | This semester's goals, calendar, budget, meetings, events | `semesters/<YYYY-term>/` (see [semesters/README.md](../semesters/README.md)) |
 | A blank meeting note, event plan, retro, or decision record | [`templates/`](../templates/README.md) |
-| Scripts that create semester, event, and meeting files, and the pre-PR check | [scripts/new-semester.sh](../scripts/new-semester.sh), [scripts/new-event.sh](../scripts/new-event.sh), [scripts/new-meeting.sh](../scripts/new-meeting.sh), [scripts/check.sh](../scripts/check.sh) |
+| Scripts that create semester, event, and meeting files, and the pre-PR check | [scripts/new-semester.sh](../scripts/new-semester.sh), [scripts/new-event.sh](../scripts/new-event.sh), [scripts/new-meeting.sh](../scripts/new-meeting.sh), [scripts/check.sh](../scripts/check.sh), [scripts/publish-site.sh](../scripts/publish-site.sh) |
 | Who maintains the repo | [MAINTAINERS.md](../MAINTAINERS.md) |
 | How to contribute a change | [CONTRIBUTING.md](../CONTRIBUTING.md) |
 | Conduct expectations | [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) |
