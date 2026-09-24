@@ -54,7 +54,7 @@ console.log('tokens');
 }
 
 // ---------- A static server over the repo root.
-const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png', '.json': 'application/json' };
+const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.mp4': 'video/mp4', '.json': 'application/json' };
 const server = createServer((req, res) => {
   const p = resolve(ROOT, '.' + decodeURIComponent(new URL(req.url, 'http://x').pathname));
   if (!p.startsWith(ROOT) || !existsSync(p) || statSync(p).isDirectory()) { res.writeHead(404); res.end(); return; }
@@ -152,9 +152,21 @@ const info = await evaluate(`(() => {
     timer: +s.getAttribute('data-timer') || 0,
     lockup: !!s.querySelector('img[src*="gdg-on-campus"]'),
     sentence: [...s.querySelectorAll('.notice')].some((n) => n.textContent.replace(/\\s+/g, ' ').trim() === S),
+    // A photo the club took (figure data-source="club") credits the club in words;
+    // anything fetched credits its author with a link to the source.
+    demos: [...s.querySelectorAll('.device iframe')].map((f) => ({
+      src: f.getAttribute('src') || '', title: (f.getAttribute('title') || '').trim(),
+      open: !!s.querySelector('.demo__open[href="' + (f.getAttribute('src') || '') + '"]'),
+    })),
+    imgs: [...s.querySelectorAll('.photo img, .photo video, .grid img, .grid video')].map((im) => {
+      const fig = im.closest('.photo') || s, own = !!im.closest('[data-source]'), v = im.tagName === 'VIDEO';
+      return { src: im.getAttribute('src'), video: v, alt: (v ? im.getAttribute('aria-label') : im.getAttribute('alt')) || '', wh: im.hasAttribute('width') && im.hasAttribute('height'),
+        quiet: !v || (im.hasAttribute('muted') && im.hasAttribute('loop') && im.hasAttribute('playsinline') && !im.hasAttribute('autoplay') && !!im.getAttribute('poster')),
+        credit: own ? !!(fig.querySelector('.credit') && fig.querySelector('.credit').textContent.trim()) : !!fig.querySelector('.credit a[href^="http"]') };
+    }),
   }));
 })()`);
-const KINDS = ['cover', 'statement', 'contrast', 'beats', 'card', 'compress', 'figure', 'clock', 'rail', 'ask'];
+const KINDS = ['cover', 'statement', 'contrast', 'beats', 'card', 'compress', 'figure', 'clock', 'rail', 'photo', 'grid', 'demo', 'ask'];
 const MOVES = ['arrive', 'tension', 'work', 'turn', 'ask'];
 check(info.every((s) => KINDS.includes(s.kind)), `every slide has a known data-kind (${info.length} slides)`);
 check(info.every((s) => MOVES.includes(s.move)), 'every slide has a known data-move');
@@ -171,21 +183,39 @@ const first = info[0], last = info[info.length - 1];
 check(!first.lockup || first.sentence, 'cover: the lockup carries the independence sentence, verbatim');
 check(!last.lockup || last.sentence, 'last slide: the lockup carries the independence sentence, verbatim');
 check(first.sentence && last.sentence, 'the independence sentence is on the first and last slide');
+const demos = info.flatMap((s) => s.demos.map((d) => ({ ...d, i: s.i + 1, kind: s.kind })));
+if (info.some((s) => s.kind === 'demo')) {
+  check(info.every((s) => s.kind !== 'demo' || s.demos.length === 1), 'every demo slide holds exactly one phone');
+  check(demos.every((d) => d.kind === 'demo'), 'phones appear only on demo slides');
+  check(demos.every((d) => /^https:\/\//.test(d.src) && d.title && !/\[TBD/.test(d.title)), 'every phone loads an https URL and has a real title');
+  check(demos.every((d) => d.open), 'every phone has a .demo__open link to the same URL, for the stack and for a dead embed');
+}
+const imgs = info.flatMap((s) => s.imgs.map((m) => ({ ...m, i: s.i + 1 })));
+if (imgs.length) {
+  check(imgs.every((m) => m.alt.trim() && !/\[TBD/.test(m.alt)), `every photo has real alt text${imgs.filter((m) => !m.alt.trim() || /\[TBD/.test(m.alt)).map((m) => ' (slide ' + m.i + ')').join('')}`);
+  check(imgs.every((m) => m.wh), 'every photo has width and height');
+  check(imgs.every((m) => m.credit), `every photo shows a linked credit on its slide${imgs.filter((m) => !m.credit).map((m) => ' (slide ' + m.i + ' ' + m.src + ')').join('')}`);
+  const sizes = await Promise.all(imgs.map((m) => fetch(new URL(m.src, URL0)).then((r) => r.arrayBuffer()).then((b) => b.byteLength).catch(() => 0)));
+  check(sizes.every((b, k) => b > 0 && b < (imgs[k].video ? 1000 : 700) * 1024), `every photo loads and is under 700 KB, every clip under 1000 KB (largest ${Math.round(Math.max(...sizes) / 1024)} KB)`);
+  if (imgs.some((m) => m.video)) check(imgs.every((m) => m.quiet), 'every clip is muted, loops, plays inline, has a poster, and has no autoplay attribute (the engine plays it on its slide)');
+}
 
 // ---------- Floors and overflow, on every slide with every beat showing.
 console.log('floors and overflow (1920 x 1080, every beat revealed)');
 const layout = await evaluate(`(() => {
   const deck = document.querySelector('.deck'), u = deck.clientWidth / 1920, dr = deck.getBoundingClientRect();
   const slides = [...deck.querySelectorAll(':scope > .slide')], out = [];
-  const LEDGER = '.eyebrow, .label, .ledger, .counter, .compress__unit, .rung__label small, .rung__here';
+  const LEDGER = '.eyebrow, .label, .ledger, .counter, .compress__unit, .rung__label small, .rung__here, .credit';
   slides.forEach((s, i) => {
     slides.forEach((o) => o.classList.toggle('is-current', o === s));
     s.querySelectorAll('[data-beat]').forEach((b) => b.classList.remove('is-pending'));
-    const low = [], outside = [], band = [];
+    const low = [], outside = [], band = [], over = [];
+    const photos = [...s.querySelectorAll('.photo img, .photo video, .grid img, .grid video')].map((im) => im.getBoundingClientRect());
     for (const el of s.querySelectorAll('*')) {
       // SVG is skipped except inside the semester diagram, whose labels are real content.
       const inSvg = !!el.closest('svg');
-      if (el.closest('.notes, .visually-hidden, .compress-src, .rung-src') || (inSvg && !el.closest('.rung')) || getComputedStyle(el).visibility === 'hidden') continue;
+      // A demo phone's screen is the app at phone scale, drawn like a picture; its frame is still measured.
+      if (el.closest('.notes, .visually-hidden, .compress-src, .rung-src, .device__screen') || (inSvg && !el.closest('.rung')) || getComputedStyle(el).visibility === 'hidden') continue;
       const own = [...el.childNodes].some((n) => n.nodeType === 3 && n.nodeValue.trim());
       if (own) {
         // SVG text is already in stage units; HTML text is in CSS pixels. Labels inside
@@ -195,7 +225,13 @@ const layout = await evaluate(`(() => {
         const cut = el.closest('.compress__line');   // tokens being cut are shrinking on purpose
         if (!cut && fs < min - 0.5) low.push((el.getAttribute('class') || el.tagName) + ' ' + fs.toFixed(0) + ' < ' + min);
       }
-      if (!own && !el.matches('img, .card, .qr__tile, .clock__rail, .compress__bar, .cover__step')) continue;
+      if (own && photos.length) {
+        const tr = el.getBoundingClientRect();
+        if (photos.some((p) => tr.left < p.right && tr.right > p.left && tr.top < p.bottom && tr.bottom > p.top)) over.push(el.getAttribute('class') || el.tagName);
+      }
+      if (!own && !el.matches('img, video, .card, .qr__tile, .clock__rail, .compress__bar, .cover__step, .device')) continue;
+      // A bleeding photo runs off the stage edge on purpose (decision log, 2026-09-24).
+      if (el.matches('.slide[data-kind="photo"]:not([data-layout^="framed"]) .photo :is(img, video)')) continue;
       const r = el.getBoundingClientRect();
       if (!r.width || !r.height) continue;
       const y1 = (r.bottom - dr.top) / u, x1 = (r.right - dr.left) / u, y0 = (r.top - dr.top) / u, x0 = (r.left - dr.left) / u;
@@ -203,7 +239,7 @@ const layout = await evaluate(`(() => {
       // The rail steps aside on a rail slide, so that slide may use the band.
       if (s.dataset.kind !== 'cover' && s.dataset.kind !== 'rail' && y1 > 960) band.push((el.getAttribute('class') || el.tagName) + ' bottom ' + y1.toFixed(0));
     }
-    out.push({ i, kind: s.dataset.kind, low, outside, band });
+    out.push({ i, kind: s.dataset.kind, low, outside, band, over });
   });
   return out;
 })()`);
@@ -211,6 +247,7 @@ layout.forEach((s) => {
   check(!s.low.length, `slide ${s.i + 1} (${s.kind}): type at or above the floors${s.low.length ? ': ' + s.low.slice(0, 3).join('; ') : ''}`);
   check(!s.outside.length, `slide ${s.i + 1} (${s.kind}): inside the stage margins${s.outside.length ? ': ' + s.outside.slice(0, 3).join('; ') : ''}`);
   check(!s.band.length, `slide ${s.i + 1} (${s.kind}): clear of the rail band${s.band.length ? ': ' + s.band.slice(0, 3).join('; ') : ''}`);
+  if (s.over.length) fail(`slide ${s.i + 1} (${s.kind}): no text over a photo: ${s.over.slice(0, 3).join('; ')}`);
 });
 
 // ---------- Walk the deck with real key presses, in each mode.
@@ -279,17 +316,26 @@ async function walk(label, opts, expect) {
   const rs = await evaluate('__deck.state()');
   check(rs.last.startsWith('cut'), 'room mode transitions are cuts');
   await press('five'); await settle();
-  // Enter on the focused QR link belongs to the link, not the deck.
-  if (expect.presenting && (await evaluate('!!document.querySelector("a.qr")'))) {
-    // Go to the slide that holds the link: a hidden slide's link cannot take focus.
-    await evaluate(`location.hash = '#' + ([...document.querySelectorAll('.deck > .slide')].findIndex((s) => s.querySelector('a.qr')) + 1)`);
-    await sleep(300); await settle();
-    const before = (await evaluate('__deck.state()')).i;
-    await evaluate(`(() => { const a = document.querySelector('a.qr'); a.addEventListener('click', (e) => { e.preventDefault(); window.__qrClicked = true; }, { once: true }); a.focus(); })()`);
-    const focused = await evaluate('document.activeElement && document.activeElement.matches("a.qr")');
-    await key('Enter', 'Enter', 13); await settle();
-    const after = await evaluate('({ i: __deck.state().i, clicked: !!window.__qrClicked })');
-    check(focused && after.clicked && after.i === before, `Enter on the focused QR link follows the link and does not move the deck (focused ${focused}, clicked ${after.clicked})`);
+  // Enter on a focused QR link belongs to the link, not the deck. Every slide
+  // with a QR gets the test (the cover may carry one as well as the ask).
+  if (expect.presenting) {
+    const qrSlides = await evaluate(`[...document.querySelectorAll('.deck > .slide')].map((s, i) => s.querySelector('a.qr') ? i : -1).filter((i) => i >= 0)`);
+    for (const qi of qrSlides) {
+      // Go to the slide that holds the link: a hidden slide's link cannot take focus.
+      // The hash can already read the target while the deck sits elsewhere (it is
+      // written with replaceState), so clear it first, then wait until the deck lands.
+      await evaluate(`location.hash = '#0'`); await sleep(50);
+      await evaluate(`location.hash = '#${qi + 1}'`);
+      for (let w = 0; w < 40 && (await evaluate('__deck.state().i')) !== qi; w++) await sleep(50);
+      await sleep(250); await settle();
+      const before = (await evaluate('__deck.state()')).i;
+      if (before !== qi) fail(`slide ${qi + 1}: the deck never reached the QR slide (on ${before + 1})`);
+      await evaluate(`(() => { window.__qrClicked = false; const a = document.querySelectorAll('.deck > .slide')[${qi}].querySelector('a.qr'); a.addEventListener('click', (e) => { e.preventDefault(); window.__qrClicked = true; }, { once: true }); a.focus(); })()`);
+      const focused = await evaluate(`document.activeElement === document.querySelectorAll('.deck > .slide')[${qi}].querySelector('a.qr')`);
+      await key('Enter', 'Enter', 13); await settle();
+      const after = await evaluate('({ i: __deck.state().i, clicked: !!window.__qrClicked })');
+      check(focused && after.clicked && after.i === before, `slide ${qi + 1}: Enter on the focused QR link follows the link and does not move the deck (focused ${focused}, clicked ${after.clicked}${focused ? '' : ', focus on ' + (await evaluate('document.activeElement ? document.activeElement.tagName : "none"')) + ', on slide ' + (before + 1) + ', hash ' + (await evaluate('location.hash')) + ', link visibility ' + (await evaluate(`getComputedStyle(document.querySelectorAll('.deck > .slide')[${qi}].querySelector('a.qr')).visibility`))})`);
+    }
   }
   check(!errors().length, `no console errors${errors().length ? ': ' + errors()[0] : ''}`);
 }
@@ -299,6 +345,109 @@ await walk('reduced motion', { w: 1440, h: 900, reduce: true }, { presenting: tr
 await walk('GSAP blocked (offline fallback)', { w: 1280, h: 800, block: ['*cdnjs.cloudflare.com*'] }, { presenting: true, gsap: false });
 await walk('no script', { w: 1280, h: 800, js: false }, {});
 await walk('phone 390', { w: 390, h: 844 }, { presenting: false });
+
+// ---------- Surfaces, layouts, and stage transitions (presentation.md §13.11, motion.md §5.9).
+console.log('surfaces and stage transitions');
+await load();
+{
+  const SURFACES = ['', 'paper', 'mint', 'sand', 'sun', 'forest', 'ink'], LAYOUTS = ['', 'poster', 'tiles', 'panel', 'bleed-right', 'bleed-left', 'framed', 'framed-left'];
+  const STYLES = ['', 'rise', 'step', 'sweep', 'rotate', 'deal'];
+  const attrs = await evaluate(`[...document.querySelectorAll('.deck > .slide')].map((s) => ({ surface: s.dataset.surface || '', layout: s.dataset.layout || '', transition: s.dataset.transition || '', kind: s.dataset.kind }))`);
+  check(attrs.every((a) => SURFACES.includes(a.surface)), 'every data-surface is known');
+  check(attrs.every((a) => LAYOUTS.includes(a.layout)), 'every data-layout is known');
+  check(attrs.every((a) => STYLES.includes(a.transition)), 'every data-transition is known');
+  check(attrs.every((a) => !['cover', 'ask'].includes(a.kind) || ['', 'paper'].includes(a.surface)), 'cover and ask stay on paper (the lockup is raster, black wordmark)');
+  // Contrast: every text node against the nearest opaque background under it.
+  const low = await evaluate(`(() => {
+    const rgb = (c) => { const m = c.match(/[\\d.]+/g); return m ? m.map(Number) : [0, 0, 0, 0]; };
+    const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    const L = (c) => 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]);
+    const ratio = (a, b) => { const x = L(a), y = L(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+    const out = [];
+    document.querySelectorAll('.deck > .slide').forEach((s, i) => {
+      for (const el of s.querySelectorAll('*')) {
+        if (el.closest('svg, .notes, .visually-hidden, .compress-src, .rung-src, .qr')) continue;
+        if (![...el.childNodes].some((n) => n.nodeType === 3 && n.nodeValue.trim())) continue;
+        let bg = null;
+        for (let a = el; a; a = a.parentElement) { const c = rgb(getComputedStyle(a).backgroundColor); if (c.length < 4 || c[3] > 0.99) { bg = c; break; } if (a === s) break; }
+        if (!bg) {                                    // presenting, slides are transparent: the ground is the surface
+          const t = document.createElement('i'); t.style.color = getComputedStyle(s).getPropertyValue('--rcc-surface'); s.appendChild(t);
+          bg = rgb(getComputedStyle(t).color); t.remove();
+        }
+        const r = ratio(rgb(getComputedStyle(el).color), bg), big = !!el.closest('h1, h2');
+        if (r < (big ? 3 : 4.5)) out.push('slide ' + (i + 1) + ' ' + (el.getAttribute('class') || el.tagName) + ' ' + r.toFixed(2));
+      }
+    });
+    return out;
+  })()`);
+  check(!low.length, `every text pair on every surface meets 4.5:1 (3:1 for headings)${low.length ? ': ' + low.slice(0, 4).join('; ') : ''}`);
+
+  const clean = `(() => {
+    const slides = [...document.querySelectorAll('.deck > .slide')];
+    const dirty = slides.filter((s) => s.style.transform || s.style.clipPath || s.style.filter || s.classList.contains('is-leaving')).length;
+    const shown = slides.filter((s) => getComputedStyle(s).visibility === 'visible').length;
+    const d = document.querySelector('.deck');
+    const boxes = [...document.querySelectorAll('.box, .beats > li')].filter((b) => b.style.clipPath || b.style.transform || b.style.getPropertyValue('--pop')).length;
+    return { dirty, shown, boxes, staged: d.classList.contains('is-3d') || d.classList.contains('is-staging'), fx: document.querySelector('.stage-fx path').getAttribute('d') };
+  })()`;
+  const plan = await evaluate('__deck.slides');
+  const seenStyles = new Set(), bad = [];
+  for (let k = 1; k < plan.length; k++) {
+    await evaluate(`location.hash = '#${k}'`); await sleep(200); await settle();
+    for (let b = 0; b < plan[k - 1].beats; b++) { await press('right'); await settle(); }
+    await press('right'); await sleep(480);
+    const mid = await evaluate('__deck.state()');
+    if (mid.style !== 'rise' && mid.style !== 'cut') {
+      seenStyles.add(mid.style);
+      if (!mid.busy) bad.push(`slide ${k + 1} ${mid.style} was not in flight at 480 ms`);
+      if (SHOTS) await shot(`stage-${String(k + 1).padStart(2, '0')}-${mid.style}-mid`);
+    }
+    await settle();
+    let c = await evaluate(clean);
+    if (c.dirty || c.boxes || c.shown !== 1 || c.staged || c.fx) bad.push(`slide ${k + 1} forward left ${JSON.stringify(c)}`);
+    await press('left'); await sleep(250); await settle();
+    c = await evaluate(clean);
+    if (c.dirty || c.boxes || c.shown !== 1 || c.staged || c.fx) bad.push(`slide ${k + 1} back left ${JSON.stringify(c)}`);
+  }
+  // A box revealed on a press wipes up over time: caught part-way, not popped in.
+  const boxAt = await evaluate(`[...document.querySelectorAll('.deck > .slide')].findIndex((s) => s.querySelector('.box[data-beat]'))`);
+  if (boxAt >= 0) {
+    await evaluate(`location.hash = '#${boxAt + 1}'`); await sleep(250); await settle();
+    await press('right'); await sleep(170);
+    const clip = await evaluate(`document.querySelectorAll('.deck > .slide')[${boxAt}].querySelector('.box[data-beat]').style.clipPath`);
+    const top = parseFloat((/inset\(([\d.]+)%/.exec(clip) || [])[1]);
+    check(top > 1 && top < 99, `a box wipes up on its beat (clip top ${isNaN(top) ? 'none' : top.toFixed(0) + '%'} at 170 ms)`);
+    if (SHOTS) await shot('box-mid');
+    await settle();
+  }
+  // A clip plays while its slide is up, and stops when the deck moves on.
+  const vidAt = await evaluate(`[...document.querySelectorAll('.deck > .slide')].findIndex((s) => s.querySelector('.photo video'))`);
+  if (vidAt >= 0) {
+    const v = `document.querySelectorAll('.deck > .slide')[${vidAt}].querySelector('video')`;
+    await evaluate(`location.hash = '#${vidAt + 1}'`); await sleep(400); await settle();
+    const t0 = await evaluate(`${v}.currentTime`); await sleep(700);
+    const on = await evaluate(`({ paused: ${v}.paused, t: ${v}.currentTime })`);
+    check(!on.paused && on.t > t0, `a clip plays on its slide (t ${t0.toFixed(2)} -> ${on.t.toFixed(2)})`);
+    await press('right'); await settle(); await sleep(200);
+    check(await evaluate(`${v}.paused`), 'a clip stops when its slide is left');
+  }
+  // A cut between two surfaces crossfades the ground (effects track), so it runs
+  // even with reduced motion: caught part-way, it is neither color.
+  await load({ reduce: true });
+  const fadeAt = attrs.findIndex((a, k) => k + 1 < attrs.length && a.surface !== attrs[k + 1].surface && plan[k].beats === 0 && a.kind !== 'rail' && attrs[k + 1].kind !== 'rail');
+  if (fadeAt >= 0) {
+    await evaluate(`location.hash = '#${fadeAt + 1}'`); await sleep(900);
+    const bgNow = 'getComputedStyle(document.querySelector(".deck")).backgroundColor';
+    const a = await evaluate(bgNow); await press('right'); await sleep(200);
+    const m = await evaluate(bgNow); await sleep(1000);
+    const z = await evaluate(bgNow);
+    check(a !== z && m !== a && m !== z, `a cut between surfaces crossfades the ground (${a} -> ${m} -> ${z})`);
+  }
+  const used = new Set(attrs.map((a) => a.transition).filter((t) => t && t !== 'rise'));
+  check([...used].every((t) => seenStyles.has(t)), `every named stage style ran mid-flight (${[...seenStyles].join(', ') || 'none'})`);
+  check(!bad.length, `every stage transition lands clean, forward and back${bad.length ? ': ' + bad.slice(0, 3).join('; ') : ''}`);
+  check(!errors().length, `no console errors${errors().length ? ': ' + errors()[0] : ''}`);
+}
 
 // ---------- Timer: T starts it, a transition during a run is a cut.
 console.log('clock');

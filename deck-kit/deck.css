@@ -212,13 +212,19 @@ body {
   animation-delay: calc(var(--i, 0) * 56ms);
 }
 
+/* Boxes without GSAP: the same wipe up and pop by CSS (reduced motion zeroes them). */
+@keyframes deck-box { from { clip-path: inset(100% 0 0 0 round calc(28 * var(--u))); transform: translateY(calc(32 * var(--u))); } to { clip-path: inset(0 round calc(28 * var(--u))); transform: none; } }
+@keyframes deck-pop { from { transform: scale(0); } }
+.deck-live.no-gsap .slide.is-entering .box, .deck-live.no-gsap .box.is-revealing { animation: deck-box var(--rcc-dur-beat) var(--rcc-ease-arrive) both; }
+.deck-live.no-gsap .slide.is-entering .beats li::before, .deck-live.no-gsap .beats li.is-revealing::before { animation: deck-pop var(--rcc-dur-beat) cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
 /* Beats not yet reached. Hidden, not removed: a screen reader walking the
    stacked view gets them, and the presenting view reveals them in order. */
 .deck-live.is-presenting [data-beat].is-pending { visibility: hidden; }
 .beats li.is-past { color: var(--rcc-on-surface-variant); transition: color var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
 
 /* --- Chrome: ledger, counter, rail. Stays still across every transition. -- */
-.chrome { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.chrome { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
 .chrome .ledger { position: absolute; top: calc(52 * var(--u)); left: var(--s-margin); margin: 0; max-width: calc(1300 * var(--u)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chrome .counter { position: absolute; top: calc(52 * var(--u)); right: var(--s-margin); margin: 0; }
 .deck.on-cover .chrome .ledger { visibility: hidden; }
@@ -251,6 +257,13 @@ body {
    Step collapses into a jog. */
 .cover__step { flex: none; height: calc(96 * var(--u)); margin-block: calc(40 * var(--u)) calc(48 * var(--u)); }
 .cover__starts { margin-block-end: calc(12 * var(--u)); }
+/* An optional QR on the cover (the way in, for a room that is still arriving):
+   the right column above the notice, never moving. The words and the Step stop
+   short of it so the Step never runs under the code. */
+.slide[data-kind="cover"] .cover__qr { position: absolute; right: var(--s-margin); bottom: calc(236 * var(--u)); }
+.slide[data-kind="cover"]:has(.cover__qr) :is(.eyebrow, h1, .sub) { max-width: calc(1180 * var(--u)); }
+.slide[data-kind="cover"]:has(.cover__qr) .cover__step { margin-inline-end: calc(420 * var(--u)); }
+:root:not(.is-presenting) .slide[data-kind="cover"] .cover__qr { position: static; align-self: flex-start; margin-block: calc(24 * var(--u)); }
 .notice {
   font-size: var(--s-body-sm); line-height: 1.3; max-width: calc(1500 * var(--u));
   color: var(--rcc-on-surface-variant); text-wrap: pretty;
@@ -290,6 +303,8 @@ body {
   margin-top: calc(-6 * var(--u));
 }
 .beats li > .body { display: block; }
+/* The number dot pops when its item arrives; deck.js tweens --pop (0 to 1). */
+.beats li::before { transform: scale(var(--pop, 1)); }
 .beats li .detail { display: block; font-size: var(--s-body-sm); color: var(--rcc-on-surface-variant); margin-top: calc(8 * var(--u)); }
 
 /* --- card ----------------------------------------------------------------- */
@@ -417,6 +432,183 @@ body {
 .ask__lockup--dark { display: none; }
 :root[data-theme="dark"] .ask__lockup--dark { display: block; height: calc(110 * var(--u)); }
 
+/* --- Surfaces (presentation.md §13.11) ------------------------------------- */
+/* A slide's color says what kind of moment it is. Each surface remaps the role
+   tokens, so every archetype renders on it unchanged; the chrome takes the
+   current slide's surface so the ledger, counter, and rail stay legible. Every
+   ink pair here measures 5.5:1 or better (check.mjs recomputes them). Paper is
+   the root tokens, so it follows the D preview; the other five are fixed. */
+[data-surface="mint"] {
+  --rcc-surface: #cff1d3; --rcc-surface-container-lowest: #effaf0; --rcc-surface-container-highest: #a8dcb0;
+  --rcc-on-surface: #0f2a16; --rcc-on-surface-variant: #2f5a3a; --rcc-outline-variant: #93c79c;
+  --rcc-primary: #00632a; --rcc-on-primary: #ffffff;
+}
+[data-surface="sand"] {
+  --rcc-surface: #ffe5c0; --rcc-surface-container-lowest: #fff6ea; --rcc-surface-container-highest: #f1c98f;
+  --rcc-on-surface: #2e2006; --rcc-on-surface-variant: #5c4513; --rcc-outline-variant: #e0b877;
+  --rcc-primary: #7a4f00; --rcc-on-primary: #ffffff;
+}
+[data-surface="sun"] {
+  --rcc-surface: #f9ab00; --rcc-surface-container-lowest: #ffd67a; --rcc-surface-container-highest: #d99200;
+  --rcc-on-surface: #1e1a10; --rcc-on-surface-variant: #3d2e05; --rcc-outline-variant: #c98700;
+  --rcc-primary: #1e1a10; --rcc-on-primary: #f9ab00;
+  --rcc-highlight: #1e1a10; --rcc-highlight-container: #1e1a10; --rcc-on-highlight-container: #f9ab00;
+}
+[data-surface="forest"] {
+  --rcc-surface: #00531e; --rcc-surface-container-lowest: #0b3d1c; --rcc-surface-container-highest: #1f6b37;
+  --rcc-on-surface: #ffffff; --rcc-on-surface-variant: #c6eccb; --rcc-outline-variant: #2f7a45;
+  --rcc-primary: #96d6a0; --rcc-on-primary: #003410;
+  --rcc-highlight: #f9ab00; --rcc-highlight-container: #f9ab00; --rcc-on-highlight-container: #1e1a10;
+}
+[data-surface="ink"] {
+  --rcc-surface: #121412; --rcc-surface-container-lowest: #1b211c; --rcc-surface-container-highest: #313731;
+  --rcc-on-surface: #e6e9e6; --rcc-on-surface-variant: #b9bcba; --rcc-outline-variant: #424943;
+  --rcc-primary: #96d6a0; --rcc-on-primary: #003410;
+  --rcc-highlight: #e7ae58; --rcc-highlight-container: #624000; --rcc-on-highlight-container: #fcdeb5;
+}
+.slide[data-surface] { background: var(--rcc-surface); color: var(--rcc-on-surface); }
+.chrome .ledger, .chrome .counter { transition: color var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+
+/* --- photo: one photograph and the words beside it, never over it --------- */
+/* Ported from rcc-acm/deck-kit on 2026-09-24 (visual-voice.md §9.3, fourth image
+   type). bleed-right (default) and bleed-left run the photo off the stage edge,
+   from the top down to the rail band; framed sits it inside the margins. The
+   credit is a link, on the slide, in the ledger face. */
+.slide[data-kind="photo"] { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(96 * var(--u)); align-items: center; }
+.photo__text { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
+.photo { margin: 0; }
+.photo :is(img, video) { display: block; object-fit: cover; }
+.credit { font-family: var(--rcc-font-code); font-size: var(--s-ledger); line-height: 1.25; letter-spacing: 0.02em; color: var(--rcc-on-surface-variant); font-variant-ligatures: none; }
+.credit a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+.slide[data-kind="photo"]:not([data-layout^="framed"]) .photo :is(img, video) { position: absolute; top: 0; width: calc(50% - 48 * var(--u)); height: calc(960 * var(--u)); }
+.slide[data-kind="photo"]:not([data-layout]) .photo :is(img, video), .slide[data-kind="photo"][data-layout="bleed-right"] .photo :is(img, video) { right: 0; }
+.slide[data-kind="photo"][data-layout="bleed-left"] .photo :is(img, video) { left: 0; }
+.slide[data-kind="photo"][data-layout="bleed-left"] .photo__text { grid-column: 2; grid-row: 1; }
+.slide[data-kind="photo"]:not([data-layout^="framed"]) .credit { position: absolute; bottom: calc(136 * var(--u)); left: var(--s-margin); max-width: calc(760 * var(--u)); }
+.slide[data-kind="photo"][data-layout="bleed-left"] .credit { left: calc(50% + 48 * var(--u)); }
+.slide[data-kind="photo"][data-layout^="framed"] .photo { display: grid; gap: calc(16 * var(--u)); }
+.slide[data-kind="photo"][data-layout^="framed"] .photo :is(img, video) { width: 100%; height: auto; max-height: calc(640 * var(--u)); border-radius: calc(24 * var(--u)); }
+/* framed-left: the same frame, photo on the left and the words on the right. */
+.slide[data-kind="photo"][data-layout="framed-left"] .photo__text { grid-column: 2; grid-row: 1; }
+
+/* --- grid: a reel of two to four photos or clips, each with a short label --- */
+/* The tiles wipe up like any box; clips play while the slide is up. One credit
+   line for the slide sits under the reel. */
+.slide[data-kind="grid"] { justify-content: center; }
+.grid { list-style: none; padding: 0; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: calc(32 * var(--u)); }
+.grid li { display: flex; flex-direction: column; gap: calc(16 * var(--u)); border-radius: calc(24 * var(--u)); }
+.grid :is(img, video) { display: block; width: 100%; height: calc(500 * var(--u)); object-fit: cover; border-radius: calc(24 * var(--u)); background: var(--rcc-surface-container-lowest); }
+.grid b { font-size: var(--s-body-sm); font-weight: 500; letter-spacing: -0.005em; line-height: 1.2; }
+.slide[data-kind="grid"] > .credit { margin-top: calc(-8 * var(--u)); }
+
+/* The photo is the only thing that bleeds, so the chrome over its corner steps aside. */
+.deck.on-bleed-right .chrome .counter, .deck.on-bleed-left .chrome .ledger { visibility: hidden; }
+/* Stacked and no-script: the photo sits in the flow. */
+:root:not(.is-presenting) .slide[data-kind="photo"] .photo :is(img, video) { position: static; width: 100%; height: auto; }
+/* Entrance: the photo wipes in from its edge and settles, each time its slide
+   becomes current. Spatial track, so reduced motion makes it a cut. */
+@keyframes photo-in-right { from { clip-path: inset(0 0 0 100%); transform: scale(1.06); } to { clip-path: inset(0); transform: none; } }
+@keyframes photo-in-left  { from { clip-path: inset(0 100% 0 0); transform: scale(1.06); } to { clip-path: inset(0); transform: none; } }
+@keyframes photo-in-up    { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"] .photo :is(img, video) { animation: photo-in-right var(--rcc-dur-move) var(--rcc-ease-arrive) both; animation-delay: 120ms; }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout="bleed-left"] .photo :is(img, video) { animation-name: photo-in-left; }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout^="framed"] .photo :is(img, video) { animation-name: photo-in-up; }
+.deck-live.is-presenting .slide.is-current[data-kind="grid"] .grid :is(img, video) { animation: none; }
+
+/* --- demo: a live web app in a phone the presenter can use ---------------- */
+/* The screen is a real 440 x 956 CSS px viewport (iPhone Pro Max), so the app
+   lays itself out as it would on the phone. deck.js scales it to the stage with
+   --device-scale (856 stage px of glass over 956 px of screen); the frame around
+   it is drawn in stage units, 418 x 880 with a 12 px bezel. */
+.slide[data-kind="demo"] { display: grid; grid-template-columns: 1fr calc(418 * var(--u)); column-gap: calc(96 * var(--u)); align-items: center; }
+.demo__text { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
+.demo__open { display: none; }
+/* Pinned like a bleeding photo: 64 from the top and clear of the rail band at 960. */
+.device {
+  position: absolute; top: calc(64 * var(--u)); right: var(--s-margin);
+  width: calc(418 * var(--u)); height: calc(880 * var(--u));
+  border-radius: calc(72 * var(--u)); background: #111; padding: calc(12 * var(--u));
+  box-shadow: 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant);
+  transition: box-shadow var(--rcc-dur-default-effects) var(--rcc-ease-standard);
+}
+/* The phone has the keyboard: a ring in the club's green, and the label turns on. */
+.device.has-keys { box-shadow: 0 0 0 calc(8 * var(--u)) var(--rcc-primary); }
+.device__glass { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: calc(60 * var(--u)); background: #000; }
+.device__screen {
+  position: absolute; top: 0; left: 0; width: 440px; height: 956px;
+  transform-origin: 0 0; transform: scale(var(--device-scale, 0.4));
+  display: flex; flex-direction: column; background: #000;
+}
+.device__status { flex: 0 0 62px; position: relative; color: #fff; font: 600 17px/1 -apple-system, "SF Pro Text", system-ui, sans-serif; }
+.device__time { position: absolute; left: 50px; top: 22px; }
+.device__island { position: absolute; left: 50%; top: 11px; width: 126px; height: 37px; margin-left: -63px; border-radius: 19px; background: #000; box-shadow: 0 0 0 1px #1c1c1c; }
+.device__bars { position: absolute; right: 36px; top: 22px; width: 60px; height: 13px; display: flex; gap: 6px; align-items: flex-end; justify-content: flex-end; }
+.device__bars i { display: block; width: 4px; background: #fff; border-radius: 1px; }
+.device__bars i:nth-child(1) { height: 5px; } .device__bars i:nth-child(2) { height: 8px; } .device__bars i:nth-child(3) { height: 11px; }
+.device__bars b { display: block; width: 25px; height: 12px; margin-left: 4px; border-radius: 4px; background: #fff; }
+.device__screen iframe { flex: 1 1 auto; width: 440px; border: 0; background: #fff; display: block; }
+.device__home { position: absolute; left: 50%; bottom: 8px; width: 150px; height: 5px; margin-left: -75px; border-radius: 3px; background: rgba(255, 255, 255, 0.55); pointer-events: none; mix-blend-mode: difference; }
+.device__keys { visibility: hidden; color: var(--rcc-primary); }
+.slide[data-kind="demo"]:has(.device.has-keys) .device__keys { visibility: visible; }
+/* Stacked and no-script: a phone inside a phone is no use, so the frame goes and the link shows. */
+:root:not(.is-presenting) .slide[data-kind="demo"] { display: block; }
+:root:not(.is-presenting) .device { display: none; }
+:root:not(.is-presenting) .demo__open { display: inline; }
+/* Fill backwards only: a clip-path left on after the wipe would cut off the keys ring. */
+.deck-live.is-presenting .slide.is-current[data-kind="demo"] .device { animation: photo-in-up var(--rcc-dur-move) var(--rcc-ease-arrive) backwards; animation-delay: 120ms; }
+/* The phone stands where the counter sits, so the counter steps aside, as over a bleeding photo. */
+.deck.on-demo .chrome .counter { visibility: hidden; }
+
+/* --- The ground: one color under the stage, crossfading (motion.md §5.9) --- */
+/* Presenting, the slides are transparent and the deck paints the current surface
+   (deck.js sets it), so a cut between surfaces fades instead of snapping. Effects
+   track: reduced motion keeps the fade and zeroes only the spatial moves. */
+.deck-live.is-presenting .deck { transition: background-color calc(3 * var(--rcc-dur-slow-effects)) var(--rcc-ease-standard); }
+.deck-live.is-presenting .slide { background: transparent; }
+.deck-live.is-presenting .deck.is-moving .slide { background: var(--rcc-surface); }
+.chrome .rail__fill, .chrome .rail__track, .chrome .rail__label { transition: fill var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+
+/* --- Stage transitions (motion.md §5.9) ----------------------------------- */
+/* While a stage transition runs, both slides are visible and the engine moves
+   the slides themselves. applyState() clears every inline style this sets. */
+.deck-live.is-presenting .slide.is-leaving { visibility: visible; }
+/* The backstage wins over the ground while a cube turns or a card is dealt. */
+.deck-live.is-presenting .deck.is-staging { background-color: #0b0f0b !important; transition: none; }
+.deck-live.is-presenting .deck.is-3d { perspective: calc(2600 * var(--u)); }
+.deck-live.is-presenting .deck.is-3d .slide { backface-visibility: hidden; transform-style: preserve-3d; }
+.stage-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible; display: none; }
+.deck-live.is-presenting .stage-fx { display: block; }
+.stage-fx path { fill: none; stroke-linejoin: miter; stroke-linecap: butt; }
+.stage-fx__band { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; }
+
+/* --- Layout variants ------------------------------------------------------ */
+/* poster: one statement, set as large as the stage allows. */
+.slide[data-layout="poster"] h2 { font-size: calc(150 * var(--u)); line-height: 1.0; letter-spacing: -0.03em; max-width: calc(1700 * var(--u)); }
+.slide[data-layout="poster"] .sub { font-size: var(--s-body); max-width: 48ch; }
+.slide[data-layout="poster"] .eyebrow { color: var(--rcc-on-surface-variant); }
+
+/* tiles: beats as a row of cards with a large index, read left to right. */
+.slide[data-layout="tiles"] .beats { grid-auto-flow: column; grid-auto-columns: 1fr; gap: calc(32 * var(--u)); align-items: stretch; }
+.slide[data-layout="tiles"] .beats li {
+  display: flex; flex-direction: column; gap: calc(28 * var(--u)); max-width: none;
+  background: var(--rcc-surface-container-lowest); border-radius: calc(28 * var(--u));
+  padding: calc(40 * var(--u)) calc(40 * var(--u)) calc(44 * var(--u));
+}
+.slide[data-layout="tiles"] .beats li::before {
+  width: auto; height: auto; box-shadow: none; border-radius: 0; place-items: start; margin: 0;
+  font-family: var(--rcc-font-brand); font-size: calc(120 * var(--u)); line-height: 0.85; letter-spacing: -0.04em;
+  content: counter(beat, decimal-leading-zero);
+}
+.slide[data-layout="tiles"] .beats li.is-past { color: inherit; }
+.slide[data-layout="tiles"] .beats li .detail { margin-top: calc(16 * var(--u)); }
+
+/* panel: the strong side of a contrast sits on its own color. */
+.slide[data-layout="panel"] .contrast { gap: calc(48 * var(--u)); align-items: stretch; }
+.slide[data-layout="panel"] .contrast > div { padding: calc(48 * var(--u)) calc(52 * var(--u)); border-radius: calc(28 * var(--u)); }
+.slide[data-layout="panel"] .contrast > .is-weak { box-shadow: inset 0 0 0 calc(3 * var(--u)) var(--rcc-outline-variant); }
+.slide[data-layout="panel"] .contrast > .is-strong { background: var(--rcc-primary); color: var(--rcc-on-primary); }
+.slide[data-layout="panel"] .contrast > .is-strong > .label { color: var(--rcc-on-primary); opacity: 0.85; }
+
 /* --- Overlays: notes, help, toast. Viewport pixels, outside the stage. ---- */
 .deck-notes, .deck-help, .deck-toast { font-family: var(--rcc-font-brand); }
 .deck-notes {
@@ -460,4 +652,5 @@ body {
   .chrome, .deck-notes, .deck-help, .deck-toast { display: none !important; }
   [data-beat] { visibility: visible !important; }
   .w__in, .blk__in { transform: none !important; }
+  .photo :is(img, video) { animation: none !important; clip-path: none !important; }
 }

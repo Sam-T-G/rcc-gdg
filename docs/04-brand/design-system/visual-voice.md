@@ -56,13 +56,15 @@ Below 600px the treads do not fit side by side with legible names. On a web page
 
 ## 9.3 What our pictures are of
 
-The club has no illustrator and will not have one next semester. So the answer is not "keep it simple", it is that **no freehand illustration exists in this system**. Three sanctioned image types, all of them made by editing text.
+The club has no illustrator and will not have one next semester. So the answer is not "keep it simple", it is that **no freehand illustration exists in this system**. Four sanctioned image types. The first three are made by editing text; the fourth is fetched, never drawn.
 
 **1. Type as the image.** The default hero for every event page, session page, and social card: the title set at a display role on a flat surface role, the Step rule beneath it, the date and room in a label role. No picture at all. This is the highest-quality output the club can reliably produce, because it is the type system doing its job.
 
 **2. Diagrams, not drawings.** Mermaid in fenced code blocks, which GitHub renders natively and the HTML build can render too. Use it for the arc map, session flows, the Demo Day run of show, the officer handoff chain. It is text, so it diffs in a pull request and survives an officer transition. Stroke weights and arrowheads follow §9.4. Every diagram gets alt text and a text equivalent.
 
-**3. Photographs of the room, not of faces.** The default shot list is the room from the back over shoulders toward the screen, hands on keyboards and markers, the whiteboard, the agenda on the wall, the check-in table. Those need no consent and carry the pages perfectly well. Identifiable portraits are the exception and they run through the consent machinery in [accessibility.md](accessibility.md) Part 2, which stays there because it is a policy procedure and not a drawing decision.
+**3. Photographs of the room, not of faces.** The default shot list is the room from the back over shoulders toward the screen, hands on keyboards and markers, the whiteboard, the agenda on the wall, the check-in table. Those need no consent and carry the pages perfectly well. The club's own event photos and short clips with identifiable people (the Google I/O 2026 set on the first-meeting deck) go public only with everyone's consent, metadata stripped, and credited to the club in words. Identifiable portraits are the exception and they run through the consent machinery in [accessibility.md](accessibility.md) Part 2, which stays there because it is a policy procedure and not a drawing decision.
+
+**4. Openly licensed reference photos of things** (added 2026-09-24, Sam). When a slide or page names something a person could photograph, a tool, an object, a place, a piece of hardware, it may show a real photo of it: CC0, public domain, CC BY, or CC BY-SA only, fetched with `deck-kit/fetch-image.mjs`, which strips the metadata, sizes it, and writes the credit. The credit stays on the slide as a link, in the ledger face at 32px or larger. No text ever sits on a photo; on a deck it is the `photo` archetype ([presentation.md §13.5](presentation.md)), which sets the words beside it. Never people or faces, never Google product or marketing imagery, never anything NC or ND. The rules for agents are in `deck-kit/CLAUDE.md`.
 
 **The Step field is retired.** The 2026-08-31 draft named a third type: a low-contrast tiled pattern of the Step behind heroes and on the Demo Day page. It was dropped on 2026-09-21. A tiled repeat contradicts the Step's own first rule of use, once per screen (§9.6), and the one the landing page tried in September 2026 was rejected on sight. Photographs of the room took its slot; [assets.md §10.2](assets.md) was corrected on 2026-09-23.
 
@@ -220,4 +222,4 @@ The 13px size and the +0.08em tracking (`--rcc-track-ledger`) have shipped in `t
 
 ---
 
-**Last updated: 2026-09-23.**
+**Last updated: 2026-09-24.**

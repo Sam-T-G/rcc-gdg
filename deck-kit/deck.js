@@ -151,6 +151,42 @@
       u.el.style.setProperty('--i', u.k);
     });
   }
+  // Boxes: containers with a fill (tiles, panels) wipe up from their bottom edge
+  // like the words rise through their masks; a list's number dot pops. Without
+  // this the words rose into a box that was already sitting there at full size.
+  var BOX = '.slide[data-layout="tiles"] .beats > li, .slide[data-layout="panel"] .contrast > div, .grid > li';
+  var DOT = '.slide:not([data-layout="tiles"]) .beats > li';
+  function buildBoxes(slide) {
+    var beats = all('[data-beat]', slide);
+    function beatOf(el) { var h = el.closest('[data-beat]'); return h && slide.contains(h) ? beats.indexOf(h) + 1 : 0; }
+    return all(BOX, slide).map(function (el) { el.classList.add('box'); return { el: el, beat: beatOf(el), dot: false }; })
+      .concat(all(DOT, slide).map(function (el) { return { el: el, beat: beatOf(el), dot: true }; }));
+  }
+  function boxesFor(slide, a, b) { return slide._boxes.filter(function (x) { return x.beat >= a && x.beat <= b; }); }
+  function clearBoxes(slide) {
+    slide._boxes.forEach(function (x) { x.el.style.clipPath = ''; x.el.style.transform = ''; x.el.style.removeProperty('--pop'); });
+  }
+  function boxClip(el, top, bottom) {
+    var r = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
+    return 'inset(' + top + '% 0% ' + bottom + '% 0% round ' + r2(r) + 'px)';
+  }
+  // Add entrances to a timeline at a position, staggered in reading order.
+  function boxesIn(tl, list, at, back) {
+    var u = deck.clientWidth / 1920 || 1, d = dur('beat') * (back || 1);
+    list.forEach(function (x, k) {
+      var when = at + k * 0.07;
+      if (x.dot) tl.fromTo(x.el, { '--pop': 0 }, { '--pop': 1, duration: d * 0.9, ease: 'back.out(2.2)' }, when);
+      else tl.fromTo(x.el, { clipPath: boxClip(x.el, 100, 0), y: 32 * u }, { clipPath: boxClip(x.el, 0, 0), y: 0, duration: d * 1.15, ease: EASE.arrive }, when);
+    });
+  }
+  // Exits go the way the words go: up and out forward, down and out backward.
+  function boxesOut(tl, list, at, sign) {
+    list.forEach(function (x) {
+      if (x.dot) tl.to(x.el, { '--pop': 0, duration: 0.3 * dur('beat'), ease: EASE.exit }, at);
+      else tl.to(x.el, { clipPath: sign > 0 ? boxClip(x.el, 0, 100) : boxClip(x.el, 100, 0), duration: 0.3 * dur('beat'), ease: EASE.exit }, at);
+    });
+  }
+
   function unitsFor(slide, beatFrom, beatTo) {
     return slide._units.filter(function (u) { return u.beat >= beatFrom && u.beat <= beatTo; });
   }
@@ -496,6 +532,10 @@
   }
 
   /* ---------- Chrome: ledger, counter, rail -------------------------------- */
+  // Stage effects: the Step's edge on a step wipe and the band on a sweep. Sits
+  // over the slides and under the chrome; empty whenever nothing is moving.
+  var fx = svgEl('svg', { class: 'stage-fx', viewBox: '0 0 1920 1080', preserveAspectRatio: 'none', 'aria-hidden': 'true', focusable: 'false' }, deck);
+  var fxEdge = svgEl('path', { d: '' }, fx), fxBand = svgEl('polygon', { points: '' }, fx);
   var chrome = make('div', 'chrome', deck); chrome.setAttribute('aria-hidden', 'true');
   var ledger = make('p', 'ledger', chrome), counter = make('p', 'counter', chrome);
   var rail = svgEl('svg', { class: 'rail', viewBox: '0 0 1920 1080', focusable: 'false' }, chrome);
@@ -530,7 +570,7 @@
       x += w + RAIL.gap;
       return s;
     });
-    G.segs.forEach(function (s) { try { s.fits = s.label.getComputedTextLength() <= s.w - 8; } catch (e) { s.fits = true; } });
+    G.segs.forEach(function (s) { try { s.lw = s.label.getComputedTextLength(); } catch (e) { s.lw = 0; } s.fits = s.lw <= s.w - 8; });
     var arc = parseFloat(token('--rcc-step-arc')) / 100 || 0.12;
     G.flat = [RAIL.left, y, lerp(RAIL.left, RAIL.right, arc), y, RAIL.right];
     // The cover Step lives in the .cover__step box, in stage units.
@@ -568,6 +608,9 @@
       // A label too wide for its segment shows only while it is the current one.
       s.label.classList.toggle('is-hidden', !s.fits && k !== at);
     });
+    // A current label wider than its segment runs over the next ones; hide what it covers.
+    var cur = G.segs[at];
+    if (cur && !cur.fits) G.segs.forEach(function (s, k) { if (k > at && s.x < cur.x + cur.lw + 24) s.label.classList.add('is-hidden'); });
   }
 
   /* ---------- Build every slide ------------------------------------------- */
@@ -588,12 +631,13 @@
     slide._figure = makeFigure(slide);
     slide._rung = makeRung(slide);
     slide._units = buildUnits(slide);
+    slide._boxes = buildBoxes(slide);
     slide._beatEls = all('[data-beat]', slide);
     slide._beats = slide._compress ? slide._compress.steps : slide._beatEls.length;
   });
 
   /* ---------- State -------------------------------------------------------- */
-  var S = { i: 0, b: 0, room: recall('room') === '1', tl: null, last: 'none', presenting: false };
+  var S = { i: 0, b: 0, room: recall('room') === '1', tl: null, last: 'none', style: 'none', presenting: false };
   function visible() {
     if (!S.room) return slides.map(function (s, i) { return i; });
     var v = slides.map(function (s, i) { return s.hasAttribute('data-room') ? i : -1; }).filter(function (i) { return i >= 0; });
@@ -616,7 +660,14 @@
       var on = k === i;
       s.classList.toggle('is-current', on);
       if (!on && s._clock) s._clock.pause();
+      clearStage(s);
+      clearBoxes(s);
     });
+    syncVideos(slide);
+    var moved = deck.classList.contains('is-moving');
+    deck.classList.remove('is-3d', 'is-staging', 'is-moving');
+    setGround(slide, moved);
+    fxEdge.setAttribute('d', ''); fxBand.setAttribute('points', '');
     setBeats(slide, b);
     resetUnits(unitsFor(slide, 0, b));
     if (slide._compress) { slide._compress.state.v = b; slide._compress.render(b); }
@@ -625,10 +676,42 @@
     var rt = railTarget(i); R.t = rt.t; R.fill = rt.fill; R.draw = 1; renderRail();
     chromeText();
   }
+  function surf(s) { return s.getAttribute('data-surface') || ''; }
+  // A clip on a photo slide plays only while its slide is on the stage, and never
+  // under reduced motion or in the reading stack (motion.md §5.6: it is the
+  // slide's subject, and it stops when the slide is not the one being shown).
+  var videos = all('.photo video, .grid video');
+  function syncVideos(current) {
+    videos.forEach(function (v) {
+      var on = S.presenting && !reduceMQ.matches && current && current.contains(v);
+      if (on) { v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else if (!v.paused) v.pause();
+    });
+  }
+  // The stage's ground. While presenting, slides are transparent and the deck
+  // paints the current surface, so a change of color with no stage move behind it
+  // (a cut, the offline fallback) crossfades on the effects track instead of
+  // snapping. During a stage move the slides paint their own surfaces (.is-moving),
+  // because the wipe's edge is the color change. Instant after a move: the
+  // incoming slide already covers the stage in that color.
+  function setGround(slide, instant) {
+    var c = getComputedStyle(slide).getPropertyValue('--rcc-surface').trim();
+    if (instant) { deck.style.transition = 'none'; deck.style.backgroundColor = c; void deck.offsetWidth; deck.style.transition = ''; }
+    else deck.style.backgroundColor = c;
+  }
+  function clearStage(s) {
+    s.classList.remove('is-leaving');
+    ['transform', 'transformOrigin', 'clipPath', 'filter', 'zIndex', 'borderRadius', 'boxShadow'].forEach(function (p) { s.style[p] = ''; });
+  }
   function chromeText() {
     var slide = slides[S.i], V = visible(), pos = V.indexOf(S.i);
+    chrome.setAttribute('data-surface', surf(slide));
     deck.classList.toggle('on-cover', slide._kind === 'cover');
+    deck.classList.toggle('on-demo', slide._kind === 'demo');
     deck.classList.toggle('on-rung', !!slide._rung);
+    var bleed = slide._kind === 'photo' ? (slide.getAttribute('data-layout') || 'bleed-right') : '';
+    deck.classList.toggle('on-bleed-right', bleed === 'bleed-right');
+    deck.classList.toggle('on-bleed-left', bleed === 'bleed-left');
     ledger.textContent = slide.getAttribute('data-ledger') || deck.getAttribute('data-ledger') || '';
     var text = pad(pos + 1) + ' / ' + pad(V.length);
     if (S.room) text += ' · Room';
@@ -655,11 +738,95 @@
   }
   function finish() { if (S.tl) { var tl = S.tl; S.tl = null; tl.progress(1); tl.kill(); } }
 
+  // The stage moves only when the meaning changes (motion.md §5.9). A slide may
+  // name the style it arrives with; going back plays the style that brought the
+  // current slide in, mirrored. Otherwise: a new movement climbs (step), a new
+  // surface sweeps in, and anything else is the plain rise.
+  var STYLES = ['rise', 'step', 'sweep', 'rotate', 'deal'];
+  function styleOf(kind, from, to, dir) {
+    var named = (dir < 0 ? from : to).getAttribute('data-transition');
+    if (named && STYLES.indexOf(named) >= 0) return named;
+    if (kind === 'turn') return 'step';
+    return surf(from) !== surf(to) ? 'sweep' : 'rise';
+  }
+  var IN_OUT = cubicBezier(0.65, 0, 0.35, 1), TURN = cubicBezier(0.6, 0, 0.25, 1);
+  function pct(n) { return r2(n) + '%'; }
+
+  // Each style is a pure function of p in [0, 1] (and the direction), so a
+  // transition in flight can be landed at any point and reversed exactly.
+  function stageRender(style, from, to, dir) {
+    var W = deck.clientWidth || 1920, u = W / 1920;
+    var acc = getComputedStyle(to).getPropertyValue('--rcc-primary').trim() || '#00732d';
+    if (style === 'step') {
+      var N = 4, lag = 0.14, xs = [];
+      for (var q = 0; q <= N; q++) xs.push(q * 100 / N);
+      fxEdge.setAttribute('stroke', acc); fxEdge.setAttribute('stroke-width', 14);
+      return function (p) {
+        var hs = [];
+        for (var c = 0; c < N; c++) {
+          var col = dir > 0 ? c : N - 1 - c;            // forward climbs left to right
+          hs.push(EASE.arrive(clamp((p - col * lag) / (1 - (N - 1) * lag), 0, 1)) * 100);
+        }
+        var pts = dir > 0 ? ['0% 100%'] : ['0% 0%'], d = '';
+        hs.forEach(function (h, c) {
+          var y = dir > 0 ? 100 - h : h;
+          pts.push(pct(xs[c]) + ' ' + pct(y), pct(xs[c + 1]) + ' ' + pct(y));
+          d += (c ? 'L' : 'M') + r2(xs[c] * 19.2) + ' ' + r2(y * 10.8) + 'H' + r2(xs[c + 1] * 19.2);
+        });
+        pts.push(dir > 0 ? '100% 100%' : '100% 0%');
+        to.style.clipPath = 'polygon(' + pts.join(', ') + ')';
+        fxEdge.setAttribute('d', d);
+        fxEdge.style.opacity = 1 - ramp(p, 0.72, 0.96);
+        chrome.setAttribute('data-surface', surf(p < 0.55 ? from : to));
+      };
+    }
+    if (style === 'sweep') {
+      var sk = 14, band = 4;
+      return function (p) {
+        var e = IN_OUT(p) * (100 + sk + band);
+        function X(x) { return pct(dir > 0 ? x : 100 - x); }
+        to.style.clipPath = 'polygon(' + [X(0) + ' 0%', X(e) + ' 0%', X(e - sk) + ' 100%', X(0) + ' 100%'].join(', ') + ')';
+        var b = [[e, 0], [e + band, 0], [e + band - sk, 100], [e - sk, 100]];
+        fxBand.setAttribute('points', b.map(function (v) { return r2((dir > 0 ? v[0] : 100 - v[0]) * 19.2) + ',' + r2(v[1] * 10.8); }).join(' '));
+        fxBand.setAttribute('fill', acc);
+        from.style.transform = 'translateX(' + r2(-5 * dir * IN_OUT(p)) + '%)';
+        from.style.filter = 'brightness(' + r2(1 - 0.18 * p) + ')';
+        chrome.setAttribute('data-surface', surf(e - sk / 2 < 60 ? from : to));
+      };
+    }
+    if (style === 'rotate') {
+      var half = W / 2;
+      return function (p) {
+        var t = TURN(p), s = 1 - 0.12 * Math.sin(Math.PI * t);
+        function face(a) { return 'scale(' + r2(s * 1000) / 1000 + ') translateZ(' + r2(-half) + 'px) rotateY(' + r2(a) + 'deg) translateZ(' + r2(half) + 'px)'; }
+        from.style.transform = face(-90 * dir * t);
+        to.style.transform = face(90 * dir * (1 - t));
+        from.style.filter = 'brightness(' + r2(1 - 0.55 * t) + ')';
+        to.style.filter = 'brightness(' + r2(0.45 + 0.55 * t) + ')';
+        chrome.setAttribute('data-surface', surf(t < 0.5 ? from : to));
+      };
+    }
+    // deal: forward, the next card lands on the stack; back, the top card lifts away.
+    var top = dir > 0 ? to : from, under = dir > 0 ? from : to, R0 = 28 * u;
+    top.style.zIndex = 1; under.style.zIndex = 0; top.style.transformOrigin = '50% 100%';
+    return function (p) {
+      var t = dir > 0 ? EASE.arrive(p) : 1 - EASE.exit(p);     // t = how landed the top card is
+      top.style.transform = 'translateY(' + r2((1 - t) * 104) + '%) rotateX(' + r2((1 - t) * 16) + 'deg)';
+      top.style.borderRadius = r2(R0 * (1 - t)) + 'px';
+      top.style.boxShadow = t < 0.999 ? '0 ' + r2(-24 * u) + 'px ' + r2(80 * u) + 'px rgb(0 0 0 / ' + r2(0.35 * (1 - t) + 0.1) + ')' : '';
+      under.style.transform = 'scale(' + r2((1 - 0.08 * t) * 1000) / 1000 + ')';
+      under.style.filter = 'brightness(' + r2(1 - 0.4 * t) + ')';
+      under.style.borderRadius = r2(R0 * t) + 'px';
+      chrome.setAttribute('data-surface', surf(t > 0.5 ? top : under));
+    };
+  }
+
   function go(ni, nb, dir) {
     finish();
     var i = S.i, b = S.b, kind = kindOf(i, ni);
-    S.last = kind + (dir < 0 ? '-back' : '');
+    S.last = kind + (dir < 0 ? '-back' : ''); S.style = kind;
     var from = slides[i], to = slides[ni];
+    if (kind !== 'hold') setGround(to, false);      // the fade starts with the press
     if (kind === 'cut') { applyState(ni, nb); announce(to, ni === i ? nb : 0); return; }
     if (!motionOn()) { applyState(ni, nb); cssEntrance(to, ni === i ? b : -1, nb, dir); announce(to, ni === i ? nb : 0); return; }
 
@@ -674,14 +841,20 @@
         setBeats(from, nb);
         var inU = unitsFor(from, nb, nb).map(function (u) { return u.el; });
         var ks = unitsFor(from, nb, nb).map(function (u) { return u.k; });
-        tl.fromTo(inU, { yPercent: 110 }, { yPercent: 0, duration: beat, ease: EASE.arrive, delay: 0, stagger: function (q) { return ks[q] * STAGGER; } });
+        boxesIn(tl, boxesFor(from, nb, nb), 0);
+        tl.fromTo(inU, { yPercent: 110 }, { yPercent: 0, duration: beat, ease: EASE.arrive, stagger: function (q) { return ks[q] * STAGGER; } }, 0.06);
       } else {
         var outU = unitsFor(from, b, b).map(function (u) { return u.el; });
         tl.to(outU, { yPercent: 110, duration: 0.3 * beat, ease: EASE.exit });
+        boxesOut(tl, boxesFor(from, b, b), 0, -1);
       }
       announce(from, nb);
       return;
     }
+
+    var style = styleOf(kind, from, to, dir);
+    S.style = style;
+    if (style !== 'rise') { stageGo(tl, style, from, to, ni, nb, dir, kind, back); return; }
 
     // Ascend, Turn, Unfold. Forward climbs: out goes up, in rises from below.
     // Backward runs the other way at the tier below (§5.9).
@@ -690,6 +863,7 @@
     var inList = unitsFor(to, 0, nb), inEls = inList.map(function (u) { return u.el; }), inK = inList.map(function (u) { return u.k; });
     var sign = dir < 0 ? -1 : 1;
     tl.to(outEls, { yPercent: -110 * sign, duration: 0.3 * beat, ease: EASE.exit });
+    boxesOut(tl, boxesFor(from, 0, b), 0, sign);
     tl.add(function () {
       gsap.set(inEls, { yPercent: 110 * sign });
       slides.forEach(function (s, k) { s.classList.toggle('is-current', k === ni); });
@@ -706,8 +880,50 @@
     var rt = railTarget(ni);
     tl.to(R, { t: rt.t, fill: rt.fill, duration: D, ease: EASE.arrive, onUpdate: renderRail });
     tl.to(inEls, { yPercent: 0, duration: D, delay: hold, ease: EASE.arrive, stagger: function (q) { return inK[q] * STAGGER; } }, '<');
+    boxesIn(tl, boxesFor(to, 0, nb), tl.recent().startTime() + hold, back);
     if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, '<0.25'); }
     if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, '<'); }
+    announce(to, 0);
+  }
+
+  // A stage transition: both slides are on the stage and the slides themselves
+  // move. The deck's state switches at the start, so the chrome, the notes, and a
+  // press in flight all read the new slide; applyState() clears it all at the end.
+  function stageGo(tl, style, from, to, ni, nb, dir, kind, back) {
+    var inList = unitsFor(to, 0, nb), inEls = inList.map(function (u) { return u.el; }), inK = inList.map(function (u) { return u.k; });
+    var sign = dir < 0 ? -1 : 1, move = dur('move');
+    from.classList.add('is-leaving');
+    slides.forEach(function (s) { s.classList.toggle('is-current', s === to); });
+    setBeats(to, nb);
+    S.i = ni; S.b = nb;
+    if (to._compress) to._compress.render(nb);
+    if (to._figure) to._figure.render(dir > 0 ? 0 : 1);
+    if (to._rung) to._rung.render(dir > 0 ? 0 : 1);
+    if (from._clock) from._clock.pause();
+    chromeText();
+    deck.classList.add('is-moving');
+    syncVideos(to);
+    if (style === 'rotate' || style === 'deal') deck.classList.add('is-3d', 'is-staging');
+    if (style === 'step' || style === 'sweep') { from.style.zIndex = 0; to.style.zIndex = 1; }
+    var render = stageRender(style, from, to, dir), P = { p: 0 };
+    render(0);
+    var D = { step: 1.35, sweep: 1.15, rotate: 1.3, deal: 1.0 }[style] * move * back;
+    tl.to(P, { p: 1, duration: D, ease: 'none', onUpdate: function () { render(P.p); } }, 0);
+    var rt = railTarget(ni);
+    tl.to(R, { t: rt.t, fill: rt.fill, duration: D, ease: EASE.arrive, onUpdate: renderRail }, 0);
+    // On the wipes the words still rise, once the edge has passed them.
+    if (style === 'step' || style === 'sweep') {
+      gsap.set(inEls, { yPercent: 110 * sign });
+      tl.to(inEls, { yPercent: 0, duration: move * back, ease: EASE.arrive, stagger: function (q) { return inK[q] * STAGGER; } }, D * 0.26);
+      boxesIn(tl, boxesFor(to, 0, nb), D * 0.22, back);
+    } else {
+      gsap.set(inEls, { yPercent: 0 });
+      // The slide itself is moving on a turn or a deal; its boxes land a beat after it.
+      boxesIn(tl, boxesFor(to, 0, nb), D * 0.55, back);
+    }
+    var late = D * 0.6;
+    if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, late); }
+    if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, late); }
     announce(to, 0);
   }
 
@@ -742,7 +958,7 @@
     if (pos < 0) pos = V.filter(function (k) { return k < S.i; }).length;
     if (pos - 1 >= 0) { var p = V[pos - 1]; go(p, slides[p]._beats, -1); }
   }
-  function jump(i) { finish(); S.last = 'cut'; applyState(i, 0); announce(slides[i], 0); }
+  function jump(i) { finish(); S.last = 'cut'; S.style = 'cut'; applyState(i, 0); announce(slides[i], 0); }
 
   /* ---------- Cover: the opening, and the optional countdown ------------- */
   function coverEntrance() {
@@ -784,7 +1000,7 @@
   var help = make('div', 'deck-help', document.body); help.hidden = true; help.setAttribute('role', 'dialog'); help.setAttribute('aria-label', 'Keys');
   help.innerHTML = '<h2>Keys</h2><table><tbody>' + [
     ['→  Space  Page Down', 'Next beat or slide'], ['←  Page Up', 'Back'], ['Home  End', 'First, last'],
-    ['T', 'Start or pause the clock'], ['R', 'Reset the clock'], ['5', 'Room mode'], ['N', 'Speaker notes'],
+    ['T', 'Start or pause the clock'], ['R', 'Reset the clock'], ['5', 'Room mode'], ['P', 'Reload the phone'], ['N', 'Speaker notes'],
     ['D', 'Dark, for laptop preview'], ['F', 'Fullscreen'], ['?', 'This help']
   ].map(function (r) { return '<tr><td>' + r[0].split('  ').map(function (k) { return '<kbd>' + k + '</kbd>'; }).join(' ') + '</td><td>' + r[1] + '</td></tr>'; }).join('') + '</tbody></table>';
   var toast = make('p', 'deck-toast', document.body), toastT = 0;
@@ -800,7 +1016,7 @@
     else applyState(S.i, S.b);
     say(on ? 'Room mode: ' + V.length + ' slides' : 'Full deck: ' + V.length + ' slides');
   }
-  function setTheme(t) { root.setAttribute('data-theme', t); store('theme', t); }
+  function setTheme(t) { root.setAttribute('data-theme', t); store('theme', t); if (S.presenting) setGround(slides[S.i], true); }
   var FORCE_STACK = /[?&]stack\b/.test(location.search);
   function setMode() {
     var presenting = !FORCE_STACK && window.innerWidth >= 700;
@@ -810,6 +1026,8 @@
     root.classList.toggle('is-presenting', presenting);
     if (presenting) layoutRail();
     if (!presenting) {
+      deck.style.backgroundColor = '';
+      syncVideos(null);
       slides.forEach(function (s) {
         if (gsap) gsap.set(s._units.map(function (u) { return u.el; }), { clearProps: 'transform' });
         s._beatEls.forEach(function (el) { el.classList.remove('is-pending', 'is-past'); });
@@ -818,8 +1036,21 @@
       });
     } else applyState(S.i, S.b);
   }
+  // demo slides: the phone's screen is a real 440 x 956 CSS px viewport, scaled
+  // so its 956 px fill the 856 stage px of glass (deck.css).
+  var devices = [].slice.call(deck.querySelectorAll('.device'));
+  function sizeDevices() {
+    if (devices.length) root.style.setProperty('--device-scale', String((deck.clientWidth / 1920 || 1) * 856 / 956));
+  }
+  // Keys typed into the phone go to the app, never to the deck, so show who has them.
+  function syncDeviceKeys() {
+    devices.forEach(function (d) { d.classList.toggle('has-keys', document.activeElement === one('iframe', d)); });
+  }
+  window.addEventListener('blur', function () { setTimeout(syncDeviceKeys, 0); });
+  window.addEventListener('focus', syncDeviceKeys);
   function remeasure() {
     finish();
+    sizeDevices();
     slides.forEach(function (s) { measure(s); if (s._compress) s._compress.reserve(); if (s._figure) s._figure.reserve(); if (s._rung) s._rung = makeRung(s); });
     layoutRail();
     if (S.presenting) applyState(S.i, S.b);
@@ -842,6 +1073,10 @@
     else if (k === 't' || k === 'T') { var c = slides[S.i]._clock; if (c) { c.toggle(); } else say('No clock on this slide'); }
     else if (k === 'r' || k === 'R') { var c2 = slides[S.i]._clock; if (c2) { c2.reset(); say('Clock reset'); } }
     else if (k === '5') setRoom(!S.room);
+    else if (k === 'p' || k === 'P') {
+      var phone = one('.device iframe', slides[S.i]);
+      if (phone) { phone.src = phone.src; say('Phone reloaded'); } else say('No phone on this slide');
+    }
     else if (k === 'n' || k === 'N') { notes.hidden = !notes.hidden; renderNotes(); }
     else if (k === 'd' || k === 'D') { setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); say(root.getAttribute('data-theme') === 'dark' ? 'Dark (preview only)' : 'Light'); }
     else if (k === 'f' || k === 'F') {
@@ -896,7 +1131,7 @@
   window.__deck = {
     state: function () {
       var V = visible();
-      return { i: S.i, b: S.b, pos: V.indexOf(S.i), count: V.length, room: S.room, last: S.last,
+      return { i: S.i, b: S.b, pos: V.indexOf(S.i), count: V.length, room: S.room, last: S.last, style: S.style,
                busy: !!S.tl, presenting: S.presenting, gsap: !!gsap, theme: root.getAttribute('data-theme') || 'light',
                rail: { t: R.t, frac: V.length ? R.fill / V.length : 0, draw: R.draw } };
     },

@@ -78,7 +78,7 @@ Why it is worth one move per deck: the club's mark is a step, and the deck is th
 
 ## 13.5 The archetypes
 
-A closed set of ten. Every slide is one of them, named in `data-kind`. An idea that does not fit one is either two slides or one slide with beats. If a real deck needs an eleventh, add it here first, then to the kit.
+A closed set of thirteen. Every slide is one of them, named in `data-kind`. An idea that does not fit one is either two slides or one slide with beats. If a real deck needs another, add it here first, then to the kit. `demo` was added this way on 2026-09-24, for showing SosheIQ live.
 
 | Kind | For | What moves | Room-safe |
 |---|---|---|---|
@@ -91,6 +91,9 @@ A closed set of ten. Every slide is one of them, named in `data-kind`. An idea t
 | `figure` | One number that is the point. | The number counts from its start value to its end value | No |
 | `clock` | A timed exercise. | The clock, only while it runs | Yes |
 | `rail` | The semester, with this week marked. Two styles: `climb` (default) and `ledger` ([visual-voice.md §9.2](visual-voice.md)). | Climb: the camera opens on this week and pulls back while the travelled Step draws. Ledger: the columns rise in order, the Step rule draws, this week's band fills | Yes |
+| `photo` | One photograph of a thing the slide names, beside the words and never under them, with its linked credit (§9.3 type 4 in [visual-voice.md](visual-voice.md)). `data-layout` is `bleed-right` (default), `bleed-left`, `framed`, or `framed-left`. A short muted clip may take the photo's place | The photo wipes in from its edge and settles | No |
+| `grid` | A reel: two to four photos or short muted clips side by side, each with a two-to-five-word label, and one credit line for the slide. For a trip or an event, never for an argument | The tiles wipe up in order; clips play while the slide is up | No |
+| `demo` | A live web app in a phone the presenter uses in front of the room: an iPhone Pro Max viewport (440 x 956 CSS px) scaled onto the stage beside the words. | The phone wipes up into place once | Yes |
 | `ask` | The last slide. The action, who it is for, when it is due, the way in (QR), the independence sentence. | Heading and the action rise; the QR and the sentence never move | Yes |
 
 "Room-safe" means the archetype still works with every transition forced to Cut. `compress` and `figure` do not: their whole content is a change over time, and in room mode they would show only their end state, which is a statement slide that lost its reason to exist.
@@ -106,17 +109,20 @@ A closed set of ten. Every slide is one of them, named in `data-kind`. An idea t
 - **`figure`** The number has to be real and sourced in the speaker notes. A figure slide with an invented number is worse than no slide.
 - **`clock`** Duration comes from the session card and matches it to the second.
 - **`rail`** Data comes from the sessions index, not from memory; `new-deck.sh` writes the list. The slide draws the semester from that list in the markup (`data-arc`, `data-receipt`, `aria-current="step"` on this week); it is the text equivalent and is what a screen reader gets. `data-style="ledger"` swaps the climb for the ledger. The climb's camera runs about three seconds and the heading rises as it settles; a press lands it at once.
+- **`demo`** One phone per slide, loading an `https` URL, with a `title` on the frame and a `.demo__open` link to the same URL. The link is what the stacked view and a dead Wi-Fi get. Clicking the phone gives it the keyboard, the frame gets a green ring and the slide says so, and nothing reaches the deck until you click anywhere off the phone; mouse clicks never advance a slide, so that click is safe. `P` reloads the phone. The phone stands where the counter sits, so the counter steps aside on this slide, as it does over a bleeding photo. The app inside is the app, not the deck: its type is not held to the floors in §13.3, and the check skips it. Test the whole flow on the live site before the meeting; a demo that stalls is the room watching you wait.
 - **`ask`** One action. Verb first. With a date or a "before next Thursday".
 
 ## 13.6 The motion score
 
-**Transitions are derived, never authored.** The kit reads the two slides on either side of a press and picks one of the four transitions in [motion.md §5.9](motion.md). An author who wants a different transition has written a structure problem, and the fix is in `data-move`.
+**Transitions are derived first.** The kit reads the two slides on either side of a press and picks the kind and the stage style in [motion.md §5.9](motion.md). An author may name a stage style with `data-transition` on the arriving slide, but only for the two meanings the derivation cannot see: `rotate` for the other side of the same idea, `deal` for the next card in a series. Wanting any other override is a structure problem, and the fix is in `data-move` or `data-surface`.
 
 | Situation | Transition |
 |---|---|
 | Same slide, next `data-beat` | Hold |
-| Next slide, same movement | Ascend |
-| Next slide, new movement | Turn |
+| Next slide, same movement, same surface | Ascend, with the rise |
+| Next slide, same movement, new surface | Ascend, with the sweep |
+| Next slide, new movement | Turn, with the step wipe |
+| A slide that names `rotate` or `deal` | That stage style |
 | Leaving the cover, or going back to it | The Step lies down into the rail; going back, it stands up again (§13.4) |
 | A timer is running, or room mode is on, or reduced motion is on, or GSAP did not load | Cut |
 | Going backwards | The same transition reversed, at the tier below |
@@ -141,6 +147,7 @@ A closed set of ten. Every slide is one of them, named in `data-kind`. An idea t
 | `T` | Start or pause the clock on this slide |
 | `R` | Reset the clock on this slide |
 | `5` | Room mode on or off |
+| `P` | Reload the phone on a `demo` slide |
 | `N` | Speaker notes |
 | `D` | Dark theme, for laptop preview only |
 | `F` | Fullscreen |
@@ -191,4 +198,33 @@ Run these on every deck, in order. The first two are automated.
 
 ---
 
-**Last updated: 2026-09-23.**
+## 13.11 Surfaces and layout variants
+
+Added 2026-09-24. **A slide's color says what kind of moment it is**, the same way a transition says what kind of change it is. One surface for a whole deck made every slide the same moment, which is what read as mechanical. Set it with `data-surface` on the slide; paper is the default and needs no attribute.
+
+| Surface | Background | Means | Typical slides |
+|---|---|---|---|
+| paper | `--rcc-surface` | Information; we are talking | Cover, ask, most slides |
+| mint | `#cff1d3` | Who we are | What the club is and why |
+| forest | `#00531e`, white ink | The argument turns | Movement openers, poster statements |
+| sun | `#f9ab00` | You are up | Clocks, activities |
+| ink | `#121412` | Reflect | Debriefs, the reveal |
+| sand | `#ffe5c0` | What is ahead | Plans, next semester |
+
+Rules:
+
+- **Each surface remaps the role tokens** (`deck-kit/deck.css`), so every archetype renders on every surface unchanged, and the chrome takes the current slide's surface. Every ink, variant, and accent pair measures 5.5:1 or better; `check.mjs` recomputes every text pair on every slide.
+- **Cover and ask stay on paper.** The lockup is a raster file with a black wordmark and may not be recolored ([bright-lines.md 1.5](bright-lines.md)).
+- **Sun and forest are the only full-bleed Google-derived fills**: sun is Yellow 600, and forest is a deep tone of the green ramp. Blue and red are never slide fills ([bright-lines.md 1.3](bright-lines.md)).
+- **Runs, not confetti.** Consecutive slides of one moment share a surface (the three what-is-GDG slides are one mint run). A surface that changes every slide carries no meaning.
+- No gradients and no textures on a surface. The color is flat; what moves is the stage (§13.6).
+
+Three layout variants, set with `data-layout`:
+
+- **`poster`** on a statement: the heading at 150px, for the one sentence a movement turns on.
+- **`tiles`** on beats: the items as a row of cards with a large index, when the items are parallel and read left to right.
+- **`panel`** on a contrast: the strong side on its own `--rcc-primary` panel, so the answer arrives as a block of color.
+
+---
+
+**Last updated: 2026-09-24.**

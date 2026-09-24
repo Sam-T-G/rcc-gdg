@@ -154,7 +154,7 @@ That one constraint buys reversibility, resize correctness, and a static fallbac
 
 ## 5.9 Transitions
 
-A transition is what happens between two frames of the same argument. The system has four and there are no others. Each one means something, which is the point: a room learns the vocabulary in about ninety seconds and then the transition itself is carrying information.
+A transition is what happens between two frames of the same argument. It has two parts: a **kind**, which says what changed in the argument, and a **stage style**, which says how the stage moves to show it. There are four kinds and five stage styles, and there are no others. Each one means something, which is the point: a room learns the vocabulary in about ninety seconds and then the transition itself is carrying information.
 
 | Name | What moves | Means | Duration |
 |---|---|---|---|
@@ -162,6 +162,22 @@ A transition is what happens between two frames of the same argument. The system
 | **Ascend** | Outgoing content exits up through its mask, incoming rises through its. The rail's fill advances one slide. | "Next step in the same movement." | `--rcc-dur-beat` |
 | **Turn** | The rail's fill crosses into the next segment and that movement's name lights, while incoming content rises on the long curve. | "New movement. The argument turned." | `--rcc-dur-move` |
 | **Cut** | Nothing. The frame is replaced. | "We are working now, stop watching the screen." | 0ms |
+
+**Stage styles** (added 2026-09-24). Until then only the words moved and every slide shared one surface, which Sam reviewed as mechanical. The stage now moves too, but only when the meaning changes: the same slide, same surface, same movement still gets the plain rise.
+
+| Style | What moves | Means | Used by |
+|---|---|---|---|
+| **Rise** | Words through their masks, as above | "Next step." | Ascend on the same surface |
+| **Step** | The new slide climbs in behind a four-tread staircase edge drawn in its accent color; the Step, used as a wipe | "The argument climbed." | Every Turn, so it is rationed with Turn |
+| **Sweep** | The new surface sweeps across on a slanted edge with a band of its accent leading it; the old slide drifts back and dims | "A different kind of moment." | Ascend onto a new surface |
+| **Rotate** | The stage turns like a cube, the old face darkening as it turns away | "The other side of the same idea." | Named with `data-transition="rotate"` |
+| **Deal** | The new slide lands on the stack like a card; the old one recedes | "Next in a series." | Named with `data-transition="deal"` |
+
+Every style is a pure function of its progress, backward runs it mirrored at 60%, and every one ends in the same `applyState()` that lands the deck, so a press mid-transition still lands it and moves on. Cut still overrides them all. The ambient rule still holds: none of them loops, and each is a single move with a meaning the room can name.
+
+**Boxes rise too** (added 2026-09-24). A container with a fill, a tile or a contrast panel, wipes up from its own bottom edge on the same arrive curve as the words, with the words rising inside it; a list's number dot pops in with a small overshoot (spatial track, where overshoot is allowed, §5.1). Exits run the way the words run. Before this the words rose into a box that was already sitting there at full size, which read as the box popping in.
+
+**The ground crossfades.** While presenting, the deck paints the current slide's surface under transparent slides, so a change of color with no stage move behind it (a Cut, the offline fallback) fades over three slow-effects durations instead of snapping. It is on the effects track, so reduced motion keeps it. During a stage move the slides paint their own surfaces, because the wipe's edge is the color change, and the dark backstage wins while a cube turns or a card is dealt.
 
 **Turn is rationed.** Four to six per deck, one per movement boundary (§13.2), and never twice in a row. It is the only transition that lights a new name on the rail. Spending it on an ordinary slide change is the fastest way to make a deck feel like a template with transitions switched on.
 
@@ -214,4 +230,4 @@ Sourced from the club's own shipped artifacts rather than from Google: the maske
 
 ---
 
-**Last updated: 2026-09-23.**
+**Last updated: 2026-09-24.**

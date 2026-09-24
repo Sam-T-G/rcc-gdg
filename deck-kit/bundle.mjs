@@ -20,7 +20,7 @@ const inPath = resolve(src), base = dirname(inPath);
 const outPath = resolve(out || inPath.replace(/\.html$/, '.bundle.html'));
 let html = readFileSync(inPath, 'utf8');
 const local = (url) => !/^(https?:|data:|\/\/)/.test(url);
-const MIME = { '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp' };
+const MIME = { '.mp4': 'video/mp4', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp' };
 let n = 0;
 
 html = html.replace(/<link rel="stylesheet" href="([^"]+)">/g, (tag, href) => {
@@ -38,6 +38,12 @@ html = html.replace(/<img([^>]*?) src="([^"]+)"/g, (tag, attrs, href) => {
   if (!local(href) || !existsSync(file)) return tag;
   n++; return `<img${attrs} src="data:${MIME[extname(file)] || 'application/octet-stream'};base64,${readFileSync(file).toString('base64')}"`;
 });
+// A clip and its poster frame travel inside the file too, as data URIs.
+html = html.replace(/<video([^>]*)>/g, (tag, attrs) => '<video' + attrs.replace(/ (src|poster)="([^"]+)"/g, (a, k, href) => {
+  const file = resolve(base, href);
+  if (!local(href) || !existsSync(file)) return a;
+  n++; return ` ${k}="data:${MIME[extname(file)] || 'application/octet-stream'};base64,${readFileSync(file).toString('base64')}"`;
+}) + '>');
 if (artifact) {
   const attrs = /<html([^>]*)>/i.exec(html)?.[1] || '';
   const sets = [...attrs.matchAll(/([\w-]+)="([^"]*)"/g)].filter(([, k]) => k !== 'data-theme')
