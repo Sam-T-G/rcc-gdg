@@ -565,6 +565,43 @@ body {
 .slide[data-kind="contrast"]:has(.contrast + .contrast) { gap: calc(28 * var(--u)); }
 .slide[data-kind="contrast"]:has(.contrast + .contrast) .contrast > div > p:not(.label) { font-size: var(--s-body-sm); }
 
+/* --- ledger: a contrast set as one card of aligned rows ------------------- */
+/* data-layout="ledger" on a contrast slide. Wrap the rows in .ledger-rows, open with a
+   .ledger-head of two column labels, and start each row with a p.contrast__tag,
+   which runs across the row above its two sides. The
+   weak side reads muted, the strong side reads full ink after an arrow, and each
+   strong side wipes in on its beat. */
+.slide[data-layout="ledger"] .ledger-rows { background: var(--rcc-surface-container-lowest); border-radius: calc(28 * var(--u)); padding: calc(8 * var(--u)) calc(48 * var(--u)) calc(12 * var(--u)); box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); }
+.slide[data-layout="ledger"] :is(.ledger-head, .contrast) { display: grid; grid-template-columns: 1fr 1.4fr; column-gap: calc(88 * var(--u)); row-gap: calc(8 * var(--u)); align-items: start; }
+.slide[data-layout="ledger"] .ledger-head { padding: calc(24 * var(--u)) 0 calc(14 * var(--u)); }
+.slide[data-layout="ledger"] .ledger-head .label:last-child { color: var(--rcc-primary); }
+.slide[data-kind="contrast"][data-layout="ledger"] .contrast { margin-top: 0; padding: calc(22 * var(--u)) 0 calc(24 * var(--u)); border-top: calc(2 * var(--u)) solid var(--rcc-outline-variant); }
+.slide[data-layout="ledger"] .contrast > div { gap: 0; }
+.slide[data-layout="ledger"] .contrast__tag { grid-column: 1 / -1; color: var(--rcc-on-surface-variant); }
+.slide[data-layout="ledger"] .contrast > div > p:not(.label) { font-size: var(--s-body-sm); line-height: 1.3; }
+.slide[data-layout="ledger"] .is-weak > p:not(.label) { color: var(--rcc-on-surface-variant); }
+.slide[data-layout="ledger"] .is-strong { position: relative; }
+.slide[data-layout="ledger"] .is-strong > p:not(.label) { font-weight: 500; }
+.slide[data-layout="ledger"] .is-strong::before { content: "\2192"; position: absolute; left: calc(-60 * var(--u)); top: 0; font-size: var(--s-body-sm); line-height: 1.3; color: var(--rcc-primary); }
+
+/* --- flow: beats set as signal, lead, entry ------------------------------- */
+/* data-layout="flow" on a beats slide: each li holds a .body with three spans
+   (.flow__signal, .flow__lead, .flow__entry), read left to right with arrows,
+   under a .flow-head of column labels. Rows wipe up on their beats. */
+.slide[data-kind="beats"][data-layout="flow"] { gap: calc(24 * var(--u)); }
+.slide[data-layout="flow"] .beats { gap: calc(12 * var(--u)); }
+.slide[data-layout="flow"] .beats li { display: block; max-width: none; padding: calc(16 * var(--u)) calc(40 * var(--u)); border-radius: calc(24 * var(--u)); background: var(--rcc-surface-container-lowest); }
+.slide[data-layout="flow"] .beats li::before { content: none; }
+.slide[data-layout="flow"] .beats li.is-past { color: inherit; }
+.slide[data-layout="flow"] :is(.flow-head, .beats li > .body) { display: grid; grid-template-columns: 1fr 1fr 1.3fr; column-gap: calc(72 * var(--u)); align-items: center; }
+.slide[data-layout="flow"] .flow-head { padding-inline: calc(40 * var(--u)); }
+.slide[data-layout="flow"] .flow-head .label:last-child { color: var(--rcc-primary); }
+.flow__signal, .flow__lead, .flow__entry { position: relative; font-size: var(--s-body-sm); line-height: 1.25; }
+.flow__signal { font-weight: 500; }
+.flow__lead { color: var(--rcc-on-surface-variant); }
+.flow__entry { font-weight: 500; color: var(--rcc-primary); }
+.flow__lead::before, .flow__entry::before { content: "\2192"; position: absolute; left: calc(-52 * var(--u)); top: 0; color: var(--rcc-on-surface-variant); }
+
 /* --- grid: a reel of two to four photos or clips, each with a short label --- */
 /* The tiles wipe up like any box; clips play while the slide is up. One credit
    line for the slide sits under the reel. */
@@ -889,8 +926,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Boxes: containers with a fill (tiles, panels) wipe up from their bottom edge
   // like the words rise through their masks; a list's number dot pops. Without
   // this the words rose into a box that was already sitting there at full size.
-  var BOX = '.slide[data-layout="tiles"] .beats > li, .slide[data-layout="panel"] .contrast > div, .grid > li';
-  var DOT = '.slide:not([data-layout="tiles"]) .beats > li';
+  var BOX = '.slide[data-layout="tiles"] .beats > li, .slide[data-layout="flow"] .beats > li, .slide[data-layout="panel"] .contrast > div, .slide[data-layout="ledger"] .contrast > .is-strong, .grid > li';
+  var DOT = '.slide:not([data-layout="tiles"]):not([data-layout="flow"]) .beats > li';
   function buildBoxes(slide) {
     var beats = all('[data-beat]', slide);
     function beatOf(el) { var h = el.closest('[data-beat]'); return h && slide.contains(h) ? beats.indexOf(h) + 1 : 0; }
@@ -2172,22 +2209,27 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
   <aside class="notes"><p>Three presses, one row each. The right side is better because it names a real role. It still says nothing about how much or what changed; that’s next.</p></aside>
 </section>
-<section class="slide" data-kind="contrast" data-move="work" data-transition="rotate" aria-label="Better against best">
-  <h2>Better says what you did. Best says what changed.</h2>
-  <p class="hl-key"><mark class="hl hl--verb">Strong verb</mark> <mark class="hl hl--impact">Impact</mark></p>
-  <div class="contrast">
-    <div class="is-weak"><p class="label">Better</p><p>Software engineering intern working on Redis caching.</p></div>
-    <div class="is-strong" data-beat><p class="label">Best: impact first</p><p><mark class="hl hl--verb" style="--hl-i:0">Cut</mark> <mark class="hl hl--impact" style="--hl-i:1">load times up to ~55%</mark> by putting Redis caching in front of slow reads.</p></div>
+<section class="slide" data-kind="contrast" data-move="work" data-layout="ledger" data-transition="rotate" aria-label="Better against best">
+  <h2>Best says what changed.</h2>
+  <div class="ledger-rows">
+    <div class="ledger-head"><p class="label">Better: what you did</p><p class="label">Best: <mark class="hl hl--verb">verb</mark> + <mark class="hl hl--impact">impact</mark></p></div>
+    <div class="contrast">
+      <p class="label contrast__tag">Internship</p>
+      <div class="is-weak"><p>Software engineering intern working on Redis caching.</p></div>
+      <div class="is-strong" data-beat><p><mark class="hl hl--verb" style="--hl-i:0">Cut</mark> <mark class="hl hl--impact" style="--hl-i:1">load times up to ~55%</mark> with a Redis cache in front of slow reads.</p></div>
+    </div>
+    <div class="contrast">
+      <p class="label contrast__tag">Hackathon</p>
+      <div class="is-weak"><p>Built a robot at a hackathon.</p></div>
+      <div class="is-strong" data-beat><p><mark class="hl hl--verb" style="--hl-i:0">Won</mark> <mark class="hl hl--impact" style="--hl-i:1">1st Place Overall at Citrus Hack 2026</mark> with a robot that spots patient distress.</p></div>
+    </div>
+    <div class="contrast">
+      <p class="label contrast__tag">Tutoring</p>
+      <div class="is-weak"><p>Peer tutor and TA for CS data structures and algorithms.</p></div>
+      <div class="is-strong" data-beat><p><mark class="hl hl--verb" style="--hl-i:0">Run</mark> <mark class="hl hl--impact" style="--hl-i:1">~20 hours a week of tutoring for 150+ CS students</mark>.</p></div>
+    </div>
   </div>
-  <div class="contrast">
-    <div class="is-weak"><p>Built a robot at a hackathon.</p></div>
-    <div class="is-strong" data-beat><p><mark class="hl hl--verb" style="--hl-i:0">Won</mark> <mark class="hl hl--impact" style="--hl-i:1">1st Place Overall at Citrus Hack 2026</mark> with a robot that spots distress in dementia patients.</p></div>
-  </div>
-  <div class="contrast">
-    <div class="is-weak"><p>Peer tutor and TA for the CS data structures and algorithms sequence.</p></div>
-    <div class="is-strong" data-beat><p><mark class="hl hl--verb" style="--hl-i:0">Run</mark> <mark class="hl hl--impact" style="--hl-i:1">~20 hours a week of tutoring for 150+ CS students</mark>.</p></div>
-  </div>
-  <aside class="notes"><p>All three bests are Sam’s real resume bullets, lightly shortened. Point at the order: the result comes before the how. Verbs from MIT CAPD’s list; banned: worked on, helped with, responsible for, leveraged.</p></aside>
+  <aside class="notes"><p>All three bests are Sam’s real resume bullets, lightly shortened. Press once per row. Point at the order: the result comes before the how. Verbs from MIT CAPD’s list; banned: worked on, helped with, responsible for, leveraged.</p></aside>
 </section>
 <section class="slide" data-kind="statement" data-move="work" data-surface="ink" aria-label="The formula">
   <p class="eyebrow">The formula</p>
@@ -2195,22 +2237,42 @@ document.addEventListener('DOMContentLoaded', function () {
   <p class="sub">Laszlo Bock, Google’s former head of People Operations.</p>
   <aside class="notes"><p>Bock’s XYZ formula (2014). Example he gives: “Increased sales by 25% by launching a new line of business in Q1.” Yale, Princeton, Stanford, and MIT teach the same shape under other names.</p></aside>
 </section>
-<section class="slide" data-kind="compress" data-move="work" aria-label="Same you, three times">
-  <p class="eyebrow">Watch it change</p>
-  <h2>Same you, three times.</h2>
-  <ol class="versions compress-src">
-    <li data-label="Trait" data-why="Tells them nothing they can check.">I’m hard-working and dependable.</li>
-    <li data-label="Better" data-why="A real role. Still no size to it.">I tutor CS students in data structures and algorithms.</li>
-    <li data-label="Best" data-why="Now there’s a number they can ask about.">I tutor 150+ CS students about 20 hours a week in data structures and algorithms.</li>
-  </ol>
-  <aside class="notes"><p>Press twice. The last version is something you’d actually say out loud in an interview, which is the test.</p></aside>
-</section>
 <section class="slide" data-kind="statement" data-move="work" data-surface="ink" data-layout="poster" aria-label="Show it">
   <p class="eyebrow">One rule</p>
   <h2>If you have to say it, you haven’t shown it.</h2>
   <p class="sub">Cut: hard-working, passionate, detail-oriented, team player, responsible for, helped with.</p>
   <aside class="notes"><p>From Sam’s bullet-pattern notes: every adjective you use about yourself gets cut and replaced with a behavior and a result.</p></aside>
 </section>
+<section class="slide" data-kind="statement" data-move="work" data-surface="sand" data-layout="poster" aria-label="No entries yet">
+  <p class="eyebrow">No entries yet?</p>
+  <h2>Reverse-engineer your resume.</h2>
+  <p class="sub">Start from what you want it to say. Then go earn the line.</p>
+  <aside class="notes"><p>For anyone thinking “I have nothing to put on this.” Nobody starts with entries. You pick what you want the page to prove, then go get the entry that proves it.</p></aside>
+</section>
+
+<section class="slide" data-kind="beats" data-move="work" data-surface="sand" data-layout="tiles" aria-label="How to reverse-engineer it">
+  <p class="eyebrow">How it works</p>
+  <h2>Work backward from the line</h2>
+  <ol class="beats">
+    <li data-beat><span class="body">Spot the leads.<span class="detail">Clubs, class projects, the tutoring lab, a hackathon, a professor’s research.</span></span></li>
+    <li data-beat><span class="body">Pick your signal.<span class="detail">What result do you want to show? What trait should it prove?</span></span></li>
+    <li data-beat><span class="body">Earn the line.<span class="detail">Do the thing, then write it as what changed.</span></span></li>
+  </ol>
+  <aside class="notes"><p>Step 1 is a list of doors, not a plan. Step 2 decides which door is worth it. Step 3 is the entry, written the way the last slides taught.</p></aside>
+</section>
+
+<section class="slide" data-kind="beats" data-move="work" data-surface="sand" data-layout="flow" aria-label="Signal, lead, entry">
+  <h2>How my entries started</h2>
+  <div class="flow-head"><p class="label">The signal</p><p class="label">The lead</p><p class="label">The entry it became</p></div>
+  <ol class="beats">
+    <li data-beat><span class="body"><span class="flow__signal">I can lead people.</span><span class="flow__lead">Join or start a club.</span><span class="flow__entry">Founder and President, GDG on Campus RCC</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">I can build under pressure.</span><span class="flow__lead">Enter a weekend hackathon.</span><span class="flow__entry">1st Place Overall, Citrus Hack 2026</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">I can explain hard things.</span><span class="flow__lead">Tutor in the CS lab.</span><span class="flow__entry">Tutor 150+ CS students, ~20 hours a week</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">I’m curious past the syllabus.</span><span class="flow__lead">Ask a professor about research.</span><span class="flow__entry">Research intern, ICPC data analysis</span></span></li>
+  </ol>
+  <aside class="notes"><p>Sam’s own entries, read backward: each one started as something he wanted to be able to say, then a door he walked through. Today’s ten-minute app is a lead too.</p></aside>
+</section>
+
 <section class="slide" data-kind="statement" data-move="work" data-surface="sun" aria-label="Now build something">
   <p class="eyebrow">Ten minutes</p>
   <h2>Now build something.</h2>
@@ -2227,10 +2289,8 @@ document.addEventListener('DOMContentLoaded', function () {
       <li>3. Run it. Change one thing by chatting.</li>
     </ol>
   </div>
-  <div class="card__side" data-clock-slot>
-    <p>18+ with a personal Gmail. School accounts can’t use it under 18. Otherwise, pair up.</p>
-  </div>
-  <aside class="notes"><p>Facts: AI Studio requires age 18+ (Gemini API terms); Workspace for Education accounts under 18 are blocked; a personal Gmail is safest. Free tier: Google may review what you type, so no personal info in prompts. Sharing an app by link is free; public deploy is free for 2 apps on eligible personal accounts only. Have Sam’s own laptop ready as a backup demo if someone gets throttled.</p></aside>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>Ten minutes. Walk the room; help anyone stuck on step 2 pick a class. Free tier: no personal info in prompts, since Google may review what is typed. Sharing an app by link is free. Keep Sam’s laptop ready as a backup demo.</p></aside>
 </section>
 <section class="slide" data-kind="clock" data-move="work" data-room data-timer="240" data-surface="sun" aria-label="Show it to someone">
   <p class="eyebrow">Pairs · 2 minutes each</p>
