@@ -95,6 +95,14 @@ Three more attributes on any slide (added 2026-09-24, [presentation.md §13.11](
 | `data-layout` | `poster` (statement), `tiles` (beats), `panel` (contrast) | A second way to set that archetype |
 | `data-transition` | `rotate`, `deal` (also `step`, `sweep`, `rise`) | The stage style this slide arrives with. Leave it off and the kit derives it: a new movement steps, a new surface sweeps |
 
+Three more devices (2026-09-29, [presentation.md §13.12](../docs/04-brand/design-system/presentation.md)):
+
+- **Tour.** On a framed `photo`, add `data-tour` (and optionally `data-zoom`, default 2.4) to the figure, and put `<i class="tour__mark" data-beat style="--x:10;--y:20;--w:30;--h:8"></i>` elements inside it, in percent of the picture. A mark with `data-at="2"` instead of `data-beat` lights on the slide's second text beat, so a list beside the picture drives it. Marks are in percent of the whole picture, so measure them from the real picture (the text-recognition boxes for a screenshot), never estimate them. For a tall page, `data-frame="1.2"` makes the frame a landscape window: the picture keeps the column's full width, the tour opens on its top, and each press glides the window to the next mark.
+- **Highlighter.** `<mark class="hl hl--verb">Cut</mark>` and `<mark class="hl hl--impact">load times up to ~55%</mark>`; `style="--hl-i:1"` staggers them. Add `<p class="hl-key">` with one of each so the room knows the code.
+- **Comparison rows.** Repeat `.contrast` up to three times on one `contrast` slide; put `data-beat` on each strong side.
+- **Ledger.** `data-layout="ledger"` on a contrast slide: wrap the rows in `div.ledger-rows` (never `.ledger`, which is the chrome line's class), open with `div.ledger-head` holding two `p.label`, and start each `.contrast` row with `p.label.contrast__tag`.
+- **Flow.** `data-layout="flow"` on a beats slide: a `div.flow-head` of three `p.label`, then each `li data-beat` holds `span.body` with `span.flow__signal`, `span.flow__lead`, and `span.flow__entry`. Four rows at most.
+
 ## Publish a deck to the club site
 
 ```sh
@@ -141,4 +149,4 @@ To add an archetype: add it to presentation.md §13.5 first, then to `KINDS` in 
 
 ---
 
-**Last updated: 2026-09-24.**
+**Last updated: 2026-09-29.**

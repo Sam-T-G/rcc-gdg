@@ -154,8 +154,8 @@
   // Boxes: containers with a fill (tiles, panels) wipe up from their bottom edge
   // like the words rise through their masks; a list's number dot pops. Without
   // this the words rose into a box that was already sitting there at full size.
-  var BOX = '.slide[data-layout="tiles"] .beats > li, .slide[data-layout="panel"] .contrast > div, .grid > li';
-  var DOT = '.slide:not([data-layout="tiles"]) .beats > li';
+  var BOX = '.slide[data-layout="tiles"] .beats > li, .slide[data-layout="flow"] .beats > li, .slide[data-layout="panel"] .contrast > div, .slide[data-layout="ledger"] .contrast > .is-strong, .grid > li';
+  var DOT = '.slide:not([data-layout="tiles"]):not([data-layout="flow"]) .beats > li';
   function buildBoxes(slide) {
     var beats = all('[data-beat]', slide);
     function beatOf(el) { var h = el.closest('[data-beat]'); return h && slide.contains(h) ? beats.indexOf(h) + 1 : 0; }
@@ -184,6 +184,60 @@
     list.forEach(function (x) {
       if (x.dot) tl.to(x.el, { '--pop': 0, duration: 0.3 * dur('beat'), ease: EASE.exit }, at);
       else tl.to(x.el, { clipPath: sign > 0 ? boxClip(x.el, 0, 100) : boxClip(x.el, 100, 0), duration: 0.3 * dur('beat'), ease: EASE.exit }, at);
+    });
+  }
+
+  /* ---------- Tour: a framed picture that zooms to each mark in turn ------ */
+  // figure.photo[data-tour] holds the picture and .tour__mark elements placed in
+  // percent of the picture (--x, --y, --w, --h). A mark shows on its own beat
+  // (data-beat) or on a text beat (data-at="n"). The current mark gets the
+  // spotlight and the picture moves so it sits in the middle of the frame. State
+  // is a pure function of (slide, beat); the move itself is a CSS transition on
+  // the narrative tier, so reduced motion lands it instantly (motion.md §5.4).
+  function buildTour(fig) {
+    var media = one('img, video', fig);
+    var frame = make('div', 'tour'), stage = make('div', 'tour__stage', frame);
+    // The frame takes the picture's shape, unless data-frame names a wider one: then
+    // the picture keeps full width and the frame is a window onto it (a document
+    // mode for a tall page, so a resume reads at the width of the column).
+    var aw = parseFloat(media.getAttribute('width')), ah = parseFloat(media.getAttribute('height'));
+    var picAr = aw > 0 && ah > 0 ? aw / ah : 1.6, frameAr = parseFloat(fig.getAttribute('data-frame')) || picAr;
+    frame.style.setProperty('--ar', String(frameAr));
+    fig.insertBefore(frame, media); stage.appendChild(media);
+    var marks = all('.tour__mark', fig);
+    marks.forEach(function (m) { stage.appendChild(m); });
+    // k: the frame's height as a share of the picture's (1 when the frame is the picture's shape).
+    return { stage: stage, marks: marks, zoom: parseFloat(fig.getAttribute('data-zoom')) || 2.4, k: Math.min(1, picAr / frameAr) };
+  }
+  function markAt(slide, m) {
+    if (m.hasAttribute('data-at')) return parseInt(m.getAttribute('data-at'), 10) || 0;
+    var k = slide._beatEls.indexOf(m); return k + 1;
+  }
+  function num(m, k) { return parseFloat(m.style.getPropertyValue(k)) || 0; }
+  function renderTour(slide, b, instant) {
+    (slide._tours || []).forEach(function (t) {
+      var cur = null, curAt = -1;
+      t.marks.forEach(function (m) {
+        var at = markAt(slide, m);
+        m.classList.remove('is-on');
+        if (at <= b && at >= curAt) { cur = m; curAt = at; }
+      });
+      var sc = 1, tx = 0, ty = 0;
+      if (cur && S.presenting) {
+        cur.classList.add('is-on');
+        var x = num(cur, '--x'), y = num(cur, '--y'), w = Math.max(num(cur, '--w'), 1), h = Math.max(num(cur, '--h'), 1);
+        // Fit the mark to about 88% of the frame's width and 62% of its height, then
+        // centre it, never showing past the picture's edges. In percent of the
+        // picture; k is the visible share of its height (document mode).
+        var k = t.k;
+        sc = clamp(Math.min(88 / w, 62 * k / h), 1, t.zoom);
+        tx = clamp(50 - (x + w / 2) * sc, 100 - 100 * sc, 0);
+        ty = clamp(50 * k - (y + h / 2) * sc, 100 * k - 100 * sc, 0);
+      }
+      if (instant) t.stage.style.transition = 'none';
+      t.stage.style.transform = sc === 1 && !tx && !ty ? '' : 'translate(' + r2(tx) + '%, ' + r2(ty) + '%) scale(' + r2(sc * 1000) / 1000 + ')';
+      t.stage.style.setProperty('--tour-s', String(r2(sc * 1000) / 1000));
+      if (instant) { void t.stage.offsetWidth; t.stage.style.transition = ''; }
     });
   }
 
@@ -295,7 +349,9 @@
         k.el.classList.toggle('cutting', cutting && size > 0.001);
         k.el.classList.toggle('fresh', fresh && size > 0.001);
         k.word.textContent = textAt(k, r);
-        k.space.textContent = k.lead;
+        // A collapsed token carries no space: the browser merges a run of spaces
+        // into the first one, and a 0px first space swallowed the next word's gap.
+        k.space.textContent = size < 0.001 ? '' : k.lead;
         if (!first && size > 0.5) first = k;
       });
       if (first) first.space.textContent = '';
@@ -328,7 +384,8 @@
     // never pushes the unit and the end state sits flush. ch is not used: tracking
     // and tabular figures make it disagree with the real digit width.
     el.style.display = 'inline-block'; el.style.textAlign = 'right';
-    function render(p) { el.textContent = Math.round(lerp(from, to, clamp(p, 0, 1))); }
+    // Four digits and up get thousands separators (44,000, not 44000).
+    function render(p) { var v = Math.round(lerp(from, to, clamp(p, 0, 1))); el.textContent = Math.abs(to) >= 1000 ? v.toLocaleString('en-US') : String(v); }
     function reserve() {
       el.style.minWidth = ''; render(1);
       var u = deck.clientWidth / 1920 || 1;
@@ -630,6 +687,7 @@
     slide._compress = makeCompress(slide);
     slide._figure = makeFigure(slide);
     slide._rung = makeRung(slide);
+    slide._tours = all('figure.photo[data-tour]', slide).map(buildTour);
     slide._units = buildUnits(slide);
     slide._boxes = buildBoxes(slide);
     slide._beatEls = all('[data-beat]', slide);
@@ -662,6 +720,7 @@
       if (!on && s._clock) s._clock.pause();
       clearStage(s);
       clearBoxes(s);
+      if (!on) renderTour(s, 0, true);
     });
     syncVideos(slide);
     var moved = deck.classList.contains('is-moving');
@@ -669,6 +728,7 @@
     setGround(slide, moved);
     fxEdge.setAttribute('d', ''); fxBand.setAttribute('points', '');
     setBeats(slide, b);
+    renderTour(slide, b, false);
     resetUnits(unitsFor(slide, 0, b));
     if (slide._compress) { slide._compress.state.v = b; slide._compress.render(b); }
     if (slide._figure) { slide._figure.state.p = 1; slide._figure.render(1); }
@@ -848,6 +908,7 @@
         tl.to(outU, { yPercent: 110, duration: 0.3 * beat, ease: EASE.exit });
         boxesOut(tl, boxesFor(from, b, b), 0, -1);
       }
+      renderTour(from, nb, false);
       announce(from, nb);
       return;
     }
@@ -872,6 +933,7 @@
       if (to._compress) to._compress.render(nb);
       if (to._figure) to._figure.render(dir > 0 ? 0 : 1);
       if (to._rung) to._rung.render(dir > 0 ? 0 : 1);
+      renderTour(to, nb, true);
       chromeText();
       if (from._clock) from._clock.pause();
     });
@@ -899,6 +961,7 @@
     if (to._compress) to._compress.render(nb);
     if (to._figure) to._figure.render(dir > 0 ? 0 : 1);
     if (to._rung) to._rung.render(dir > 0 ? 0 : 1);
+    renderTour(to, nb, true);
     if (from._clock) from._clock.pause();
     chromeText();
     deck.classList.add('is-moving');
@@ -1028,6 +1091,7 @@
     if (!presenting) {
       deck.style.backgroundColor = '';
       syncVideos(null);
+      slides.forEach(function (s) { renderTour(s, 0, true); });
       slides.forEach(function (s) {
         if (gsap) gsap.set(s._units.map(function (u) { return u.el; }), { clearProps: 'transform' });
         s._beatEls.forEach(function (el) { el.classList.remove('is-pending', 'is-past'); });

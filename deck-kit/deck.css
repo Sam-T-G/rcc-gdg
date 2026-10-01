@@ -491,6 +491,99 @@ body {
 /* framed-left: the same frame, photo on the left and the words on the right. */
 .slide[data-kind="photo"][data-layout="framed-left"] .photo__text { grid-column: 2; grid-row: 1; }
 
+/* A photo slide's words column may hold a short beats list (a tour's legend).
+   The column is half the stage, so the heading steps down to 76 and the list
+   sets at the 40 floor with tighter spacing. */
+.slide[data-kind="photo"] .photo__text h2 { font-size: calc(76 * var(--u)); }
+.photo__text .beats { gap: calc(18 * var(--u)); }
+.photo__text .beats li { font-size: var(--s-body-sm); grid-template-columns: calc(60 * var(--u)) 1fr; gap: calc(22 * var(--u)); }
+.photo__text .beats li::before { width: calc(52 * var(--u)); height: calc(52 * var(--u)); font-size: var(--s-ledger); margin-top: calc(-4 * var(--u)); }
+.photo__text .beats li .detail { margin-top: calc(2 * var(--u)); }
+.slide[data-kind="contrast"]:has(.contrast + .contrast) h2 { font-size: calc(76 * var(--u)); }
+
+/* --- tour: a framed picture that zooms to each mark in turn ------------- */
+/* figure.photo[data-tour] on a framed photo. deck.js wraps the picture and its
+   marks in .tour > .tour__stage and moves the stage so the current mark sits in
+   the middle, with a spotlight: the rest of the picture dims. The ring and the
+   spotlight counter-scale (--tour-s) so they stay the same weight at any zoom. */
+.tour { position: relative; overflow: hidden; border-radius: calc(24 * var(--u)); isolation: isolate; box-shadow: 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); }
+.tour__stage { position: relative; transform-origin: 0 0; transition: transform var(--rcc-dur-move) var(--rcc-ease-arrive); }
+.slide[data-kind="photo"]:has(figure[data-tour]):not(:has(.photo__text .beats)) { grid-template-columns: 0.78fr 1.22fr; column-gap: calc(72 * var(--u)); }
+/* A tour's picture is never cropped: its marks are placed in percent of the whole
+   picture, so the frame takes the picture's own shape (--ar, set by deck.js from
+   the width and height attributes) and is only ever scaled, never cut. This rule
+   outranks the framed photo's max-height and object-fit: cover on purpose; with
+   those, a tall page was cut to its middle and every mark drifted off its text. */
+.tour { --tour-h: calc(740 * var(--u)); width: min(100%, calc(var(--tour-h) * var(--ar, 1.6))); aspect-ratio: var(--ar, 1.6); margin-inline: auto; }
+.slide[data-kind="photo"] .photo[data-tour] .tour__stage :is(img, video) { display: block; width: 100%; height: auto; max-height: none; object-fit: fill; border-radius: 0; animation: none; }
+.tour__mark {
+  position: absolute; pointer-events: none; display: block;
+  left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); height: calc(var(--h) * 1%);
+  border-radius: calc(12 * var(--u) / var(--tour-s, 1));
+  box-shadow: 0 0 0 calc(5 * var(--u) / var(--tour-s, 1)) var(--rcc-highlight), 0 0 0 200vmax rgb(12 14 12 / 0.46);
+  opacity: 0; transition: opacity var(--rcc-dur-slow-effects) var(--rcc-ease-standard);
+}
+.tour__mark.is-on { opacity: 1; }
+.deck-live.is-presenting .tour__mark[data-beat].is-pending { visibility: visible; }
+:root:not(.is-presenting) .tour__mark { display: none; }
+
+/* --- Highlighter marks: <mark class="hl hl--verb|hl--impact"> ------------- */
+/* A marker stroke under the words that sweeps in when its line arrives (the
+   slide becoming current, or its beat). Dark ink on a light marker, so every
+   surface keeps its contrast. Without motion the stroke is simply there. */
+.hl { color: inherit; background: linear-gradient(var(--hl-c), var(--hl-c)) 0 88% / 100% 42% no-repeat; padding-inline: 0.06em; border-radius: 0.08em; }
+.hl--verb { --hl-c: #a8e6b4; }
+.hl--impact { --hl-c: #ffd166; }
+@keyframes hl-sweep { from { background-size: 0% 42%; } to { background-size: 100% 42%; } }
+.deck-live.is-presenting .slide.is-current .hl { animation: hl-sweep var(--rcc-dur-move) var(--rcc-ease-arrive) both; animation-delay: calc(420ms + var(--hl-i, 0) * 180ms); }
+.deck-live.is-presenting .slide.is-current [data-beat].is-pending .hl { animation: none; }
+.hl-key { display: flex; gap: calc(32 * var(--u)); font-family: var(--rcc-font-code); font-size: var(--s-ledger); letter-spacing: 0.08em; text-transform: uppercase; color: var(--rcc-on-surface-variant); }
+.hl-key .hl { color: var(--rcc-on-surface); }
+
+/* --- contrast rows: several pairs on one slide ---------------------------- */
+/* A contrast slide may hold more than one .contrast; each is a row. Labels sit
+   on the first row only. Put data-beat on each strong side to reveal row by row. */
+.slide[data-kind="contrast"] .contrast + .contrast { margin-top: calc(-8 * var(--u)); }
+.slide[data-kind="contrast"]:has(.contrast + .contrast) { gap: calc(28 * var(--u)); }
+.slide[data-kind="contrast"]:has(.contrast + .contrast) .contrast > div > p:not(.label) { font-size: var(--s-body-sm); }
+
+/* --- ledger: a contrast set as one card of aligned rows ------------------- */
+/* data-layout="ledger" on a contrast slide. Wrap the rows in .ledger-rows, open with a
+   .ledger-head of two column labels, and start each row with a p.contrast__tag,
+   which runs across the row above its two sides. The
+   weak side reads muted, the strong side reads full ink after an arrow, and each
+   strong side wipes in on its beat. */
+.slide[data-layout="ledger"] .ledger-rows { background: var(--rcc-surface-container-lowest); border-radius: calc(28 * var(--u)); padding: calc(8 * var(--u)) calc(48 * var(--u)) calc(12 * var(--u)); box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); }
+.slide[data-layout="ledger"] :is(.ledger-head, .contrast) { display: grid; grid-template-columns: 1fr 1.4fr; column-gap: calc(88 * var(--u)); row-gap: calc(8 * var(--u)); align-items: start; }
+.slide[data-layout="ledger"] .ledger-head { padding: calc(24 * var(--u)) 0 calc(14 * var(--u)); }
+.slide[data-layout="ledger"] .ledger-head .label:last-child { color: var(--rcc-primary); }
+.slide[data-kind="contrast"][data-layout="ledger"] .contrast { margin-top: 0; padding: calc(22 * var(--u)) 0 calc(24 * var(--u)); border-top: calc(2 * var(--u)) solid var(--rcc-outline-variant); }
+.slide[data-layout="ledger"] .contrast > div { gap: 0; }
+.slide[data-layout="ledger"] .contrast__tag { grid-column: 1 / -1; color: var(--rcc-on-surface-variant); }
+.slide[data-layout="ledger"] .contrast > div > p:not(.label) { font-size: var(--s-body-sm); line-height: 1.3; }
+.slide[data-layout="ledger"] .is-weak > p:not(.label) { color: var(--rcc-on-surface-variant); }
+.slide[data-layout="ledger"] .is-strong { position: relative; }
+.slide[data-layout="ledger"] .is-strong > p:not(.label) { font-weight: 500; }
+.slide[data-layout="ledger"] .is-strong::before { content: "\2192"; position: absolute; left: calc(-60 * var(--u)); top: 0; font-size: var(--s-body-sm); line-height: 1.3; color: var(--rcc-primary); }
+
+/* --- flow: beats set as signal, lead, entry ------------------------------- */
+/* data-layout="flow" on a beats slide: each li holds a .body with three spans
+   (.flow__signal, .flow__lead, .flow__entry), read left to right with arrows,
+   under a .flow-head of column labels. Rows wipe up on their beats. */
+.slide[data-kind="beats"][data-layout="flow"] { gap: calc(24 * var(--u)); }
+.slide[data-layout="flow"] .beats { gap: calc(12 * var(--u)); }
+.slide[data-layout="flow"] .beats li { display: block; max-width: none; padding: calc(16 * var(--u)) calc(40 * var(--u)); border-radius: calc(24 * var(--u)); background: var(--rcc-surface-container-lowest); }
+.slide[data-layout="flow"] .beats li::before { content: none; }
+.slide[data-layout="flow"] .beats li.is-past { color: inherit; }
+.slide[data-layout="flow"] :is(.flow-head, .beats li > .body) { display: grid; grid-template-columns: 1fr 1fr 1.3fr; column-gap: calc(72 * var(--u)); align-items: center; }
+.slide[data-layout="flow"] .flow-head { padding-inline: calc(40 * var(--u)); }
+.slide[data-layout="flow"] .flow-head .label:last-child { color: var(--rcc-primary); }
+.flow__signal, .flow__lead, .flow__entry { position: relative; font-size: var(--s-body-sm); line-height: 1.25; }
+.flow__signal { font-weight: 500; }
+.flow__lead { color: var(--rcc-on-surface-variant); }
+.flow__entry { font-weight: 500; color: var(--rcc-primary); }
+.flow__lead::before, .flow__entry::before { content: "\2192"; position: absolute; left: calc(-52 * var(--u)); top: 0; color: var(--rcc-on-surface-variant); }
+
 /* --- grid: a reel of two to four photos or clips, each with a short label --- */
 /* The tiles wipe up like any box; clips play while the slide is up. One credit
    line for the slide sits under the reel. */

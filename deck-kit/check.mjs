@@ -205,12 +205,17 @@ console.log('floors and overflow (1920 x 1080, every beat revealed)');
 const layout = await evaluate(`(() => {
   const deck = document.querySelector('.deck'), u = deck.clientWidth / 1920, dr = deck.getBoundingClientRect();
   const slides = [...deck.querySelectorAll(':scope > .slide')], out = [];
-  const LEDGER = '.eyebrow, .label, .ledger, .counter, .compress__unit, .rung__label small, .rung__here, .credit';
+  const LEDGER = '.eyebrow, .label, .ledger, .counter, .compress__unit, .rung__label small, .rung__here, .credit, .hl-key';
   slides.forEach((s, i) => {
     slides.forEach((o) => o.classList.toggle('is-current', o === s));
     s.querySelectorAll('[data-beat]').forEach((b) => b.classList.remove('is-pending'));
     const low = [], outside = [], band = [], over = [];
-    const photos = [...s.querySelectorAll('.photo img, .photo video, .grid img, .grid video')].map((im) => im.getBoundingClientRect());
+    // What is visible: a tour's picture is clipped by its frame (a document-mode
+    // window shows part of a tall page), so measure the frame, not the whole picture.
+    const seen = (el) => { const r = el.getBoundingClientRect(), f = el.closest('.tour'); if (!f) return r; const c = f.getBoundingClientRect();
+      const x0 = Math.max(r.left, c.left), y0 = Math.max(r.top, c.top), x1 = Math.min(r.right, c.right), y1 = Math.min(r.bottom, c.bottom);
+      return { left: x0, top: y0, right: x1, bottom: y1, width: Math.max(0, x1 - x0), height: Math.max(0, y1 - y0) }; };
+    const photos = [...s.querySelectorAll('.photo img, .photo video, .grid img, .grid video')].map(seen);
     for (const el of s.querySelectorAll('*')) {
       // SVG is skipped except inside the semester diagram, whose labels are real content.
       const inSvg = !!el.closest('svg');
@@ -229,10 +234,12 @@ const layout = await evaluate(`(() => {
         const tr = el.getBoundingClientRect();
         if (photos.some((p) => tr.left < p.right && tr.right > p.left && tr.top < p.bottom && tr.bottom > p.top)) over.push(el.getAttribute('class') || el.tagName);
       }
-      if (!own && !el.matches('img, video, .card, .qr__tile, .clock__rail, .compress__bar, .cover__step, .device')) continue;
+      // Boxes (tiles, panels, rows, ledger cards) are measured too: a card's fill can
+      // run into the rail band while every word inside it clears it.
+      if (!own && !el.matches('img, video, .card, .qr__tile, .clock__rail, .compress__bar, .cover__step, .device, .box, .ledger-rows')) continue;
       // A bleeding photo runs off the stage edge on purpose (decision log, 2026-09-24).
       if (el.matches('.slide[data-kind="photo"]:not([data-layout^="framed"]) .photo :is(img, video)')) continue;
-      const r = el.getBoundingClientRect();
+      const r = seen(el);
       if (!r.width || !r.height) continue;
       const y1 = (r.bottom - dr.top) / u, x1 = (r.right - dr.left) / u, y0 = (r.top - dr.top) / u, x0 = (r.left - dr.left) / u;
       if (x0 < 95 || x1 > 1825 || y0 < 40 || y1 > 1040) outside.push((el.getAttribute('class') || el.tagName) + ' [' + x0.toFixed(0) + ',' + y0.toFixed(0) + ' ' + x1.toFixed(0) + ',' + y1.toFixed(0) + ']');
@@ -324,9 +331,11 @@ async function walk(label, opts, expect) {
       // Go to the slide that holds the link: a hidden slide's link cannot take focus.
       // The hash can already read the target while the deck sits elsewhere (it is
       // written with replaceState), so clear it first, then wait until the deck lands.
-      await evaluate(`location.hash = '#0'`); await sleep(50);
-      await evaluate(`location.hash = '#${qi + 1}'`);
-      for (let w = 0; w < 40 && (await evaluate('__deck.state().i')) !== qi; w++) await sleep(50);
+      for (let tries = 0; tries < 3 && (await evaluate('__deck.state().i')) !== qi; tries++) {
+        await evaluate(`location.hash = '#0'`); await sleep(120);
+        await evaluate(`location.hash = '#${qi + 1}'`);
+        for (let w = 0; w < 60 && (await evaluate('__deck.state().i')) !== qi; w++) await sleep(50);
+      }
       await sleep(250); await settle();
       const before = (await evaluate('__deck.state()')).i;
       if (before !== qi) fail(`slide ${qi + 1}: the deck never reached the QR slide (on ${before + 1})`);
@@ -350,7 +359,7 @@ await walk('phone 390', { w: 390, h: 844 }, { presenting: false });
 console.log('surfaces and stage transitions');
 await load();
 {
-  const SURFACES = ['', 'paper', 'mint', 'sand', 'sun', 'forest', 'ink'], LAYOUTS = ['', 'poster', 'tiles', 'panel', 'bleed-right', 'bleed-left', 'framed', 'framed-left'];
+  const SURFACES = ['', 'paper', 'mint', 'sand', 'sun', 'forest', 'ink'], LAYOUTS = ['', 'poster', 'tiles', 'panel', 'bleed-right', 'bleed-left', 'framed', 'framed-left', 'ledger', 'flow'];
   const STYLES = ['', 'rise', 'step', 'sweep', 'rotate', 'deal'];
   const attrs = await evaluate(`[...document.querySelectorAll('.deck > .slide')].map((s) => ({ surface: s.dataset.surface || '', layout: s.dataset.layout || '', transition: s.dataset.transition || '', kind: s.dataset.kind }))`);
   check(attrs.every((a) => SURFACES.includes(a.surface)), 'every data-surface is known');
@@ -419,6 +428,27 @@ await load();
     check(top > 1 && top < 99, `a box wipes up on its beat (clip top ${isNaN(top) ? 'none' : top.toFixed(0) + '%'} at 170 ms)`);
     if (SHOTS) await shot('box-mid');
     await settle();
+  }
+  // A tour's picture is never cropped: its marks are placed in percent of the whole
+  // picture, so the rendered box must keep the picture's own shape (2026-09-29: a
+  // framed max-height with object-fit: cover cut a resume page to its middle).
+  const crop = await evaluate(`[...document.querySelectorAll('.tour__stage :is(img, video)')].map((m) => {
+    const r = m.getBoundingClientRect(), nat = m.tagName === 'VIDEO' ? m.videoWidth / m.videoHeight : m.naturalWidth / m.naturalHeight;
+    const attr = (+m.getAttribute('width')) / (+m.getAttribute('height'));
+    return { src: (m.getAttribute('src') || '').split('/').pop().slice(0, 40), box: r.width / r.height, nat, attr };
+  }).filter((x) => Math.abs(x.box - x.nat) / x.nat > 0.01 || Math.abs(x.attr - x.nat) / x.nat > 0.01)`);
+  check(!crop.length, `every tour picture renders whole, at its own shape and its width/height attributes${crop.length ? ': ' + crop.map((x) => x.src + ' box ' + x.box.toFixed(3) + ' vs ' + x.nat.toFixed(3)).join('; ') : ''}`);
+  // A tour moves its picture to the current mark on a press, and lights that mark.
+  const tourAt = await evaluate(`[...document.querySelectorAll('.deck > .slide')].findIndex((s) => s.querySelector('.tour__mark'))`);
+  if (tourAt >= 0) {
+    await evaluate(`location.hash = '#0'`); await sleep(50);
+    await evaluate(`location.hash = '#${tourAt + 1}'`); await sleep(400); await settle();
+    const q = `document.querySelectorAll('.deck > .slide')[${tourAt}]`;
+    const before = await evaluate(`({ t: ${q}.querySelector('.tour__stage').style.transform, on: ${q}.querySelectorAll('.tour__mark.is-on').length })`);
+    await press('right'); await settle(); await sleep(300);
+    const after = await evaluate(`(() => { const m = ${q}.querySelector('.tour__mark.is-on'); return { t: ${q}.querySelector('.tour__stage').style.transform, on: ${q}.querySelectorAll('.tour__mark.is-on').length, big: m ? parseFloat(m.style.getPropertyValue('--w')) > 72 : false }; })()`);
+    // A mark wider than the frame's comfortable zoom gets the spotlight without a move.
+    check(after.on === 1 && (after.t !== before.t || after.big), `a tour lights its mark on a press and moves to it unless the mark already fills the frame (marks lit ${before.on} -> ${after.on}, ${after.t || (after.big ? 'spotlight only' : 'no transform')})`);
   }
   // A clip plays while its slide is up, and stops when the deck moves on.
   const vidAt = await evaluate(`[...document.querySelectorAll('.deck > .slide')].findIndex((s) => s.querySelector('.photo video'))`);

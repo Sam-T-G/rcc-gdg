@@ -225,6 +225,18 @@ Three layout variants, set with `data-layout`:
 - **`tiles`** on beats: the items as a row of cards with a large index, when the items are parallel and read left to right.
 - **`panel`** on a contrast: the strong side on its own `--rcc-primary` panel, so the answer arrives as a block of color.
 
+## 13.12 Tours, highlights, and comparison rows
+
+Added 2026-09-29 for the LinkedIn and resume deck. Three devices for teaching from real material.
+
+- **A tour** (`figure.photo[data-tour]` on a framed photo) walks a picture one region at a time: each press moves the picture so the next marked region sits in the middle of the frame, rings it, and dims the rest. Use it for a screenshot or a page the room needs to read closely: a job listing, a stats page, a resume. The marks are `i.tour__mark` with `--x`, `--y`, `--w`, `--h` in percent of the picture, each on its own beat or tied to a text beat with `data-at`. The move is the slide's subject, on the narrative tier; reduced motion lands it instantly. A mark wider than about 88% of the frame gets the spotlight without a zoom. The picture is never cropped to fit a box; a tall page instead gets a landscape window (`data-frame`) that pans. Place marks from measured positions, not by eye: on 2026-09-29 a framed-photo height cap was cutting a resume page to its middle, and estimated marks drifted off their text on every screen.
+- **Highlighter marks** (`mark.hl.hl--verb`, `mark.hl.hl--impact`) put a marker stroke under the words that carry an argument, sweeping in when the line arrives. Dark ink on a light marker keeps every surface's contrast. Two kinds only, with a key (`p.hl-key`) on the slide.
+- **Comparison rows**: a `contrast` slide may hold up to three `.contrast` rows, strong sides revealed row by row. Labels sit on the first row only.
+- **Ledger** (`data-layout="ledger"` on a contrast): the rows set as one card under two column labels, each row tagged (`p.contrast__tag`), the weak side muted, the strong side in full ink after an arrow and wiping in on its beat. For before-and-after writing, such as a resume line made better.
+- **Flow** (`data-layout="flow"` on beats): each item a row of three cells read left to right with arrows, under column labels. For a chain of cause, such as the trait you want to signal, the lead you chase, and the entry it becomes.
+
+Screenshots of other sites are allowed as teaching material: credited in words (`data-source`), captured signed out, never showing a real person's face (blur it), and never a Google product surface ([bright-lines.md 1.3](bright-lines.md)). A personal document shown publicly, such as a resume, loses its phone, email, and address first.
+
 ---
 
-**Last updated: 2026-09-24.**
+**Last updated: 2026-09-29.**

@@ -177,6 +177,8 @@ Every style is a pure function of its progress, backward runs it mirrored at 60%
 
 **Boxes rise too** (added 2026-09-24). A container with a fill, a tile or a contrast panel, wipes up from its own bottom edge on the same arrive curve as the words, with the words rising inside it; a list's number dot pops in with a small overshoot (spatial track, where overshoot is allowed, §5.1). Exits run the way the words run. Before this the words rose into a box that was already sitting there at full size, which read as the box popping in.
 
+**A tour moves the picture, not the slide** (added 2026-09-29). On a tour (presentation.md §13.12) each press moves the picture so the next marked region sits mid-frame, on `--rcc-dur-move` with the arrive curve, as a CSS transition, so reduced motion lands it instantly. The ring and the dimming counter-scale so they read the same at any zoom. It moves once per press and never loops.
+
 **The ground crossfades.** While presenting, the deck paints the current slide's surface under transparent slides, so a change of color with no stage move behind it (a Cut, the offline fallback) fades over three slow-effects durations instead of snapping. It is on the effects track, so reduced motion keeps it. During a stage move the slides paint their own surfaces, because the wipe's edge is the color change, and the dark backstage wins while a cube turns or a card is dealt.
 
 **Turn is rationed.** Four to six per deck, one per movement boundary (§13.2), and never twice in a row. It is the only transition that lights a new name on the rail. Spending it on an ordinary slide change is the fastest way to make a deck feel like a template with transitions switched on.
@@ -230,4 +232,4 @@ Sourced from the club's own shipped artifacts rather than from Google: the maske
 
 ---
 
-**Last updated: 2026-09-24.**
+**Last updated: 2026-09-29.**
