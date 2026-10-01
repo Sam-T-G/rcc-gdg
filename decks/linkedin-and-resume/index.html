@@ -2069,7 +2069,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Every message carries the deck's id, so two decks open at once never cross.
   var DECK_ID = deck.getAttribute('data-deck') || location.pathname;
   var LIBS = {
-    peer: ['https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js', 'sha512-XEKeWX+mI3Ov+tg2evDlVQFzVOIp4T8J3cNcCEPaEUGpxJV3eZaN8rHuvnFPvQpGJBHPmrozJDMpm2xcDvtmyQ=='],
     qr: ['https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js', 'sha512-ZDSPMa/JM1D+7kdg2x3BsruQ6T/JpJo3jWDWkCZsP+5yVyp1KfESqLI+7RqB5k24F7p2cV7i2YHh/890y6P6Sw==']
   };
   var libState = {};
@@ -2116,16 +2115,54 @@ document.addEventListener('DOMContentLoaded', function () {
     return pos + 1 < V.length ? { i: V[pos + 1], b: 0, press: false } : null;
   }
 
+  // What one press back shows: the inverse of nextOf.
+  function prevOf(i, b) {
+    if (b > 0) return { i: i, b: b - 1 };
+    var V = visible(), pos = V.indexOf(i);
+    if (pos < 0) pos = V.filter(function (k) { return k < i; }).length;
+    return pos - 1 >= 0 ? { i: V[pos - 1], b: slides[V[pos - 1]]._beats } : null;
+  }
+  // The phone link is a relay over plain HTTPS (ntfy.sh, no account), so it works on
+  // any network a browser can load a page on, cellular included. A direct WebRTC
+  // link was tried first (2026-10-01) and failed between a phone and a laptop on
+  // different networks: PeerJS's free relay servers no longer exist. The topic is a
+  // long random name, which is the only key. ntfy.sh allows 250 messages a day per
+  // network address, so the phone moves its own screen on a tap and sends only the
+  // key; the deck answers only when the result differs (a clicker press, an end).
+  var RELAY = 'https://ntfy.sh/';
+  function rid(n) { var a = new Uint8Array(n), out = ''; crypto.getRandomValues(a); for (var k = 0; k < n; k++) out += 'abcdefghijkmnpqrstuvwxyz23456789'.charAt(a[k] % 32); return out; }
+  function relayPost(topic, m, fail) {
+    fetch(RELAY + topic, { method: 'POST', body: JSON.stringify(m) })
+      .then(function (r) { if (!r.ok && fail) fail(r.status); })
+      .catch(function () { if (fail) fail(0); });
+  }
+  function relayListen(topic, onMsg, onLink) {
+    var es = new EventSource(RELAY + topic + '/sse');
+    es.onmessage = function (e) {
+      var d; try { d = JSON.parse(e.data); } catch (x) { return; }
+      if (d.event !== 'message') return;
+      try { onMsg(JSON.parse(d.message)); } catch (x) { /* not ours */ }
+    };
+    es.onopen = function () { onLink(true); };
+    es.onerror = function () { onLink(false); };      // EventSource reconnects by itself
+    return es;
+  }
+
   // ----- The deck side: who is listening, and what it tells them.
-  var listeners = [], phoneConn = null, peer = null, phoneUrl = '', qrBox = null;
+  var listeners = [], relay = null, phoneUrl = '', qrBox = null;
   function sync(i, b) {
     if (VIEW || !listeners) return;          // also called while the deck starts, before this section runs
     if (i == null) { i = S.i; b = S.b; }
-    var m = msg('state', { i: i, b: b, room: S.room, clock: clockOf(i), phone: !!(phoneConn && phoneConn.open) });
+    var m = msg('state', { i: i, b: b, room: S.room, clock: clockOf(i), phone: !!(relay && relay.phone) });
     listeners = listeners.filter(function (w) { if (!w || w.closed) return false; try { w.postMessage(m, '*'); return true; } catch (e) { return false; } });
-    if (phoneConn && phoneConn.open) { try { phoneConn.send(m); } catch (e) { /* the phone went away */ } }
+    if (relay && relay.phone && !(relay.known && relay.known.i === i && relay.known.b === b && relay.known.room === S.room)) {
+      relay.known = { i: i, b: b, room: S.room };
+      clearTimeout(relay.t);                  // a burst of clicker presses sends once
+      relay.t = setTimeout(function () { relayPost(relay.topic, msg('state', { from: 'deck', i: relay.known.i, b: relay.known.b, room: relay.known.room, seq: relay.seq }), relayFail); }, 300);
+    }
   }
-  setInterval(function () { if (!VIEW && (listeners.length || phoneConn) && slides[S.i]._clock) sync(); }, 1000);
+  setInterval(function () { if (!VIEW && listeners.length && slides[S.i]._clock) sync(); }, 1000);
+  function relayFail(code) { say(code === 429 ? 'The phone relay is busy. Wait a few seconds.' : 'The phone relay is unreachable. Is this laptop online?'); }
   function tell(src, text) { if (src) src.postMessage(msg('note', { text: text }), '*'); else say(text); }
   window.addEventListener('message', function (e) {
     var d = e.data; if (!d || d.gdgDeck !== DECK_ID) return;
@@ -2148,24 +2185,24 @@ document.addEventListener('DOMContentLoaded', function () {
   function startPhone(src) {
     var base = remoteBase();
     if (!base) { tell(src, 'The phone remote needs the published deck. Add data-live-url or open the live link.'); return; }
-    if (peer && phoneUrl && !peer.destroyed) { showQr(src); return; }
-    tell(src, 'Starting the phone link…');
-    lib('peer', function () {
-      var id = 'gdgdeck-' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 8);
-      peer = new window.Peer(id, { debug: 0 });
-      peer.on('open', function () { phoneUrl = base + '?view=remote&peer=' + id; showQr(src); });
-      // The newest phone wins: a phone that dropped and came back replaces itself.
-      peer.on('connection', function (c) {
-        c.on('open', function () {
-          if (phoneConn && phoneConn !== c) { try { phoneConn.close(); } catch (e) { /* already gone */ } }
-          phoneConn = c; hideQr(); say('Phone connected'); sync();
-        });
-        c.on('data', function (d) { if (d && d.gdgDeck === DECK_ID && d.t === 'key' && typeof d.k === 'string') act(d.k); });
-        c.on('close', function () { if (phoneConn === c) { phoneConn = null; say('Phone disconnected'); sync(); } });
-      });
-      peer.on('disconnected', function () { if (!peer.destroyed) peer.reconnect(); });
-      peer.on('error', function (err) { tell(src, 'Phone link: ' + (err && err.type || 'error') + '. Check the wifi, then press M again.'); if (peer && !peer.open) { peer.destroy(); peer = null; } });
-    }, function () { tell(src, 'Could not load the phone link. Is this laptop online?'); });
+    if (!relay) {
+      if (!window.EventSource || !window.fetch) { tell(src, 'This browser cannot run the phone link.'); return; }
+      relay = { topic: 'gdgdeck-' + rid(24), phone: false, known: null, t: 0, seq: 0 };
+      relay.es = relayListen(relay.topic, function (d) {
+        if (!d || d.gdgDeck !== DECK_ID || d.from !== 'phone') return;
+        if (d.t === 'hello') {
+          if (!relay.phone) { hideQr(); say('Phone connected'); }
+          relay.phone = true; relay.known = null; sync();
+        } else if (d.t === 'key' && typeof d.k === 'string') {
+          // The phone already shows what it expects; only a different result is sent back.
+          if (typeof d.seq === 'number') relay.seq = d.seq;
+          if (d.expect && typeof d.expect.i === 'number') relay.known = { i: d.expect.i, b: d.expect.b, room: S.room };
+          act(d.k);
+        }
+      }, function (ok) { if (!ok && !relay.phone) tell(src, 'Reaching the phone relay…'); });
+      phoneUrl = base + '?view=remote&relay=' + relay.topic;
+    }
+    showQr(src);
   }
   function qrSvg(url, cb) {
     lib('qr', function () { var q = window.qrcode(0, 'M'); q.addData(url); q.make(); cb(q.createSvgTag({ cellSize: 4, margin: 2, scalable: true, alt: 'QR code for the phone remote' })); },
@@ -2277,41 +2314,42 @@ document.addEventListener('DOMContentLoaded', function () {
       '<p class="rv__next"></p><div class="rv__notes"></div>' +
       '<nav class="rv__pad"><button type="button" data-k="ArrowLeft">Back</button><button type="button" data-k="ArrowRight">Next</button></nav>';
     var q = function (sel) { return one(sel, rv); };
-    var id = (/[?&]peer=([\w-]+)/.exec(location.search) || [])[1], conn = null, me = null, lock = null;
+    var topic = (/[?&]relay=([\w-]+)/.exec(location.search) || [])[1], cur = null, lock = null, seq = 0;
     function status(t) { q('.rv__status').textContent = t; rv.classList.toggle('is-live', !t); }
-    if (!id) { status('This link is missing its code. Scan the QR code on the deck again.'); return; }
-    function connect() {
-      if (!me || me.destroyed) return;
-      conn = me.connect(id, { reliable: true });
-      conn.on('open', function () { status(''); });
-      conn.on('data', function (d) {
-        if (!d || d.gdgDeck !== DECK_ID || d.t !== 'state') return;
-        S.room = !!d.room;
-        var c = cue(d);
-        q('.rv__where').textContent = c.where; q('.rv__clock').textContent = d.clock || '';
-        q('.rv__title').textContent = c.label;
-        q('.rv__next').textContent = c.upNext;
-        q('.rv__bridge').innerHTML = bridgeHtml(c);
-        q('.rv__bridgebox').classList.toggle('is-due', c.due && !!c.notes.bridge);
-        q('.rv__notes').innerHTML = c.notes.html || '<p class="tool__muted">No notes on this slide.</p>';
-      });
-      conn.on('close', function () { status('Lost the deck. Reconnecting…'); setTimeout(connect, 2000); });
-      conn.on('error', function () { status('Lost the deck. Reconnecting…'); });
+    function draw(st) {
+      S.room = !!st.room;
+      var c = cue(st);
+      q('.rv__where').textContent = c.where; q('.rv__clock').textContent = st.clock || '';
+      q('.rv__title').textContent = c.label;
+      q('.rv__next').textContent = c.upNext;
+      q('.rv__bridge').innerHTML = bridgeHtml(c);
+      q('.rv__bridgebox').classList.toggle('is-due', c.due && !!c.notes.bridge);
+      q('.rv__notes').innerHTML = c.notes.html || '<p class="tool__muted">No notes on this slide.</p>';
     }
-    lib('peer', function () {
-      me = new window.Peer({ debug: 0 });
-      me.on('open', connect);
-      me.on('disconnected', function () { if (!me.destroyed) me.reconnect(); });
-      me.on('error', function (err) {
-        if (err && err.type === 'peer-unavailable') { status('The deck is not answering. Is it still open? Retrying…'); setTimeout(connect, 3000); }
-        else status('Connection problem (' + (err && err.type || 'error') + '). Check the wifi.');
-      });
-    }, function () { status('Could not load the remote. Is this phone online?'); });
+    function fail(code) { status(code === 429 ? 'Too many taps for the relay. Wait a few seconds.' : 'Can’t reach the relay. Check this phone’s connection.'); }
+    if (!topic) { status('This link is missing its code. Scan the QR code on the deck again.'); return; }
+    relayListen(topic, function (d) {
+      if (!d || d.gdgDeck !== DECK_ID || d.from !== 'deck' || d.t !== 'state') return;
+      // A reply sent before the deck saw this phone's latest tap is already out of date.
+      if (typeof d.seq === 'number' && d.seq < seq) return;
+      cur = { i: d.i, b: d.b, room: d.room }; status(''); draw(cur);
+    }, function (ok) {
+      // Say hello on every (re)connect; the deck answers with where it is.
+      if (ok) { relayPost(topic, msg('hello', { from: 'phone' }), fail); if (!cur) status('Waiting for the deck…'); }
+      else status('Reconnecting…');
+    });
+    var sendKey = function (k) {
+      if (!cur) return;
+      var exp = k === 'ArrowRight' ? nextOf(cur.i, cur.b) : prevOf(cur.i, cur.b);
+      seq += 1;
+      relayPost(topic, msg('key', { from: 'phone', k: k, seq: seq, expect: exp ? { i: exp.i, b: exp.b } : null }), fail);
+      if (exp) { cur = { i: exp.i, b: exp.b, room: cur.room }; draw(cur); }
+    };
     all('[data-k]', rv).forEach(function (btn) {
       btn.addEventListener('click', function () {
         // Keep the screen awake while presenting, where the browser allows it.
         if (!lock && navigator.wakeLock) navigator.wakeLock.request('screen').then(function (l) { lock = l; l.addEventListener('release', function () { lock = null; }); }).catch(function () {});
-        if (conn && conn.open) conn.send(msg('key', { k: btn.getAttribute('data-k') }));
+        sendKey(btn.getAttribute('data-k'));
       });
     });
   }
