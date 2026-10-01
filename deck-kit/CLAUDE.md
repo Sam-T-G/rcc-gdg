@@ -23,4 +23,5 @@ Use the surfaces (`data-surface`, presentation.md §13.11) and the archetypes so
 
 - Invent no facts: no dates, numbers, names, or claims Sam did not give. Unknowns stay `[TBD]` or come off the slide.
 - Copy is casual and short, as a student says it. No colons in headlines, no em dash inside a sentence, none of: seamless, comprehensive, robust, leverage, delve, showcase, elevate, unlock.
+- End every slide's notes but the last with a `<p class="bridge">`: one spoken sentence that sets up the next slide without saying its headline. Load `presenter.js` after `deck.js` (the templates do); `publish-deck.sh` adds `data-live-url` on the first publish. [presentation.md §13.13](../docs/04-brand/design-system/presentation.md).
 - Run `node deck-kit/check.mjs <deck> --shots <dir>` and look at the screenshots before publishing.

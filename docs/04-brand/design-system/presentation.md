@@ -148,11 +148,13 @@ A closed set of thirteen. Every slide is one of them, named in `data-kind`. An i
 | `R` | Reset the clock on this slide |
 | `5` | Room mode on or off |
 | `P` | Reload the phone on a `demo` slide |
-| `N` | Speaker notes |
+| `N` | Speaker notes, on this screen (rehearsal) |
+| `S` | Presenter view in a second window (§13.13) |
+| `M` | Phone remote: shows a QR code (§13.13) |
 | `D` | Dark theme, for laptop preview only |
 | `F` | Fullscreen |
 | `?` | Key help |
-| `Esc` | Close the notes or the help |
+| `Esc` | Close the notes, the help, or the QR code |
 
 Presentation clickers send `Page Down` and `Page Up`, so they work with nothing configured.
 
@@ -192,7 +194,7 @@ Run these on every deck, in order. The first two are automated.
 | P1 | A-210 projector native resolution, and whether the light theme's container tint survives it. Also [assets.md §10.5](assets.md). | Not blocking |
 | P2 | The kit has been traced for frame rate in headless Chrome only, not on the laptop that will present. | First deck run from the kit |
 | P3 | Title and statement line breaks under the Inter fallback have not been compared against Google Sans on a real deck. | Any offline presentation |
-| P4 | There is no presenter view (notes and next slide on the laptop while the projector shows the slide). `N` shows notes on the same screen, which is fine for rehearsal and wrong for a mirrored projector. | Not blocking |
+| P4 | Closed 2026-10-01: the presenter view and phone remote (§13.13). Still open: whether A-210's projector extends or mirrors the laptop, and how fast the phone relay feels on its wi-fi. Test both before relying on either. | Not blocking |
 | P5 | There is no reflowed reading version for phones; the stack is scaled slides. A link shared to members is readable only by zooming. | Not blocking |
 | P6 | The climb's three-second camera and 32px session names have been checked on a laptop only. Walk the semester slide on the A-210 projector before the first arc deck uses it. | Not blocking |
 
@@ -235,8 +237,19 @@ Added 2026-09-29 for the LinkedIn and resume deck. Three devices for teaching fr
 - **Ledger** (`data-layout="ledger"` on a contrast): the rows set as one card under two column labels, each row tagged (`p.contrast__tag`), the weak side muted, the strong side in full ink after an arrow and wiping in on its beat. For before-and-after writing, such as a resume line made better.
 - **Flow** (`data-layout="flow"` on beats): each item a row of three cells read left to right with arrows, under column labels. For a chain of cause, such as the trait you want to signal, the lead you chase, and the entry it becomes.
 
-Screenshots of other sites are allowed as teaching material: credited in words (`data-source`), captured signed out, never showing a real person's face (blur it), and never a Google product surface ([bright-lines.md 1.3](bright-lines.md)). A personal document shown publicly, such as a resume, loses its phone, email, and address first.
+Screenshots of other sites are allowed as teaching material: credited in words (`data-source`), captured signed out or from the presenter's own signed-in account with their permission, never showing another person's face or name (blur both), and never a Google product surface ([bright-lines.md 1.3](bright-lines.md)). A personal document shown publicly, such as a resume, loses its phone, email, and address first. A private message shown as evidence keeps its company and subject and loses its sender.
+
+## 13.13 Presenter view, phone remote, bridge lines, run sheet
+
+Added 2026-10-01. Momentum decks need the facilitator to know what is coming before the room sees it.
+
+- **Bridge lines.** The last paragraph of a slide's notes may be `<p class="bridge">`: one spoken sentence that carries the room into the next slide ("Once it's filled in, there's a trick most people don't know about."). It sets up the next slide without saying its headline. Every slide but the last should have one; `check.mjs` reports the count.
+- **Presenter view (`S`).** A second window on the laptop: the current slide, a preview of what one more press shows (the next beat, or the next slide), the notes, the bridge line, a timer since it opened (click to reset), the time of day, and the slide's clock when it has one. On the slide's last press the bridge box lights up: say it, then press. Keys and a clicker work with either window focused. It needs the projector to **extend** the laptop; on a mirrored display it is visible to the room, so use the phone instead.
+- **Phone or tablet remote (`M`).** Shows a QR code, in the presenter view if it is open, otherwise on the stage. The device gets the notes, the bridge line, and the next step, plus Back and Next buttons, and keeps its screen awake. On a tablet-sized screen (an iPad) it also shows the Now and Next previews, and a keyboard or clicker paired to the tablet works too. The code hides when a device connects. Presses travel through the club's own relay ([deck-relay](https://deck-relay-954308885597.us-west1.run.app/health), Cloud Run project `rcc-deck-relay`) and fall back to ntfy.sh, the public service it copies, if that is down; both ends listen on both. Either way it is plain HTTPS, so it works on cellular or any wi-fi that loads web pages. The relay topic is a long random name and the only key, and only slide numbers and key names cross it (the device reads the notes from its own copy of the deck). The device moves its own screen on a tap and the deck answers only when the result differs. It loads the published deck: `scripts/publish-deck.sh` writes `data-live-url` into the deck on its first publish, so `M` also works when the deck runs from the local file.
+- **Run sheet (`?view=runsheet`, or the button in the presenter view).** Every slide in one table: title, kind, presses, clock, bridge line, the slide it leads into, and the notes. Prints to letter pages. Bring it as the backup when nothing else works.
+
+All of it lives in `deck-kit/presenter.js`, loaded after `deck.js` (`weekly.html` and `example.html` include it). It drives the deck from outside: it reads `window.__deck`, presses keys the way a keyboard does, and jumps with the URL hash, so the kit itself knows nothing about it. The deck window is always the source of truth: the presenter view, its two preview frames (`?view=mirror`), and the remote only send presses and draw what the deck reports.
 
 ---
 
-**Last updated: 2026-09-29.**
+**Last updated: 2026-10-01.**

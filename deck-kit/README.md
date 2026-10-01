@@ -103,6 +103,18 @@ Three more devices (2026-09-29, [presentation.md §13.12](../docs/04-brand/desig
 - **Ledger.** `data-layout="ledger"` on a contrast slide: wrap the rows in `div.ledger-rows` (never `.ledger`, which is the chrome line's class), open with `div.ledger-head` holding two `p.label`, and start each `.contrast` row with `p.label.contrast__tag`.
 - **Flow.** `data-layout="flow"` on a beats slide: a `div.flow-head` of three `p.label`, then each `li data-beat` holds `span.body` with `span.flow__signal`, `span.flow__lead`, and `span.flow__entry`. Four rows at most.
 
+## Presenter view, phone remote, run sheet
+
+[presentation.md §13.13](../docs/04-brand/design-system/presentation.md) has the rules. In a deck:
+
+- Load the add-on after the kit: `<script src="../../../deck-kit/presenter.js" defer></script>` (`weekly.html` and `example.html` already do).
+- End a slide's notes with `<p class="bridge">One sentence into the next slide.</p>`.
+- `scripts/publish-deck.sh` adds `data-live-url` to `main.deck` on the first publish, so `M` works from the local file too.
+
+While presenting: `S` opens the presenter window (allow pop-ups once), `M` shows the QR code for a phone or tablet, and `?view=runsheet` on the deck's URL is the printable cue sheet. `check.mjs` tests the presenter view and run sheet with real key presses. It cannot test the remote, because that needs the relay and a second device. Before a meeting that will use it: press `M` on the live deck, scan, tap Next twice, and watch the deck move.
+
+`presenter.js` is shared with rcc-acm's kit; change both copies together. The relay is the `deck-relay` repo (local to Sam's laptop for now; Cloud Run project `rcc-deck-relay`); its address is `RELAYS` at the top of `presenter.js`.
+
 ## Publish a deck to the club site
 
 ```sh

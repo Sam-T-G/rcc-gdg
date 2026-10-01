@@ -494,6 +494,53 @@ if (clockAt >= 0) {
 }
 function fmt(s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 
+// ---------- Presenter view, run sheet, bridge lines (presentation.md §13.13).
+// The phone remote needs the ntfy.sh relay and a second device, so it is checked
+// by hand (deck-kit/README.md); everything it draws comes from the same cue() the
+// presenter view uses, which is checked here.
+console.log('presenter view and run sheet');
+const bridges = await evaluate(`[...document.querySelectorAll('.deck > .slide')].filter((s) => s.querySelector('.notes .bridge')).length`);
+pass(`bridge lines on ${bridges} of ${info.length} slides (informational)`);
+await load();
+await evaluate(`location.hash = '#1'`); await sleep(400);
+// The presenter, framed full-window inside the deck: the deck is its parent, the
+// same role window.opener plays when S opens it as a pop-up.
+await evaluate(`(() => { const f = document.createElement('iframe'); f.id = 'pv-test'; f.src = location.pathname + '?view=presenter';
+  f.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;border:0;z-index:99;background:#fff'; document.body.appendChild(f); })()`);
+const pvRead = `(() => { const d = document.getElementById('pv-test').contentDocument; return d && d.querySelector('.pv__where') ? d.querySelector('.pv__where').textContent : ''; })()`;
+let where = '';
+for (let i = 0; i < 60 && !/^Slide 1 /.test(where); i++) { await sleep(150); where = await evaluate(pvRead); }
+check(/^Slide 1 of/.test(where), `the presenter view reports the deck's slide (${where || 'nothing'})`);
+const pvAt = info.findIndex((s) => s.beats > 0);
+await evaluate(`location.hash = '#${pvAt + 1}'`); await sleep(600);
+for (let k = 0; k < info[pvAt].beats; k++) { await press('right'); await settle(); }
+await sleep(400);
+const due = await evaluate(`(() => { const d = document.getElementById('pv-test').contentDocument; return { where: d.querySelector('.pv__where').textContent, next: d.querySelector('.pv__upnext').textContent, due: d.querySelector('.pv-bridge').classList.contains('is-due'), bridge: !!d.querySelector('.pv-bridge__text') }; })()`);
+check(due.where.startsWith(`Slide ${pvAt + 1} of`) && due.where.includes(`press ${info[pvAt].beats} of ${info[pvAt].beats}`), `presses in the deck move the presenter view (${due.where})`);
+check(/^Next slide: /.test(due.next), `on the last press, the presenter shows the next slide (${due.next})`);
+check(!due.bridge || due.due, 'on the last press, the bridge line is lit');
+// A clicker plugged into the laptop types into whichever window has focus: a
+// press with the presenter focused must move the deck.
+await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: 960, y: 1060, button: 'left', clickCount: 1 });
+await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: 960, y: 1060, button: 'left', clickCount: 1 });
+await sleep(200);
+const before = (await evaluate('__deck.state()')).i;
+// The deck's own key handler would also move it, so first prove the key goes to the presenter.
+const focused = await evaluate(`document.activeElement && document.activeElement.id`);
+await press('right'); await sleep(900); await settle();
+check(focused === 'pv-test' && (await evaluate('__deck.state()')).i === before + 1, `a press in the presenter window moves the deck (focus: ${focused || 'deck'})`);
+check(!errors().length, 'no console errors with the presenter open' + (errors().length ? ': ' + errors()[0] : ''));
+// The run sheet: one row per slide, the stage hidden.
+events.length = 0;
+await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+await send('Page.navigate', { url: URL0 + '?view=runsheet' });
+for (let i = 0; i < 60; i++) { await sleep(100); try { if ((await evaluate('document.readyState')) === 'complete') break; } catch {} }
+await sleep(800);
+const rs = await evaluate(`({ rows: document.querySelectorAll('.rs__table tbody tr').length, deck: getComputedStyle(document.querySelector('.deck')).display })`);
+check(rs.rows === info.length && rs.deck === 'none', `the run sheet lists every slide (${rs.rows} of ${info.length}) without the stage`);
+check(!errors().length, 'no console errors on the run sheet' + (errors().length ? ': ' + errors()[0] : ''));
+if (SHOTS) await shot('runsheet');
+
 ws.close(); chrome.kill(); server.close();
 console.log(`\n${passes.length} passed, ${fails.length} failed${SHOTS ? '. Screenshots in ' + SHOTS : ''}`);
 process.exit(fails.length ? 1 : 0);
