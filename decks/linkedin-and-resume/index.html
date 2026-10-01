@@ -2058,6 +2058,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   // A beat's main line, without its smaller detail line.
   function beatText(s, k) {
+    // ACM's career disk: each press is a station, named by its heading.
+    if (s.getAttribute('data-kind') === 'disk') {
+      var station = all('.stations > li', s)[k];
+      return station ? (one('h3', station) || station).textContent.replace(/\s+/g, ' ').trim() : 'the finale';
+    }
     var el = all('[data-beat]', s)[k]; if (!el) return '';
     if (el.matches('.tour__mark')) return 'the next spotlight on the picture';
     var c = el.cloneNode(true); all('.detail', c).forEach(function (d) { d.parentNode.removeChild(d); });
