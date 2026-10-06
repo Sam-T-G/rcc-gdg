@@ -777,7 +777,9 @@
     if (S.room) text += ' · Room';
     else if (pos === 0) text += ' · ? for keys';
     counter.textContent = text;
-    if (history.replaceState) history.replaceState(null, '', '#' + (S.i + 1));
+    // Only when the slide changes: Chrome throttles a page that rewrites its URL
+    // too often, and a throttled page ignores hash jumps too.
+    if (history.replaceState && location.hash !== '#' + (S.i + 1)) history.replaceState(null, '', '#' + (S.i + 1));
     renderNotes();
   }
   function announce(slide, b) {
@@ -1047,7 +1049,9 @@
     function paint() {
       var now = new Date(), at = new Date(now); at.setHours(+hm[0], +hm[1], 0, 0);
       var ms = at - now;
-      el.style.visibility = ms > 0 && ms < 30 * 60000 ? 'visible' : 'hidden';
+      // '' rather than 'visible', so it hides with its slide: an inline visible
+      // would show through every other slide in the half hour before the start.
+      el.style.visibility = ms > 0 && ms < 30 * 60000 ? '' : 'hidden';
       el.textContent = 'Starts in ' + fmt(ms);
     }
     paint(); countdown = setInterval(paint, 1000);
