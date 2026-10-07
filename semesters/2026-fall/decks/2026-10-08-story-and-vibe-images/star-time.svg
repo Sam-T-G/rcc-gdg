@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632 1280" width="1632" height="1280">
+<rect width="1632" height="1280" fill="#ffffff"/>
+<text x="64" y="120" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="64" font-weight="500" fill="#575a58" text-anchor="start" >How long each part gets</text>
+<rect x="64" y="190" width="170" height="200" rx="28" fill="#00732d"/>
+<text x="149.0" y="342.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="150" font-weight="700" fill="#ffffff" text-anchor="middle" >S</text>
+<text x="290" y="282" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e" text-anchor="start" >Where and when</text>
+<text x="290" y="354" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="400" fill="#575a58" text-anchor="start" >A sentence or two</text>
+<rect x="64" y="460" width="170" height="200" rx="28" fill="#00732d"/>
+<text x="149.0" y="612.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="150" font-weight="700" fill="#ffffff" text-anchor="middle" >T</text>
+<text x="290" y="552" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e" text-anchor="start" >What was on you</text>
+<text x="290" y="624" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="400" fill="#575a58" text-anchor="start" >One sentence</text>
+<rect x="64" y="730" width="760" height="200" rx="28" fill="#00732d"/>
+<text x="130" y="882.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="150" font-weight="700" fill="#ffffff" text-anchor="start" >A</text>
+<text x="324" y="822" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#ffffff" text-anchor="start" >What you did</text>
+<text x="324" y="894" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="400" fill="#e6f4e8" text-anchor="start" >Most of your time</text>
+<rect x="64" y="1000" width="420" height="200" rx="28" fill="#e09f2e"/>
+<text x="130" y="1152.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="150" font-weight="700" fill="#392300" text-anchor="start" >R</text>
+<text x="540" y="1092" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e" text-anchor="start" >What changed</text>
+<text x="540" y="1164" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="400" fill="#575a58" text-anchor="start" >Say it last, say it clearly</text>
+</svg>
