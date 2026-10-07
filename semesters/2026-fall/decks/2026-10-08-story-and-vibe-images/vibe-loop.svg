@@ -15,8 +15,8 @@
 <text x="816.0" y="1064.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="80" font-weight="700" fill="#1e201e" text-anchor="middle" >3. Try it</text>
 <text x="816.0" y="1136.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="54" font-weight="400" fill="#2f5a3a" text-anchor="middle" >Click everything</text>
 <rect x="36.0" y="550.0" width="500" height="200" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
-<text x="286.0" y="644.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="80" font-weight="700" fill="#1e201e" text-anchor="middle" >4. Steer</text>
-<text x="286.0" y="716.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="54" font-weight="400" fill="#2f5a3a" text-anchor="middle" >One change</text>
+<text x="286.0" y="644.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="80" font-weight="700" fill="#1e201e" text-anchor="middle" >4. Change</text>
+<text x="286.0" y="716.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="54" font-weight="400" fill="#2f5a3a" text-anchor="middle" >One thing</text>
 <text x="816.0" y="640.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="84" font-weight="700" fill="#00732d" text-anchor="middle" >Repeat.</text>
 <text x="816.0" y="710.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="48" font-weight="400" fill="#575a58" text-anchor="middle" >One step at a time</text>
 </svg>
