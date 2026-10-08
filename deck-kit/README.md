@@ -115,11 +115,11 @@ While presenting: `S` opens the presenter window (allow pop-ups once), `M` shows
 
 `presenter.js` is shared with rcc-acm's kit; change both copies together. The relay is the `deck-relay` repo (local to Sam's laptop for now; Cloud Run project `rcc-deck-relay`); its address is `RELAYS` at the top of `presenter.js`.
 
-## Review: comments and who covers each slide
+## Review: notes and who covers each slide
 
-Load `review.js` right after `presenter.js` (`<script src="../../../deck-kit/review.js" defer></script>`; `weekly.html` and `example.html` do). `C` in the deck window opens a side panel for the current slide: tap a name to say who covers it, and comment, reply, or resolve. `?view=review` is the whole deck as a board with per-person counts, unassigned and open filters, and handoff marks. With it loaded, the presenter view, the remote, and the run sheet name each slide's speaker and cue "Hand to …" when the next slide changes hands.
+Load `review.js` right after `presenter.js` (`<script src="../../../deck-kit/review.js" defer></script>`; `weekly.html` and `example.html` do). It loads the relay's annotation client (`/client/v1/annotate.js`). `A` in the deck window toggles annotate mode: click a spot, select words, or note the whole slide, as a note, a task, or a suggested replacement, with replies and resolve. `I` opens the notes inbox. `?view=review` is the whole deck as a board: who covers each slide (assign there), open notes, and who is looking at what. With it loaded, the presenter view and the remote list each slide's open notes, and they, with the run sheet, name each slide's speaker and cue "Hand to …" when the next slide changes hands. The room's screen never shows notes unless someone presses `A` on it.
 
-Everything is live for everyone on the deck, through the relay's `/review/<club>/<deck>` (Firestore behind it), keyed by `data-deck` and each slide's `data-id`, else its `aria-label` as a slug. Each person types their name and the club passcode once per browser; the passcode never goes in a file. Agents use `scripts/review.mjs` (root `CLAUDE.md`, "Review"). `check.mjs` tests the panel and board with real keys and clicks, without the relay. `review.js` is shared with rcc-acm and pcolee/explorAI; change all three copies together.
+Everything is live for everyone on the deck, through the relay (Yjs documents in Firestore), keyed by `data-deck` and each slide's `data-id`, else its `id`, else its `aria-label` as a slug. Sign-in is Google; the relay admits only each club's member list (`node admin.mjs` in the deck-relay repo). Agents use `scripts/review.mjs` or the relay's MCP server (root `CLAUDE.md`, "Review"). `check.mjs` tests the presenter notes without the relay, and the annotate bar and board up to sign-in when the relay is reachable. `review.js` is shared with rcc-acm and pcolee/explorAI; change all three copies together.
 
 ## Publish a deck to the club site
 
