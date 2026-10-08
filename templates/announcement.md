@@ -26,7 +26,7 @@ Fill this once; every version below pulls from it.
 
 Under 280 characters. Lead with what and when.
 
-<!-- fill: e.g. "Workshop: build your first X. Wed YYYY-MM-DD, 10:00 AM, BLCIS A-103. Bring a laptop. No experience needed." -->
+<!-- fill: e.g. "Workshop: build your first X. Thu YYYY-MM-DD, 2:30 PM, BLCIS A-210 Simulation Lab. Bring a laptop. No experience needed." -->
 
 ## Long version (post, email, event page)
 
@@ -42,7 +42,7 @@ Under 280 characters. Lead with what and when.
 - RSVP: <!-- fill: -->
 
 <!-- fill: one line on the club: who we are and when we meet. -->
-GDG on Campus @ RCC meets Wednesdays, 10:00 AM in BLCIS A-103. Everyone is welcome.
+GDG on Campus @ RCC meets Thursdays, 2:30 to 3:30 PM in BLCIS A-210 Simulation Lab. Everyone is welcome.
 
 <!-- fill: required if ASRCC funded this; delete otherwise -->
 This event is funded by ASRCC (Associated Students of Riverside City College).
@@ -52,6 +52,7 @@ This event is funded by ASRCC (Associated Students of Riverside City College).
 ## Image
 
 - File: <!-- fill: path in assets/ or the shared drive -->
+- Sizes exported, per [design-system/assets.md](../docs/04-brand/design-system/assets.md): <!-- fill: feed 1080 x 1440, story 1080 x 1920, share card 1200 x 630, flyer, or n/a -->
 - Alt text: <!-- fill: describe the image in one sentence; include the date and room if they are in the image -->
 - Uses the club name and logo per [brand.md](../docs/04-brand/brand.md): <!-- fill: yes -->
 - No photos of people without written consent: <!-- fill: confirmed -->

@@ -6,7 +6,7 @@ Welcome to GDG on Campus @ RCC. This is everything you need in your first two we
 
 - [ ] Join the Discord: <https://discord.gg/ddwjKJJN9v>. This is where announcements, questions, and last-minute room changes happen. If the link says `[TBD]`, ask an officer at a meeting.
 - [ ] Follow the Instagram: <[TBD: add Instagram URL]>.
-- [ ] Come to a weekly meeting: Wednesdays, 10:00 AM in BLCIS A-103. No sign-up needed. What a meeting looks like is in [weekly-meeting.md](../03-playbooks/weekly-meeting.md).
+- [ ] Come to a weekly meeting: Thursdays, 2:30 to 3:30 PM in BLCIS A-210 Simulation Lab. No sign-up needed. What a meeting looks like is in [weekly-meeting.md](../03-playbooks/weekly-meeting.md).
 - [ ] Read the [mission](../00-charter/mission.md) (two minutes) and the [code of conduct](../../CODE_OF_CONDUCT.md) (five minutes).
 
 ## First two weeks

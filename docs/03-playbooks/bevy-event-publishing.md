@@ -20,7 +20,7 @@ Whoever leads the event creates it. Any organizer with dashboard access can publ
 |---|---|
 | Title | See naming below |
 | Date, start time, end time | The event plan |
-| Venue | Room name and building (weekly slot is BLCIS A-103); the campus address on past events is 4800 Magnolia Avenue, Riverside 92506 |
+| Venue | Room name and building (weekly slot is BLCIS A-210 Simulation Lab); the campus address on past events is 4800 Magnolia Avenue, Riverside 92506 |
 | Description | Two or three sentences plus the standard footer below |
 | Format | In person, virtual, or hybrid. Virtual and hybrid events give attendees a stream and a recording |
 | Cover image | A brand-compliant image from [`assets/`](../../assets/) or the GDG on Campus template deck ([brand.md](../04-brand/brand.md)) |

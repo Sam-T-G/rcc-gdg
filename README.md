@@ -10,8 +10,8 @@ GDG on Campus Riverside City College is an independent group; our activities and
 
 | | |
 |---|---|
-| Weekly meeting | Wednesdays, 10:00 AM |
-| Room | BLCIS A-103 |
+| Weekly meeting | Thursdays, 2:30 to 3:30 PM |
+| Room | BLCIS A-210 Simulation Lab |
 | Chapter page (events, RSVP, recordings) | <https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/> |
 | Discord | <https://discord.gg/ddwjKJJN9v> |
 | Instagram | [TBD: add Instagram URL] |
@@ -44,15 +44,16 @@ This repo is the club's memory. It holds the rules for running the club, the pla
 | [docs/05-onboarding/](docs/05-onboarding/new-member.md) | Start-here guides for new members and new officers, plus a repo tour |
 | [assets/](assets/gdg-on-campus-horizontal-light.svg) | Logos and brand files (SVG and PNG, under 1 MB each) |
 | [templates/](templates/README.md) | Blank meeting notes, event plans, run sheets, retros, decision records, and more |
+| [deck-kit/](deck-kit/README.md) | The slide deck kit: stylesheet, engine, the blank weekly deck that `scripts/new-deck.sh` fills from a session card, a finished example, and its check |
 | [semesters/](semesters/README.md) | One folder per semester, created from `semesters/_template/` |
-| [scripts/](scripts/check.sh) | `new-semester.sh`, `new-event.sh`, `new-meeting.sh`, and `check.sh` |
+| [scripts/](scripts/check.sh) | `new-semester.sh`, `new-event.sh`, `new-meeting.sh`, `new-deck.sh`, `check.sh`, and `publish-site.sh` |
 
 ## Start here
 
 ### New member
 
 1. Join the chapter on Bevy so you get event RSVPs and recordings: <https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/>
-2. Show up Wednesdays at 10:00 AM in BLCIS A-103.
+2. Show up Thursdays at 2:30 PM in BLCIS A-210 Simulation Lab.
 3. Read [docs/05-onboarding/new-member.md](docs/05-onboarding/new-member.md) and [docs/00-charter/membership.md](docs/00-charter/membership.md).
 4. Read the [code of conduct](CODE_OF_CONDUCT.md). It applies at every meeting and event.
 5. Have an idea for a workshop or event? Open an issue with one of the forms under [.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/config.yml).

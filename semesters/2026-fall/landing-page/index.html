@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>GDG on Campus Riverside City College</title>
+<meta name="description" content="Walk into any room ready. Thursdays at 2:30 in BLCIS A-210 we practice talking about your own work. Any major. Nothing technical.">
+<meta name="theme-color" content="#f7faf8">
+<link rel="canonical" href="https://sam-t-g.github.io/rcc-gdg/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sam-t-g.github.io/rcc-gdg/">
+<meta property="og:title" content="GDG on Campus Riverside City College">
+<meta property="og:description" content="Walk into any room ready. Thursdays at 2:30 in BLCIS A-210 we practice talking about your own work. Any major. Nothing technical.">
+<meta property="og:image" content="https://sam-t-g.github.io/rcc-gdg/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Walk into any room ready. Thursdays, 2:30 PM, BLCIS A-210. A green staircase rises beside the words.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<!-- GSAP and ScrollTrigger drive the scroll scene. Pinned, integrity-checked, optional:
+     without them, or with reduced motion, the page is a static stack of the same content. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" integrity="sha512-OaIE7ud4P04EhnBuhEcm0wQSceIxbi2pV03oBLS/+F6ampfxsnxcIxOp7H2eF9G7N0kEht0VAzOLG+dTLSo17Q==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<style>
+  /* Light only: the horizontal lockup exists only as a light file and may not be
+     recolored. Values come from tokens.css; rules it does not ship are marked PROPOSED. */
+  body { overflow-x: clip; }
+  .wrap { padding-inline: var(--rcc-page-margin); max-width: calc(90rem + var(--rcc-page-margin) * 2); margin-inline: auto; }
+
+  /* PROPOSED: skip link, off screen until focused, then a Primary button. */
+  .rcc-skip {
+    position: absolute; z-index: 10; white-space: nowrap;
+    inset-block-start: var(--rcc-space-2); inset-inline-start: 50%;
+    transform: translate(-50%, calc(-100% - var(--rcc-space-6)));
+  }
+  .rcc-skip:focus { transform: translate(-50%, 0); }
+  main:focus { outline: none; box-shadow: none; }
+
+  /* --- Opening screen: the headline is the image --------------------------- */
+  /* Capped, not 100svh. The spacer row hands every spare pixel of viewport height to one
+     gap, so an uncapped opener bought a screenful of air on anything tall. */
+  .intro {
+    min-block-size: min(100svh, 58rem); display: grid; grid-template-rows: auto 1fr auto;
+    padding-block: var(--rcc-space-6) var(--rcc-space-8);
+  }
+  /* The lockup is sized from the column, not from the viewport. On the vw clamp it drifted
+     from 69% of the measure on a phone to 24% on a laptop and never got past 45% of its own
+     resolution, which is what read as small. One axis is ever set, which is the rule that
+     makes distortion impossible (bright-lines.md 1.5 sanctions either axis with the other at
+     auto). The second term is a height ceiling written as a width: 16svh of headroom times
+     the artwork's own 1920/390, so a 390px-tall landscape phone does not hand 40% of a wide
+     column to the logo, and no breakpoint is needed to say so. 43.75rem at dpr 2 is 1400
+     device px against a 1920px source, so every size stays inside native resolution. */
+  .lockup {
+    display: block; block-size: auto;
+    inline-size: min(clamp(16.25rem, 40%, 43.75rem), 16svh * 4.9231);
+  }
+  .intro h1 {
+    /* start, not end. At end the headline sat on the bottom of the spacer row and the slack
+       collected between the logo and it: 47% of the opening screen on an iPad, 62% at
+       900 x 1600. At start the logo and the headline stay one block and the slack falls
+       below them, where it reads as the air under a poster rather than as a hole. */
+    align-self: start; margin: var(--rcc-space-8) 0 0; max-width: none;
+    font-size: clamp(3.5rem, 0.5rem + 13vw, 10.5rem); line-height: 0.92; letter-spacing: -0.045em;
+  }
+  .intro h1 .mask { display: inline-block; overflow: clip; overflow-clip-margin: 0.12em; vertical-align: top; padding-block-end: 0.08em; }
+  .intro h1 .w { display: inline-block; }
+  .intro__foot { display: grid; gap: var(--rcc-space-4); margin-block-start: var(--rcc-space-8); align-items: end; }
+  .intro__sub { margin: 0; max-width: 34ch; font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem); line-height: 1.4; }
+  .cue { margin: 0; display: flex; align-items: center; gap: var(--rcc-space-3); color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-md); }
+  .cue svg { inline-size: 28px; block-size: 21px; color: var(--rcc-primary); flex: none; }
+  /* The page runs past three screens with the logo above the fold, so the
+     independence sentence also sits in the opening block (bright-lines.md §1.4). */
+  .notice {
+    grid-column: 1 / -1; margin: 0; max-width: 70ch; padding-block-start: var(--rcc-space-4);
+    border-block-start: 1px solid var(--rcc-outline-variant);
+    font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); color: var(--rcc-on-surface-variant);
+  }
+  @media (min-width: 1024px) { .intro__foot { grid-template-columns: 1fr auto; } }
+  /* A landscape phone has no height to spend on the rhythm either. */
+  @media (max-height: 760px) { .intro h1 { margin-block-start: var(--rcc-space-4); } .intro__foot { margin-block-start: var(--rcc-space-6); } }
+
+  /* --- The climb. Static stack by default; a pinned scroll scene when live. -- */
+  .climb { padding-block: var(--rcc-space-12); }
+  .chapter { padding-block: var(--rcc-space-10); border-block-start: 2px solid var(--rcc-outline-variant); }
+  .chapter__name {
+    margin: 0 0 var(--rcc-space-4); max-width: none; color: var(--rcc-primary);
+    font-size: clamp(4rem, 1rem + 13vw, 13rem); line-height: 0.9; letter-spacing: -0.05em;
+  }
+  .chapter__line { margin: 0 0 var(--rcc-space-3); max-width: 22ch; font-size: clamp(1.5rem, 1rem + 2vw, 2.75rem); line-height: 1.12; letter-spacing: -0.015em; font-weight: var(--rcc-weight-strong); }
+
+  /* Concept: the sentence, cycling. The choice is a word inside the line itself, "You study
+     nursing.", the way Webflow's hero puts its audience inside the headline. The green pill is
+     the whole control: full round means you can press it (foundations §4), and the caret is the
+     convention every select uses. A press rolls the word to the next major like an odometer and
+     the pill resizes to fit it.
+
+     Left alone, the pill cycles through the four majors so a visitor sees the page is not about
+     one of them. That motion runs past five seconds, so WCAG 2.2.2 requires a way to stop it:
+     the Pause button beside the hint. Following the APG carousel pattern it also stops under the
+     pointer, on keyboard focus, while the reader is scrolling, while another chapter is showing,
+     and for good once the reader picks a major. Reduced motion never starts it. */
+  .visually-hidden { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .rep { margin-block: var(--rcc-space-6); max-width: 46rem; }
+
+  .rep__say { margin: 0 0 var(--rcc-space-4); color: var(--rcc-on-surface-variant); font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.375rem); line-height: 1.45; }
+  .rep__you { display: none; }   /* live only: the static page picks with the names below */
+  .climb.is-live .rep__you {
+    display: block; margin-block-end: var(--rcc-space-1);
+    color: var(--rcc-on-surface); font-weight: var(--rcc-weight-strong);
+    font-size: clamp(1.625rem, 1rem + 2.4vw, 3rem); letter-spacing: -0.025em;
+    /* the pill keeps a 48px target, so a wrapped line has to make room for it */
+    line-height: max(1.3em, calc(var(--rcc-target-min) + var(--rcc-space-1)));
+  }
+
+  .slot {
+    display: inline-flex; align-items: center; vertical-align: baseline; position: relative;
+    min-block-size: var(--rcc-target-min); margin: 0; padding: 0 0.32em; border: 0; border-radius: var(--rcc-radius-full);
+    background: var(--rcc-primary-container); color: var(--rcc-on-primary-container);
+    font: inherit; letter-spacing: inherit; cursor: pointer;
+    transition: background-color var(--rcc-dur-fast-effects) var(--rcc-ease-standard);
+  }
+  .slot:hover { background: color-mix(in srgb, var(--rcc-primary-container), var(--rcc-on-primary-container) 8%); }
+  .slot:active { background: color-mix(in srgb, var(--rcc-primary-container), var(--rcc-on-primary-container) 12%); }
+  .slot__window { display: block; overflow: hidden; block-size: 1.2em; }
+  /* flex-start shrink-wraps each word, so its own width is what the pill measures */
+  .slot__track { display: flex; flex-direction: column; align-items: flex-start; will-change: transform; }
+  .slot__word { display: block; block-size: 1.2em; line-height: 1.2em; white-space: nowrap; }
+
+  .majors { border: 0; margin: 0 0 var(--rcc-space-4); padding: 0; min-inline-size: 0; }
+  .majors__legend { padding: 0; margin-block-end: var(--rcc-space-1); color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm); }
+  .names { display: flex; flex-wrap: wrap; gap: 0 var(--rcc-space-4); }
+  .name { cursor: pointer; }
+  .name input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+  .name span { display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min); font-weight: var(--rcc-weight-strong); color: var(--rcc-on-surface-variant); }
+  .name:has(input:checked) span { color: var(--rcc-primary); text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+  .name:has(input:focus-visible) span { box-shadow: 0 0 0 3px var(--rcc-focus-gap), 0 0 0 6px var(--rcc-focus-ring); border-radius: var(--rcc-radius-xs); }
+  /* Live, the pill is the one control; the names would be a second tab stop for the same choice. */
+  .climb.is-live .majors { display: none; }
+
+  .round-set { display: none; }
+  .round-set__who { display: none; }
+  .rep:has(input[value="nursing"]:checked)  .round-set[data-major="nursing"],
+  .rep:has(input[value="business"]:checked) .round-set[data-major="business"],
+  .rep:has(input[value="econ"]:checked)     .round-set[data-major="econ"],
+  .rep:has(input[value="cs"]:checked)       .round-set[data-major="cs"] { display: block; }
+  @supports not (selector(:has(*))) {
+    .majors { display: none; }
+    .round-set, .round-set__who { display: block; }
+    .round-set + .round-set { margin-block-start: var(--rcc-space-6); }
+  }
+
+  .rounds { margin: 0; padding: 0; list-style: none; max-width: none; display: grid; gap: var(--rcc-space-4); }
+  .rounds > li + li { margin: 0; }
+  .rounds b { display: block; color: var(--rcc-primary); font-size: var(--rcc-size-body-md); }
+  .rounds__said { display: block; font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); line-height: 1.3; }
+  .rounds__why { display: block; margin-block-start: var(--rcc-space-1); color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm); }
+  .rep__stage { display: none; }
+  .rep__caption { margin: var(--rcc-space-3) 0 0; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm); }
+  .answer { margin: 0; font-size: clamp(1.375rem, 0.9rem + 2.2vw, 2.75rem); line-height: 1.14; letter-spacing: -0.02em; font-weight: var(--rcc-weight-strong); }
+  .t.cutting .word { color: var(--rcc-on-surface-variant); text-decoration: line-through; text-decoration-thickness: 0.07em; text-decoration-color: var(--rcc-primary); }
+  .t.fresh .word { color: var(--rcc-primary); }
+  .rep__note { margin: var(--rcc-space-3) 0 0; max-width: 40ch; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-md); }
+  @media (max-width: 599px) and (max-height: 760px), (max-height: 500px) {
+    .climb.is-live .rep__you { font-size: 1.375rem; }
+    .climb.is-live .rep__say { font-size: var(--rcc-size-body-md); margin-block-end: var(--rcc-space-3); }
+    .climb.is-live .answer { font-size: 1.125rem; }
+    .climb.is-live .rep__note { font-size: var(--rcc-size-body-sm); }
+  }
+
+  /* The caret: drawn in CSS, not an icon from the set. */
+  .slot__caret {
+    inline-size: 0; block-size: 0; margin-inline-start: 0.34em; flex: none;
+    border-inline: 0.3em solid transparent; border-block-start: 0.3em solid currentColor; opacity: 0.75;
+    transition: transform var(--rcc-dur-fast-spatial) var(--rcc-ease-spatial);
+  }
+  .slot:hover .slot__caret { transform: translateY(1px); }
+
+  /* The hint line, and the pause control that makes the cycling legitimate. Both are live only:
+     without scripts the names below do the picking and neither has anything to say. */
+  .rep__hint { display: none; }
+  .climb.is-live .rep__hint {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--rcc-space-2);
+    margin: 0 0 var(--rcc-space-4); color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-sm);
+    /* Hold the row at the pause control's height: when the cycle stops for good the button
+       goes, and without this the line would shrink and pull the page up under the reader. */
+    min-block-size: var(--rcc-target-min);
+  }
+  .rep__pause { display: none; }
+  .rep[data-rotate] .rep__pause {
+    display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min);
+    padding: 0 var(--rcc-space-3); margin-inline-start: calc(-1 * var(--rcc-space-1));
+    border: 0; border-radius: var(--rcc-radius-full); background: transparent;
+    color: var(--rcc-primary); font: inherit; font-weight: var(--rcc-weight-strong); cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .rep__pause:hover { background: color-mix(in srgb, var(--rcc-primary) 8%, transparent); }
+  .clock { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--rcc-space-4); margin-block-start: var(--rcc-space-4); }
+  .clock__num { min-inline-size: 2ch; color: var(--rcc-primary); font-size: clamp(2rem, 1.4rem + 2.4vw, 3.5rem); line-height: 1; font-weight: var(--rcc-weight-strong); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .clock__rail { position: relative; block-size: 8px; border-radius: 99px; background: var(--rcc-surface-container-high); overflow: hidden; }
+  .clock__bar { position: absolute; inset: 0; border-radius: 99px; background: var(--rcc-primary); transform-origin: left center; }
+
+  .climb__svg, .progress { display: none; }
+  .climb.is-live { padding: 0; max-width: none; }
+  .climb.is-live .stage { position: relative; block-size: 100svh; overflow: hidden; }
+  /* The chapters and the rail sit in the page column, not at the raw page margin. .wrap is
+     border-box at 90rem plus the margins and centered, so its content edge is the larger of
+     the margin and half the leftover width; 100% here is the stage, which is the layout width
+     with no scrollbar in it. Between 1537 and 1799px the column is centered and the old
+     margin-only inset left the chapters 72px to the left of everything else on the page. */
+  .climb.is-live .chapter {
+    position: absolute; inset-inline: max(var(--rcc-page-margin), calc((100% - 90rem) / 2)); inset-block-start: clamp(3.5rem, 9vh, 7rem);
+    border: 0; padding: 0; max-width: 64rem;
+    pointer-events: none;   /* the chapters are stacked; only the one showing may take a tap */
+  }
+  .climb.is-live .chapter.is-active { pointer-events: auto; }
+  .climb.is-live .chapter__name { font-size: clamp(3.5rem, 1rem + 11vw, 12rem); }
+  .climb.is-live .rep__rounds { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } /* still read aloud */
+  .climb.is-live .rep__stage { display: block; }
+  .climb.is-live .climb__svg { display: block; position: absolute; inset: 0; inline-size: 100%; block-size: 100%; pointer-events: none; }
+  .climb__path { fill: none; stroke: var(--rcc-primary); stroke-linejoin: round; stroke-linecap: butt; }
+  .climb__dot { fill: var(--rcc-primary); stroke: var(--rcc-surface); stroke-width: 5; }
+  .climb.is-live .progress {
+    display: flex; position: absolute; inset-inline-end: max(var(--rcc-page-margin), calc((100% - 90rem) / 2)); inset-block-start: clamp(3.5rem, 9vh, 7rem);
+    flex-direction: column; align-items: flex-end; gap: var(--rcc-space-2);
+    font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant);
+  }
+  .progress [aria-current="step"] { color: var(--rcc-on-surface); font-weight: var(--rcc-weight-strong); }
+  /* Wide screens: Voice sets its words beside the rep, so neither reaches the staircase. A
+     landscape phone is wide and 390px tall, so it takes the same two columns. */
+  @media (min-width: 1024px), (min-width: 600px) and (max-height: 500px) {
+    .climb.is-live .chapter--voice {
+      max-width: min(86rem, 100% - 11rem);
+      display: grid; column-gap: var(--rcc-space-12); align-items: start;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      grid-template-areas: "name rep" "line rep";
+      grid-template-rows: auto 1fr;
+    }
+    .chapter--voice .chapter__name { grid-area: name; }
+    .chapter--voice .chapter__line { grid-area: line; }
+    .climb.is-live .chapter--voice .rep { grid-area: rep; margin: var(--rcc-space-6) 0 0; }
+  }
+  /* Short laptops. The stage is 100svh and clips, and at 1280 x 720 the rep column ran 144px
+     past it: the clock was cut in half and the note was gone. 1366 x 768 and 1024 x 768 lost
+     the caption and the note. The answer's reserved height is the tallest round of any major,
+     so the size that fits is set by the longest sentence, not the one showing. */
+  @media (min-width: 1024px) and (max-height: 840px) {
+    .climb.is-live .chapter, .climb.is-live .progress { inset-block-start: clamp(2rem, 5vh, 3.5rem); }
+    .climb.is-live .chapter--voice .rep { margin-block-start: var(--rcc-space-3); }
+    .climb.is-live .rep__you { font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem); }
+    .climb.is-live .rep__say { margin-block-end: var(--rcc-space-3); }
+    .climb.is-live .rep__hint { margin-block-end: var(--rcc-space-2); }
+    .climb.is-live .answer { font-size: clamp(1.25rem, 0.6rem + 1.7vw, 2.125rem); }
+    .climb.is-live .clock { margin-block-start: var(--rcc-space-3); }
+    .climb.is-live .clock__num { font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem); }
+    .climb.is-live .rep__note { margin-block-start: var(--rcc-space-2); }
+  }
+  /* Short phones, and any screen 500px tall or less (a phone on its side): the Voice chapter
+     tightens so the rep clears the staircase. At 844 x 390 the single-column rep ran 400px past
+     the stage and the drawn stair crossed "You study". */
+  @media (max-width: 599px) and (max-height: 760px), (max-height: 500px) {
+    .climb.is-live .chapter, .climb.is-live .progress { inset-block-start: var(--rcc-space-8); }
+    .climb.is-live .chapter__name { font-size: 3rem; }
+    .climb.is-live .rep { margin-block: var(--rcc-space-3); }
+    .climb.is-live .chapter--voice .rep { margin-block-start: var(--rcc-space-2); }
+    .climb.is-live .rep__hint { margin-block-end: var(--rcc-space-2); }
+    .climb.is-live .answer { font-size: 1.125rem; }
+    .climb.is-live .clock { margin-block-start: var(--rcc-space-3); }
+    .climb.is-live .clock__num { font-size: 2rem; }
+    .climb.is-live .rep__note { font-size: var(--rcc-size-body-sm); margin-block-start: var(--rcc-space-2); }
+  }
+  /* On a phone on its side the note takes the column, so it stays one line above the stair. */
+  @media (min-width: 600px) and (max-height: 500px) { .climb.is-live .rep__note { max-width: none; } }
+  /* On a phone on its side the left column holds one 48px word, so the rep takes the width. */
+  @media (min-width: 600px) and (max-height: 500px) {
+    .climb.is-live .chapter--voice { grid-template-columns: minmax(0, 2fr) minmax(0, 7fr); column-gap: var(--rcc-space-8); }
+  }
+  @media (max-width: 599px) {
+    .climb.is-live .progress { display: none; }
+  }
+  @media (max-width: 599px), (max-height: 500px) {
+    .climb.is-live .chapter--voice .chapter__line { display: none; } /* the rep says it on a phone */
+    .climb.is-live .rep__caption { display: none; } /* the live note under the clock says it */
+  }
+
+  /* --- Landing -------------------------------------------------------------- */
+  .landing { min-block-size: 92svh; display: grid; align-content: center; padding-block: var(--rcc-space-20); }
+  .landing h2 {
+    margin: 0 0 var(--rcc-space-4); max-width: 12ch;
+    font-size: clamp(3rem, 1rem + 8vw, 8.5rem); line-height: 0.95; letter-spacing: -0.04em;
+  }
+  .landing__meta { margin: 0 0 var(--rcc-space-8); font-size: clamp(1.25rem, 1rem + 1vw, 2rem); line-height: 1.25; font-weight: var(--rcc-weight-strong); letter-spacing: -0.01em; }
+  .big { justify-self: start; min-block-size: 3.5rem; padding-inline: var(--rcc-space-8); font-size: 1.125rem; }
+  .landing__note { margin: var(--rcc-space-4) 0 0; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-body-md); }
+
+  footer { background: var(--rcc-surface-container); padding-block: var(--rcc-space-10); }
+  footer nav { display: flex; flex-wrap: wrap; gap: 0 var(--rcc-space-6); margin-block-end: var(--rcc-space-4); }
+  footer nav a { display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min); text-decoration: underline; }
+  footer p { margin: 0 0 var(--rcc-space-2); max-width: 70ch; font-size: var(--rcc-size-body-md); color: var(--rcc-on-surface-variant); }
+
+  /* --- Large displays. Below 1800px nothing here applies. The type scale and the column
+     both stop growing at 90rem, which on a 4K screen leaves the page sitting small in the
+     middle of the glass, so this tier lets the column and the display sizes carry on. Every
+     size is still a cap, so the page never scales without limit. */
+  @media (min-width: 1800px) {
+    .wrap { max-width: calc(112rem + var(--rcc-page-margin) * 2); }
+    .intro h1 { font-size: min(13vw, 14rem); }
+    .intro__sub { font-size: 1.625rem; }
+    .cue { font-size: var(--rcc-size-body-lg); }
+    .chapter__name, .climb.is-live .chapter__name { font-size: min(12vw, 15rem); }
+    .chapter__line { font-size: 3.25rem; }
+    .rep { max-width: 54rem; }
+    .climb.is-live .rep__you { font-size: 3.5rem; }
+    .rep__say { font-size: 1.625rem; }
+    .answer { font-size: 3.25rem; }
+    .landing h2 { font-size: min(8vw, 10.5rem); }
+    .landing__meta { font-size: 2.25rem; }
+    /* The pinned stage is full bleed, so without this the chapters would sit against the
+       screen edges while the opener stays in its column. Line them up with the column, and
+       leave the staircase full width, which is what it is for. */
+    .climb.is-live .chapter { inset-inline: max(var(--rcc-page-margin), calc((100% - 112rem) / 2)); }
+    .climb.is-live .chapter--voice { max-width: min(104rem, 100% - 11rem); }
+    .climb.is-live .progress { inset-inline-end: max(var(--rcc-page-margin), calc((100% - 112rem) / 2)); font-size: var(--rcc-size-body-lg); }
+  }
+  /* A tall 4K screen turns the full-height opener into a field of empty air, because the
+     headline is anchored to the bottom of it. Cap the opener so the lockup, the headline and
+     the line under it read as one block, and the scene below starts showing. */
+  @media (min-width: 1800px) and (min-height: 1100px) {
+    .landing { min-block-size: min(92svh, 54rem); }
+  }
+
+  @media (forced-colors: active) {
+    .rcc-button { border: 1px solid ButtonText; }
+    .climb__path { stroke: CanvasText; } .climb__dot { fill: CanvasText; }
+  }
+</style>
+</head>
+<body>
+<a class="rcc-skip rcc-button" href="#main">Skip to main content</a>
+
+<header class="wrap intro">
+  <div>
+    <img class="lockup" src="assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+  </div>
+  <h1><span class="mask"><span class="w">Walk</span></span> <span class="mask"><span class="w">into</span></span> <span class="mask"><span class="w">any</span></span> <span class="mask"><span class="w">room</span></span> <span class="mask"><span class="w">ready.</span></span></h1>
+  <div class="intro__foot">
+    <p class="intro__sub">Interviews, intros, asking for what you want. Way easier once you’ve said it out loud. Every Thursday, any major, nothing technical.</p>
+    <p class="cue"><svg viewBox="0 0 32 24" aria-hidden="true" focusable="false"><path d="M2 21H11V13.5H21V6H30" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg>Scroll to see the whole semester</p>
+    <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="climb wrap" aria-label="The semester in three parts">
+    <div class="stage">
+      <svg class="climb__svg" aria-hidden="true" focusable="false"><path class="climb__path"/><circle class="climb__dot" r="10"/></svg>
+      <div class="progress" aria-hidden="true"><span>Voice</span><span>Ask</span><span>Evidence</span></div>
+
+      <article class="chapter chapter--voice">
+        <h2 class="chapter__name">Voice</h2>
+        <p class="chapter__line">Say what you do without rambling.</p>
+        <div class="rep" data-current="nursing">
+          <p class="rep__say">
+            <span class="rep__you">You study <button type="button" class="slot" data-cycle aria-describedby="slot-hint"><span class="slot__window"><span class="slot__track"><span class="slot__word" data-major="nursing">nursing</span><span class="slot__word" data-major="business">business</span><span class="slot__word" data-major="econ">econ</span><span class="slot__word" data-major="cs">CS</span><span class="slot__word" data-major="nursing" aria-hidden="true">nursing</span></span></span><span class="slot__caret" aria-hidden="true"></span></button>.</span>
+            Someone who could hire you asks what you’re working on.
+          </p>
+          <p class="rep__hint"><span id="slot-hint">Tap the green word to switch majors.</span><button type="button" class="rep__pause" id="rotate-toggle">Pause</button></p>
+          <p class="visually-hidden" role="status" id="slot-status"></p>
+
+          <fieldset class="majors">
+            <legend class="majors__legend">Pick a major</legend>
+            <div class="names">
+              <label class="name" data-pick="nursing"><input type="radio" name="major" value="nursing" checked><span>Nursing</span></label>
+              <label class="name" data-pick="business"><input type="radio" name="major" value="business"><span>Business</span></label>
+              <label class="name" data-pick="econ"><input type="radio" name="major" value="econ"><span>Econ</span></label>
+              <label class="name" data-pick="cs"><input type="radio" name="major" value="cs"><span>CS</span></label>
+            </div>
+          </fieldset>
+
+          <div class="rep__rounds">
+            <div class="round-set" data-major="nursing">
+              <h3 class="round-set__who">Nursing</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m a nursing major, I’m in anatomy and pharm right now, and I kind of work part time at the campus clinic, and I’ve been helping them fix their paperwork, which has honestly been pretty interesting.</span><span class="rounds__why">That whole answer was for you. None of it was for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m a nursing major, and I work part time at the campus clinic, and I’ve been helping them fix their paperwork, which has been pretty interesting.</span><span class="rounds__why">Same answer, minus the hedging and the class list.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I work at the campus clinic. Check-in used to take eleven minutes, and I rewrote the intake form, and now it’s four.</span><span class="rounds__why">Now there’s something in there they can actually ask about.</span></li>
+              </ol>
+            </div>
+
+            <div class="round-set" data-major="business">
+              <h3 class="round-set__who">Business</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m a business major, I’m in marketing and accounting right now, and I kind of run the social media for my family’s restaurant, and I think it’s been going pretty well.</span><span class="rounds__why">That whole answer was for you. None of it was for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m a business major, and I run the social media for my family’s restaurant, and it’s been going pretty well.</span><span class="rounds__why">Same answer, minus the hedging and the class list.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I run the social media for my family’s restaurant. I took Tuesday nights from twelve tables to forty.</span><span class="rounds__why">Now there’s something in there they can actually ask about.</span></li>
+              </ol>
+            </div>
+
+            <div class="round-set" data-major="econ">
+              <h3 class="round-set__who">Econ</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m an econ major, I’m in micro and stats right now, and I kind of did a research project on housing for a class, and it was honestly pretty interesting.</span><span class="rounds__why">That whole answer was for you. None of it was for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m an econ major, and I did a research project on housing for a class, and it was pretty interesting.</span><span class="rounds__why">Same answer, minus the hedging and the class list.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I did a research project on housing near campus. Rent went up forty percent in five years, and three bus routes got cut.</span><span class="rounds__why">Now there’s something in there they can actually ask about.</span></li>
+              </ol>
+            </div>
+
+            <div class="round-set" data-major="cs">
+              <h3 class="round-set__who">CS</h3>
+              <ol class="rounds">
+                <li><b>20 seconds</b><span class="rounds__said">Um, so I’m a CS major, I’m in data structures right now, and I’m kind of building an app for the tutoring center, and it’s honestly been pretty cool so far.</span><span class="rounds__why">That whole answer was for you. None of it was for them.</span></li>
+                <li><b>12 seconds</b><span class="rounds__said">I’m a CS major, and I’m building an app for the tutoring center, and it’s been pretty cool so far.</span><span class="rounds__why">Same answer, minus the hedging and the class list.</span></li>
+                <li><b>8 seconds</b><span class="rounds__said">I built the scheduling app for the tutoring center. Ninety students booked through it last month instead of standing in line.</span><span class="rounds__why">Now there’s something in there they can actually ask about.</span></li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="rep__stage" aria-hidden="true">
+            <p class="answer" id="answer"></p>
+            <div class="clock"><span class="clock__num" id="secs">20</span><span class="clock__rail"><span class="clock__bar" id="bar"></span></span></div>
+            <p class="rep__note" id="rep-note"></p>
+          </div>
+          <p class="rep__caption">Just an example, not a script.</p>
+        </div>
+      </article>
+
+      <article class="chapter chapter--ask">
+        <h2 class="chapter__name">Ask</h2>
+        <p class="chapter__line">Ask for what you want. Keep going after the no.</p>
+      </article>
+
+      <article class="chapter chapter--evidence">
+        <h2 class="chapter__name">Evidence</h2>
+        <p class="chapter__line">Turn what you did into proof.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="landing wrap" aria-labelledby="landing-title">
+    <h2 id="landing-title">Just show up.</h2>
+    <p class="landing__meta">Thursdays, 2:30 to 3:30 PM. BLCIS A-210, the Simulation Lab.</p>
+    <a class="rcc-button rcc-state big" href="https://discord.gg/ddwjKJJN9v">Join the Discord</a>
+    <p class="landing__note">Any major. Any week. Nobody’s behind.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/">Chapter page on Bevy</a>
+      <a href="https://github.com/Sam-T-G/rcc-gdg/blob/main/CODE_OF_CONDUCT.md">Code of conduct</a>
+    </nav>
+    <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <p>Last updated <time datetime="2026-09-20">September 20, 2026</time>.</p>
+  </div>
+</footer>
+
+<script>
+/* The rep engine, shared by every selector concept.
+ *
+ * Three written sentences per major are the only source. They are word-diffed into one
+ * ordered token list where each token knows the round it arrives in and the round it
+ * leaves in, and render(t) draws any moment of the 20 -> 12 -> 8 rework from that list.
+ * Every visual state is a pure function of t, so scrubbing backwards rebuilds exactly.
+ *
+ * RepEngine.answer(el, rounds) -> { render(t) }     one animated answer inside el
+ * RepEngine.roundAt(t)          -> 0 | 1 | 2        which written round t is showing
+ * RepEngine.secondsAt(t)        -> 20 .. 8          the clock
+ */
+(function () {
+  'use strict';
+  var PUNCT = /^[,.;:!?]+$/;
+
+  function words(s) {
+    var out = [];
+    s.trim().split(/\s+/).forEach(function (chunk) {
+      var m = /^(.*[^\s,.;:!?])([,.;:!?]+)$/.exec(chunk);
+      if (m) { out.push(m[1]); m[2].split('').forEach(function (p) { out.push(p); }); }
+      else out.push(chunk);
+    });
+    return out;
+  }
+
+  // Longest common subsequence, walked out as keep / del (from a) / ins (from b), in order.
+  function diff(a, b) {
+    var n = a.length, m = b.length, i, j, L = [];
+    for (i = 0; i <= n; i++) { L.push([]); for (j = 0; j <= m; j++) L[i].push(0); }
+    for (i = n - 1; i >= 0; i--) for (j = m - 1; j >= 0; j--)
+      L[i][j] = a[i] === b[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+    var ops = []; i = 0; j = 0;
+    while (i < n && j < m) {
+      if (a[i] === b[j]) ops.push({ op: 'keep', i: i++, j: j++ });
+      else if (L[i + 1][j] >= L[i][j + 1]) ops.push({ op: 'del', i: i++ });
+      else ops.push({ op: 'ins', j: j++ });
+    }
+    while (i < n) ops.push({ op: 'del', i: i++ });
+    while (j < m) ops.push({ op: 'ins', j: j++ });
+    return ops;
+  }
+
+  function build(rounds) {
+    var all = words(rounds[0]).map(function (w) { return { text: [w, null, null], from: 0, out: -1 }; });
+    var cur = all.slice();
+    for (var r = 1; r < rounds.length; r++) {
+      var bw = words(rounds[r]), nextAll = [], nextCur = [], p = 0;
+      var ops = diff(cur.map(function (t) { return t.text[r - 1].toLowerCase(); }),
+                     bw.map(function (w) { return w.toLowerCase(); }));
+      for (var q = 0; q < ops.length; q++) {
+        var o = ops[q];
+        if (o.op === 'ins') {
+          var born = { text: [null, null, null], from: r, out: -1 };
+          born.text[r] = bw[o.j]; nextAll.push(born); nextCur.push(born);
+          continue;
+        }
+        var target = cur[o.i];   // cur is always in all's order
+        while (p < all.length && all[p] !== target) nextAll.push(all[p++]);
+        nextAll.push(all[p++]);
+        if (o.op === 'keep') { target.text[r] = bw[o.j]; nextCur.push(target); }
+        else target.out = r;
+      }
+      while (p < all.length) nextAll.push(all[p++]);
+      all = nextAll; cur = nextCur;
+    }
+    return all;
+  }
+
+  function textAt(k, r) { for (; r >= 0; r--) if (k.text[r] != null) return k.text[r]; return ''; }
+  function ramp(x, a, b) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+
+  // Arrivals start while the cut is still running, so a replaced phrase reads as a trade;
+  // in sequence the line sat for a beat as a stub with orphaned punctuation.
+  var WIN = [null,
+    { cut: [0.24, 0.44], fade: [0.20, 0.34], arrive: [0.26, 0.46] },
+    { cut: [0.62, 0.82], fade: [0.60, 0.74], arrive: [0.66, 0.86] }];
+
+  function roundAt(t) { return t > 0.74 ? 2 : t > 0.35 ? 1 : 0; }
+  function secondsAt(t) { return 20 - 8 * ramp(t, 0.1, 0.44) - 4 * ramp(t, 0.54, 0.86); }
+
+  function answer(el, rounds) {
+    el.textContent = '';
+    var tokens = build(rounds).map(function (k) {
+      var span = document.createElement('span'), word = document.createElement('span'), space = document.createTextNode('');
+      span.className = 't'; word.className = 'word';
+      span.appendChild(space); span.appendChild(word); el.appendChild(span);
+      k.el = span; k.word = word; k.space = space;
+      k.lead = PUNCT.test(textAt(k, 2)) ? '' : ' ';   // punctuation closes up to the word before it
+      return k;
+    });
+    function render(t) {
+      var r = roundAt(t), firstShown = null;
+      tokens.forEach(function (k) {
+        var size = 1, alpha = 1, cutting = false, fresh = false, w;
+        if (k.from > 0) {
+          w = WIN[k.from].arrive;
+          size = alpha = ramp(t, w[0], w[1]);
+          fresh = alpha < 0.999;
+        }
+        if (k.out > 0) {
+          w = WIN[k.out];
+          size = Math.min(size, 1 - ramp(t, w.cut[0], w.cut[1]));
+          alpha = Math.min(alpha, 1 - ramp(t, w.fade[0], w.fade[1]));
+          cutting = t > w.fade[0] - 0.1;
+          fresh = false;
+        }
+        k.el.style.fontSize = size < 0.001 ? '0' : size + 'em';
+        k.el.style.opacity = alpha;
+        k.el.classList.toggle('cutting', cutting && size > 0.001);
+        k.el.classList.toggle('fresh', fresh && size > 0.001);
+        k.word.textContent = textAt(k, r);
+        if (!firstShown && size > 0.5) firstShown = k;
+        k.space.textContent = k.lead;
+      });
+      if (firstShown) firstShown.space.textContent = '';
+      return r;
+    }
+    return { render: render };
+  }
+
+  // Read one major's rounds and notes out of the written list the screen reader gets.
+  function readSet(set) {
+    var rounds = [], notes = [];
+    set.querySelectorAll('.rounds > li').forEach(function (li) {
+      rounds.push(li.querySelector('.rounds__said').textContent);
+      notes.push(li.querySelector('.rounds__why').textContent);
+    });
+    return { major: set.dataset.major, label: set.querySelector('.round-set__who').textContent, rounds: rounds, notes: notes };
+  }
+
+  window.RepEngine = { answer: answer, roundAt: roundAt, secondsAt: secondsAt, readSet: readSet, ramp: ramp };
+})();
+</script>
+<script>
+/* Concept: the sentence, cycling. See auto.css.
+
+   The radios stay the single source of state. The cycle checks them the same way a press does,
+   so what a screen reader reads is always what the page is showing; only a press announces,
+   because announcing every automatic swap would be noise.
+
+   The cycle is driven by gsap.delayedCall, which rides GSAP's rAF ticker: a background tab
+   stops ticking, so the cycle freezes there without any visibility bookkeeping of its own. */
+(function () {
+  'use strict';
+  var INTERVAL = 7;      // seconds between majors; long enough to read the short answer
+  var FIRST = 2.2;       // the first swap comes sooner, so the page shows what it does
+
+  function checked(rep) { var on = rep.querySelector('input[name="major"]:checked'); return on ? on.value : 'nursing'; }
+  document.addEventListener('DOMContentLoaded', function () {
+    var rep = document.querySelector('.rep');
+    rep.dataset.current = checked(rep);
+    rep.addEventListener('change', function () { rep.dataset.current = checked(rep); });
+  });
+
+  window.makeSelector = function (ctx) {
+    var E = window.RepEngine, gsap = ctx.gsap;
+    var rep = ctx.climb.querySelector('.rep'), answerEl = document.getElementById('answer');
+    var secs = document.getElementById('secs'), bar = document.getElementById('bar'), note = document.getElementById('rep-note');
+    var slot = rep.querySelector('.slot'), win = slot.querySelector('.slot__window'), track = slot.querySelector('.slot__track');
+    var words = [].slice.call(track.querySelectorAll('.slot__word')), status = document.getElementById('slot-status');
+    var hint = document.getElementById('slot-hint'), toggle = document.getElementById('rotate-toggle');
+    var voice = ctx.climb.querySelector('.chapter--voice');
+    var sets = [].map.call(rep.querySelectorAll('.round-set'), E.readSet);
+    var order = sets.map(function (s) { return s.major; });
+    var live = null, lastT = 0, at = 0;
+
+    function mount(major) {
+      var s = sets[order.indexOf(major)];
+      live = { set: s, answer: E.answer(answerEl, s.rounds) };
+    }
+    function label(major) {
+      slot.setAttribute('aria-label', 'You study ' + words[order.indexOf(major)].textContent + '. Switch major');
+    }
+    // Roll the odometer to row i. Row 4 is a copy of row 0, so CS -> nursing keeps rolling
+    // forward and then quietly resets, and nursing -> CS starts from the copy.
+    function roll(i, animate) {
+      var rowH = words[0].getBoundingClientRect().height;
+      track.style.transition = animate ? 'transform var(--rcc-dur-default-spatial) var(--rcc-ease-spatial)' : 'none';
+      win.style.transition = animate ? 'inline-size var(--rcc-dur-default-spatial) var(--rcc-ease-spatial)' : 'none';
+      track.style.transform = 'translateY(' + (-i * rowH) + 'px)';
+      win.style.inlineSize = Math.ceil(words[i].scrollWidth) + 'px';
+      at = i;
+    }
+    function go(major, dir) {
+      var i = order.indexOf(major);
+      if (dir > 0 && i === 0 && at === order.length - 1) {
+        roll(order.length, true);
+        track.addEventListener('transitionend', function reset() { track.removeEventListener('transitionend', reset); roll(0, false); });
+      } else if (dir < 0 && i === order.length - 1 && at === 0) {
+        roll(order.length, false);
+        track.getBoundingClientRect();   // commit the jump before animating back
+        roll(i, true);
+      } else roll(i, true);
+    }
+    function step(dir, auto) {
+      var i = order.indexOf(checked(rep)), next = order[(i + dir + order.length) % order.length];
+      var input = rep.querySelector('input[name="major"][value="' + next + '"]');
+      input.checked = true;
+      input.dispatchEvent(new CustomEvent('change', { bubbles: true, detail: { dir: dir, auto: auto } }));
+    }
+
+    // --- The cycle.
+    var call = null, cycling = false, started = false;
+    var held = { pointer: false, focus: false, scrolling: false, paused: false };
+    var canHover = matchMedia('(hover: hover)').matches;
+    function blocked() { return held.pointer || held.focus || held.scrolling || held.paused; }
+    function sync() {
+      if (!call || !cycling) return;
+      if (blocked()) call.pause(); else call.resume();
+    }
+    function arm(delay) {
+      if (!cycling) return;
+      if (call) call.kill();
+      call = gsap.delayedCall(delay, advance);
+      if (blocked()) call.pause();
+    }
+    function advance() {
+      if (!cycling) return;
+      // Another chapter is showing: hold the place rather than swapping out of sight.
+      if (voice.classList.contains('is-active')) step(1, true);
+      arm(INTERVAL);
+    }
+    function startCycle() {
+      if (started || !voice.classList.contains('is-active') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      started = true; cycling = true;
+      rep.dataset.rotate = 'on';
+      hint.textContent = 'Cycling through majors.';
+      setToggle(false);
+      arm(FIRST);
+    }
+    function stopCycle() {
+      // started latches here too: the reader can pick before the first scroll-idle ever starts
+      // the cycle (tab to the pill, press), and without this that idle would start cycling
+      // over a choice already made. "Stops for good once the reader picks" is the rule.
+      started = true; cycling = false;
+      if (call) { call.kill(); call = null; }
+      delete rep.dataset.rotate;
+      hint.textContent = 'Tap the green word to switch majors.';
+    }
+    function setToggle(paused) {
+      toggle.textContent = paused ? 'Play' : 'Pause';
+      toggle.setAttribute('aria-label', paused ? 'Resume cycling through majors' : 'Pause cycling through majors');
+    }
+    toggle.addEventListener('click', function () {
+      held.paused = !held.paused;
+      // Pressing Play is explicit: it beats the pointer resting on the control and the focus
+      // the press itself put there, either of which would otherwise hold the cycle with no
+      // visible reason and make the button look broken.
+      if (!held.paused) { held.pointer = false; held.focus = false; }
+      setToggle(held.paused);
+      hint.textContent = held.paused ? 'Paused on ' + words[order.indexOf(checked(rep))].textContent + '.' : 'Cycling through majors.';
+      sync();
+    });
+
+    if (canHover) {
+      rep.addEventListener('pointerenter', function () { held.pointer = true; sync(); });
+      rep.addEventListener('pointerleave', function () { held.pointer = false; sync(); });
+    }
+    // What the cycle is doing and why it is or is not running. The checks read this rather
+    // than inferring state from timing.
+    window.__cycle = function () {
+      return { cycling: cycling, started: started, held: { pointer: held.pointer, focus: held.focus, scrolling: held.scrolling, paused: held.paused },
+               armed: !!call, running: !!call && !call.paused(), canHover: canHover, voiceActive: voice.classList.contains('is-active') };
+    };
+    // Focus inside the rep holds the cycle (APG), except on the control whose whole job is
+    // to start and stop it.
+    rep.addEventListener('focusin', function (e) { if (e.target === toggle) return; held.focus = true; sync(); });
+    rep.addEventListener('focusout', function (e) { if (e.target === toggle) return; held.focus = false; sync(); });
+
+    var idle = null;
+    window.addEventListener('scroll', function () {
+      held.scrolling = true; sync();
+      clearTimeout(idle);
+      idle = setTimeout(function () {
+        held.scrolling = false;
+        if (!started) startCycle(); else sync();
+      }, 450);
+    }, { passive: true });
+
+    // --- Picking.
+    slot.addEventListener('click', function () { stopCycle(); step(1, false); });
+    slot.addEventListener('keydown', function (e) {
+      var dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!dir) return;
+      e.preventDefault(); stopCycle(); step(dir, false);
+    });
+    rep.addEventListener('change', function (e) {
+      if (e.target.name !== 'major') return;
+      var major = e.target.value, detail = e.detail || {};
+      if (!detail.auto) stopCycle();
+      go(major, detail.dir || 1);
+      label(major);
+      // Only a real choice is announced; the cycle would otherwise interrupt a screen reader
+      // every seven seconds with something the reader did not ask for.
+      if (!detail.auto) status.textContent = 'Showing the ' + words[order.indexOf(major)].textContent + ' answer.';
+      mount(major); render(lastT);
+      gsap.fromTo(answerEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out', overwrite: true });
+    });
+
+    function render(t) {
+      lastT = t;
+      var r = live.answer.render(t), v = E.secondsAt(t);
+      secs.textContent = Math.round(v);
+      bar.style.transform = 'scaleX(' + (v / 20) + ')';
+      if (note.textContent !== live.set.notes[r]) note.textContent = live.set.notes[r];
+    }
+    function layout() {
+      answerEl.style.minBlockSize = '';
+      var tallest = 0, chosen = checked(rep);
+      sets.forEach(function (s) {
+        mount(s.major);
+        [0, 0.55, 1].forEach(function (t) { live.answer.render(t); tallest = Math.max(tallest, answerEl.getBoundingClientRect().height); });
+      });
+      mount(chosen);
+      answerEl.style.minBlockSize = Math.ceil(tallest) + 'px';
+      // The sentence too: a longer major must not add a line and shove the page down.
+      var you = rep.querySelector('.rep__you');
+      you.style.minBlockSize = '';
+      var tallestYou = 0;
+      order.forEach(function (m, i) { roll(i, false); tallestYou = Math.max(tallestYou, you.getBoundingClientRect().height); });
+      you.style.minBlockSize = Math.ceil(tallestYou) + 'px';
+      roll(order.indexOf(chosen), false);
+      label(chosen);
+    }
+    mount(checked(rep));
+    return { layout: layout, render: render };
+  };
+})();
+</script>
+<script>
+/* The climb. One pinned scene: the staircase draws with the scroll, and during Voice the
+   example answer is cut down in step with it. Every visual state is computed from the
+   scroll position, so scrubbing backwards rebuilds the sentence exactly. */
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+  var gsap = window.gsap, ST = window.ScrollTrigger;
+  if (!gsap || !ST || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ST);
+  ST.config({ ignoreMobileResize: true });
+
+  gsap.from('.intro h1 .w', { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.08, delay: 0.15 });
+  gsap.from('.intro__foot > *', { autoAlpha: 0, y: 16, duration: 0.8, ease: 'power2.out', stagger: 0.1, delay: 0.7 });
+
+  var climb = document.querySelector('.climb');
+  climb.classList.add('is-live');
+  var stage = climb.querySelector('.stage'), svg = climb.querySelector('.climb__svg');
+  var path = climb.querySelector('.climb__path'), dot = climb.querySelector('.climb__dot');
+  var chapters = gsap.utils.toArray('.chapter'), marks = gsap.utils.toArray('.progress span');
+
+  var sel = window.makeSelector({ gsap: gsap, ST: ST, climb: climb, stage: stage });
+
+  // --- The staircase, laid out for the screen it is on.
+  var draw = { p: 0 }, rep = { t: 0 }, len = 1;
+  function layout() {
+    var w = stage.clientWidth, h = stage.clientHeight, phone = w < 600, land = !phone && h <= 500, tight = phone || land;
+    var m = phone ? 20 : 48, stroke = tight ? 10 : 18;
+    // tight is the CSS short tier: the rep runs low, so the stair keeps to the bottom band,
+    // and on a phone on its side there is so little height that it hugs the edge.
+    var top = h * (land ? 0.84 : phone ? (h < 760 ? 0.76 : 0.72) : 0.52), bottom = h - (land ? 16 : phone ? 32 : 72), mid = (top + bottom) / 2;
+    var x0 = m, x3 = w - m, x1 = x0 + (x3 - x0) / 3, x2 = x0 + (x3 - x0) * 2 / 3;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    path.setAttribute('d', 'M' + x0 + ' ' + bottom + 'H' + x1 + 'V' + mid + 'H' + x2 + 'V' + top + 'H' + x3);
+    path.style.strokeWidth = stroke;
+    dot.setAttribute('r', tight ? 8 : 11);
+    len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    sel.layout();
+    render();
+  }
+  function render() {
+    path.style.strokeDashoffset = len * (1 - draw.p);
+    var pt = path.getPointAtLength(Math.max(0.001, draw.p) * len);
+    dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+    sel.render(rep.t);
+    var i = draw.p < 1 / 3 ? 0 : draw.p < 2 / 3 ? 1 : 2;
+    marks.forEach(function (mk, k) { if (k === i) mk.setAttribute('aria-current', 'step'); else mk.removeAttribute('aria-current'); });
+  }
+
+  // Chapters fade by opacity only, so a screen reader can still read all three. They sit
+  // stacked in one spot, so a transparent chapter would still swallow taps meant for the
+  // one showing: only the most opaque chapter takes pointer input.
+  gsap.set(chapters.slice(1), { opacity: 0, y: 40 });
+  function syncActive() {
+    var best = 0;
+    chapters.forEach(function (c, k) { if (+gsap.getProperty(c, 'opacity') > +gsap.getProperty(chapters[best], 'opacity')) best = k; });
+    chapters.forEach(function (c, k) { c.classList.toggle('is-active', k === best); });
+  }
+  var tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    onUpdate: syncActive,
+    scrollTrigger: { trigger: climb, start: 'top top', end: '+=460%', scrub: 0.6, pin: stage, invalidateOnRefresh: true, onRefresh: layout }
+  });
+  tl.to(draw, { p: 1 / 3, duration: 2, onUpdate: render })
+    .to(rep, { t: 1, duration: 2, onUpdate: render }, 0)
+    .to(chapters[0], { opacity: 0, y: -40, duration: 0.25, ease: 'power1.in' }, '>-0.05')
+    .to(chapters[1], { opacity: 1, y: 0, duration: 0.25, ease: 'power1.out' }, '>-0.05')
+    .to(draw, { p: 2 / 3, duration: 1, onUpdate: render }, '<')
+    .to(chapters[1], { opacity: 0, y: -40, duration: 0.25, ease: 'power1.in' }, '>-0.1')
+    .to(chapters[2], { opacity: 1, y: 0, duration: 0.25, ease: 'power1.out' }, '>-0.05')
+    .to(draw, { p: 1, duration: 1, onUpdate: render }, '<')
+    .to({}, { duration: 0.35 });
+  syncActive();
+  // Tabbing into a control in a chapter that is not showing would focus something invisible:
+  // bring the scene back to the start of that chapter first.
+  chapters.forEach(function (c, k) {
+    c.addEventListener('focusin', function () {
+      if (c.classList.contains('is-active')) return;
+      var at = 0;   // the end of this chapter's fade-in, read off the timeline itself
+      tl.getChildren(false, true, false).forEach(function (tw) {
+        if (tw.targets()[0] === c && tw.vars.opacity === 1) at = tw.endTime();
+      });
+      var st = tl.scrollTrigger;
+      window.scrollTo(0, Math.ceil(st.start + (st.end - st.start) * (at / tl.duration())) + 1);
+    });
+  });
+  layout();
+  document.fonts && document.fonts.ready.then(function () { ST.refresh(); });
+
+  gsap.from('.landing > *', { autoAlpha: 0, y: 32, duration: 0.9, ease: 'power3.out', stagger: 0.09,
+    scrollTrigger: { trigger: '.landing', start: 'top 75%' } });
+});
+</script>
+</body>
+</html>

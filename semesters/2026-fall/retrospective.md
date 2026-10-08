@@ -8,7 +8,7 @@ Due with the `close 2026-fall` PR, target 2026-12-04 (two weeks before the last 
 
 | Measure | Goal (from goals.md) | Actual |
 |---|---|---|
-| Meetings held | 13 of 14 instruction Wednesdays | [TBD] |
+| Meetings held | 13 of 14 remaining instruction Thursdays (Sep 3 to Dec 10, minus Nov 26) | [TBD] |
 | Average weekly meeting attendance | [TBD] | [TBD] |
 | Events held | 4 or more (one a month, Sep to Dec) | [TBD] |
 | Event registrations (all events) | [TBD] | [TBD] |

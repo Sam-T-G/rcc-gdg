@@ -4,7 +4,7 @@
 
 - Facilitator (role or handle): <!-- fill: -->
 - Length: <!-- fill: minutes -->
-- Room: BLCIS A-103 <!-- fill: change if elsewhere -->
+- Room: BLCIS A-210 Simulation Lab <!-- fill: change if elsewhere -->
 - Max participants: <!-- fill: number the room and the facilitator can handle -->
 - Event plan: <!-- fill: link to ./plan.md, or "weekly meeting slot" -->
 

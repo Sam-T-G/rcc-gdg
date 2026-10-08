@@ -1,6 +1,6 @@
 # Meetings - SEMESTER_LABEL
 
-One file per meeting, named by date: `YYYY-MM-DD.md`. Regular slot: Wednesdays, 10:00 AM, BLCIS A-103.
+One file per meeting, named by date: `YYYY-MM-DD.md`. Regular slot: Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab. Confirm it each term; it has moved before.
 
 ## Create a file
 

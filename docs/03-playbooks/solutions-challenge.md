@@ -62,7 +62,7 @@ The file records: the source (email, Devpost URL, or PDF filename in the shared 
 - [ ] T-10 weeks (late January): find this year's rules. Check the GDG organizer channels on gdg.community.dev and the regional program email. Write `rules.md`.
 - [ ] T-10 weeks: go/no-go decision. One paragraph in the [decision log](../01-governance/decision-log.md): are we running a full spring arc or only a kickoff?
 - [ ] T-9 weeks: publish the kickoff on Bevy first ([bevy-event-publishing.md](bevy-event-publishing.md)), then Discord, Instagram, and classroom announcements ([communications.md](../02-operations/communications.md)).
-- [ ] T-9 weeks: advisor books rooms in 25Live for kickoff and every build session, at least two weeks ahead of each ([room-booking.md](../02-operations/room-booking.md)). Weekly build sessions can use the regular meeting slot: Wednesdays 10:00 AM, BLCIS A-103.
+- [ ] T-9 weeks: advisor books rooms in 25Live for kickoff and every build session, at least two weeks ahead of each ([room-booking.md](../02-operations/room-booking.md)). Weekly build sessions can use the regular meeting slot: Thursdays 2:30 PM, BLCIS A-210 Simulation Lab.
 - [ ] T-8 weeks: run the kickoff. Use [workshop-modular-impact-sprint.md](workshop-modular-impact-sprint.md). Students leave with a one-sentence problem statement and a working AI Studio prototype.
 - [ ] T-7 weeks: team formation day. Pitches of 60 seconds each, then open floor. Cap teams at this year's maximum. Record team count and member count only (no names in the repo; see [privacy policy](../01-governance/privacy-and-public-repo-policy.md)).
 - [ ] T-7 weeks: every team creates a GitHub repo and a shared doc for the problem statement, user, and technology list. Keep the tracker in the club shared drive.

@@ -18,7 +18,7 @@ RCC requires every chartered club to have a President, a Treasurer, and an ICC R
 
 ## Every officer, every week
 
-- [ ] Attend the weekly meeting (Wednesdays, 10:00 AM, BLCIS A-103) or say in Discord that you cannot.
+- [ ] Attend the weekly meeting (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab) or say in Discord that you cannot.
 - [ ] Anything you decide that binds the club goes in the [decision log](../01-governance/decision-log.md).
 - [ ] Anything you learn that is not written down: write it down. Evergreen facts go in `docs/`; dated ones go in the semester folder.
 

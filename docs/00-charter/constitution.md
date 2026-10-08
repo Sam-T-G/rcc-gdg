@@ -50,7 +50,7 @@ Duties are listed in [officer-roles.md](officer-roles.md).
 
 ## Article VI. Meetings
 
-1. The general meeting is held weekly during the fall and spring semesters. As of Fall 2026: Wednesdays, 10:00 AM, BLCIS A-103.
+1. The general meeting is held weekly during the fall and spring semesters. As of Fall 2026: Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab.
 2. Officers meet [TBD: cadence].
 3. Quorum for votes: [TBD].
 4. Meeting notes are kept in the semester folder (`semesters/<YYYY-term>/meetings/`) using the club template and never include personal contact information.

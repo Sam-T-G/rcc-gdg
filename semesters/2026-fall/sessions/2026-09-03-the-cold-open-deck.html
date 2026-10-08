@@ -1,0 +1,1146 @@
+<title>The Cold Open</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&display=swap">
+<style>
+/* ---------------------------------------------------------------------------
+   GDG on Campus Riverside City College. Fall 2026, meeting H1: The Cold Open.
+   Tokens copied from docs/04-brand/design-system/tokens.css v1.0 (2026-08-31).
+   Decks run light (assets.md §10.5). D toggles dark for laptop preview.
+   Stage is 1920 x 1080 with 96px margins; type floors 72 / 40 / 32.
+   --------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  color-scheme: light;
+  --rcc-surface:                   #f7faf8;
+  --rcc-surface-container-lowest:  #ffffff;
+  --rcc-surface-container-low:     #eef6ef;
+  --rcc-surface-container:         #e8f0e9;
+  --rcc-surface-container-high:    #e3eae3;
+  --rcc-surface-container-highest: #dde5de;
+  --rcc-on-surface:                #1e201e;
+  --rcc-on-surface-variant:        #575a58;
+  --rcc-outline:                   #727873;
+  --rcc-outline-variant:           #ccd4cd;
+  --rcc-primary:                   #00732d;
+  --rcc-on-primary:                #ffffff;
+  --rcc-primary-container:         #cff1d3;
+  --rcc-on-primary-container:      #003a13;
+  --rcc-highlight:                 #e09f2e;
+  --rcc-on-highlight:              #392300;
+  --rcc-highlight-container:       #ffe5c0;
+  --rcc-on-highlight-container:    #4f3400;
+  --rcc-inverse-surface:           #2c312c;
+  --rcc-inverse-on-surface:        #f1f4f2;
+  --rcc-focus-ring:                #00732d;
+  --rcc-grad: 0;
+  --rcc-elevation-ink: 30 32 30;
+  --rcc-elevation-key: 0.30;
+  --rcc-elevation-ambient: 0.15;
+
+  --rcc-font-brand: "Google Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --rcc-font-code:  "Google Sans Code", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --rcc-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --rcc-dur-effects: 140ms;
+  --rcc-dur-spatial: 320ms;
+  --rcc-step-arc: 12%;
+
+  /* Stage type scale, in stage pixels. Floors from assets.md §10.5. */
+  --s-title:   136px;
+  --s-head:     92px;
+  --s-body:     48px;
+  --s-body-sm:  40px;
+  --s-ledger:   32px;
+  --s-digits:  160px;
+  --s-margin:   96px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --rcc-surface:                   #121412;
+  --rcc-surface-container-lowest:  #0b0f0b;
+  --rcc-surface-container-low:     #171c18;
+  --rcc-surface-container:         #1b211c;
+  --rcc-surface-container-high:    #262b27;
+  --rcc-surface-container-highest: #313731;
+  --rcc-on-surface:                #e6e9e6;
+  --rcc-on-surface-variant:        #b9bcba;
+  --rcc-outline:                   #919791;
+  --rcc-outline-variant:           #424943;
+  --rcc-primary:                   #96d6a0;
+  --rcc-on-primary:                #003410;
+  --rcc-primary-container:         #00531e;
+  --rcc-on-primary-container:      #c6eccb;
+  --rcc-highlight:                 #e7ae58;
+  --rcc-on-highlight:              #392300;
+  --rcc-highlight-container:       #624000;
+  --rcc-on-highlight-container:    #fcdeb5;
+  --rcc-inverse-surface:           #dde5de;
+  --rcc-inverse-on-surface:        #2f312f;
+  --rcc-focus-ring:                #96d6a0;
+  --rcc-grad: -25;
+  --rcc-elevation-ink: 0 0 0;
+  --rcc-elevation-key: 0.44;
+  --rcc-elevation-ambient: 0.24;
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--rcc-surface);
+  color: var(--rcc-on-surface);
+  font-family: var(--rcc-font-brand);
+  font-optical-sizing: auto;
+  font-variation-settings: "GRAD" var(--rcc-grad);
+  font-synthesis: weight;
+  font-weight: 400;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+body[data-mode="scroll"] { overflow: auto; }
+
+:focus-visible {
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--rcc-surface), 0 0 0 5px var(--rcc-focus-ring);
+  border-radius: inherit;
+}
+
+/* ------------------------------ Viewport ------------------------------- */
+.viewport { position: fixed; inset: 0; overflow: hidden; background: var(--rcc-surface); }
+.stage {
+  position: absolute; left: 50%; top: 50%;
+  width: 1920px; height: 1080px;
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+}
+.frame { position: absolute; inset: 0; }
+.frame[hidden] { display: none !important; }
+.frame-box { position: relative; width: 1920px; height: 1080px; }
+
+/* Phones: every slide stacked, each scaled to the viewport width. */
+body[data-mode="scroll"] .viewport { position: static; overflow: visible; padding: 12px 0 48px; }
+body[data-mode="scroll"] .stage {
+  position: static; transform: none !important; width: auto; height: auto;
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+}
+body[data-mode="scroll"] .frame,
+body[data-mode="scroll"] .frame[hidden] {
+  display: block !important; position: relative; inset: auto; overflow: hidden;
+  width: var(--fw, 1920px); height: var(--fh, 1080px);
+  box-shadow: 0 0 0 1px var(--rcc-outline-variant);
+}
+body[data-mode="scroll"] .frame-box { transform: scale(var(--fs, 1)); transform-origin: top left; }
+
+.slide {
+  position: absolute; inset: 0;
+  padding: var(--s-margin);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 48px;
+  background: var(--rcc-surface);
+  color: var(--rcc-on-surface);
+}
+.frame.is-entering .slide { animation: rise var(--rcc-dur-spatial) var(--rcc-ease-standard) both; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ------------------------------ Ledger --------------------------------- */
+.ledger {
+  font-family: var(--rcc-font-code);
+  font-size: var(--s-ledger);
+  line-height: 1.25;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--rcc-on-surface-variant);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-variant-ligatures: none;
+  margin: 0;
+}
+.ledger--lead { color: var(--rcc-primary); }
+.slide__head { display: flex; justify-content: space-between; align-items: baseline; gap: 48px; }
+.slide__head .counter { flex: none; }
+
+/* ------------------------------ Content -------------------------------- */
+.slide__body { display: flex; flex-direction: column; justify-content: center; gap: 32px; min-height: 0; }
+.slide__body--top { justify-content: flex-start; }
+
+.title {
+  font-size: var(--s-title); line-height: 1.02; letter-spacing: -0.02em;
+  font-weight: 500; text-wrap: balance; margin: 0; max-width: 1728px;
+}
+.head {
+  font-size: var(--s-head); line-height: 1.06; letter-spacing: -0.02em;
+  font-weight: 500; text-wrap: balance; margin: 0; max-width: 1728px;
+}
+.body {
+  font-size: var(--s-body); line-height: 1.32; letter-spacing: 0;
+  max-width: 44ch; margin: 0; text-wrap: pretty;
+}
+.body-sm {
+  font-size: var(--s-body-sm); line-height: 1.32; letter-spacing: 0.003em;
+  max-width: 44ch; margin: 0; text-wrap: pretty;
+}
+.muted { color: var(--rcc-on-surface-variant); }
+.lead  { color: var(--rcc-primary); }
+strong { font-weight: 500; }
+
+/* Rows: a true sequence keyed by the clock, or labelled pairs. */
+.rows { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.row {
+  display: grid; grid-template-columns: 7ch 1fr; gap: 40px; align-items: baseline;
+  padding-block: 8px;
+  border-block-end: 1px solid var(--rcc-outline-variant);
+}
+.row:last-child { border-block-end: 0; }
+.row__key { white-space: nowrap; }
+.row__val { font-size: var(--s-body); line-height: 1.3; max-width: 44ch; text-wrap: pretty; }
+.rows--sm .row__val { font-size: var(--s-body-sm); }
+.rows--loose .row { padding-block: 20px; }
+
+.qs { margin: 0; padding: 0; list-style: none; display: grid; gap: 28px; counter-reset: q; }
+.qs li {
+  display: grid; grid-template-columns: 80px 1fr; gap: 32px; align-items: start;
+  font-size: var(--s-body); line-height: 1.3; max-width: 1200px; text-wrap: pretty;
+}
+.qs li::before {
+  counter-increment: q; content: counter(q);
+  font-family: var(--rcc-font-code); font-weight: 500;
+  font-size: var(--s-body-sm); line-height: 1;
+  color: var(--rcc-primary);
+  width: 72px; height: 72px; border-radius: 9999px;
+  display: grid; place-items: center;
+  box-shadow: inset 0 0 0 2px var(--rcc-primary);
+  margin-top: -6px;
+}
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
+.cols--card { grid-template-columns: 860px 1fr; }
+.stack { display: flex; flex-direction: column; gap: 32px; }
+
+/* ------------------------------ The Step ------------------------------- */
+.step-rule {
+  --step-x: var(--rcc-step-arc, 12%);
+  --step-w: 4px; --step-rise: 20px;
+  position: relative; height: calc(var(--step-rise) + var(--step-w));
+  color: var(--rcc-outline);
+}
+.step-rule::before {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: var(--step-x); height: 100%;
+  border-bottom: var(--step-w) solid currentColor;
+  border-right:  var(--step-w) solid currentColor;
+  border-bottom-right-radius: calc(var(--step-w) / 2);
+}
+.step-rule::after {
+  content: ""; position: absolute; top: 0; right: 0;
+  left: calc(var(--step-x) - var(--step-w));
+  border-top: var(--step-w) solid currentColor;
+}
+.mark { width: 104px; height: 104px; color: var(--rcc-primary); flex: none; }
+.lockup { display: flex; align-items: center; gap: 32px; }
+.lockup__name { font-size: var(--s-body); line-height: 1.15; font-weight: 500; margin: 0; }
+.lockup__sub  { font-size: var(--s-body-sm); line-height: 1.15; margin: 0; color: var(--rcc-on-surface-variant); }
+
+/* ------------------------------ Footer --------------------------------- */
+.slide__foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 64px; min-height: 144px; }
+.foot-note { font-size: var(--s-ledger); line-height: 1.3; color: var(--rcc-on-surface-variant); max-width: 52ch; margin: 0; text-wrap: pretty; }
+
+.qr { display: flex; align-items: center; gap: 24px; flex: none; text-decoration: none; color: inherit; }
+.qr__tile {
+  width: 144px; height: 144px; border-radius: 8px; padding: 8px; display: block; flex: none;
+  background: #ffffff;                                  /* scanner contrast, both themes */
+  box-shadow: inset 0 0 0 1px var(--rcc-outline-variant);
+}
+.qr__tile svg { width: 100%; height: 100%; display: block; }
+.qr__tile path { fill: #000000; }
+
+.qr-big { display: grid; gap: 24px; justify-items: start; text-decoration: none; color: inherit; }
+.qr-big .qr__tile { width: 400px; height: 400px; padding: 20px; border-radius: 16px; }
+.qr-big__url { font-size: var(--s-body-sm); line-height: 1.3; color: var(--rcc-on-surface-variant); max-width: 24ch; }
+
+/* ------------------------------ Timer ---------------------------------- */
+.timer {
+  display: grid; gap: 16px; align-content: end;
+  cursor: pointer; user-select: none; border: 0; background: none; padding: 0;
+  font: inherit; color: inherit; text-align: left; border-radius: 12px;
+  font-variation-settings: inherit;
+}
+.timer__row { display: flex; align-items: baseline; gap: 40px; }
+.timer__digits {
+  font-size: var(--s-digits); line-height: 0.9; letter-spacing: -0.03em;
+  font-weight: 500; font-variant-numeric: tabular-nums lining-nums;
+  color: var(--rcc-on-surface-variant);
+  transition: color var(--rcc-dur-effects) var(--rcc-ease-standard);
+}
+.timer__bar { position: relative; height: 6px; width: 720px; background: var(--rcc-surface-container-highest); border-radius: 3px; overflow: hidden; }
+.timer__fill { position: absolute; inset: 0; transform-origin: left; background: var(--rcc-outline); }
+.timer[data-state="running"] .timer__digits { color: var(--rcc-primary); }
+.timer[data-state="running"] .timer__fill { background: var(--rcc-primary); }
+.timer[data-state="paused"]  .timer__digits { color: var(--rcc-on-surface); }
+.timer[data-state="ending"]  .timer__digits {
+  color: var(--rcc-on-highlight-container); background: var(--rcc-highlight-container);
+  box-shadow: 0 0 0 1px var(--rcc-outline);
+  padding: 0 24px; margin-left: -24px; border-radius: 12px;
+}
+.timer[data-state="ending"]  .timer__fill { background: var(--rcc-highlight); }
+.timer[data-state="done"] .timer__digits {
+  color: var(--rcc-inverse-on-surface); background: var(--rcc-inverse-surface);
+  padding: 0 24px; margin-left: -24px; border-radius: 12px;
+}
+
+/* ------------------------------ Index card ----------------------------- */
+.card {
+  --line: 56px;
+  position: relative;
+  width: 860px; height: 516px;                          /* a 5 x 3 inch card */
+  background-color: var(--rcc-surface-container-lowest);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px 0   rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-key)),
+    0 2px 6px 2px rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-ambient)),
+    inset 0 0 0 1px var(--rcc-outline-variant);
+  transform: rotate(-1.2deg);
+  background-image:
+    linear-gradient(var(--rcc-primary), var(--rcc-primary)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--line) - 1px), var(--rcc-outline-variant) calc(var(--line) - 1px), var(--rcc-outline-variant) var(--line));
+  background-size: 100% 3px, 100% var(--line);
+  background-position: 0 calc(var(--line) * 1.5), 0 calc(var(--line) * 1.5);
+  background-repeat: no-repeat, repeat-y;
+}
+.card__text {
+  position: absolute; left: 56px; right: 56px; top: calc(var(--line) * 1.5 + 12px);
+  font-size: 48px; line-height: var(--line); letter-spacing: -0.01em;
+  font-weight: 500; margin: 0; text-wrap: balance;
+}
+.card__corner {
+  position: absolute; right: 36px; bottom: 22px;
+  font-family: var(--rcc-font-code); font-size: 24px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--rcc-outline);
+}
+
+/* ------------------------------ Fill-in field -------------------------- */
+.fill {
+  display: inline-block; min-width: 14ch; vertical-align: baseline;
+  border-bottom: 3px dashed var(--rcc-outline);
+  padding: 0 0.15em; color: var(--rcc-on-surface);
+  outline: none; border-radius: 4px 4px 0 0; line-height: 1.15;
+}
+.fill:empty::before { content: attr(data-placeholder); color: var(--rcc-on-surface-variant); }
+.fill:focus { background: var(--rcc-surface-container-low); }
+
+/* ------------------------------ Staircase ------------------------------ */
+.stair { position: relative; flex: 1; min-height: 0; }
+.stair__svg { position: absolute; left: 0; top: 0; width: 1728px; height: 180px; color: var(--rcc-primary); display: block; overflow: visible; }
+.stair__cols { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px; }
+.arc { display: flex; flex-direction: column; gap: 12px; }
+.arc__name { font-size: var(--s-body); line-height: 1.1; font-weight: 500; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.arc__receipt { font-size: var(--s-body-sm); line-height: 1.3; margin: 0; text-wrap: pretty; }
+.arc__receipt b { font-weight: 500; color: var(--rcc-primary); }
+.arc:nth-child(1) { padding-top: 190px; }
+.arc:nth-child(2) { padding-top: 115px; }
+.arc:nth-child(3) { padding-top: 40px; }
+
+/* ------------------------------ Chrome (viewport px) ------------------- */
+.chrome { position: fixed; z-index: 20; font-size: 14px; line-height: 1.5; color: var(--rcc-on-surface); }
+.help { inset: 0; display: grid; place-items: center; background: rgb(0 0 0 / 0.32); }
+.help[hidden] { display: none !important; }
+.help__panel {
+  background: var(--rcc-surface-container-lowest); color: var(--rcc-on-surface);
+  border-radius: 16px; padding: 28px 32px; width: min(560px, calc(100vw - 32px));
+  box-shadow: 0 1px 3px 0 rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-key)),
+              0 4px 8px 3px rgb(var(--rcc-elevation-ink) / var(--rcc-elevation-ambient)),
+              inset 0 0 0 1px var(--rcc-outline-variant);
+}
+.help h2 { font-size: 18px; font-weight: 500; margin: 0 0 16px; }
+.help table { border-collapse: collapse; width: 100%; }
+.help td { padding: 8px 0; border-bottom: 1px solid var(--rcc-outline-variant); vertical-align: top; }
+.help tr:last-child td { border-bottom: 0; }
+.help td:first-child { width: 170px; padding-right: 12px; }
+.help kbd {
+  font-family: var(--rcc-font-code); font-size: 13px; font-weight: 500;
+  background: var(--rcc-surface-container); padding: 2px 8px; border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--rcc-outline-variant); white-space: nowrap;
+}
+.help p { margin: 16px 0 0; color: var(--rcc-on-surface-variant); }
+
+.notes {
+  left: 0; right: 0; bottom: 0; max-height: 40vh; overflow: auto;
+  background: var(--rcc-surface-container-lowest);
+  box-shadow: 0 -1px 0 0 var(--rcc-outline-variant), 0 -6px 16px rgb(0 0 0 / 0.08);
+  padding: 16px 24px 24px;
+}
+.notes[hidden] { display: none !important; }
+.notes__label {
+  font-family: var(--rcc-font-code); font-size: 12px; letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 500; color: var(--rcc-on-surface-variant); margin: 0 0 8px;
+}
+.notes__body { max-width: 68ch; font-size: 16px; line-height: 1.55; }
+.notes__body p { margin: 0 0 10px; }
+.notes__body p:last-child { margin: 0; }
+
+.toast {
+  left: 50%; bottom: 24px; transform: translateX(-50%);
+  background: var(--rcc-inverse-surface); color: var(--rcc-inverse-on-surface);
+  padding: 10px 16px; border-radius: 9999px; font-size: 14px; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--rcc-dur-effects) var(--rcc-ease-standard);
+}
+.toast.is-on { opacity: 1; }
+
+/* Facilitator notes live in the DOM and never on the stage. */
+.slide aside { display: none; }
+
+/* ------------------------------ Motion / print ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root { --rcc-dur-spatial: 0ms; --rcc-dur-effects: 0ms; }
+  .frame.is-entering .slide { animation: none; }
+}
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  :root { color-scheme: light; }
+  body { overflow: visible; }
+  .viewport { position: static; overflow: visible; }
+  .stage { position: static; transform: none !important; width: 1920px; height: auto; }
+  .frame, .frame[hidden] { display: block !important; position: relative; inset: auto; width: 1920px; height: 1080px; break-after: page; }
+  .frame-box { transform: none !important; }
+  .chrome { display: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="qr-discord" viewBox="-2 -2 33 33" shape-rendering="crispEdges"><path d="M0 0h7v1h-7zM9 0h1v1h-1zM11 0h1v1h-1zM14 0h1v1h-1zM16 0h1v1h-1zM20 0h1v1h-1zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM11 1h2v1h-2zM15 1h6v1h-6zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h6v1h-6zM15 2h1v1h-1zM17 2h4v1h-4zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM13 3h1v1h-1zM16 3h1v1h-1zM18 3h3v1h-3zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h2v1h-2zM14 4h1v1h-1zM17 4h2v1h-2zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h3v1h-3zM18 5h2v1h-2zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM9 7h4v1h-4zM14 7h1v1h-1zM17 7h2v1h-2zM1 8h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM8 8h7v1h-7zM17 8h1v1h-1zM20 8h2v1h-2zM23 8h2v1h-2zM26 8h1v1h-1zM1 9h3v1h-3zM5 9h1v1h-1zM10 9h2v1h-2zM15 9h2v1h-2zM19 9h1v1h-1zM22 9h3v1h-3zM26 9h3v1h-3zM0 10h1v1h-1zM3 10h5v1h-5zM10 10h2v1h-2zM14 10h1v1h-1zM16 10h1v1h-1zM21 10h1v1h-1zM24 10h3v1h-3zM28 10h1v1h-1zM0 11h1v1h-1zM2 11h3v1h-3zM12 11h3v1h-3zM16 11h4v1h-4zM21 11h1v1h-1zM27 11h2v1h-2zM2 12h1v1h-1zM5 12h4v1h-4zM13 12h1v1h-1zM17 12h1v1h-1zM20 12h1v1h-1zM23 12h1v1h-1zM25 12h1v1h-1zM28 12h1v1h-1zM0 13h1v1h-1zM2 13h2v1h-2zM10 13h2v1h-2zM13 13h4v1h-4zM18 13h1v1h-1zM22 13h1v1h-1zM24 13h1v1h-1zM26 13h1v1h-1zM28 13h1v1h-1zM2 14h11v1h-11zM14 14h3v1h-3zM18 14h1v1h-1zM21 14h1v1h-1zM24 14h1v1h-1zM28 14h1v1h-1zM8 15h3v1h-3zM12 15h3v1h-3zM16 15h2v1h-2zM20 15h2v1h-2zM23 15h1v1h-1zM25 15h1v1h-1zM0 16h3v1h-3zM5 16h2v1h-2zM9 16h2v1h-2zM12 16h1v1h-1zM16 16h1v1h-1zM18 16h4v1h-4zM23 16h1v1h-1zM27 16h1v1h-1zM0 17h3v1h-3zM4 17h2v1h-2zM12 17h1v1h-1zM14 17h1v1h-1zM17 17h3v1h-3zM23 17h2v1h-2zM28 17h1v1h-1zM2 18h1v1h-1zM6 18h2v1h-2zM10 18h3v1h-3zM14 18h2v1h-2zM18 18h1v1h-1zM23 18h1v1h-1zM25 18h2v1h-2zM28 18h1v1h-1zM3 19h1v1h-1zM8 19h2v1h-2zM12 19h8v1h-8zM25 19h1v1h-1zM28 19h1v1h-1zM0 20h3v1h-3zM5 20h2v1h-2zM9 20h1v1h-1zM11 20h4v1h-4zM17 20h1v1h-1zM20 20h6v1h-6zM27 20h2v1h-2zM8 21h1v1h-1zM13 21h3v1h-3zM19 21h2v1h-2zM24 21h1v1h-1zM26 21h1v1h-1zM28 21h1v1h-1zM0 22h7v1h-7zM10 22h8v1h-8zM19 22h2v1h-2zM22 22h1v1h-1zM24 22h1v1h-1zM28 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM9 23h2v1h-2zM15 23h1v1h-1zM17 23h1v1h-1zM19 23h2v1h-2zM24 23h2v1h-2zM27 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM8 24h5v1h-5zM18 24h7v1h-7zM27 24h2v1h-2zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM10 25h2v1h-2zM13 25h2v1h-2zM16 25h1v1h-1zM18 25h1v1h-1zM23 25h1v1h-1zM26 25h2v1h-2zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM10 26h1v1h-1zM12 26h1v1h-1zM16 26h1v1h-1zM19 26h3v1h-3zM27 26h2v1h-2zM0 27h1v1h-1zM6 27h1v1h-1zM8 27h2v1h-2zM12 27h2v1h-2zM17 27h1v1h-1zM21 27h1v1h-1zM23 27h1v1h-1zM25 27h1v1h-1zM27 27h2v1h-2zM0 28h7v1h-7zM9 28h2v1h-2zM14 28h2v1h-2zM17 28h1v1h-1zM20 28h3v1h-3zM24 28h2v1h-2zM27 28h1v1h-1z"/></symbol>
+    <symbol id="qr-bevy" viewBox="-2 -2 45 45" shape-rendering="crispEdges"><path d="M0 0h7v1h-7zM9 0h2v1h-2zM13 0h4v1h-4zM18 0h2v1h-2zM21 0h4v1h-4zM27 0h1v1h-1zM29 0h4v1h-4zM34 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM10 1h3v1h-3zM17 1h1v1h-1zM23 1h2v1h-2zM27 1h1v1h-1zM30 1h1v1h-1zM32 1h1v1h-1zM34 1h1v1h-1zM40 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h2v1h-2zM12 2h4v1h-4zM17 2h1v1h-1zM20 2h4v1h-4zM26 2h1v1h-1zM30 2h1v1h-1zM32 2h1v1h-1zM34 2h1v1h-1zM36 2h3v1h-3zM40 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM10 3h1v1h-1zM12 3h1v1h-1zM14 3h1v1h-1zM17 3h1v1h-1zM19 3h1v1h-1zM21 3h5v1h-5zM27 3h5v1h-5zM34 3h1v1h-1zM36 3h3v1h-3zM40 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM13 4h1v1h-1zM15 4h1v1h-1zM21 4h1v1h-1zM23 4h1v1h-1zM27 4h2v1h-2zM30 4h1v1h-1zM34 4h1v1h-1zM36 4h3v1h-3zM40 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h3v1h-3zM14 5h2v1h-2zM18 5h2v1h-2zM21 5h1v1h-1zM27 5h5v1h-5zM34 5h1v1h-1zM40 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h7v1h-7zM9 7h2v1h-2zM12 7h1v1h-1zM16 7h3v1h-3zM20 7h2v1h-2zM26 7h2v1h-2zM29 7h2v1h-2zM0 8h1v1h-1zM3 8h1v1h-1zM5 8h2v1h-2zM8 8h1v1h-1zM10 8h1v1h-1zM13 8h4v1h-4zM19 8h1v1h-1zM21 8h1v1h-1zM23 8h6v1h-6zM33 8h1v1h-1zM35 8h1v1h-1zM1 9h3v1h-3zM5 9h1v1h-1zM7 9h1v1h-1zM13 9h2v1h-2zM17 9h2v1h-2zM20 9h3v1h-3zM24 9h2v1h-2zM28 9h1v1h-1zM32 9h3v1h-3zM37 9h2v1h-2zM40 9h1v1h-1zM1 10h1v1h-1zM6 10h2v1h-2zM9 10h1v1h-1zM11 10h2v1h-2zM14 10h1v1h-1zM16 10h6v1h-6zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM31 10h1v1h-1zM33 10h1v1h-1zM36 10h4v1h-4zM0 11h1v1h-1zM2 11h1v1h-1zM5 11h1v1h-1zM7 11h1v1h-1zM10 11h1v1h-1zM18 11h2v1h-2zM21 11h6v1h-6zM30 11h1v1h-1zM35 11h2v1h-2zM38 11h1v1h-1zM40 11h1v1h-1zM4 12h1v1h-1zM6 12h1v1h-1zM8 12h2v1h-2zM11 12h1v1h-1zM14 12h2v1h-2zM17 12h1v1h-1zM20 12h2v1h-2zM23 12h1v1h-1zM25 12h1v1h-1zM28 12h2v1h-2zM31 12h4v1h-4zM37 12h1v1h-1zM40 12h1v1h-1zM0 13h3v1h-3zM11 13h2v1h-2zM14 13h4v1h-4zM20 13h1v1h-1zM22 13h2v1h-2zM27 13h1v1h-1zM30 13h1v1h-1zM37 13h1v1h-1zM39 13h1v1h-1zM0 14h1v1h-1zM2 14h2v1h-2zM6 14h1v1h-1zM8 14h1v1h-1zM11 14h3v1h-3zM17 14h1v1h-1zM19 14h1v1h-1zM23 14h1v1h-1zM25 14h1v1h-1zM27 14h3v1h-3zM34 14h1v1h-1zM40 14h1v1h-1zM0 15h3v1h-3zM4 15h1v1h-1zM9 15h3v1h-3zM13 15h3v1h-3zM17 15h2v1h-2zM20 15h4v1h-4zM25 15h1v1h-1zM28 15h4v1h-4zM34 15h1v1h-1zM36 15h1v1h-1zM2 16h1v1h-1zM6 16h1v1h-1zM8 16h2v1h-2zM17 16h1v1h-1zM21 16h2v1h-2zM24 16h1v1h-1zM27 16h1v1h-1zM29 16h1v1h-1zM31 16h2v1h-2zM35 16h1v1h-1zM37 16h1v1h-1zM40 16h1v1h-1zM0 17h1v1h-1zM4 17h2v1h-2zM11 17h1v1h-1zM14 17h4v1h-4zM21 17h4v1h-4zM28 17h1v1h-1zM30 17h1v1h-1zM34 17h2v1h-2zM39 17h2v1h-2zM1 18h1v1h-1zM3 18h1v1h-1zM6 18h1v1h-1zM9 18h2v1h-2zM12 18h1v1h-1zM14 18h1v1h-1zM16 18h2v1h-2zM22 18h1v1h-1zM24 18h2v1h-2zM28 18h1v1h-1zM30 18h1v1h-1zM33 18h1v1h-1zM36 18h5v1h-5zM0 19h1v1h-1zM2 19h1v1h-1zM5 19h1v1h-1zM8 19h1v1h-1zM10 19h1v1h-1zM12 19h1v1h-1zM15 19h1v1h-1zM21 19h1v1h-1zM23 19h3v1h-3zM29 19h5v1h-5zM35 19h1v1h-1zM37 19h1v1h-1zM0 20h2v1h-2zM5 20h3v1h-3zM13 20h1v1h-1zM15 20h3v1h-3zM19 20h1v1h-1zM22 20h2v1h-2zM26 20h1v1h-1zM28 20h3v1h-3zM34 20h2v1h-2zM38 20h3v1h-3zM0 21h1v1h-1zM2 21h2v1h-2zM7 21h1v1h-1zM9 21h3v1h-3zM15 21h1v1h-1zM17 21h1v1h-1zM21 21h2v1h-2zM24 21h1v1h-1zM29 21h2v1h-2zM32 21h3v1h-3zM39 21h2v1h-2zM0 22h1v1h-1zM2 22h7v1h-7zM11 22h1v1h-1zM13 22h1v1h-1zM16 22h2v1h-2zM19 22h1v1h-1zM22 22h1v1h-1zM25 22h1v1h-1zM28 22h1v1h-1zM31 22h1v1h-1zM33 22h2v1h-2zM36 22h4v1h-4zM2 23h1v1h-1zM5 23h1v1h-1zM7 23h2v1h-2zM11 23h2v1h-2zM14 23h3v1h-3zM19 23h1v1h-1zM21 23h1v1h-1zM24 23h2v1h-2zM32 23h2v1h-2zM35 23h1v1h-1zM38 23h1v1h-1zM40 23h1v1h-1zM0 24h1v1h-1zM3 24h2v1h-2zM6 24h2v1h-2zM9 24h2v1h-2zM12 24h4v1h-4zM17 24h2v1h-2zM20 24h2v1h-2zM24 24h2v1h-2zM28 24h2v1h-2zM32 24h3v1h-3zM39 24h2v1h-2zM2 25h1v1h-1zM10 25h3v1h-3zM14 25h2v1h-2zM19 25h2v1h-2zM24 25h2v1h-2zM29 25h1v1h-1zM31 25h1v1h-1zM33 25h1v1h-1zM37 25h1v1h-1zM1 26h2v1h-2zM6 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM12 26h7v1h-7zM22 26h2v1h-2zM28 26h3v1h-3zM32 26h1v1h-1zM34 26h1v1h-1zM39 26h2v1h-2zM1 27h1v1h-1zM4 27h2v1h-2zM11 27h1v1h-1zM13 27h2v1h-2zM16 27h3v1h-3zM20 27h7v1h-7zM28 27h2v1h-2zM32 27h1v1h-1zM34 27h1v1h-1zM36 27h1v1h-1zM5 28h2v1h-2zM9 28h1v1h-1zM11 28h3v1h-3zM15 28h3v1h-3zM21 28h2v1h-2zM24 28h1v1h-1zM27 28h3v1h-3zM32 28h1v1h-1zM39 28h2v1h-2zM3 29h1v1h-1zM5 29h1v1h-1zM7 29h1v1h-1zM10 29h3v1h-3zM14 29h1v1h-1zM18 29h4v1h-4zM24 29h2v1h-2zM27 29h1v1h-1zM30 29h6v1h-6zM38 29h1v1h-1zM40 29h1v1h-1zM0 30h1v1h-1zM5 30h2v1h-2zM9 30h2v1h-2zM12 30h1v1h-1zM14 30h1v1h-1zM23 30h4v1h-4zM29 30h2v1h-2zM35 30h3v1h-3zM39 30h2v1h-2zM2 31h2v1h-2zM8 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM17 31h1v1h-1zM21 31h1v1h-1zM24 31h1v1h-1zM26 31h4v1h-4zM31 31h3v1h-3zM36 31h1v1h-1zM39 31h2v1h-2zM0 32h1v1h-1zM4 32h1v1h-1zM6 32h1v1h-1zM10 32h1v1h-1zM13 32h1v1h-1zM18 32h1v1h-1zM21 32h1v1h-1zM24 32h3v1h-3zM31 32h6v1h-6zM38 32h3v1h-3zM8 33h1v1h-1zM11 33h1v1h-1zM13 33h5v1h-5zM20 33h1v1h-1zM24 33h2v1h-2zM28 33h1v1h-1zM31 33h2v1h-2zM36 33h2v1h-2zM39 33h2v1h-2zM0 34h7v1h-7zM9 34h1v1h-1zM12 34h2v1h-2zM16 34h1v1h-1zM18 34h5v1h-5zM25 34h2v1h-2zM28 34h2v1h-2zM32 34h1v1h-1zM34 34h1v1h-1zM36 34h1v1h-1zM39 34h1v1h-1zM0 35h1v1h-1zM6 35h1v1h-1zM8 35h3v1h-3zM12 35h3v1h-3zM16 35h1v1h-1zM18 35h1v1h-1zM25 35h1v1h-1zM27 35h1v1h-1zM29 35h1v1h-1zM32 35h1v1h-1zM36 35h1v1h-1zM38 35h1v1h-1zM40 35h1v1h-1zM0 36h1v1h-1zM2 36h3v1h-3zM6 36h1v1h-1zM12 36h2v1h-2zM16 36h1v1h-1zM18 36h3v1h-3zM23 36h2v1h-2zM26 36h2v1h-2zM32 36h5v1h-5zM39 36h1v1h-1zM0 37h1v1h-1zM2 37h3v1h-3zM6 37h1v1h-1zM8 37h1v1h-1zM10 37h4v1h-4zM16 37h5v1h-5zM22 37h1v1h-1zM24 37h3v1h-3zM29 37h1v1h-1zM31 37h1v1h-1zM33 37h2v1h-2zM36 37h1v1h-1zM40 37h1v1h-1zM0 38h1v1h-1zM2 38h3v1h-3zM6 38h1v1h-1zM9 38h5v1h-5zM16 38h1v1h-1zM22 38h3v1h-3zM26 38h1v1h-1zM31 38h1v1h-1zM36 38h2v1h-2zM39 38h2v1h-2zM0 39h1v1h-1zM6 39h1v1h-1zM9 39h1v1h-1zM15 39h8v1h-8zM24 39h9v1h-9zM34 39h2v1h-2zM39 39h1v1h-1zM0 40h7v1h-7zM8 40h3v1h-3zM12 40h4v1h-4zM17 40h1v1h-1zM19 40h3v1h-3zM29 40h2v1h-2zM32 40h2v1h-2zM35 40h2v1h-2zM39 40h1v1h-1z"/></symbol>
+    <symbol id="step-mark" viewBox="0 0 24 24"><path d="M3 19.5H12V4.5H21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="butt" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<div class="viewport" id="viewport">
+<div class="stage" id="stage">
+
+<!-- 1 · Title -->
+<div class="frame" data-notes="n1"><div class="frame-box"><section class="slide" aria-label="Title">
+  <header class="slide__head">
+    <p class="ledger">Fall 2026 · First meeting · Thursday, September 3</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body" style="gap: 40px;">
+    <div class="lockup">
+      <svg class="mark" aria-hidden="true" focusable="false"><use href="#step-mark"/></svg>
+      <div>
+        <p class="lockup__name">GDG on Campus</p>
+        <p class="lockup__sub">Riverside City College</p>
+      </div>
+    </div>
+    <h1 class="title">Sit anywhere.<br>Take a card and a pen.</h1>
+    <p class="body muted" style="max-width: none;">2:30 to 3:30 PM · BLCIS A-210 Simulation Lab</p>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n1"><p>Setup starts 2:25. ACM has the room until 2:30, so the first two minutes are furniture. Cards and pens by the door, ten spares. Trash bag or shredder at the front, visible.</p><p>Keys: arrows advance, T runs the timer on a timed slide, 5 switches to room mode (the five slides Law 2 allows), N hides these notes, ? lists everything.</p></aside>
+</section></div></div>
+
+<!-- 2 · What happens -->
+<div class="frame" data-notes="n2"><div class="frame-box"><section class="slide" aria-label="What happens in the next hour">
+  <header class="slide__head">
+    <p class="ledger">The next hour</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body slide__body--top">
+    <h2 class="head">What happens in the next hour.</h2>
+    <ol class="rows">
+      <li class="row"><span class="ledger row__key">2:35</span><span class="row__val">You talk to one person for two minutes.</span></li>
+      <li class="row"><span class="ledger row__key">2:42</span><span class="row__val">You write one thing on a card. No name on it.</span></li>
+      <li class="row"><span class="ledger row__key">2:45</span><span class="row__val">You ask a stranger for something, on someone else's behalf.</span></li>
+      <li class="row"><span class="ledger row__key">3:12</span><span class="row__val">We talk about why that was easier than it should have been.</span></li>
+      <li class="row"><span class="ledger row__key">3:22</span><span class="row__val">You leave with one thing to do before next Thursday.</span></li>
+    </ol>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Every card is destroyed in this room before you leave. Nobody will know which one was yours.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n2"><p>Say the destruction rule out loud now, before anyone writes. Said afterwards, the anonymity was a lie.</p></aside>
+</section></div></div>
+
+<!-- 3 · What this is -->
+<div class="frame" data-notes="n3"><div class="frame-box"><section class="slide" aria-label="What this club is">
+  <header class="slide__head">
+    <p class="ledger">What this is</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <h2 class="head">A practice floor for the skills no class assigns.</h2>
+    <ul class="rows">
+      <li class="row"><span class="ledger row__key lead">Say</span><span class="row__val">what you want, without decorating it.</span></li>
+      <li class="row"><span class="ledger row__key lead">Ask</span><span class="row__val">someone who can say no.</span></li>
+      <li class="row"><span class="ledger row__key lead">Show</span><span class="row__val">the work you did to somebody who was not there.</span></li>
+    </ul>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Any major, any level. A first-semester student and someone who has already shipped an app both leave with something.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n3"><p>Thirty seconds, no more. The room is here to do the thing. The three verbs are the three arcs; do not name the arcs yet.</p></aside>
+</section></div></div>
+
+<!-- 4 · What this is not -->
+<div class="frame" data-notes="n4"><div class="frame-box"><section class="slide" aria-label="What this club is not">
+  <header class="slide__head">
+    <p class="ledger">What this is not</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <h2 class="head">Not a coding club by default.</h2>
+    <p class="body">The weekly meeting is never a coding session. You will never be the least equipped person in this room.</p>
+    <p class="body-sm muted">If you code, each session ends by naming the technical version of the skill. Ten seconds. Workshops and hackathons are separate events you opt into.</p>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Thursdays, 2:30 to 3:30 PM. Same room every week.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n4"><p>A programmer will answer everything technically. Name the rung, then move on. The rung is a door, not a detour. The Modular Impact Sprint and DevFest are the opt-in events; their dates are not confirmed, so do not promise one.</p></aside>
+</section></div></div>
+
+<!-- 5 · Dates (room) -->
+<div class="frame" data-room data-notes="n5"><div class="frame-box"><section class="slide" aria-label="Dates">
+  <header class="slide__head">
+    <p class="ledger"><span class="ledger--lead">2:30</span> · Open · 5 min</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body slide__body--top">
+    <div class="step-rule" aria-hidden="true"></div>
+    <h2 class="head">Two dates.</h2>
+    <ul class="rows rows--loose">
+      <li class="row">
+        <span class="ledger row__key">Sep 8</span>
+        <span class="row__val"><strong>Club Rush</strong>, the week of September 8. <span class="fill" contenteditable="true" spellcheck="false" data-key="clubrush" data-placeholder="day, time, and table location" role="textbox" aria-label="Club Rush day, time, and table location"></span></span>
+      </li>
+      <li class="row">
+        <span class="ledger row__key">Sep 10</span>
+        <span class="row__val"><strong>Next Thursday</strong>, same room, 2:30. The line you will say at the Club Rush table.</span>
+      </li>
+    </ul>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Discord is where announcements, questions, and last-minute room changes happen.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n5"><p>Confirm Club Rush day, time, and table location with Student Activities before the meeting and type it into the dashed field (click it; it saves in this browser). Say it out loud.</p><p>Dates only. Everything else waits until 3:12.</p></aside>
+</section></div></div>
+
+<!-- 6 · Warm rep (room) -->
+<div class="frame" data-room data-timer="60" data-notes="n6"><div class="frame-box"><section class="slide" aria-label="Warm rep">
+  <header class="slide__head">
+    <p class="ledger"><span class="ledger--lead">2:35</span> · Warm rep · 7 min</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <p class="ledger">Pairs · Sixty seconds each way</p>
+    <h2 class="head">A thing you are good at that is not on your transcript.</h2>
+    <p class="body muted">Find a partner. Nobody reports back.</p>
+  </div>
+  <footer class="slide__foot">
+    <button class="timer" type="button" data-state="idle" aria-label="Sixty second timer. Press T or click to start.">
+      <span class="timer__row"><span class="timer__digits">1:00</span><span class="ledger timer__hint">T to start</span></span>
+      <span class="timer__bar"><span class="timer__fill"></span></span>
+    </button>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n6"><p>Law 1: everyone speaks in the first twelve minutes. Run the timer twice, once per direction. Odd number in the room: make a three, forty seconds each. No debrief; straight into the Rep.</p></aside>
+</section></div></div>
+
+<!-- 7 · The Rep, the card (room) -->
+<div class="frame" data-room data-timer="90" data-notes="n7"><div class="frame-box"><section class="slide" aria-label="The Rep: the card">
+  <header class="slide__head">
+    <p class="ledger"><span class="ledger--lead">2:42</span> · The Rep · 18 min</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <div class="cols cols--card">
+      <div class="card" role="img" aria-label="Index card reading: One thing you want this year that you cannot get by yourself.">
+        <p class="card__text">One thing you want this year that you cannot get by yourself.</p>
+        <span class="card__corner">No name</span>
+      </div>
+      <div class="stack">
+        <p class="body-sm muted">A transfer letter. An internship. Someone to build a project with. A ride to a hackathon. A study group that actually meets. Someone to tell you the truth about your portfolio.</p>
+        <p class="body-sm"><strong>Not a goal.</strong> A thing another person has to give you.</p>
+      </div>
+    </div>
+  </div>
+  <footer class="slide__foot">
+    <button class="timer" type="button" data-state="idle" aria-label="Ninety second timer. Press T or click to start.">
+      <span class="timer__row"><span class="timer__digits">1:30</span><span class="ledger timer__hint">Ninety seconds to write</span></span>
+      <span class="timer__bar"><span class="timer__fill"></span></span>
+    </button>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n7"><p>Read it close to word for word: "On the card in front of you, write one thing you want this year that you cannot get by yourself. Not a goal. A thing another person has to give you. Do not write your name. Nobody will ever know whose card is whose, and every card gets destroyed in this room at the end of the hour."</p><p>Ninety seconds. Collect face down, shuffle thoroughly in front of the room, deal one back to each person. Anyone who draws their own card swaps with a neighbour without saying why.</p></aside>
+</section></div></div>
+
+<!-- 8 · A stranger's want -->
+<div class="frame" data-timer="720" data-notes="n8"><div class="frame-box"><section class="slide" aria-label="A stranger's want">
+  <header class="slide__head">
+    <p class="ledger"><span class="ledger--lead">2:45</span> · The Rep · 12 min · On your feet</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <h2 class="head">You are holding a stranger's want.</h2>
+    <p class="body">Find someone in this room who could plausibly move it forward, and ask them. <strong>Not explain it. Ask.</strong></p>
+    <p class="body muted">You have no idea who wrote it. You cannot be embarrassed on their behalf. Go.</p>
+  </div>
+  <footer class="slide__foot">
+    <button class="timer" type="button" data-state="idle" aria-label="Twelve minute timer. Press T or click to start.">
+      <span class="timer__row"><span class="timer__digits">12:00</span><span class="ledger timer__hint">Everyone standing</span></span>
+      <span class="timer__bar"><span class="timer__fill"></span></span>
+    </button>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n8"><p>Circulate and do two things only: keep people standing, and when a conversation turns into a discussion about the card, say "make the ask" and walk away. The rep dies sitting.</p><p>Fewer than six people: one circle instead. Each person reads their card aloud and the room spends two minutes naming who on campus could help.</p></aside>
+</section></div></div>
+
+<!-- 9 · Live fire -->
+<div class="frame" data-timer="60" data-notes="n9"><div class="frame-box"><section class="slide" aria-label="Live fire">
+  <header class="slide__head">
+    <p class="ledger"><span class="ledger--lead">3:00</span> · Live fire · 12 min</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <div class="cols">
+      <div class="stack">
+        <h2 class="head">"Someone here needs..."</h2>
+        <p class="body">Three people. Sixty seconds each. Make the card's ask to the whole room.</p>
+      </div>
+      <div class="stack" style="gap: 24px;">
+        <p class="ledger">Then: two trues and a turn</p>
+        <ul class="rows rows--sm">
+          <li class="row"><span class="ledger row__key lead">True</span><span class="row__val">Something that landed. Specific.</span></li>
+          <li class="row"><span class="ledger row__key lead">True</span><span class="row__val">A second one.</span></li>
+          <li class="row"><span class="ledger row__key lead">Turn</span><span class="row__val">The one change with the highest payoff.</span></li>
+        </ul>
+        <p class="body-sm muted">The speaker says nothing until all three are given.</p>
+      </div>
+    </div>
+  </div>
+  <footer class="slide__foot">
+    <button class="timer" type="button" data-state="idle" aria-label="Sixty second timer. Press T or click to start.">
+      <span class="timer__row"><span class="timer__digits">1:00</span><span class="ledger timer__hint">Per speaker</span></span>
+      <span class="timer__bar"><span class="timer__fill"></span></span>
+    </button>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n9"><p>Pick three people by name, not by volunteer, and pick people who look comfortable; a heavy card must not be singled out. First person plural: "someone here needs".</p><p>Announce the critique by name so the room learns it as a form. "You said the number" beats "that was good". Turns are phrased as turns: "turn the last sentence into a question". No advice unless asked. One voice at a time. Cut anyone who opens with "I would have".</p></aside>
+</section></div></div>
+
+<!-- 10 · Debrief -->
+<div class="frame" data-notes="n10"><div class="frame-box"><section class="slide" aria-label="Debrief">
+  <header class="slide__head">
+    <p class="ledger"><span class="ledger--lead">3:12</span> · Debrief · 10 min</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body" style="gap: 40px;">
+    <p class="ledger">Three questions, in this order</p>
+    <ol class="qs">
+      <li>Hands up: who found that easier than expected? Keep them up. Who thinks it would have been harder if the card were yours?</li>
+      <li>What exactly was different?</li>
+      <li>Somebody in this room is holding your card. What do you want them to do with it?</li>
+    </ol>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Two or three answers each. Not more.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n10"><p>On question 2, push past "I was less nervous" to the real answer: nothing was at stake for you personally, so you asked plainly. Plainness is the whole skill.</p></aside>
+</section></div></div>
+
+<!-- 11 · The pitch -->
+<div class="frame" data-notes="n11"><div class="frame-box"><section class="slide" aria-label="The pitch">
+  <header class="slide__head">
+    <p class="ledger">The reveal</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <h2 class="head">Everything we do this semester is the move you just made, aimed at your own life instead of a stranger's.</h2>
+    <p class="body muted">Nothing here is technical or tied to a major, and all of it transfers.</p>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Saying what you want. Asking someone who can say no. Showing the work to someone who was not there.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n11"><p>Spoken: "Saying what you want without decorating it. Asking someone who can say no. Making sure the work you did is visible to somebody who was not there. None of it is technical, none of it requires a major, and all of it transfers."</p></aside>
+</section></div></div>
+
+<!-- 12 · The semester -->
+<div class="frame" data-notes="n12"><div class="frame-box"><section class="slide" aria-label="The semester">
+  <header class="slide__head">
+    <p class="ledger">The semester · Three arcs · Sep 17 to Dec 10</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body slide__body--top">
+    <div class="stair">
+      <svg class="stair__svg" viewBox="0 0 1728 180" aria-hidden="true" focusable="false">
+        <path d="M0 170H576V95H1152V20H1728" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="butt" stroke-linejoin="round"/>
+      </svg>
+      <div class="stair__cols">
+        <div class="arc">
+          <p class="ledger">Voice<br>Sep 17 to Oct 8</p>
+          <h3 class="arc__name">Be understood by someone with no reason to listen.</h3>
+          <p class="arc__receipt"><b>Receipt:</b> a real message, sent in the room.</p>
+        </div>
+        <div class="arc">
+          <p class="ledger">Ask<br>Oct 15 to Nov 5</p>
+          <h3 class="arc__name">Ask people with power for things, and use a no.</h3>
+          <p class="arc__receipt"><b>Receipt:</b> a booked appointment with someone with power.</p>
+        </div>
+        <div class="arc">
+          <p class="ledger">Evidence<br>Nov 12 to Dec 10</p>
+          <h3 class="arc__name">Make your work visible to someone who was not there.</h3>
+          <p class="arc__receipt"><b>Receipt:</b> three minutes in front of outsiders at Demo Day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Every session is playable cold. Miss a week and come back. No meeting Nov 26 or Dec 17.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n12"><p>Each arc runs install, pressure, transfer, ship. The fourth week of every arc produces a receipt made in the room, never assigned as homework. Oct 8 and Nov 5 need working wi-fi in A-210.</p></aside>
+</section></div></div>
+
+<!-- 13 · The rung -->
+<div class="frame" data-notes="n13"><div class="frame-box"><section class="slide" aria-label="The rung">
+  <header class="slide__head">
+    <p class="ledger">The rung · Ten seconds</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <p class="ledger">The technical version of what you just did</p>
+    <h2 class="head">Filing an issue on a project you do not own.</h2>
+    <p class="body muted">Telling strangers what is missing, in public, with your name attached. Same nerve, different room.</p>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">Named, never taught. Look it up if you want the next rung.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n13"><p>Law 4. Ten seconds, no demo, no tangent, no laptop.</p></aside>
+</section></div></div>
+
+<!-- 14 · The cards -->
+<div class="frame" data-notes="n14"><div class="frame-box"><section class="slide" aria-label="The cards are destroyed">
+  <header class="slide__head">
+    <p class="ledger">The cards</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <h2 class="head">Every card goes in the bag now. In front of you.</h2>
+    <p class="body muted">Nobody reads them. Nothing leaves this room.</p>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">The promise from 2:42, kept where you can see it.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n14"><p>Destroy the cards visibly. Cards do not leave the room, or the anonymity was a lie.</p></aside>
+</section></div></div>
+
+<!-- 15 · The Ask (room) -->
+<div class="frame" data-room data-notes="n15"><div class="frame-box"><section class="slide" aria-label="The Ask">
+  <header class="slide__head">
+    <p class="ledger"><span class="ledger--lead">3:22</span> · The Ask · 5 min</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <p class="ledger">Before next Thursday</p>
+    <h2 class="head">Say your own want out loud to one person who is not in this room.</h2>
+    <p class="body muted">Not by text. Out loud.</p>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">One action. That is the whole assignment.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n15"><p>Then the join slide: Discord, Bevy, and next week by name. Say that next week arms them for Club Rush and that members are wanted at the table.</p></aside>
+</section></div></div>
+
+<!-- 16 · Join (room) -->
+<div class="frame" data-room data-notes="n16"><div class="frame-box"><section class="slide" aria-label="Join">
+  <header class="slide__head">
+    <p class="ledger">Join · Next Thursday, Sep 10 · 2:30 PM · A-210</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body">
+    <div class="cols" style="align-items: start;">
+      <a class="qr-big" href="https://discord.gg/ddwjKJJN9v" tabindex="-1">
+        <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+        <span class="ledger">Discord</span>
+        <span class="qr-big__url">discord.gg/ddwjKJJN9v<br>Announcements, questions, room changes.</span>
+      </a>
+      <a class="qr-big" href="https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/" tabindex="-1">
+        <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-bevy"/></svg></span>
+        <span class="ledger">Chapter page</span>
+        <span class="qr-big__url">gdg.community.dev<br>Events, RSVPs, recordings.</span>
+      </a>
+    </div>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note"><strong>Next Thursday: The Twenty-Second Answer.</strong> The line you will say at the Club Rush table. Members wanted at the table that week.</p>
+  </footer>
+  <aside id="n16"><p>Leave this slide up while people pack. Count Discord joins today for the meeting notes: counts only, no names.</p></aside>
+</section></div></div>
+
+<!-- 17 · Close -->
+<div class="frame" data-notes="n17"><div class="frame-box"><section class="slide" aria-label="Close">
+  <header class="slide__head">
+    <p class="ledger">Thursdays · 2:30 to 3:30 PM · BLCIS A-210 Simulation Lab</p>
+    <p class="ledger counter"></p>
+  </header>
+  <div class="slide__body" style="gap: 48px;">
+    <h1 class="title">See you Thursday.</h1>
+    <div class="lockup">
+      <svg class="mark" aria-hidden="true" focusable="false"><use href="#step-mark"/></svg>
+      <div>
+        <p class="lockup__name">GDG on Campus</p>
+        <p class="lockup__sub">Riverside City College</p>
+      </div>
+    </div>
+  </div>
+  <footer class="slide__foot">
+    <p class="foot-note">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <a class="qr" href="https://discord.gg/ddwjKJJN9v" tabindex="-1" aria-label="Discord invite QR code">
+      <span class="ledger">Discord</span>
+      <span class="qr__tile"><svg aria-hidden="true"><use href="#qr-discord"/></svg></span>
+    </a>
+  </footer>
+  <aside id="n17"><p>Record in the meeting notes: attendance count, how many people spoke during live fire, Discord joins that day. Counts only.</p></aside>
+</section></div></div>
+
+</div>
+</div>
+
+<div class="chrome help" id="help" hidden role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+  <div class="help__panel">
+    <h2>Keys</h2>
+    <table>
+      <tr><td><kbd>→</kbd> <kbd>space</kbd> <kbd>←</kbd></td><td>Next and previous slide. Click the right side of a slide to advance, the left edge to go back.</td></tr>
+      <tr><td><kbd>T</kbd></td><td>Start or pause the timer on a timed slide. <kbd>R</kbd> resets it.</td></tr>
+      <tr><td><kbd>5</kbd></td><td>Room mode: only the five slides the meeting algorithm allows (dates, warm rep, the card, the Ask, join).</td></tr>
+      <tr><td><kbd>N</kbd></td><td>Facilitator notes for the current slide. They show on the projector too.</td></tr>
+      <tr><td><kbd>D</kbd></td><td>Dark theme for laptop preview. The projector runs light.</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Fullscreen. <kbd>Home</kbd> and <kbd>End</kbd> jump to the first and last slide.</td></tr>
+      <tr><td><kbd>?</kbd> <kbd>Esc</kbd></td><td>Show or hide this panel.</td></tr>
+    </table>
+    <p>Print from the browser for a 16:9 handout, one slide per page. The Club Rush field on the dates slide is editable and saves in this browser.</p>
+  </div>
+</div>
+
+<div class="chrome notes" id="notes" hidden aria-live="polite">
+  <p class="notes__label">Facilitator notes · N to hide</p>
+  <div class="notes__body" id="notesBody"></div>
+</div>
+
+<div class="chrome toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  'use strict';
+  var frames = Array.prototype.slice.call(document.querySelectorAll('.frame'));
+  var stage = document.getElementById('stage');
+  var body = document.body;
+  var help = document.getElementById('help');
+  var notes = document.getElementById('notes');
+  var notesBody = document.getElementById('notesBody');
+  var toast = document.getElementById('toast');
+  var roomMode = false;
+  var current = 0;
+  var toastTimer = null;
+
+  function store(key, value) { try { localStorage.setItem('gdg-cold-open:' + key, value); } catch (e) {} }
+  function recall(key) { try { return localStorage.getItem('gdg-cold-open:' + key); } catch (e) { return null; } }
+  function say(msg) {
+    toast.textContent = msg;
+    toast.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('is-on'); }, 1600);
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  /* ---------- Layout: scale the 1920 x 1080 stage, or stack on phones ---- */
+  function fit() {
+    var w = window.innerWidth, h = window.innerHeight;
+    var scroll = w < 700;
+    body.dataset.mode = scroll ? 'scroll' : 'deck';
+    if (scroll) {
+      var s = (w - 24) / 1920;
+      stage.style.setProperty('--fs', s);
+      stage.style.setProperty('--fw', (1920 * s) + 'px');
+      stage.style.setProperty('--fh', (1080 * s) + 'px');
+      stage.style.transform = '';
+      frames.forEach(function (f) { f.removeAttribute('hidden'); });
+    } else {
+      var sc = Math.min(w / 1920, h / 1080);
+      stage.style.transform = 'translate(-50%, -50%) scale(' + sc + ')';
+      frames.forEach(function (f, i) {
+        if (i === current) f.removeAttribute('hidden'); else f.setAttribute('hidden', '');
+      });
+    }
+  }
+
+  /* ---------- Navigation ------------------------------------------------- */
+  function visible() {
+    return roomMode ? frames.filter(function (f) { return f.hasAttribute('data-room'); }) : frames;
+  }
+  function counters() {
+    var list = visible();
+    frames.forEach(function (f, i) {
+      var c = f.querySelector('.counter');
+      if (!c) return;
+      var pos = list.indexOf(f);
+      var text = pos < 0 ? '' : pad(pos + 1) + ' / ' + pad(list.length);
+      if (roomMode && pos >= 0) text += ' · Room';
+      if (i === 0 && !roomMode) text += ' · ? keys';
+      c.textContent = text;
+    });
+  }
+  function show(i, animate) {
+    stopTimer(frames[current]);
+    current = Math.max(0, Math.min(frames.length - 1, i));
+    if (body.dataset.mode !== 'scroll') {
+      frames.forEach(function (f, k) {
+        f.classList.remove('is-entering');
+        if (k === current) {
+          f.removeAttribute('hidden');
+          if (animate) { void f.offsetWidth; f.classList.add('is-entering'); }
+        } else {
+          f.setAttribute('hidden', '');
+        }
+      });
+    }
+    resetTimer(frames[current]);
+    renderNotes();
+    if (history.replaceState) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function step(delta) {
+    var list = visible();
+    var pos = list.indexOf(frames[current]);
+    if (pos < 0) {
+      pos = list.length;
+      for (var k = 0; k < list.length; k++) {
+        if (frames.indexOf(list[k]) > current) { pos = delta > 0 ? k - 1 : k; break; }
+      }
+    }
+    var next = Math.max(0, Math.min(list.length - 1, pos + delta));
+    var target = frames.indexOf(list[next]);
+    if (target !== current) show(target, true);
+  }
+  function fromHash() {
+    var n = parseInt((location.hash || '').replace('#', ''), 10);
+    return isNaN(n) ? 0 : Math.max(0, Math.min(frames.length - 1, n - 1));
+  }
+
+  /* ---------- Timer ------------------------------------------------------ */
+  var timers = {};
+  function timerOf(frame) {
+    if (!frame.hasAttribute('data-timer')) return null;
+    var idx = frames.indexOf(frame);
+    if (!timers[idx]) {
+      var hint = frame.querySelector('.timer__hint');
+      timers[idx] = {
+        total: parseInt(frame.getAttribute('data-timer'), 10) * 1000,
+        left: 0, running: false, last: 0, raf: 0,
+        el: frame.querySelector('.timer'),
+        digits: frame.querySelector('.timer__digits'),
+        fill: frame.querySelector('.timer__fill'),
+        hint: hint, hint0: hint.textContent
+      };
+      timers[idx].left = timers[idx].total;
+    }
+    return timers[idx];
+  }
+  function fmt(ms) {
+    var s = Math.ceil(ms / 1000);
+    var m = Math.floor(s / 60);
+    s = s % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function paint(t) {
+    var state = t.left <= 0 ? 'done'
+              : t.running ? (t.left <= 10000 ? 'ending' : 'running')
+              : (t.left === t.total ? 'idle' : 'paused');
+    t.digits.textContent = state === 'done' ? 'Time' : fmt(t.left);
+    t.fill.style.transform = 'scaleX(' + (t.left / t.total) + ')';
+    t.el.setAttribute('data-state', state);
+    t.hint.textContent = state === 'done' ? 'R to reset'
+                       : state === 'paused' ? 'Paused · T to resume'
+                       : t.hint0;
+  }
+  function tick(t) {
+    var now = performance.now();
+    t.left = Math.max(0, t.left - (now - t.last));
+    t.last = now;
+    paint(t);
+    if (t.left > 0 && t.running) t.raf = requestAnimationFrame(function () { tick(t); });
+    else t.running = false;
+  }
+  function toggleTimer(frame) {
+    var t = timerOf(frame);
+    if (!t) return false;
+    if (t.left <= 0) { t.left = t.total; }
+    if (t.running) { t.running = false; cancelAnimationFrame(t.raf); }
+    else { t.running = true; t.last = performance.now(); t.raf = requestAnimationFrame(function () { tick(t); }); }
+    paint(t);
+    return true;
+  }
+  function stopTimer(frame) {
+    var t = timerOf(frame);
+    if (t && t.running) { t.running = false; cancelAnimationFrame(t.raf); paint(t); }
+  }
+  function resetTimer(frame) {
+    var t = timerOf(frame);
+    if (!t) return;
+    t.running = false; cancelAnimationFrame(t.raf); t.left = t.total; paint(t);
+  }
+  frames.forEach(function (f) {
+    var btn = f.querySelector('.timer');
+    if (btn) btn.addEventListener('click', function (e) { e.stopPropagation(); toggleTimer(f); });
+  });
+
+  /* ---------- Notes, help, theme, room mode ------------------------------ */
+  function renderNotes() {
+    if (notes.hidden) return;
+    var src = document.getElementById(frames[current].getAttribute('data-notes'));
+    notesBody.innerHTML = src ? src.innerHTML : '';
+  }
+  function toggleNotes() { notes.hidden = !notes.hidden; renderNotes(); }
+  function toggleHelp() { help.hidden = !help.hidden; }
+  function toggleTheme() {
+    var root = document.documentElement;
+    var dark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+    store('theme', dark ? 'light' : 'dark');
+    say(dark ? 'Light theme' : 'Dark theme');
+  }
+  function toggleRoom() {
+    roomMode = !roomMode;
+    counters();
+    say(roomMode ? 'Room mode: five slides' : 'All slides');
+    if (roomMode && !frames[current].hasAttribute('data-room')) step(1);
+  }
+  function fullscreen() {
+    var el = document.documentElement;
+    if (document.fullscreenElement) { if (document.exitFullscreen) document.exitFullscreen(); }
+    else if (el.requestFullscreen) { el.requestFullscreen(); }
+  }
+
+  /* ---------- Fill-in fields --------------------------------------------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.fill'), function (el) {
+    var saved = recall('fill:' + el.getAttribute('data-key'));
+    if (saved) el.textContent = saved;
+    el.addEventListener('input', function () { store('fill:' + el.getAttribute('data-key'), el.textContent.trim()); });
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } e.stopPropagation(); });
+    el.addEventListener('click', function (e) { e.stopPropagation(); });
+  });
+
+  /* ---------- Input ------------------------------------------------------ */
+  document.addEventListener('keydown', function (e) {
+    if (e.target && e.target.isContentEditable) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (!help.hidden && k !== '?' && k !== 'Escape') return;
+    var deck = body.dataset.mode !== 'scroll';
+    switch (k) {
+      case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown': case 'Enter':
+        if (deck) { e.preventDefault(); step(1); } break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': case 'Backspace':
+        if (deck) { e.preventDefault(); step(-1); } break;
+      case 'Home': e.preventDefault(); show(frames.indexOf(visible()[0]), true); break;
+      case 'End':  e.preventDefault(); show(frames.indexOf(visible()[visible().length - 1]), true); break;
+      case 't': case 'T': if (!toggleTimer(frames[current])) say('No timer on this slide'); break;
+      case 'r': case 'R': resetTimer(frames[current]); break;
+      case 'n': case 'N': toggleNotes(); break;
+      case 'd': case 'D': toggleTheme(); break;
+      case 'f': case 'F': fullscreen(); break;
+      case '5': toggleRoom(); break;
+      case '?': toggleHelp(); break;
+      case 'Escape': if (!help.hidden) toggleHelp(); else if (!notes.hidden) toggleNotes(); break;
+    }
+  });
+  stage.addEventListener('click', function (e) {
+    if (body.dataset.mode === 'scroll') return;
+    if (e.target.closest('.timer, .fill, a')) return;
+    var rect = stage.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width;
+    step(x < 0.2 ? -1 : 1);
+  });
+  help.addEventListener('click', function (e) { if (e.target === help) toggleHelp(); });
+
+  var touchX = null;
+  document.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (touchX === null || body.dataset.mode === 'scroll') return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 48) step(dx < 0 ? 1 : -1);
+    touchX = null;
+  }, { passive: true });
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function () { var i = fromHash(); if (i !== current) show(i, true); });
+
+  /* ---------- Boot ------------------------------------------------------- */
+  var theme = recall('theme');
+  if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
+  current = fromHash();
+  counters();
+  fit();
+  show(current, false);
+})();
+</script>

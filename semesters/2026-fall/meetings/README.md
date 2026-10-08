@@ -1,8 +1,8 @@
 # Meetings - Fall 2026
 
-One file per meeting, named by date: `YYYY-MM-DD.md`. Regular slot: Wednesdays, 10:00 AM, BLCIS A-103.
+One file per meeting, named by date: `YYYY-MM-DD.md`. Regular slot: Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab.
 
-Instruction Wednesdays this semester: August 26 through December 9, except November 11 (holiday) and November 25 (no-class week). That is 14 possible meetings. The first meeting date the team picks goes in [calendar.md](../calendar.md).
+Instruction Thursdays this semester: August 27 through December 10, minus November 26 (no-class week) and December 17 (finals). August 27 passed before this plan existed, which leaves 14 meetings, September 3 through December 10. Each one has a facilitator script in [sessions/](../sessions/README.md); this folder holds the notes written afterwards.
 
 ## Create a file
 

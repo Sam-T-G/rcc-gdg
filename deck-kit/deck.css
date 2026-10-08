@@ -1,0 +1,749 @@
+/* ===========================================================================
+   GDG on Campus Riverside City College. Deck kit stylesheet.
+   The language this implements: docs/04-brand/design-system/presentation.md (§13)
+   and motion.md (§5). Where this file and those disagree, they win.
+
+   The stage is 1920 x 1080 in STAGE UNITS. --u is one stage pixel, computed from
+   the width of .deck with container query units, so one stylesheet renders the
+   presenting stage, the phone stack, the no-script fallback, and print-to-PDF,
+   with text rasterized at native size rather than transform-scaled.
+   =========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* --- Tokens. Copied from docs/04-brand/design-system/tokens.css; check.mjs
+       fails if any value here drifts from the source. ---------------------- */
+:root {
+  color-scheme: light;
+  --rcc-surface:                   #f7faf8;
+  --rcc-surface-container-lowest:  #ffffff;
+  --rcc-surface-container-low:     #eef6ef;
+  --rcc-surface-container:         #e8f0e9;
+  --rcc-surface-container-high:    #e3eae3;
+  --rcc-surface-container-highest: #dde5de;
+  --rcc-on-surface:                #1e201e;
+  --rcc-on-surface-variant:        #575a58;
+  --rcc-outline:                   #727873;
+  --rcc-outline-variant:           #ccd4cd;
+  --rcc-primary:                   #00732d;
+  --rcc-on-primary:                #ffffff;
+  --rcc-primary-container:         #cff1d3;
+  --rcc-on-primary-container:      #003a13;
+  --rcc-highlight:                 #e09f2e;
+  --rcc-on-highlight:              #392300;
+  --rcc-highlight-container:       #ffe5c0;
+  --rcc-on-highlight-container:    #4f3400;
+  --rcc-inverse-surface:           #2c312c;
+  --rcc-inverse-on-surface:        #f1f4f2;
+  --rcc-focus-ring:                #00732d;
+  --rcc-grad: 0;
+
+  --rcc-dur-fast-effects:    90ms;
+  --rcc-dur-default-effects: 140ms;
+  --rcc-dur-slow-effects:    220ms;
+  --rcc-dur-fast-spatial:    200ms;
+  --rcc-dur-default-spatial: 320ms;
+  --rcc-dur-slow-spatial:    480ms;
+  --rcc-dur-beat: 700ms;
+  --rcc-dur-move: 1100ms;
+  --rcc-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --rcc-ease-exit:     cubic-bezier(0.4, 0, 1, 1);
+  --rcc-ease-arrive:   cubic-bezier(0.16, 1, 0.3, 1);
+
+  --rcc-font-brand: "Google Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --rcc-font-code:  "Google Sans Code", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --rcc-step-arc: 12%;
+}
+:root[data-arc="voice"]    { --rcc-step-arc: 25%; }
+:root[data-arc="ask"]      { --rcc-step-arc: 50%; }
+:root[data-arc="evidence"] { --rcc-step-arc: 75%; }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --rcc-surface:                   #121412;
+  --rcc-surface-container-lowest:  #0b0f0b;
+  --rcc-surface-container-low:     #171c18;
+  --rcc-surface-container:         #1b211c;
+  --rcc-surface-container-high:    #262b27;
+  --rcc-surface-container-highest: #313731;
+  --rcc-on-surface:                #e6e9e6;
+  --rcc-on-surface-variant:        #b9bcba;
+  --rcc-outline:                   #919791;
+  --rcc-outline-variant:           #424943;
+  --rcc-primary:                   #96d6a0;
+  --rcc-on-primary:                #003410;
+  --rcc-primary-container:         #00531e;
+  --rcc-on-primary-container:      #c6eccb;
+  --rcc-highlight:                 #e7ae58;
+  --rcc-on-highlight:              #392300;
+  --rcc-highlight-container:       #624000;
+  --rcc-on-highlight-container:    #fcdeb5;
+  --rcc-inverse-surface:           #dde5de;
+  --rcc-inverse-on-surface:        #2f312f;
+  --rcc-focus-ring:                #96d6a0;
+  --rcc-grad: -25;
+}
+
+/* Reduced motion: zero the spatial track, leave effects alone (motion.md §5.4). */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --rcc-dur-fast-spatial: 0ms;
+    --rcc-dur-default-spatial: 0ms;
+    --rcc-dur-slow-spatial: 0ms;
+    --rcc-dur-beat: 0ms;
+    --rcc-dur-move: 0ms;
+  }
+}
+
+/* --- Page ----------------------------------------------------------------- */
+html, body { margin: 0; background: var(--rcc-surface); color: var(--rcc-on-surface); }
+body {
+  font-family: var(--rcc-font-brand);
+  font-optical-sizing: auto;
+  font-variation-settings: "GRAD" var(--rcc-grad);
+  font-synthesis: weight;
+  font-weight: 400;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+:focus-visible {
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--rcc-surface), 0 0 0 5px var(--rcc-focus-ring);
+}
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* --- The deck and its unit ------------------------------------------------ */
+.deck {
+  container-type: inline-size;
+  --u: calc(100cqw / 1920);
+  --s-title:   calc(136 * var(--u));
+  --s-head:    calc(92 * var(--u));
+  --s-body:    calc(48 * var(--u));
+  --s-body-sm: calc(40 * var(--u));
+  --s-ledger:  calc(32 * var(--u));
+  --s-margin:  calc(96 * var(--u));
+  --s-top:     calc(144 * var(--u));
+  --s-bottom:  calc(144 * var(--u));
+  --s-gap:     calc(40 * var(--u));
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Stacked: the default with no script, and what a phone gets. Every slide in
+   order, full width, 16:9, nothing animated, every beat and version showing. */
+.deck { display: grid; gap: 12px; padding: 12px 16px; }
+.slide {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--rcc-surface);
+  box-shadow: 0 0 0 1px var(--rcc-outline-variant);
+  padding: var(--s-top) var(--s-margin) var(--s-bottom);
+  display: flex; flex-direction: column; justify-content: center; gap: var(--s-gap);
+}
+.chrome { display: none; }
+
+/* Presenting: one slide at a time on a letterboxed stage. */
+.deck-live.is-presenting body { overflow: hidden; }
+.deck-live.is-presenting .deck {
+  position: fixed; inset: 0; margin: auto; padding: 0; gap: 0;
+  width: min(100vw, calc(100dvh * 16 / 9));
+  height: min(100dvh, calc(100vw * 9 / 16));
+  display: block;
+}
+.deck-live.is-presenting .slide {
+  position: absolute; inset: 0; box-shadow: none; visibility: hidden;
+}
+.deck-live.is-presenting .slide.is-current { visibility: visible; }
+.deck-live.is-presenting .chrome { display: block; }
+
+/* --- Type roles ----------------------------------------------------------- */
+/* Element defaults sit under :where(), so any single class (.eyebrow, .notice,
+   .clock__digits) outranks them. Without it `.slide p` beat every one of those. */
+:where(.slide) :where(h1, h2, h3, p, ol, ul, figure, blockquote) { margin: 0; }
+:where(.slide) h1 {
+  font-size: var(--s-title); line-height: 1.02; letter-spacing: -0.025em;
+  font-weight: 500; text-wrap: balance; max-width: calc(1600 * var(--u));
+}
+:where(.slide) h2 {
+  font-size: var(--s-head); line-height: 1.06; letter-spacing: -0.02em;
+  font-weight: 500; text-wrap: balance; max-width: calc(1560 * var(--u));
+}
+:where(.slide) :where(p, li) { font-size: var(--s-body); line-height: 1.3; text-wrap: pretty; }
+.slide .sub { color: var(--rcc-on-surface-variant); max-width: 40ch; }
+.slide .small { font-size: var(--s-body-sm); }
+.slide strong { font-weight: 500; }
+.slide em { font-style: italic; }
+.eyebrow, .ledger, .counter, .label {
+  font-family: var(--rcc-font-code);
+  font-size: var(--s-ledger); line-height: 1.25; letter-spacing: 0.08em;
+  font-weight: 500; text-transform: uppercase;
+  font-variant-numeric: tabular-nums lining-nums; font-variant-ligatures: none;
+  color: var(--rcc-on-surface-variant);
+}
+.eyebrow { color: var(--rcc-primary); }
+.slide .notes { display: none; }
+
+/* --- Masks: content rises through them (motion.md §5.7) ------------------- */
+/* The padding and negative margin grow the clip box to cover ascenders and
+   descenders without moving the line, so a mask never shaves a g or a y. */
+.w {
+  display: inline-block; overflow: hidden; vertical-align: top;
+  padding-block: 0.08em 0.16em; margin-block: -0.08em -0.16em;
+}
+/* inline-block, because a transform does nothing to a plain inline span */
+.w__in { display: inline-block; }
+.blk { display: block; overflow: hidden; padding-block: calc(24 * var(--u)); margin-block: calc(-24 * var(--u)); }
+.blk__in { display: block; }
+
+/* CSS-only entrance, used when GSAP is absent (presentation.md §13.6). The JS
+   sets --i per unit; under reduced motion the duration token is 0ms. */
+@keyframes deck-rise { from { transform: translateY(110%); } to { transform: none; } }
+.deck-live.no-gsap .slide.is-entering .w__in,
+.deck-live.no-gsap .slide.is-entering .blk__in,
+.deck-live.no-gsap .is-revealing .w__in,
+.deck-live.no-gsap .is-revealing .blk__in {
+  animation: deck-rise var(--rcc-dur-beat) var(--rcc-ease-arrive) both;
+  animation-delay: calc(var(--i, 0) * 56ms);
+}
+
+/* Boxes without GSAP: the same wipe up and pop by CSS (reduced motion zeroes them). */
+@keyframes deck-box { from { clip-path: inset(100% 0 0 0 round calc(28 * var(--u))); transform: translateY(calc(32 * var(--u))); } to { clip-path: inset(0 round calc(28 * var(--u))); transform: none; } }
+@keyframes deck-pop { from { transform: scale(0); } }
+.deck-live.no-gsap .slide.is-entering .box, .deck-live.no-gsap .box.is-revealing { animation: deck-box var(--rcc-dur-beat) var(--rcc-ease-arrive) both; }
+.deck-live.no-gsap .slide.is-entering .beats li::before, .deck-live.no-gsap .beats li.is-revealing::before { animation: deck-pop var(--rcc-dur-beat) cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* Beats not yet reached. Hidden, not removed: a screen reader walking the
+   stacked view gets them, and the presenting view reveals them in order. */
+.deck-live.is-presenting [data-beat].is-pending { visibility: hidden; }
+.beats li.is-past { color: var(--rcc-on-surface-variant); transition: color var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+
+/* --- Chrome: ledger, counter, rail. Stays still across every transition. -- */
+.chrome { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.chrome .ledger { position: absolute; top: calc(52 * var(--u)); left: var(--s-margin); margin: 0; max-width: calc(1300 * var(--u)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chrome .counter { position: absolute; top: calc(52 * var(--u)); right: var(--s-margin); margin: 0; }
+.deck.on-cover .chrome .ledger { visibility: hidden; }
+.rail { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* The rail: five named segments sized by slide count (presentation.md §13.4). */
+.rail__morph { fill: none; stroke: var(--rcc-primary); stroke-linejoin: round; stroke-linecap: butt; }
+.rail__track { fill: var(--rcc-surface-container-highest); }
+.rail__fill { fill: var(--rcc-primary); }
+.rail__label {
+  font-family: var(--rcc-font-code); font-size: 32px; font-weight: 500; letter-spacing: 0.08em;
+  font-variant-ligatures: none; fill: var(--rcc-on-surface-variant);
+}
+.rail__label.is-past { fill: var(--rcc-on-surface); }
+.rail__label.is-current { fill: var(--rcc-primary); }
+.rail__label.is-hidden { visibility: hidden; }
+/* On a rail slide the semester diagram uses the whole stage, so the chrome rail
+   steps aside and the counter stays. */
+.rail { transition: opacity var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+.deck.on-rung .rail { opacity: 0; }
+
+/* --- cover ---------------------------------------------------------------- */
+.slide[data-kind="cover"] { justify-content: flex-start; padding-top: var(--s-margin); padding-bottom: var(--s-margin); gap: 0; }
+.cover__lockup { display: block; flex: none; align-self: flex-start; height: calc(88 * var(--u)); width: auto; margin-block-end: auto; }
+.cover__lockup--dark { display: none; }
+:root[data-theme="dark"] .cover__lockup--light { display: none; }
+:root[data-theme="dark"] .cover__lockup--dark { display: block; height: calc(150 * var(--u)); }
+.slide[data-kind="cover"] .eyebrow { margin-block-end: calc(24 * var(--u)); }
+.slide[data-kind="cover"] .sub { margin-block-start: calc(28 * var(--u)); }
+/* flex: none, or an overflowing cover shrinks this empty box to nothing and the
+   Step collapses into a jog. */
+.cover__step { flex: none; height: calc(96 * var(--u)); margin-block: calc(40 * var(--u)) calc(48 * var(--u)); }
+.cover__starts { margin-block-end: calc(12 * var(--u)); }
+/* An optional QR on the cover (the way in, for a room that is still arriving):
+   the right column above the notice, never moving. The words and the Step stop
+   short of it so the Step never runs under the code. */
+.slide[data-kind="cover"] .cover__qr { position: absolute; right: var(--s-margin); bottom: calc(236 * var(--u)); }
+.slide[data-kind="cover"]:has(.cover__qr) :is(.eyebrow, h1, .sub) { max-width: calc(1180 * var(--u)); }
+.slide[data-kind="cover"]:has(.cover__qr) .cover__step { margin-inline-end: calc(420 * var(--u)); }
+:root:not(.is-presenting) .slide[data-kind="cover"] .cover__qr { position: static; align-self: flex-start; margin-block: calc(24 * var(--u)); }
+.notice {
+  font-size: var(--s-body-sm); line-height: 1.3; max-width: calc(1500 * var(--u));
+  color: var(--rcc-on-surface-variant); text-wrap: pretty;
+}
+.slide[data-kind="cover"] .notice { max-width: none; }
+/* Without the script the rail is not drawn, so the cover shows a static Step. */
+.cover__step { background:
+  linear-gradient(var(--rcc-primary), var(--rcc-primary)) 0 100% / var(--rcc-step-arc) calc(12 * var(--u)) no-repeat,
+  linear-gradient(var(--rcc-primary), var(--rcc-primary)) calc(var(--rcc-step-arc) - 0px) 0 / calc(12 * var(--u)) 100% no-repeat,
+  linear-gradient(var(--rcc-primary), var(--rcc-primary)) 100% 0 / calc(100% - var(--rcc-step-arc)) calc(12 * var(--u)) no-repeat; }
+.deck-live.is-presenting .cover__step { background: none; }
+
+/* --- statement ------------------------------------------------------------ */
+.slide[data-kind="statement"] h2 { max-width: calc(1500 * var(--u)); }
+.slide[data-kind="statement"] .sub { max-width: 36ch; }
+
+/* --- contrast ------------------------------------------------------------- */
+.contrast { display: grid; grid-template-columns: 1fr 1fr; gap: calc(96 * var(--u)); align-items: start; }
+.contrast > div { display: flex; flex-direction: column; gap: calc(24 * var(--u)); }
+.contrast > div > p:not(.label) { font-size: var(--s-body); line-height: 1.28; }
+/* Both sides the same size, weight, and ink: the words win the comparison,
+   not the styling. Only the label says which side is which. */
+.contrast .is-strong > .label { color: var(--rcc-primary); }
+
+/* --- beats ---------------------------------------------------------------- */
+.beats { list-style: none; padding: 0; display: grid; gap: calc(36 * var(--u)); counter-reset: beat; }
+.beats li {
+  display: grid; grid-template-columns: calc(80 * var(--u)) 1fr; gap: calc(36 * var(--u)); align-items: start;
+  max-width: calc(1440 * var(--u));
+}
+.beats li::before {
+  counter-increment: beat; content: counter(beat);
+  font-family: var(--rcc-font-code); font-weight: 500; font-size: var(--s-body-sm); line-height: 1;
+  color: var(--rcc-primary);
+  width: calc(72 * var(--u)); height: calc(72 * var(--u)); border-radius: 9999px;
+  display: grid; place-items: center; box-shadow: inset 0 0 0 calc(3 * var(--u)) var(--rcc-primary);
+  margin-top: calc(-6 * var(--u));
+}
+.beats li > .body { display: block; }
+/* The number dot pops when its item arrives; deck.js tweens --pop (0 to 1). */
+.beats li::before { transform: scale(var(--pop, 1)); }
+.beats li .detail { display: block; font-size: var(--s-body-sm); color: var(--rcc-on-surface-variant); margin-top: calc(8 * var(--u)); }
+
+/* --- card ----------------------------------------------------------------- */
+.slide[data-kind="card"] { display: grid; grid-template-columns: calc(980 * var(--u)) 1fr; column-gap: calc(96 * var(--u)); align-content: center; }
+.slide[data-kind="card"] > h2 { grid-column: 1 / -1; margin-block-end: calc(56 * var(--u)); }
+.card {
+  position: relative; aspect-ratio: 5 / 3;
+  background: var(--rcc-surface-container-lowest);
+  border-radius: calc(24 * var(--u));
+  padding: calc(56 * var(--u)) calc(64 * var(--u));
+  display: flex; flex-direction: column;
+}
+.card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); pointer-events: none; }
+.card .label { color: var(--rcc-primary); margin-block-end: calc(20 * var(--u)); }
+/* Ruled like the index cards the room actually writes on. */
+.card__lines { list-style: none; padding: 0; margin: 0; display: grid; }
+.card__lines li {
+  font-size: calc(44 * var(--u)); line-height: calc(84 * var(--u));
+  border-block-end: calc(2 * var(--u)) solid var(--rcc-outline-variant);
+  min-height: calc(86 * var(--u));
+}
+.card__lines li .hint { color: var(--rcc-on-surface-variant); }
+.card__side { display: flex; flex-direction: column; gap: calc(28 * var(--u)); align-self: center; }
+
+/* --- compress ------------------------------------------------------------- */
+.slide[data-kind="compress"] { justify-content: flex-start; }
+.compress { display: grid; grid-template-columns: calc(360 * var(--u)) 1fr; gap: calc(80 * var(--u)); align-items: start; margin-block-start: calc(40 * var(--u)); }
+.compress__meter { display: flex; flex-direction: column; gap: calc(20 * var(--u)); }
+.compress__num { font-size: calc(168 * var(--u)); line-height: 0.9; font-weight: 500; letter-spacing: -0.03em; font-variant-numeric: tabular-nums lining-nums; }
+.compress__unit { font-family: var(--rcc-font-code); font-size: var(--s-ledger); letter-spacing: 0.08em; text-transform: uppercase; color: var(--rcc-on-surface-variant); }
+.compress__bar { height: calc(12 * var(--u)); border-radius: 9999px; background: var(--rcc-surface-container-highest); overflow: hidden; }
+.compress__fill { display: block; height: 100%; background: var(--rcc-primary); transform-origin: left center; }
+.compress__line {
+  font-size: calc(60 * var(--u)); line-height: 1.18; letter-spacing: -0.015em; font-weight: 500;
+  max-width: calc(1240 * var(--u)); text-wrap: pretty;
+}
+.compress__line .t { display: inline; }
+.compress__line .t.cutting .tw { color: var(--rcc-on-surface-variant); text-decoration: line-through; text-decoration-thickness: 0.07em; text-decoration-color: var(--rcc-primary); }
+.compress__line .t.fresh .tw { color: var(--rcc-primary); }
+.compress__why { margin-block-start: calc(36 * var(--u)); font-size: var(--s-body-sm); color: var(--rcc-on-surface-variant); max-width: 44ch; min-height: 2.6em; }
+/* Stacked and no-script: the written versions are the content. */
+.versions { list-style: none; padding: 0; display: grid; gap: calc(28 * var(--u)); }
+.versions li { font-size: var(--s-body-sm); }
+.versions li::before { content: attr(data-label) " "; font-family: var(--rcc-font-code); font-size: var(--s-ledger); letter-spacing: 0.08em; text-transform: uppercase; color: var(--rcc-primary); display: block; }
+.deck-live.is-presenting .compress-src { position: absolute !important; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.compress { display: none; }
+.deck-live.is-presenting .compress { display: grid; }
+
+/* --- figure --------------------------------------------------------------- */
+.figure { display: flex; align-items: baseline; gap: calc(40 * var(--u)); }
+.figure__num { font-size: calc(320 * var(--u)); line-height: 0.85; font-weight: 500; letter-spacing: -0.04em; color: var(--rcc-primary); font-variant-numeric: tabular-nums lining-nums; }
+.figure__unit { font-size: var(--s-head); line-height: 1; font-weight: 500; letter-spacing: -0.02em; }
+.slide[data-kind="figure"] .sub { max-width: 44ch; }
+
+/* --- clock ---------------------------------------------------------------- */
+.clock { display: grid; gap: calc(28 * var(--u)); margin-block-start: calc(24 * var(--u)); }
+.clock__digits { font-size: calc(240 * var(--u)); line-height: 0.9; font-weight: 500; letter-spacing: -0.03em; font-variant-numeric: tabular-nums lining-nums; }
+.clock__rail { height: calc(20 * var(--u)); border-radius: 9999px; background: var(--rcc-surface-container-highest); overflow: hidden; }
+.clock__fill { display: block; height: 100%; background: var(--rcc-primary); transform-origin: left center; }
+.clock__hint { font-size: var(--s-body-sm); color: var(--rcc-on-surface-variant); }
+/* Ending: last ten seconds. The color changes and stays. It never blinks (WCAG 2.3.1). */
+.clock[data-state="ending"] .clock__fill, .clock[data-state="done"] .clock__fill { background: var(--rcc-highlight); }
+.clock[data-state="ending"] .clock__digits, .clock[data-state="done"] .clock__digits {
+  background: var(--rcc-highlight-container); color: var(--rcc-on-highlight-container);
+  justify-self: start; padding-inline: calc(24 * var(--u)); border-radius: calc(16 * var(--u));
+}
+
+/* --- rail (the semester, visual-voice.md §9.2) ---------------------------- */
+.slide[data-kind="rail"] { justify-content: flex-start; }
+.rung { position: absolute; inset: 0; pointer-events: none; }
+.rung svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.rung text { font-family: var(--rcc-font-brand); }
+.rung .code { font-family: var(--rcc-font-code); letter-spacing: 0.08em; font-variant-ligatures: none; }
+/* Climb: the Step at poster scale, sessions named under their treads. */
+.rung__track, .rung__progress { fill: none; stroke-width: 22; stroke-linejoin: round; stroke-linecap: butt; }
+.rung__track { stroke: var(--rcc-outline-variant); }
+.rung__progress { stroke: var(--rcc-primary); }
+.rung__arc { font-size: 56px; font-weight: 500; fill: var(--rcc-on-surface); }
+.rung__name { font-size: 32px; font-weight: 400; fill: var(--rcc-on-surface); }
+.rung__name.is-past { fill: var(--rcc-on-surface-variant); }
+.rung__name.is-current { font-weight: 700; fill: var(--rcc-primary); }
+.rung__here { font-size: 32px; font-weight: 500; fill: var(--rcc-primary); }
+.rung__you { fill: var(--rcc-surface-container-lowest); stroke: var(--rcc-primary); stroke-width: 10; }
+.rung__legend { font-size: 32px; fill: var(--rcc-on-surface-variant); }
+.rung__rc-dot { fill: var(--rcc-primary); font-size: 32px; }
+/* Ledger: the arcs as columns, each higher than the last; the type makes the stair. */
+.rung__rule { fill: none; stroke: var(--rcc-primary); stroke-width: 6; stroke-linejoin: round; stroke-linecap: butt; }
+.rung__cols { position: absolute; left: var(--s-margin); right: var(--s-margin); top: calc(372 * var(--u)); display: grid; column-gap: calc(48 * var(--u)); align-items: start; }
+.rung__col { padding-top: calc(var(--drop) * var(--u)); display: grid; align-content: start; }
+.rung__head { display: flex; justify-content: space-between; align-items: baseline; gap: calc(12 * var(--u)); padding-bottom: calc(26 * var(--u)); }
+.rung__head b { font-size: calc(52 * var(--u)); font-weight: 500; letter-spacing: -0.01em; line-height: 1; }
+.rung__head small { font-family: var(--rcc-font-code); font-size: var(--s-ledger); font-weight: 500; letter-spacing: 0.08em; color: var(--rcc-on-surface-variant); white-space: nowrap; font-variant-ligatures: none; }
+.rung__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(4 * var(--u)); }
+.rung__rows li { position: relative; overflow: hidden; margin-inline: calc(-14 * var(--u)); border-radius: calc(6 * var(--u)); font-size: calc(34 * var(--u)); }
+.rung__rows li::before { content: ""; position: absolute; inset: 0; background: var(--rcc-primary); transform-origin: left center; transform: scaleX(var(--band, 0)); }
+.rung__in { position: relative; display: grid; grid-template-columns: calc(58 * var(--u)) 1fr; align-items: baseline; padding: calc(9 * var(--u)) calc(14 * var(--u)); line-height: 1.18; }
+.rung__n { font-family: var(--rcc-font-code); font-size: var(--s-ledger); font-weight: 500; color: var(--rcc-on-surface-variant); font-variant-ligatures: none; }
+.rung__rows li.is-past .rung__nm { color: var(--rcc-on-surface-variant); }
+.rung__rows li.is-end .rung__nm { font-weight: 700; }
+.rung__rows li.is-current .rung__in, .rung__rows li.is-current .rung__n { color: var(--rcc-on-primary); font-weight: 700; }
+.rung__rc { display: inline-block; width: calc(16 * var(--u)); height: calc(16 * var(--u)); border-radius: 50%; background: var(--rcc-primary); margin-left: calc(12 * var(--u)); vertical-align: calc(4 * var(--u)); }
+.rung__rows li.is-current .rung__rc { background: var(--rcc-on-primary); }
+.rung__legend-html { position: absolute; right: var(--s-margin); bottom: calc(64 * var(--u)); margin: 0; display: flex; align-items: center; gap: calc(16 * var(--u)); font-size: var(--s-ledger); color: var(--rcc-on-surface-variant); }
+.rung__legend-html .rung__rc { margin: 0; }
+.rung-src { font-size: var(--s-body-sm); columns: 2; }
+.deck-live .rung-src { position: absolute !important; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.rung { display: none; }
+.deck-live .rung { display: block; }
+
+/* --- ask ------------------------------------------------------------------ */
+.slide[data-kind="ask"] { display: grid; grid-template-columns: 1fr auto; grid-template-rows: 1fr auto; column-gap: calc(96 * var(--u)); row-gap: calc(40 * var(--u)); align-items: center; }
+.ask__main { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
+.ask__meta { font-size: var(--s-body-sm); color: var(--rcc-on-surface-variant); }
+.qr { display: flex; flex-direction: column; align-items: center; gap: calc(16 * var(--u)); color: inherit; text-decoration: none; }
+.qr__tile {
+  width: calc(300 * var(--u)); height: calc(300 * var(--u)); padding: calc(12 * var(--u)); display: block;
+  border-radius: calc(12 * var(--u)); background: #ffffff;          /* scanner contrast in both themes */
+  box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant);
+}
+.qr__tile svg, .qr__tile img { width: 100%; height: 100%; display: block; }
+.qr .label { text-align: center; }
+.ask__foot { grid-column: 1 / -1; display: flex; align-items: flex-end; justify-content: space-between; gap: calc(64 * var(--u)); }
+.ask__lockup { height: calc(56 * var(--u)); width: auto; flex: none; }
+:root[data-theme="dark"] .ask__lockup--light { display: none; }
+.ask__lockup--dark { display: none; }
+:root[data-theme="dark"] .ask__lockup--dark { display: block; height: calc(110 * var(--u)); }
+
+/* --- Surfaces (presentation.md §13.11) ------------------------------------- */
+/* A slide's color says what kind of moment it is. Each surface remaps the role
+   tokens, so every archetype renders on it unchanged; the chrome takes the
+   current slide's surface so the ledger, counter, and rail stay legible. Every
+   ink pair here measures 5.5:1 or better (check.mjs recomputes them). Paper is
+   the root tokens, so it follows the D preview; the other five are fixed. */
+[data-surface="mint"] {
+  --rcc-surface: #cff1d3; --rcc-surface-container-lowest: #effaf0; --rcc-surface-container-highest: #a8dcb0;
+  --rcc-on-surface: #0f2a16; --rcc-on-surface-variant: #2f5a3a; --rcc-outline-variant: #93c79c;
+  --rcc-primary: #00632a; --rcc-on-primary: #ffffff;
+}
+[data-surface="sand"] {
+  --rcc-surface: #ffe5c0; --rcc-surface-container-lowest: #fff6ea; --rcc-surface-container-highest: #f1c98f;
+  --rcc-on-surface: #2e2006; --rcc-on-surface-variant: #5c4513; --rcc-outline-variant: #e0b877;
+  --rcc-primary: #7a4f00; --rcc-on-primary: #ffffff;
+}
+[data-surface="sun"] {
+  --rcc-surface: #f9ab00; --rcc-surface-container-lowest: #ffd67a; --rcc-surface-container-highest: #d99200;
+  --rcc-on-surface: #1e1a10; --rcc-on-surface-variant: #3d2e05; --rcc-outline-variant: #c98700;
+  --rcc-primary: #1e1a10; --rcc-on-primary: #f9ab00;
+  --rcc-highlight: #1e1a10; --rcc-highlight-container: #1e1a10; --rcc-on-highlight-container: #f9ab00;
+}
+[data-surface="forest"] {
+  --rcc-surface: #00531e; --rcc-surface-container-lowest: #0b3d1c; --rcc-surface-container-highest: #1f6b37;
+  --rcc-on-surface: #ffffff; --rcc-on-surface-variant: #c6eccb; --rcc-outline-variant: #2f7a45;
+  --rcc-primary: #96d6a0; --rcc-on-primary: #003410;
+  --rcc-highlight: #f9ab00; --rcc-highlight-container: #f9ab00; --rcc-on-highlight-container: #1e1a10;
+}
+[data-surface="ink"] {
+  --rcc-surface: #121412; --rcc-surface-container-lowest: #1b211c; --rcc-surface-container-highest: #313731;
+  --rcc-on-surface: #e6e9e6; --rcc-on-surface-variant: #b9bcba; --rcc-outline-variant: #424943;
+  --rcc-primary: #96d6a0; --rcc-on-primary: #003410;
+  --rcc-highlight: #e7ae58; --rcc-highlight-container: #624000; --rcc-on-highlight-container: #fcdeb5;
+}
+.slide[data-surface] { background: var(--rcc-surface); color: var(--rcc-on-surface); }
+.chrome .ledger, .chrome .counter { transition: color var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+
+/* --- photo: one photograph and the words beside it, never over it --------- */
+/* Ported from rcc-acm/deck-kit on 2026-09-24 (visual-voice.md §9.3, fourth image
+   type). bleed-right (default) and bleed-left run the photo off the stage edge,
+   from the top down to the rail band; framed sits it inside the margins. The
+   credit is a link, on the slide, in the ledger face. */
+.slide[data-kind="photo"] { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(96 * var(--u)); align-items: center; }
+.photo__text { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
+.photo { margin: 0; }
+.photo :is(img, video) { display: block; object-fit: cover; }
+.credit { font-family: var(--rcc-font-code); font-size: var(--s-ledger); line-height: 1.25; letter-spacing: 0.02em; color: var(--rcc-on-surface-variant); font-variant-ligatures: none; }
+.credit a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+.slide[data-kind="photo"]:not([data-layout^="framed"]) .photo :is(img, video) { position: absolute; top: 0; width: calc(50% - 48 * var(--u)); height: calc(960 * var(--u)); }
+.slide[data-kind="photo"]:not([data-layout]) .photo :is(img, video), .slide[data-kind="photo"][data-layout="bleed-right"] .photo :is(img, video) { right: 0; }
+.slide[data-kind="photo"][data-layout="bleed-left"] .photo :is(img, video) { left: 0; }
+.slide[data-kind="photo"][data-layout="bleed-left"] .photo__text { grid-column: 2; grid-row: 1; }
+.slide[data-kind="photo"]:not([data-layout^="framed"]) .credit { position: absolute; bottom: calc(136 * var(--u)); left: var(--s-margin); max-width: calc(760 * var(--u)); }
+.slide[data-kind="photo"][data-layout="bleed-left"] .credit { left: calc(50% + 48 * var(--u)); }
+.slide[data-kind="photo"][data-layout^="framed"] .photo { display: grid; gap: calc(16 * var(--u)); }
+.slide[data-kind="photo"][data-layout^="framed"] .photo :is(img, video) { width: 100%; height: auto; max-height: calc(640 * var(--u)); border-radius: calc(24 * var(--u)); }
+/* framed-left: the same frame, photo on the left and the words on the right. */
+.slide[data-kind="photo"][data-layout="framed-left"] .photo__text { grid-column: 2; grid-row: 1; }
+
+/* A photo slide's words column may hold a short beats list (a tour's legend).
+   The column is half the stage, so the heading steps down to 76 and the list
+   sets at the 40 floor with tighter spacing. */
+.slide[data-kind="photo"] .photo__text h2 { font-size: calc(76 * var(--u)); }
+.photo__text .beats { gap: calc(18 * var(--u)); }
+.photo__text .beats li { font-size: var(--s-body-sm); grid-template-columns: calc(60 * var(--u)) 1fr; gap: calc(22 * var(--u)); }
+.photo__text .beats li::before { width: calc(52 * var(--u)); height: calc(52 * var(--u)); font-size: var(--s-ledger); margin-top: calc(-4 * var(--u)); }
+.photo__text .beats li .detail { margin-top: calc(2 * var(--u)); }
+.slide[data-kind="contrast"]:has(.contrast + .contrast) h2 { font-size: calc(76 * var(--u)); }
+
+/* --- tour: a framed picture that zooms to each mark in turn ------------- */
+/* figure.photo[data-tour] on a framed photo. deck.js wraps the picture and its
+   marks in .tour > .tour__stage and moves the stage so the current mark sits in
+   the middle, with a spotlight: the rest of the picture dims. The ring and the
+   spotlight counter-scale (--tour-s) so they stay the same weight at any zoom. */
+.tour { position: relative; overflow: hidden; border-radius: calc(24 * var(--u)); isolation: isolate; box-shadow: 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); }
+.tour__stage { position: relative; transform-origin: 0 0; transition: transform var(--rcc-dur-move) var(--rcc-ease-arrive); }
+.slide[data-kind="photo"]:has(figure[data-tour]):not(:has(.photo__text .beats)) { grid-template-columns: 0.78fr 1.22fr; column-gap: calc(72 * var(--u)); }
+/* A tour's picture is never cropped: its marks are placed in percent of the whole
+   picture, so the frame takes the picture's own shape (--ar, set by deck.js from
+   the width and height attributes) and is only ever scaled, never cut. This rule
+   outranks the framed photo's max-height and object-fit: cover on purpose; with
+   those, a tall page was cut to its middle and every mark drifted off its text. */
+.tour { --tour-h: calc(740 * var(--u)); width: min(100%, calc(var(--tour-h) * var(--ar, 1.6))); aspect-ratio: var(--ar, 1.6); margin-inline: auto; }
+.slide[data-kind="photo"] .photo[data-tour] .tour__stage :is(img, video) { display: block; width: 100%; height: auto; max-height: none; object-fit: fill; border-radius: 0; animation: none; }
+.tour__mark {
+  position: absolute; pointer-events: none; display: block;
+  left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); height: calc(var(--h) * 1%);
+  border-radius: calc(12 * var(--u) / var(--tour-s, 1));
+  box-shadow: 0 0 0 calc(5 * var(--u) / var(--tour-s, 1)) var(--rcc-highlight), 0 0 0 200vmax rgb(12 14 12 / 0.46);
+  opacity: 0; transition: opacity var(--rcc-dur-slow-effects) var(--rcc-ease-standard);
+}
+.tour__mark.is-on { opacity: 1; }
+.deck-live.is-presenting .tour__mark[data-beat].is-pending { visibility: visible; }
+:root:not(.is-presenting) .tour__mark { display: none; }
+
+/* --- Highlighter marks: <mark class="hl hl--verb|hl--impact"> ------------- */
+/* A marker stroke under the words that sweeps in when its line arrives (the
+   slide becoming current, or its beat). Dark ink on a light marker, so every
+   surface keeps its contrast. Without motion the stroke is simply there. */
+.hl { color: inherit; background: linear-gradient(var(--hl-c), var(--hl-c)) 0 88% / 100% 42% no-repeat; padding-inline: 0.06em; border-radius: 0.08em; }
+.hl--verb { --hl-c: #a8e6b4; }
+.hl--impact { --hl-c: #ffd166; }
+@keyframes hl-sweep { from { background-size: 0% 42%; } to { background-size: 100% 42%; } }
+.deck-live.is-presenting .slide.is-current .hl { animation: hl-sweep var(--rcc-dur-move) var(--rcc-ease-arrive) both; animation-delay: calc(420ms + var(--hl-i, 0) * 180ms); }
+.deck-live.is-presenting .slide.is-current [data-beat].is-pending .hl { animation: none; }
+.hl-key { display: flex; gap: calc(32 * var(--u)); font-family: var(--rcc-font-code); font-size: var(--s-ledger); letter-spacing: 0.08em; text-transform: uppercase; color: var(--rcc-on-surface-variant); }
+.hl-key .hl { color: var(--rcc-on-surface); }
+
+/* --- contrast rows: several pairs on one slide ---------------------------- */
+/* A contrast slide may hold more than one .contrast; each is a row. Labels sit
+   on the first row only. Put data-beat on each strong side to reveal row by row. */
+.slide[data-kind="contrast"] .contrast + .contrast { margin-top: calc(-8 * var(--u)); }
+.slide[data-kind="contrast"]:has(.contrast + .contrast) { gap: calc(28 * var(--u)); }
+.slide[data-kind="contrast"]:has(.contrast + .contrast) .contrast > div > p:not(.label) { font-size: var(--s-body-sm); }
+
+/* --- ledger: a contrast set as one card of aligned rows ------------------- */
+/* data-layout="ledger" on a contrast slide. Wrap the rows in .ledger-rows, open with a
+   .ledger-head of two column labels, and start each row with a p.contrast__tag,
+   which runs across the row above its two sides. The
+   weak side reads muted, the strong side reads full ink after an arrow, and each
+   strong side wipes in on its beat. */
+.slide[data-layout="ledger"] .ledger-rows { background: var(--rcc-surface-container-lowest); border-radius: calc(28 * var(--u)); padding: calc(8 * var(--u)) calc(48 * var(--u)) calc(12 * var(--u)); box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); }
+.slide[data-layout="ledger"] :is(.ledger-head, .contrast) { display: grid; grid-template-columns: 1fr 1.4fr; column-gap: calc(88 * var(--u)); row-gap: calc(8 * var(--u)); align-items: start; }
+.slide[data-layout="ledger"] .ledger-head { padding: calc(24 * var(--u)) 0 calc(14 * var(--u)); }
+.slide[data-layout="ledger"] .ledger-head .label:last-child { color: var(--rcc-primary); }
+.slide[data-kind="contrast"][data-layout="ledger"] .contrast { margin-top: 0; padding: calc(22 * var(--u)) 0 calc(24 * var(--u)); border-top: calc(2 * var(--u)) solid var(--rcc-outline-variant); }
+.slide[data-layout="ledger"] .contrast > div { gap: 0; }
+.slide[data-layout="ledger"] .contrast__tag { grid-column: 1 / -1; color: var(--rcc-on-surface-variant); }
+.slide[data-layout="ledger"] .contrast > div > p:not(.label) { font-size: var(--s-body-sm); line-height: 1.3; }
+.slide[data-layout="ledger"] .is-weak > p:not(.label) { color: var(--rcc-on-surface-variant); }
+.slide[data-layout="ledger"] .is-strong { position: relative; }
+.slide[data-layout="ledger"] .is-strong > p:not(.label) { font-weight: 500; }
+.slide[data-layout="ledger"] .is-strong::before { content: "\2192"; position: absolute; left: calc(-60 * var(--u)); top: 0; font-size: var(--s-body-sm); line-height: 1.3; color: var(--rcc-primary); }
+
+/* --- flow: beats set as signal, lead, entry ------------------------------- */
+/* data-layout="flow" on a beats slide: each li holds a .body with three spans
+   (.flow__signal, .flow__lead, .flow__entry), read left to right with arrows,
+   under a .flow-head of column labels. Rows wipe up on their beats. */
+.slide[data-kind="beats"][data-layout="flow"] { gap: calc(24 * var(--u)); }
+.slide[data-layout="flow"] .beats { gap: calc(12 * var(--u)); }
+.slide[data-layout="flow"] .beats li { display: block; max-width: none; padding: calc(16 * var(--u)) calc(40 * var(--u)); border-radius: calc(24 * var(--u)); background: var(--rcc-surface-container-lowest); }
+.slide[data-layout="flow"] .beats li::before { content: none; }
+.slide[data-layout="flow"] .beats li.is-past { color: inherit; }
+.slide[data-layout="flow"] :is(.flow-head, .beats li > .body) { display: grid; grid-template-columns: 1fr 1fr 1.3fr; column-gap: calc(72 * var(--u)); align-items: center; }
+.slide[data-layout="flow"] .flow-head { padding-inline: calc(40 * var(--u)); }
+.slide[data-layout="flow"] .flow-head .label:last-child { color: var(--rcc-primary); }
+.flow__signal, .flow__lead, .flow__entry { position: relative; font-size: var(--s-body-sm); line-height: 1.25; }
+.flow__signal { font-weight: 500; }
+.flow__lead { color: var(--rcc-on-surface-variant); }
+.flow__entry { font-weight: 500; color: var(--rcc-primary); }
+.flow__lead::before, .flow__entry::before { content: "\2192"; position: absolute; left: calc(-52 * var(--u)); top: 0; color: var(--rcc-on-surface-variant); }
+
+/* --- grid: a reel of two to four photos or clips, each with a short label --- */
+/* The tiles wipe up like any box; clips play while the slide is up. One credit
+   line for the slide sits under the reel. */
+.slide[data-kind="grid"] { justify-content: center; }
+.grid { list-style: none; padding: 0; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: calc(32 * var(--u)); }
+.grid li { display: flex; flex-direction: column; gap: calc(16 * var(--u)); border-radius: calc(24 * var(--u)); }
+.grid :is(img, video) { display: block; width: 100%; height: calc(500 * var(--u)); object-fit: cover; border-radius: calc(24 * var(--u)); background: var(--rcc-surface-container-lowest); }
+.grid b { font-size: var(--s-body-sm); font-weight: 500; letter-spacing: -0.005em; line-height: 1.2; }
+.slide[data-kind="grid"] > .credit { margin-top: calc(-8 * var(--u)); }
+
+/* The photo is the only thing that bleeds, so the chrome over its corner steps aside. */
+.deck.on-bleed-right .chrome .counter, .deck.on-bleed-left .chrome .ledger { visibility: hidden; }
+/* Stacked and no-script: the photo sits in the flow. */
+:root:not(.is-presenting) .slide[data-kind="photo"] .photo :is(img, video) { position: static; width: 100%; height: auto; }
+/* Entrance: the photo wipes in from its edge and settles, each time its slide
+   becomes current. Spatial track, so reduced motion makes it a cut. */
+@keyframes photo-in-right { from { clip-path: inset(0 0 0 100%); transform: scale(1.06); } to { clip-path: inset(0); transform: none; } }
+@keyframes photo-in-left  { from { clip-path: inset(0 100% 0 0); transform: scale(1.06); } to { clip-path: inset(0); transform: none; } }
+@keyframes photo-in-up    { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"] .photo :is(img, video) { animation: photo-in-right var(--rcc-dur-move) var(--rcc-ease-arrive) both; animation-delay: 120ms; }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout="bleed-left"] .photo :is(img, video) { animation-name: photo-in-left; }
+.deck-live.is-presenting .slide.is-current[data-kind="photo"][data-layout^="framed"] .photo :is(img, video) { animation-name: photo-in-up; }
+.deck-live.is-presenting .slide.is-current[data-kind="grid"] .grid :is(img, video) { animation: none; }
+
+/* --- demo: a live web app in a phone the presenter can use ---------------- */
+/* The screen is a real 440 x 956 CSS px viewport (iPhone Pro Max), so the app
+   lays itself out as it would on the phone. deck.js scales it to the stage with
+   --device-scale (856 stage px of glass over 956 px of screen); the frame around
+   it is drawn in stage units, 418 x 880 with a 12 px bezel. */
+.slide[data-kind="demo"] { display: grid; grid-template-columns: 1fr calc(418 * var(--u)); column-gap: calc(96 * var(--u)); align-items: center; }
+.demo__text { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
+.demo__open { display: none; }
+/* Pinned like a bleeding photo: 64 from the top and clear of the rail band at 960. */
+.device {
+  position: absolute; top: calc(64 * var(--u)); right: var(--s-margin);
+  width: calc(418 * var(--u)); height: calc(880 * var(--u));
+  border-radius: calc(72 * var(--u)); background: #111; padding: calc(12 * var(--u));
+  box-shadow: 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant);
+  transition: box-shadow var(--rcc-dur-default-effects) var(--rcc-ease-standard);
+}
+/* The phone has the keyboard: a ring in the club's green, and the label turns on. */
+.device.has-keys { box-shadow: 0 0 0 calc(8 * var(--u)) var(--rcc-primary); }
+.device__glass { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: calc(60 * var(--u)); background: #000; }
+.device__screen {
+  position: absolute; top: 0; left: 0; width: 440px; height: 956px;
+  transform-origin: 0 0; transform: scale(var(--device-scale, 0.4));
+  display: flex; flex-direction: column; background: #000;
+}
+.device__status { flex: 0 0 62px; position: relative; color: #fff; font: 600 17px/1 -apple-system, "SF Pro Text", system-ui, sans-serif; }
+.device__time { position: absolute; left: 50px; top: 22px; }
+.device__island { position: absolute; left: 50%; top: 11px; width: 126px; height: 37px; margin-left: -63px; border-radius: 19px; background: #000; box-shadow: 0 0 0 1px #1c1c1c; }
+.device__bars { position: absolute; right: 36px; top: 22px; width: 60px; height: 13px; display: flex; gap: 6px; align-items: flex-end; justify-content: flex-end; }
+.device__bars i { display: block; width: 4px; background: #fff; border-radius: 1px; }
+.device__bars i:nth-child(1) { height: 5px; } .device__bars i:nth-child(2) { height: 8px; } .device__bars i:nth-child(3) { height: 11px; }
+.device__bars b { display: block; width: 25px; height: 12px; margin-left: 4px; border-radius: 4px; background: #fff; }
+.device__screen iframe { flex: 1 1 auto; width: 440px; border: 0; background: #fff; display: block; }
+.device__home { position: absolute; left: 50%; bottom: 8px; width: 150px; height: 5px; margin-left: -75px; border-radius: 3px; background: rgba(255, 255, 255, 0.55); pointer-events: none; mix-blend-mode: difference; }
+.device__keys { visibility: hidden; color: var(--rcc-primary); }
+.slide[data-kind="demo"]:has(.device.has-keys) .device__keys { visibility: visible; }
+/* Stacked and no-script: a phone inside a phone is no use, so the frame goes and the link shows. */
+:root:not(.is-presenting) .slide[data-kind="demo"] { display: block; }
+:root:not(.is-presenting) .device { display: none; }
+:root:not(.is-presenting) .demo__open { display: inline; }
+/* Fill backwards only: a clip-path left on after the wipe would cut off the keys ring. */
+.deck-live.is-presenting .slide.is-current[data-kind="demo"] .device { animation: photo-in-up var(--rcc-dur-move) var(--rcc-ease-arrive) backwards; animation-delay: 120ms; }
+/* The phone stands where the counter sits, so the counter steps aside, as over a bleeding photo. */
+.deck.on-demo .chrome .counter { visibility: hidden; }
+
+/* --- The ground: one color under the stage, crossfading (motion.md §5.9) --- */
+/* Presenting, the slides are transparent and the deck paints the current surface
+   (deck.js sets it), so a cut between surfaces fades instead of snapping. Effects
+   track: reduced motion keeps the fade and zeroes only the spatial moves. */
+.deck-live.is-presenting .deck { transition: background-color calc(3 * var(--rcc-dur-slow-effects)) var(--rcc-ease-standard); }
+.deck-live.is-presenting .slide { background: transparent; }
+.deck-live.is-presenting .deck.is-moving .slide { background: var(--rcc-surface); }
+.chrome .rail__fill, .chrome .rail__track, .chrome .rail__label { transition: fill var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+
+/* --- Stage transitions (motion.md §5.9) ----------------------------------- */
+/* While a stage transition runs, both slides are visible and the engine moves
+   the slides themselves. applyState() clears every inline style this sets. */
+.deck-live.is-presenting .slide.is-leaving { visibility: visible; }
+/* The backstage wins over the ground while a cube turns or a card is dealt. */
+.deck-live.is-presenting .deck.is-staging { background-color: #0b0f0b !important; transition: none; }
+.deck-live.is-presenting .deck.is-3d { perspective: calc(2600 * var(--u)); }
+.deck-live.is-presenting .deck.is-3d .slide { backface-visibility: hidden; transform-style: preserve-3d; }
+.stage-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible; display: none; }
+.deck-live.is-presenting .stage-fx { display: block; }
+.stage-fx path { fill: none; stroke-linejoin: miter; stroke-linecap: butt; }
+.stage-fx__band { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; }
+
+/* --- Layout variants ------------------------------------------------------ */
+/* poster: one statement, set as large as the stage allows. */
+.slide[data-layout="poster"] h2 { font-size: calc(150 * var(--u)); line-height: 1.0; letter-spacing: -0.03em; max-width: calc(1700 * var(--u)); }
+.slide[data-layout="poster"] .sub { font-size: var(--s-body); max-width: 48ch; }
+.slide[data-layout="poster"] .eyebrow { color: var(--rcc-on-surface-variant); }
+
+/* tiles: beats as a row of cards with a large index, read left to right. */
+.slide[data-layout="tiles"] .beats { grid-auto-flow: column; grid-auto-columns: 1fr; gap: calc(32 * var(--u)); align-items: stretch; }
+.slide[data-layout="tiles"] .beats li {
+  display: flex; flex-direction: column; gap: calc(28 * var(--u)); max-width: none;
+  background: var(--rcc-surface-container-lowest); border-radius: calc(28 * var(--u));
+  padding: calc(40 * var(--u)) calc(40 * var(--u)) calc(44 * var(--u));
+}
+.slide[data-layout="tiles"] .beats li::before {
+  width: auto; height: auto; box-shadow: none; border-radius: 0; place-items: start; margin: 0;
+  font-family: var(--rcc-font-brand); font-size: calc(120 * var(--u)); line-height: 0.85; letter-spacing: -0.04em;
+  content: counter(beat, decimal-leading-zero);
+}
+.slide[data-layout="tiles"] .beats li.is-past { color: inherit; }
+.slide[data-layout="tiles"] .beats li .detail { margin-top: calc(16 * var(--u)); }
+
+/* panel: the strong side of a contrast sits on its own color. */
+.slide[data-layout="panel"] .contrast { gap: calc(48 * var(--u)); align-items: stretch; }
+.slide[data-layout="panel"] .contrast > div { padding: calc(48 * var(--u)) calc(52 * var(--u)); border-radius: calc(28 * var(--u)); }
+.slide[data-layout="panel"] .contrast > .is-weak { box-shadow: inset 0 0 0 calc(3 * var(--u)) var(--rcc-outline-variant); }
+.slide[data-layout="panel"] .contrast > .is-strong { background: var(--rcc-primary); color: var(--rcc-on-primary); }
+.slide[data-layout="panel"] .contrast > .is-strong > .label { color: var(--rcc-on-primary); opacity: 0.85; }
+
+/* --- Overlays: notes, help, toast. Viewport pixels, outside the stage. ---- */
+.deck-notes, .deck-help, .deck-toast { font-family: var(--rcc-font-brand); }
+.deck-notes {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 10; max-height: 40vh; overflow: auto;
+  background: var(--rcc-inverse-surface); color: var(--rcc-inverse-on-surface);
+  padding: 20px 32px 28px; font-size: 18px; line-height: 1.5;
+}
+.deck-notes[hidden], .deck-help[hidden] { display: none; }
+.deck-notes h2 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 8px; font-family: var(--rcc-font-code); font-weight: 500; opacity: 0.8; }
+.deck-notes p { margin: 0 0 10px; max-width: 80ch; }
+.deck-help {
+  position: fixed; z-index: 11; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--rcc-surface-container-lowest); color: var(--rcc-on-surface);
+  border-radius: 16px; padding: 28px 32px; box-shadow: 0 0 0 1px var(--rcc-outline-variant), 0 4px 8px 3px rgb(30 32 30 / 0.15);
+  font-size: 16px; min-width: 360px;
+}
+.deck-help h2 { font-size: 20px; font-weight: 500; margin: 0 0 12px; }
+.deck-help table { border-collapse: collapse; }
+.deck-help td { padding: 6px 16px 6px 0; border-bottom: 1px solid var(--rcc-outline-variant); }
+.deck-help kbd { font-family: var(--rcc-font-code); font-size: 14px; font-variant-ligatures: none; padding: 2px 8px; border-radius: 4px; background: var(--rcc-surface-container-high); }
+.deck-toast {
+  position: fixed; z-index: 12; left: 50%; top: 24px; transform: translate(-50%, -8px);
+  background: var(--rcc-inverse-surface); color: var(--rcc-inverse-on-surface);
+  padding: 10px 18px; border-radius: 8px; font-size: 15px; font-weight: 500;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--rcc-dur-default-effects) var(--rcc-ease-standard), transform var(--rcc-dur-default-spatial) var(--rcc-ease-standard);
+}
+.deck-toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* --- Forced colors and print ---------------------------------------------- */
+@media (forced-colors: active) {
+  .rail__morph, .rung__progress { stroke: Highlight; }
+  .rail__fill { fill: Highlight; }
+  .compress__fill, .clock__fill { background: Highlight; }
+}
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  html, body { background: #fff; }
+  .deck { display: block !important; position: static !important; width: 1920px !important; height: auto !important; padding: 0 !important; }
+  .slide { position: relative !important; inset: auto !important; visibility: visible !important; box-shadow: none !important; break-after: page; width: 1920px; height: 1080px; }
+  .chrome, .deck-notes, .deck-help, .deck-toast { display: none !important; }
+  [data-beat] { visibility: visible !important; }
+  .w__in, .blk__in { transform: none !important; }
+  .photo :is(img, video) { animation: none !important; clip-path: none !important; }
+}

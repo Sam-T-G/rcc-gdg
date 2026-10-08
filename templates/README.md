@@ -27,6 +27,8 @@ If a template is wrong or missing a field, change it here, add a [decision recor
 | [funding-line-item.md](funding-line-item.md) | Each line of an ASRCC funding request, before the late-April deadline | One section per line item in `semesters/<YYYY-term>/budget.md` |
 | [workshop-outline.md](workshop-outline.md) | Planning any hands-on session | `semesters/<YYYY-term>/events/YYYY-MM-DD-slug/workshop.md`; promote to `docs/03-playbooks/` once it has run twice |
 | [announcement.md](announcement.md) | Anything posted to members or the campus | Draft in `semesters/<YYYY-term>/events/YYYY-MM-DD-slug/announcement.md`, then post |
+| [../deck-kit/weekly.html](../deck-kit/weekly.html) | Any weekly meeting | `semesters/<YYYY-term>/sessions/YYYY-MM-DD-<slug>-deck.html` (run `scripts/new-deck.sh`; it fills the facts from the session card and the sessions index) |
+| [design-doc.md](design-doc.md) | Writing a new playbook, policy, or any evergreen doc | `docs/<section>/slug.md`, or `semesters/<YYYY-term>/` if it carries a date, a person, or a dollar figure. The rules it follows are in [documents.md](../docs/04-brand/design-system/documents.md) |
 
 ## Conventions shared by every template
 

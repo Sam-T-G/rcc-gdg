@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632 1280" width="1632" height="1280">
+<rect width="1632" height="1280" fill="#ffffff"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#00732d"/></marker></defs>
+<path d="M1081.0 286.3 L1093.6 292.2 L1106.0 298.4 L1118.1 304.9 L1130.0 311.7 L1141.7 318.7 L1153.1 325.9 L1164.3 333.4 L1175.2 341.2 L1185.8 349.2 L1196.2 357.4 L1206.2 365.8 L1216.0 374.5 L1225.5 383.3 L1234.6 392.4 L1243.4 401.6 L1251.9 411.1 L1260.1 420.7 L1267.9 430.6 L1275.4 440.5 L1282.5 450.7 L1289.3 461.0 L1295.7 471.4 L1301.7 482.0 L1307.4 492.7" fill="none" stroke="#00732d" stroke-width="10" stroke-linejoin="round" marker-end="url(#a)"/>
+<path d="M1307.4 807.3 L1301.7 818.0 L1295.7 828.6 L1289.3 839.0 L1282.5 849.3 L1275.4 859.5 L1267.9 869.4 L1260.1 879.3 L1251.9 888.9 L1243.4 898.4 L1234.6 907.6 L1225.5 916.7 L1216.0 925.5 L1206.2 934.2 L1196.2 942.6 L1185.8 950.8 L1175.2 958.8 L1164.3 966.6 L1153.1 974.1 L1141.7 981.3 L1130.0 988.3 L1118.1 995.1 L1106.0 1001.6 L1093.6 1007.8 L1081.0 1013.7" fill="none" stroke="#00732d" stroke-width="10" stroke-linejoin="round" marker-end="url(#a)"/>
+<path d="M551.0 1013.7 L538.4 1007.8 L526.0 1001.6 L513.9 995.1 L502.0 988.3 L490.3 981.3 L478.9 974.1 L467.7 966.6 L456.8 958.8 L446.2 950.8 L435.8 942.6 L425.8 934.2 L416.0 925.5 L406.5 916.7 L397.4 907.6 L388.6 898.4 L380.1 888.9 L371.9 879.3 L364.1 869.4 L356.6 859.5 L349.5 849.3 L342.7 839.0 L336.3 828.6 L330.3 818.0 L324.6 807.3" fill="none" stroke="#00732d" stroke-width="10" stroke-linejoin="round" marker-end="url(#a)"/>
+<path d="M324.6 492.7 L330.3 482.0 L336.3 471.4 L342.7 461.0 L349.5 450.7 L356.6 440.5 L364.1 430.6 L371.9 420.7 L380.1 411.1 L388.6 401.6 L397.4 392.4 L406.5 383.3 L416.0 374.5 L425.8 365.8 L435.8 357.4 L446.2 349.2 L456.8 341.2 L467.7 333.4 L478.9 325.9 L490.3 318.7 L502.0 311.7 L513.9 304.9 L526.0 298.4 L538.4 292.2 L551.0 286.3" fill="none" stroke="#00732d" stroke-width="10" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="566.0" y="130.0" width="500" height="200" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="816.0" y="224.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="80" font-weight="700" fill="#1e201e" text-anchor="middle" >1. Describe</text>
+<text x="816.0" y="296.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="54" font-weight="400" fill="#2f5a3a" text-anchor="middle" >Say what you want</text>
+<rect x="1096.0" y="550.0" width="500" height="200" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="1346.0" y="644.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="80" font-weight="700" fill="#1e201e" text-anchor="middle" >2. Run</text>
+<text x="1346.0" y="716.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="54" font-weight="400" fill="#2f5a3a" text-anchor="middle" >Let it build</text>
+<rect x="566.0" y="970.0" width="500" height="200" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="816.0" y="1064.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="80" font-weight="700" fill="#1e201e" text-anchor="middle" >3. Try it</text>
+<text x="816.0" y="1136.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="54" font-weight="400" fill="#2f5a3a" text-anchor="middle" >Click everything</text>
+<rect x="36.0" y="550.0" width="500" height="200" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="286.0" y="644.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="80" font-weight="700" fill="#1e201e" text-anchor="middle" >4. Change</text>
+<text x="286.0" y="716.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="54" font-weight="400" fill="#2f5a3a" text-anchor="middle" >One thing</text>
+<text x="816.0" y="640.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="84" font-weight="700" fill="#00732d" text-anchor="middle" >Repeat.</text>
+<text x="816.0" y="710.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="48" font-weight="400" fill="#575a58" text-anchor="middle" >One step at a time</text>
+</svg>

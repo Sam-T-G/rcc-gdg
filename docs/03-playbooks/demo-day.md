@@ -10,7 +10,7 @@ Last instructional week before finals. The first one was June 3, 2026, two days 
 
 Fall finals fall in mid December and spring finals in early June. The exact finals week, and any holiday in the week before it, is in that semester's `calendar.md` (finals, holidays, breaks); the Demo Day row there carries the target week and the date once set. Worked example: the Fall 2026 rows in [semesters/2026-fall/calendar.md](../../semesters/2026-fall/calendar.md).
 
-Use the regular Wednesday 10:00 AM slot in BLCIS A-103 if there are five teams or fewer. Book a larger room and a longer block for more teams.
+Use the regular Thursday 2:30 PM slot in BLCIS A-210 Simulation Lab if there are five teams or fewer. Book a larger room and a longer block for more teams.
 
 ## Owner role
 

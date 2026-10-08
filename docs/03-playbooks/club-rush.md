@@ -24,7 +24,7 @@ Outreach lead. Every organizer takes at least one tabling shift.
 
 ### T-2 weeks
 
-- [ ] Materials list: tablecloth or banner, printed chapter logo (assets in [`assets/`](../../assets/); naming rules in [brand.md](../04-brand/brand.md)), a QR code to Discord, a QR code to the Bevy chapter page (https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/), a sign with the meeting time and room (Wednesdays, 10:00 AM, BLCIS A-103).
+- [ ] Materials list: tablecloth or banner, printed chapter logo (assets in [`assets/`](../../assets/); naming rules in [brand.md](../04-brand/brand.md)), a QR code to Discord, a QR code to the Bevy chapter page (https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/), a sign with the meeting time and room (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab).
 - [ ] Decide the hook: something a passerby can do in under a minute at the table (a demo on a laptop, a quick poll, a sticker). Keep it to one.
 - [ ] Publish the first meeting of the semester on Bevy so the QR code lands on a real event with an RSVP button ([bevy-event-publishing.md](bevy-event-publishing.md)).
 - [ ] Shift schedule: two people per shift minimum, no gaps.
@@ -51,7 +51,7 @@ Outreach lead. Every organizer takes at least one tabling shift.
 | Shift 2 to N | Same | Two tablers |
 | Last 15 min | Remind everyone at the table of the first meeting date. Pack up. Leave the spot clean | Last shift |
 
-Pitch points, in order: meet Wednesdays at 10:00 AM in BLCIS A-103; join Discord now (point at the QR); the first event is on Bevy (point at the other QR). Do not ask for phone numbers.
+Pitch points, in order: meet Thursdays at 2:30 PM in BLCIS A-210 Simulation Lab; join Discord now (point at the QR); the first event is on Bevy (point at the other QR). Do not ask for phone numbers.
 
 ## After
 

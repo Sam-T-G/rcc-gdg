@@ -84,4 +84,4 @@ Playbooks for specific event types are in [docs/03-playbooks/](../03-playbooks/R
 
 ## Minimum viable event
 
-A one-hour on-campus workshop in the regular room during the regular slot (Wednesdays, 10:00 AM, BLCIS A-103) needs only: the plan, an announcement, sign-in, and the retro. Everything else on this list is for events that need a different room, money, food, or travel.
+A one-hour on-campus workshop in the regular room during the regular slot (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab) needs only: the plan, an announcement, sign-in, and the retro. Everything else on this list is for events that need a different room, money, food, or travel.

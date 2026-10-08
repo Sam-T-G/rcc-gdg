@@ -1,6 +1,6 @@
 # Playbooks
 
-A playbook is a runbook for one kind of event: who owns it, what to do at T-minus dates, the day-of run sheet, and what to do after. They hold no dates or names. Dated copies of each run (plan, run sheet, retro) live under `semesters/<YYYY-term>/events/`; create them with [scripts/new-event.sh](../../scripts/new-event.sh).
+A playbook is a runbook for one kind of event: who owns it, what to do at T-minus dates, the day-of run sheet, and what to do after. [meeting-algorithm.md](meeting-algorithm.md) is the exception: it is a design tool rather than an event runbook, and it is what produces a term's session cards. They hold no dates or names. Dated copies of each run (plan, run sheet, retro) live under `semesters/<YYYY-term>/events/`; create them with [scripts/new-event.sh](../../scripts/new-event.sh).
 
 Every event, whatever the playbook, goes through [bevy-event-publishing.md](bevy-event-publishing.md) first and the campus paperwork in [docs/02-operations/event-checklist.md](../02-operations/event-checklist.md).
 
@@ -8,7 +8,8 @@ Every event, whatever the playbook, goes through [bevy-event-publishing.md](bevy
 
 | Playbook | Use it when | Owner role | Lead time |
 |---|---|---|---|
-| [weekly-meeting.md](weekly-meeting.md) | Every regular meeting (Wednesdays, 10:00 AM, BLCIS A-103) | Lead organizer, rotating facilitator | 1 week |
+| [meeting-algorithm.md](meeting-algorithm.md) | Designing a semester of weekly meetings, or facilitating one. The block, the arc pacing, the critique protocol, the ladder | Lead organizer, rotating facilitator | Once per semester, then weekly |
+| [weekly-meeting.md](weekly-meeting.md) | The logistics around a regular meeting (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab) | Lead organizer, rotating facilitator | 1 week |
 | [bevy-event-publishing.md](bevy-event-publishing.md) | Any event, before it is announced anywhere | Whoever leads the event | Same day |
 | [workshop.md](workshop.md) | A hands-on session with a tool or topic (past examples: "How to Vibe Code Like a Pro", "Level Up Your Personal Brand") | Workshop lead | 3 weeks |
 | [workshop-modular-impact-sprint.md](workshop-modular-impact-sprint.md) | The 40-minute Google AI Studio build session; the Solutions Challenge kickoff | Workshop lead | 3 weeks |

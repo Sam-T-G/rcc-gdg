@@ -17,7 +17,7 @@ Sources: [Clubs and Organizations](https://www.rcc.edu/life-at-rcc/clubs-and-org
 ## Recharter every semester
 
 1. Get the New & Returning Club Registration form. It is a Microsoft Form linked from the [ASRCC page](https://www.rcc.edu/life-at-rcc/student-government.html).
-2. Fill the Club Packet: officer list, advisor, meeting time and room (Wednesdays, 10:00 AM, BLCIS A-103), and the member roster the packet asks for. The roster goes to Student Activities only; the repo keeps counts, never names or IDs ([privacy policy](../01-governance/privacy-and-public-repo-policy.md)).
+2. Fill the Club Packet: officer list, advisor, meeting time and room (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab), and the member roster the packet asks for. The roster goes to Student Activities only; the repo keeps counts, never names or IDs ([privacy policy](../01-governance/privacy-and-public-repo-policy.md)).
 3. Submit within the deadline. The web page says within the first six weeks of the Fall semester (or of the semester you are chartering in). The older Advisor's Guide says before the end of the fourth week. Aim for week four and you satisfy both.
 4. Confirm with Student Activities that the packet is on file. Write the confirmation date in the semester `README.md`.
 
@@ -35,7 +35,7 @@ Run this at the start of every semester and again at midterm.
 
 - [ ] Club Packet submitted and confirmed by Student Activities
 - [ ] Senate-approved constitution on file (and any change filed within two weeks)
-- [ ] Regular meeting scheduled and actually happening (Wednesdays, 10:00 AM, BLCIS A-103)
+- [ ] Regular meeting scheduled and actually happening (Thursdays, 2:30 to 3:30 PM, BLCIS A-210 Simulation Lab)
 - [ ] ICC representative named and attending ICC
 - [ ] ICC representative has fewer than three absences this semester
 - [ ] Advisor is a current full-time faculty member and knows the meeting schedule
