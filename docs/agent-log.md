@@ -17,6 +17,8 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 - `deck-kit/check.mjs`: Chrome launches with a mock keychain, so the deck check never touches the macOS Keychain (`b35424c`).
 - 10-08 deck: four hackathon slides before the ask (overview of logos, LA Hacks AI Hackathon, NASA SUITS, NASA Space Apps Temecula), each with the event's own art and a decoded QR code; sources in the notes (`5155a9e`). `deck-kit/deck.css`: a QR in a photo slide's text column is smaller with its label beside it. The ACM 10-08 deck got the same three events (rcc-acm branch `2026-10-01-deck`, `5ca9f63`).
+- `deck-kit/presenter.js` (a parallel session, review v2): the presenter view's review notes moved from the Now column to the right column under the bridge (`26ba256`).
+- Republished the 10-08 deck at noon from `26ba256` with the hackathon slides and review v2 (218 of 218 checks). The ACM 10-08 deck is live with the same slides (published from rcc-acm `e857a20`'s changes).
 
 **Issues:** `scripts/review.mjs` has an uncommitted draft of v2 (agent tokens, inbox with source lines, claim, watch). It targets the review v2 relay, which is not on any deck yet. It is a draft, paused at Sam's request; do not commit or rely on it until it is tested.
 
