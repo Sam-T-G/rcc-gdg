@@ -499,6 +499,10 @@ body {
 .photo__text .beats li { font-size: var(--s-body-sm); grid-template-columns: calc(60 * var(--u)) 1fr; gap: calc(22 * var(--u)); }
 .photo__text .beats li::before { width: calc(52 * var(--u)); height: calc(52 * var(--u)); font-size: var(--s-ledger); margin-top: calc(-4 * var(--u)); }
 .photo__text .beats li .detail { margin-top: calc(2 * var(--u)); }
+/* A sign-up QR beside a photo: smaller tile, label to its right, so the column clears the rail. */
+.photo__text .qr { flex-direction: row; align-self: flex-start; gap: calc(28 * var(--u)); }
+.photo__text .qr__tile { width: calc(216 * var(--u)); height: calc(216 * var(--u)); flex: none; }
+.photo__text .qr .label { text-align: left; font-size: var(--s-body-sm); overflow-wrap: anywhere; }
 .slide[data-kind="contrast"]:has(.contrast + .contrast) h2 { font-size: calc(76 * var(--u)); }
 
 /* --- tour: a framed picture that zooms to each mark in turn ------------- */
