@@ -115,6 +115,12 @@ While presenting: `S` opens the presenter window (allow pop-ups once), `M` shows
 
 `presenter.js` is shared with rcc-acm's kit; change both copies together. The relay is the `deck-relay` repo (local to Sam's laptop for now; Cloud Run project `rcc-deck-relay`); its address is `RELAYS` at the top of `presenter.js`.
 
+## Review: comments and who covers each slide
+
+Load `review.js` right after `presenter.js` (`<script src="../../../deck-kit/review.js" defer></script>`; `weekly.html` and `example.html` do). `C` in the deck window opens a side panel for the current slide: tap a name to say who covers it, and comment, reply, or resolve. `?view=review` is the whole deck as a board with per-person counts, unassigned and open filters, and handoff marks. With it loaded, the presenter view, the remote, and the run sheet name each slide's speaker and cue "Hand to …" when the next slide changes hands.
+
+Everything is live for everyone on the deck, through the relay's `/review/<club>/<deck>` (Firestore behind it), keyed by `data-deck` and each slide's `data-id`, else its `aria-label` as a slug. Each person types their name and the club passcode once per browser; the passcode never goes in a file. Agents use `scripts/review.mjs` (root `CLAUDE.md`, "Review"). `check.mjs` tests the panel and board with real keys and clicks, without the relay. `review.js` is shared with rcc-acm and pcolee/explorAI; change all three copies together.
+
 ## Publish a deck to the club site
 
 ```sh
