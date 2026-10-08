@@ -10,6 +10,16 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
 
+## 2026-10-08 · Sam (via Claude Code)
+
+**Changed:**
+
+- `deck-kit/check.mjs`: Chrome launches with a mock keychain, so the deck check never touches the macOS Keychain (`b35424c`).
+
+**Issues:** `scripts/review.mjs` has an uncommitted draft of v2 (agent tokens, inbox with source lines, claim, watch). It targets the review v2 relay, which is not on any deck yet. It is a draft, paused at Sam's request; do not commit or rely on it until it is tested.
+
+**Next:** finish review v2 (a freeze in the two-person browser test after an idle reconnect), then roll it out to the decks.
+
 ## 2026-10-07 · Sam (via Claude Code)
 
 **Changed:**
