@@ -65,7 +65,7 @@ const URL0 = `http://127.0.0.1:${server.address().port}/${relative(ROOT, DECK).s
 
 // ---------- Chrome.
 const port = 9400 + Math.floor(Math.random() * 400);
-const chrome = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${mkdtempSync(join(tmpdir(), 'deck-cdp-'))}`,
+const chrome = spawn(CHROME, ['--headless=new', '--use-mock-keychain', '--password-store=basic', `--remote-debugging-port=${port}`, `--user-data-dir=${mkdtempSync(join(tmpdir(), 'deck-cdp-'))}`,
   '--no-first-run', '--hide-scrollbars', '--force-color-profile=srgb', 'about:blank'], { stdio: 'ignore' });
 let target;
 for (let i = 0; i < 60 && !target; i++) {
