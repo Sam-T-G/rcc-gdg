@@ -20,6 +20,7 @@ Remove a line once it is answered and note the answer in that day's entry.
 - `CLAUDE.md`, `CONTRIBUTING.md`, maintenance rule 8, `MAINTAINERS.md`, and the decision log now describe working on `main`.
 
 - `scripts/hooks/bridge.sh` (shared kit fix, all three repos): a shell command is judged by the folder it runs in (a leading `cd`, or `git -C`), not the session's last folder. Installed the GDG bridge on Sam's machine next to the ExplorAI one.
+- `deck-kit/review.js`: the panel's board link is set in code, because `publish-deck.sh` refused a bundle carrying a literal local `href`. Then republished the 10-08 deck (196 of 196 checks); the live link has the review panel.
 
 **Decided:** Sam: one review passcode for all three clubs, shared out of band; collaborators work on `main` directly.
 

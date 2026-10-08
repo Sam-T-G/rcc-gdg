@@ -10,7 +10,7 @@ Last updated: 2026-10-07 by Sam.
 |---|---|---|---|
 | 2026-09-24 | First meeting (`semesters/2026-fall/decks/2026-09-24-first-meeting.html`) | Presented | None. Live at `/decks/first-meeting/`. |
 | 2026-10-01 | LinkedIn and your resume (`2026-10-01-linkedin-and-resume.html`) | Presented | None. Live at `/decks/linkedin-and-resume/`. |
-| 2026-10-08 | STAR stories and vibe coding (`2026-10-08-story-and-vibe-coding.html`) | Live | Presenting 2026-10-08. The live copy predates `review.js`; republish to get the review panel on the live link. |
+| 2026-10-08 | STAR stories and vibe coding (`2026-10-08-story-and-vibe-coding.html`) | Live | Presenting 2026-10-08. Republished 2026-10-07 evening with the review panel. |
 
 ## Standing facts
 
