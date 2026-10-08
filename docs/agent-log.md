@@ -7,6 +7,7 @@ Shared handoff log for anyone (human or agent) working in this repo. Newest entr
 Remove a line once it is answered and note the answer in that day's entry.
 
 - The Fall 2026 program shifted a week on 2026-09-17; the session cards and the club calendar still show the old dates. Which dates are right?
+- Who invited the club to NASA SUITS and NASA Space Apps Temecula, and what did they ask for? The 10-08 slides say only "we were invited" (`[TBD]` in the notes). SUITS proposals are due 2026-10-22 and need a faculty advisor who can go to Houston.
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
 
@@ -15,6 +16,7 @@ Remove a line once it is answered and note the answer in that day's entry.
 **Changed:**
 
 - `deck-kit/check.mjs`: Chrome launches with a mock keychain, so the deck check never touches the macOS Keychain (`b35424c`).
+- 10-08 deck: four hackathon slides before the ask (overview of logos, LA Hacks AI Hackathon, NASA SUITS, NASA Space Apps Temecula), each with the event's own art and a decoded QR code; sources in the notes (`5155a9e`). `deck-kit/deck.css`: a QR in a photo slide's text column is smaller with its label beside it. The ACM 10-08 deck got the same three events (rcc-acm branch `2026-10-01-deck`, `5ca9f63`).
 
 **Issues:** `scripts/review.mjs` has an uncommitted draft of v2 (agent tokens, inbox with source lines, claim, watch). It targets the review v2 relay, which is not on any deck yet. It is a draft, paused at Sam's request; do not commit or rely on it until it is tested.
 
