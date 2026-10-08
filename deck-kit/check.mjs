@@ -111,10 +111,11 @@ function errors() {
   return events.filter((e) => (e.method === 'Runtime.exceptionThrown') || (e.method === 'Runtime.consoleAPICalled' && e.params.type === 'error'))
     .map((e) => e.params.exceptionDetails?.exception?.description || e.params.args?.map((a) => a.value).join(' ') || 'error');
 }
+// A typed key is one keyDown carrying its text, then keyUp. No nativeVirtualKeyCode: those are platform
+// codes (macOS Space is 49, not 32), and a wrong one can leave a native key held down, repeating.
 async function key(k, code, vk) {
-  const base = { key: k, code, windowsVirtualKeyCode: vk, nativeVirtualKeyCode: vk };
-  await send('Input.dispatchKeyEvent', { type: 'rawKeyDown', ...base });
-  if (k.length === 1) await send('Input.dispatchKeyEvent', { type: 'char', text: k, ...base });
+  const base = { key: k, code, windowsVirtualKeyCode: vk };
+  await send('Input.dispatchKeyEvent', k.length === 1 ? { type: 'keyDown', text: k, unmodifiedText: k, ...base } : { type: 'rawKeyDown', ...base });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', ...base });
 }
 const KEYS = { right: ['ArrowRight', 'ArrowRight', 39], left: ['ArrowLeft', 'ArrowLeft', 37], home: ['Home', 'Home', 36], end: ['End', 'End', 35], five: ['5', 'Digit5', 53], t: ['t', 'KeyT', 84], c: ['c', 'KeyC', 67] };
