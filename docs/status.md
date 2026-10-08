@@ -17,5 +17,5 @@ Last updated: 2026-10-08 by Sam.
 - Meetings: Thursdays 2:30 to 3:30 pm, BLCIS A-210.
 - Live decks: `https://sam-t-g.github.io/rcc-gdg/decks/<slug>/`, published from `main` with `scripts/publish-deck.sh` (the `gh-pages` branch). The landing page is `https://sam-t-g.github.io/rcc-gdg/`.
 - Collaborators push to `main` through `scripts/sync.sh push` (since 2026-10-07; see the decision log). Branch protection blocks force-pushes and deletion only.
-- Review: `A` in a deck to annotate, `I` for the notes inbox, `?view=review` for the board, `node scripts/review.mjs` for agents. Google sign-in, limited to each club's member list on the relay. Decks published before 2026-10-08 still run the older passcode panel (`C`) until they are republished.
+- Review: `A` in a deck to annotate, `I` for the notes inbox, `?view=review` for the board, `node scripts/review.mjs` for agents. Google sign-in, limited to each club's member list on the relay.
 - Presenter tools: `S` presenter view, `M` phone or tablet remote, `?view=runsheet` (`deck-kit/README.md`).

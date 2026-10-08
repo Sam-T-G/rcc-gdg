@@ -19,10 +19,13 @@ Remove a line once it is answered and note the answer in that day's entry.
 - 10-08 deck: four hackathon slides before the ask (overview of logos, LA Hacks AI Hackathon, NASA SUITS, NASA Space Apps Temecula), each with the event's own art and a decoded QR code; sources in the notes (`5155a9e`). `deck-kit/deck.css`: a QR in a photo slide's text column is smaller with its label beside it. The ACM 10-08 deck got the same three events (rcc-acm branch `2026-10-01-deck`, `5ca9f63`).
 - `deck-kit/presenter.js` (a parallel session, review v2): the presenter view's review notes moved from the Now column to the right column under the bridge (`26ba256`).
 - Republished the 10-08 deck at noon from `26ba256` with the hackathon slides and review v2 (218 of 218 checks). The ACM 10-08 deck is live with the same slides (published from rcc-acm `e857a20`'s changes).
+- Hook pinning (`551801f`): every hook runs a copy you approved in `~/.config/rcc-coworking/`. A pull that changes `scripts/hooks/`, `sync.sh`, `context.sh`, `review.mjs`, `coworking.conf`, `install-bridge.sh`, or `.claude/` stops with `SYNC HELD` until a person approves the diff in a terminal (`~/.config/rcc-coworking/approve <repo>`). Raw `git pull`, `merge`, and `rebase` are blocked. The same kit is in rcc-acm and pcolee/explorAI.
+- `deck-kit/check.mjs`: typed keys are one keyDown with text, with no native key codes (`39621a5`); tests for the presenter notes and the v2 annotate bar and board.
+- Review v2 (`9f90de0`): `review.js` loads the relay client (`A`, `I`, `?view=review`, Google sign-in for club members); `scripts/review.mjs` uses the v2 API with an agent token. Republished `first-meeting` and `linkedin-and-resume` on it. The relay's v1 passcode review is retired, and its data was test data only. The passcode in `~/.config/rcc-review/key` is no longer used.
 
-**Issues:** `scripts/review.mjs` has an uncommitted draft of v2 (agent tokens, inbox with source lines, claim, watch). It targets the review v2 relay, which is not on any deck yet. It is a draft, paused at Sam's request; do not commit or rely on it until it is tested.
+**Issues:** Until each person runs `scripts/install-bridge.sh` once in a terminal, hooks in this repo print a one-line notice and do not run. Cole's next pull will show `SYNC HELD` for the kit change; he approves it in a terminal.
 
-**Next:** finish review v2 (a freeze in the two-person browser test after an idle reconnect), then roll it out to the decks.
+**Next:** add the club officers' emails to the relay member lists (`node admin.mjs add gdg <email> <name>` in deck-relay). Cole is on all three.
 
 ## 2026-10-07 · Sam (via Claude Code)
 
