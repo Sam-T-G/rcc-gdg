@@ -22,4 +22,3 @@ Remove a line once it is answered and note the answer in that day's entry.
 **Decided:** Sam: one review passcode for all three clubs, shared out of band; collaborators work on `main` directly.
 
 **Next:** republish the 10-08 deck after the meeting so the live link has the review panel. Collaborators: run `scripts/install-bridge.sh` once if you start Claude outside the repo, and `node scripts/review.mjs login`.
-
