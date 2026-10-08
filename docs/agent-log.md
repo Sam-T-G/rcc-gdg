@@ -23,7 +23,7 @@ Remove a line once it is answered and note the answer in that day's entry.
 - `deck-kit/check.mjs`: typed keys are one keyDown with text, with no native key codes (`39621a5`); tests for the presenter notes and the v2 annotate bar and board.
 - Review v2 (`9f90de0`): `review.js` loads the relay client (`A`, `I`, `?view=review`, Google sign-in for club members); `scripts/review.mjs` uses the v2 API with an agent token. Republished `first-meeting` and `linkedin-and-resume` on it. The relay's v1 passcode review is retired, and its data was test data only. The passcode in `~/.config/rcc-review/key` is no longer used.
 
-**Issues:** Until each person runs `scripts/install-bridge.sh` once in a terminal, hooks in this repo print a one-line notice and do not run. Cole's next pull will show `SYNC HELD` for the kit change; he approves it in a terminal.
+**Issues:** Until each person runs `scripts/install-bridge.sh` once in a terminal, hooks in this repo print a one-line notice and do not run. Cole's next pull will show `SYNC HELD` for the kit change; she approves it in a terminal.
 
 **Next:** add the club officers' emails to the relay member lists (`node admin.mjs add gdg <email> <name>` in deck-relay). Cole is on all three.
 
