@@ -11,6 +11,25 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
 
+## 2026-10-13 · Sam (via Claude Code)
+
+**Changed:**
+
+- New 10-15 deck, `semesters/2026-fall/decks/2026-10-15-invent-a-product.html` (`07912c4`, `12791d2`): 20 slides, 160 of 160 checks, not published. A no-code product brainstorm for the whole hour: the parking question, an aerial lot photo (CC BY 2.0), "the fix depends on the why", then groups of four list what annoyed them this week (problem board as backup), answer four questions, write `___ can't ___ because ___`, run Crazy 8s, fill a five-line product card, pitch in 60 seconds, and vote. Ask: ask one person who has your problem if they'd use your idea. Space Apps Temecula reused from the 10-08 deck. Run of show by the clock is in the file's header.
+- `2026-10-15-invent-a-product-media/`: the photo and its credit, a drawn Crazy 8s example sheet (eight parking ideas, three of them apps), and a two-page group worksheet (`worksheet.html`, exported to `worksheet.pdf`, US Letter) that matches the dig-in and product card slides word for word.
+- The 10-15 event on the GDG calendar is now "GDG · Invent a Product (no code)" with the new block, materials, and paths.
+
+**Decided:** Sam: 10-15 is this ideation activity for the full hour, replacing Anatomy of an Ask (that card is unscheduled). Problems come from each group's own list first, the board second. It ends in pitches and a room vote. No follow-up on the 10-08 "bring your app" ask.
+
+**Issues:**
+
+- `deck-kit/deck.js` splits words on any whitespace, `&nbsp;` included, so a non-breaking space cannot hold two words together on a slide. The 10-15 deck writes "9:00" instead. Shared kit, so a fix goes to rcc-acm too.
+- The ask slide's lockup renders small (Sam's open review note on the 10-01 deck, slide 33); it is the kit's `ask` layout, so every deck has it. Not changed.
+- No meeting notes or attendance filed for 09-24, 10-01, or 10-08 (`semesters/2026-fall/meetings/` has only the 09-03 prep); goal 1 is measured by those notes. Bevy post-event reports for 09-24 and 10-01 are overdue (Google reminders 2026-10-08 and 2026-10-11), 10-08 was never a Bevy event, and 10-15 is not published there yet.
+- The relay's GDG member list has one member, so officers other than Sam and Cole cannot review decks yet.
+
+**Next:** Sam reviews the 10-15 deck (the cover headline and copy are first drafts), then publishes it and prints one worksheet per group before Thursday 2:25.
+
 ## 2026-10-08 · Sam (via Claude Code)
 
 **Changed:**

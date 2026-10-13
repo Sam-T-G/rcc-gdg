@@ -2,7 +2,7 @@
 
 Where everything stands right now. `/handoff` rewrites this file in place (it is a snapshot, not a log). History and reasons go in [agent-log.md](agent-log.md). Slide counts, last changes, and open review comments are computed by `scripts/context.sh`, so they are not repeated here.
 
-Last updated: 2026-10-08 by Sam.
+Last updated: 2026-10-13 by Sam.
 
 ## Decks
 
@@ -10,7 +10,8 @@ Last updated: 2026-10-08 by Sam.
 |---|---|---|---|
 | 2026-09-24 | First meeting (`semesters/2026-fall/decks/2026-09-24-first-meeting.html`) | Presented | None. Live at `/decks/first-meeting/`. |
 | 2026-10-01 | LinkedIn and your resume (`2026-10-01-linkedin-and-resume.html`) | Presented | None. Live at `/decks/linkedin-and-resume/`. |
-| 2026-10-08 | STAR stories and vibe coding (`2026-10-08-story-and-vibe-coding.html`) | Live | Presenting 2026-10-08. Republished 2026-10-08 at noon from `26ba256`, with the four hackathon slides before the ask. |
+| 2026-10-08 | STAR stories and vibe coding (`2026-10-08-story-and-vibe-coding.html`) | Presented | None. Live at `/decks/story-and-vibe-coding/`. No meeting notes or attendance filed. |
+| 2026-10-15 | Invent a product, no code (`2026-10-15-invent-a-product.html`) | Built, not published | 20 slides, 160 of 160 checks. Publish on Sam's go-ahead (`scripts/publish-deck.sh ... invent-a-product --push`). Print one worksheet per group (`2026-10-15-invent-a-product-media/worksheet.pdf`, two pages, 100%). Not on Bevy yet. |
 
 ## Standing facts
 
