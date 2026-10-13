@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GDG on Campus RCC · Thursday, October 15</title>
+<!--
+  GDG on Campus RCC, Thursday 2026-10-15, 2:30 PM, BLCIS A-210. Event deck built
+  from Sam's brief (2026-10-13): the whole hour is a no-code product brainstorm.
+  Groups of four pick a real problem (their own list first, the problem board as
+  backup), find out why it happens, sketch eight ideas each (Crazy 8s), turn the
+  winner into a product card, and pitch it in 60 seconds; the room votes on which
+  one they would use. Parking is the running example. Facts and sources are in
+  the speaker notes (N). The printable worksheet is
+  2026-10-15-invent-a-product-media/worksheet.pdf. Publish with:
+    scripts/publish-deck.sh semesters/2026-fall/decks/2026-10-15-invent-a-product.html invent-a-product --push
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&display=swap">
+<link rel="stylesheet" href="../../../deck-kit/deck.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="../../../deck-kit/deck.js" defer></script>
+<script src="../../../deck-kit/presenter.js" defer></script>
+<script src="../../../deck-kit/review.js" defer></script>
+</head>
+<body>
+<main class="deck" data-deck="2026-fall-invent-a-product" data-ledger="GDG on Campus RCC · Thursday, October 15">
+
+<!-- ARRIVE ================================================================ -->
+
+<section class="slide" data-kind="cover" data-move="arrive" data-starts="14:30" aria-label="Inventing a product">
+  <img class="cover__lockup cover__lockup--light" src="../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+  <img class="cover__lockup cover__lockup--dark" src="../../../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
+  <p class="eyebrow">This week</p>
+  <h1>Let’s invent a product.</h1>
+  <p class="sub">No code. Your group picks a real problem, comes up with a fix, and pitches it.</p>
+  <div class="cover__step" aria-hidden="true"></div>
+  <a class="qr cover__qr" href="https://gdg.community.dev/gdg-on-campus-riverside-city-college-riverside-united-states/"><span class="qr__tile"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 57 57" shape-rendering="crispEdges"><path fill="#fff" d="M0 0h57v57h-57z"/><path stroke="#000" d="M4 4.5h7m1 0h1m1 0h1m1 0h6m1 0h3m1 0h1m1 0h2m3 0h1m1 0h1m3 0h1m3 0h1m1 0h7m-49 1h1m5 0h1m2 0h2m2 0h1m2 0h3m4 0h3m2 0h1m2 0h10m1 0h1m5 0h1m-49 1h1m1 0h3m1 0h1m2 0h1m1 0h4m3 0h1m1 0h1m2 0h2m1 0h1m2 0h1m2 0h2m5 0h2m1 0h1m1 0h3m1 0h1m-49 1h1m1 0h3m1 0h1m2 0h2m1 0h3m1 0h3m3 0h1m1 0h2m1 0h5m2 0h4m1 0h1m2 0h1m1 0h3m1 0h1m-49 1h1m1 0h3m1 0h1m1 0h1m1 0h3m1 0h1m3 0h2m2 0h11m3 0h2m4 0h1m1 0h3m1 0h1m-49 1h1m5 0h1m1 0h2m1 0h2m1 0h1m4 0h2m1 0h1m3 0h1m4 0h8m3 0h1m5 0h1m-49 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-39 1h4m1 0h1m1 0h1m2 0h1m1 0h1m3 0h1m1 0h1m1 0h2m1 0h1m1 0h3m1 0h2m-40 1h7m1 0h3m5 0h2m1 0h1m1 0h5m1 0h1m4 0h2m1 0h2m2 0h1m2 0h2m3 0h1m-49 1h4m1 0h1m1 0h2m2 0h2m2 0h1m2 0h2m2 0h2m1 0h1m3 0h3m3 0h3m3 0h4m-45 1h1m2 0h5m1 0h2m3 0h2m6 0h5m1 0h2m3 0h2m1 0h1m1 0h1m4 0h2m3 0h1m-48 1h1m2 0h1m2 0h3m1 0h2m1 0h2m3 0h1m3 0h1m4 0h1m1 0h3m2 0h1m1 0h1m3 0h1m2 0h2m1 0h2m-49 1h1m1 0h1m2 0h2m1 0h1m1 0h3m1 0h2m1 0h1m6 0h1m4 0h1m1 0h1m1 0h1m1 0h3m1 0h2m4 0h2m-47 1h1m1 0h1m2 0h1m3 0h1m1 0h1m4 0h2m3 0h3m1 0h2m1 0h1m1 0h2m3 0h1m1 0h1m1 0h1m1 0h4m1 0h2m-47 1h1m1 0h1m1 0h3m2 0h1m1 0h1m3 0h1m2 0h1m2 0h1m3 0h1m4 0h1m1 0h2m1 0h1m1 0h3m4 0h4m-49 1h4m1 0h1m2 0h2m2 0h1m1 0h4m1 0h5m4 0h2m1 0h2m1 0h2m1 0h4m1 0h1m1 0h1m1 0h3m-49 1h1m1 0h1m2 0h3m3 0h1m2 0h4m6 0h1m1 0h3m2 0h1m1 0h4m1 0h1m2 0h2m2 0h1m1 0h1m-48 1h2m1 0h2m3 0h1m1 0h2m1 0h1m1 0h6m3 0h4m1 0h1m1 0h1m2 0h6m2 0h2m1 0h2m-46 1h1m3 0h2m1 0h1m1 0h1m1 0h1m7 0h2m1 0h1m1 0h3m2 0h2m1 0h1m1 0h1m5 0h2m1 0h2m1 0h2m-49 1h3m1 0h2m1 0h1m1 0h3m1 0h1m1 0h2m7 0h3m2 0h1m2 0h1m2 0h1m1 0h3m2 0h3m-41 1h3m1 0h5m1 0h2m2 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h2m3 0h7m1 0h2m2 0h2m-48 1h1m8 0h1m3 0h3m1 0h1m1 0h1m3 0h1m1 0h1m3 0h3m1 0h1m7 0h2m2 0h2m-47 1h2m2 0h5m1 0h1m2 0h1m2 0h1m2 0h1m2 0h5m4 0h1m1 0h2m1 0h1m1 0h7m2 0h2m-48 1h1m1 0h2m3 0h1m1 0h1m1 0h2m4 0h1m1 0h1m1 0h1m3 0h1m2 0h1m2 0h1m4 0h1m1 0h2m3 0h1m2 0h1m-46 1h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h4m2 0h2m1 0h2m1 0h1m1 0h2m1 0h3m2 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h3m-49 1h1m1 0h1m1 0h1m3 0h2m2 0h1m6 0h1m1 0h2m3 0h1m2 0h5m1 0h1m3 0h2m3 0h2m1 0h2m-49 1h1m3 0h7m1 0h2m1 0h3m1 0h1m1 0h7m3 0h6m1 0h8m2 0h1m-47 1h2m3 0h3m1 0h3m3 0h1m3 0h2m4 0h1m2 0h1m1 0h3m2 0h1m2 0h2m1 0h1m3 0h2m-49 1h1m2 0h1m2 0h2m2 0h1m2 0h6m5 0h1m1 0h1m1 0h2m1 0h1m3 0h2m1 0h2m1 0h1m4 0h1m1 0h1m-48 1h2m4 0h6m1 0h2m2 0h3m1 0h2m1 0h8m2 0h1m1 0h1m1 0h2m2 0h2m1 0h1m-47 1h2m3 0h3m3 0h1m4 0h1m8 0h2m1 0h1m4 0h4m1 0h1m2 0h2m1 0h1m2 0h2m-48 1h2m6 0h1m1 0h2m1 0h2m1 0h3m1 0h1m3 0h1m1 0h1m2 0h1m2 0h2m1 0h2m2 0h1m2 0h2m3 0h1m-48 1h3m2 0h1m3 0h1m2 0h1m1 0h4m3 0h1m3 0h1m1 0h2m1 0h2m2 0h1m1 0h3m1 0h1m2 0h5m-49 1h1m2 0h1m4 0h1m4 0h1m1 0h1m1 0h2m2 0h2m1 0h1m2 0h4m1 0h1m4 0h1m3 0h3m2 0h2m-47 1h1m2 0h1m1 0h1m1 0h2m2 0h2m5 0h1m1 0h2m1 0h1m3 0h1m2 0h2m1 0h2m2 0h2m1 0h3m3 0h2m-48 1h4m2 0h1m2 0h1m1 0h1m1 0h1m1 0h1m3 0h3m2 0h1m1 0h1m1 0h1m2 0h2m1 0h1m1 0h1m2 0h2m1 0h1m4 0h1m-49 1h2m1 0h1m1 0h2m5 0h2m1 0h1m3 0h4m2 0h3m1 0h1m1 0h1m3 0h2m2 0h1m1 0h1m2 0h1m1 0h3m-44 1h1m3 0h1m3 0h1m4 0h2m1 0h1m2 0h1m1 0h2m2 0h1m4 0h2m2 0h2m1 0h2m1 0h1m-45 1h1m3 0h2m1 0h1m1 0h3m1 0h2m5 0h2m1 0h1m1 0h2m2 0h2m2 0h2m2 0h7m2 0h2m-48 1h3m3 0h2m1 0h1m3 0h1m2 0h1m1 0h1m1 0h2m4 0h2m1 0h1m1 0h2m11 0h1m1 0h2m-49 1h3m3 0h1m1 0h1m1 0h2m1 0h2m3 0h3m1 0h5m2 0h3m4 0h2m1 0h6m3 0h1m-41 1h3m2 0h1m2 0h3m3 0h1m3 0h1m3 0h1m1 0h2m1 0h2m3 0h1m3 0h1m-45 1h7m1 0h2m2 0h2m2 0h1m1 0h2m2 0h1m1 0h1m1 0h6m3 0h3m2 0h1m1 0h1m1 0h2m1 0h2m-49 1h1m5 0h1m1 0h1m1 0h4m1 0h1m1 0h1m2 0h3m3 0h1m1 0h2m2 0h1m1 0h2m1 0h4m3 0h1m2 0h2m-49 1h1m1 0h3m1 0h1m1 0h4m2 0h2m1 0h2m1 0h1m1 0h5m2 0h3m1 0h12m1 0h3m-49 1h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m1 0h2m1 0h1m1 0h2m1 0h3m3 0h2m4 0h3m1 0h1m3 0h2m2 0h2m-49 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m4 0h2m1 0h2m1 0h4m1 0h1m1 0h4m1 0h1m1 0h4m1 0h1m1 0h2m-49 1h1m5 0h1m1 0h1m1 0h1m3 0h1m6 0h3m3 0h2m1 0h1m1 0h1m1 0h1m2 0h7m4 0h1m-49 1h7m2 0h1m2 0h2m2 0h1m1 0h2m1 0h1m2 0h3m2 0h1m1 0h1m3 0h4m1 0h2m1 0h1m2 0h3"/></svg></span><span class="label">The chapter on Bevy</span></a>
+  <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+  <aside class="notes"><p>Up while people arrive. As people walk in, have them sit in groups of four, and mix people who don’t know each other. Three or five is fine. New faces: scan to join the chapter on Bevy. First thing, out loud: “We’re an independent group. Our activities and opinions aren’t Google’s.”</p><p>Before 2:30: one blank sheet of paper per person, pens, and one printed worksheet per group if you have them (2026-10-15-invent-a-product-media/worksheet.pdf, two pages). A board or wall to write on.</p><p class="bridge">Before anything else, one quick question.</p></aside>
+</section>
+
+<!-- TENSION =============================================================== -->
+
+<section class="slide" data-kind="statement" data-move="tension" data-surface="sand" data-layout="poster" aria-label="Fix parking">
+  <p class="eyebrow">Your call</p>
+  <h2>How would you fix parking at RCC?</h2>
+  <p class="sub">Shout it out. First idea that comes to mind.</p>
+  <aside class="notes"><p>Take five or six answers fast and write them on the board. Keep that list up all hour; you come back to it at the end. Expect things like: build more parking, a parking garage, a parking app, carpool, take the bus. Don’t judge any of them.</p><p class="bridge">Now look at a parking lot from above.</p></aside>
+</section>
+
+<section class="slide" data-kind="photo" data-move="tension" data-layout="bleed-right" aria-label="From above">
+  <div class="photo__text">
+    <p class="eyebrow">Look closer</p>
+    <h2>From up here, you can see open spots.</h2>
+    <p class="sub">From your car, you can’t. So is the problem too few spots, or not knowing where they are?</p>
+  </div>
+  <figure class="photo">
+    <img src="2026-10-15-invent-a-product-media/parking-denver.jpg" width="1600" height="1067" alt="A big parking lot seen from the air. Some rows are packed with cars and others have lots of empty spaces.">
+    <figcaption class="credit"><a href="https://commons.wikimedia.org/wiki/File:Flying_over_Denver_Parking_lot_(4290932798).jpg">Photo: Heath Alseike, CC BY 2.0</a></figcaption>
+  </figure>
+  <aside class="notes"><p>This is a lot in Denver, not RCC. Point at the empty spaces between the full rows. A driver on the ground sees full rows and keeps circling.</p><p>We don’t know RCC’s real numbers, and that’s the point: you can’t tell which problem it is until you find out.</p><p class="bridge">And those two problems need very different fixes.</p></aside>
+</section>
+
+<section class="slide" data-kind="contrast" data-move="tension" data-transition="rotate" aria-label="The fix depends on the why">
+  <h2>The fix depends on the why</h2>
+  <div class="contrast">
+    <div class="is-weak"><p class="label">If there aren’t enough spots</p><p>Build more spots, like a new garage.</p></div>
+    <div class="is-strong" data-beat><p class="label">If people can’t find the open ones</p><p>Show them the open spots before they leave home.</p></div>
+  </div>
+  <aside class="notes"><p>Point at the board: most of the room’s ideas probably fix the left side. That isn’t wrong. It’s just the first guess. Click for the right side.</p><p>Today you do it the other way around: find out why first, then come up with the fix.</p><p class="bridge">That’s the whole plan for today, with a problem you pick.</p></aside>
+</section>
+
+<!-- WORK: the problem ===================================================== -->
+
+<section class="slide" data-kind="statement" data-move="work" data-surface="forest" data-layout="poster" aria-label="Today">
+  <p class="eyebrow">Today</p>
+  <h2>Your group picks a problem and finds out why before fixing it.</h2>
+  <p class="sub">Then you turn it into a product and pitch it in 60 seconds.</p>
+  <aside class="notes"><p>Groups of four. One person writes for the group. No code and no laptops; phones away except for looking something up. At about 3:08, every group pitches.</p><p class="bridge">First, you need a problem.</p></aside>
+</section>
+
+<section class="slide" data-kind="clock" data-move="work" data-timer="300" data-surface="sun" aria-label="What annoyed you">
+  <p class="eyebrow">In your group · 5 minutes</p>
+  <h2>What annoyed you this week?</h2>
+  <div class="clock"><p class="clock__digits">5:00</p><span class="clock__rail"><span class="clock__fill"></span></span><p class="clock__hint">Everyone names one thing, big or small. Write them all down. In the last minute, pick the one your group wants to fix.</p></div>
+  <aside class="notes"><p>Go first: say one real thing that annoyed you this week, so people see small counts. Start the clock with T. Walk around. If a group is stuck, ask: what did you wait in line for this week? What cost more than it should? What did you do twice?</p><p class="bridge">If your list is thin, take one of these.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="sand" aria-label="Problem board">
+  <h2>Nothing good? Pick one of these.</h2>
+  <div class="card">
+    <p class="label">Problem board</p>
+    <ol class="card__lines">
+      <li>Finding parking before class</li>
+      <li>Scalpers buying up concert tickets</li>
+      <li>Textbook access codes you have to buy</li>
+      <li>Getting into a class that’s full</li>
+      <li>Splitting bills with roommates</li>
+    </ol>
+  </div>
+  <div class="card__side"><p>Your own problem beats anything on this list.</p></div>
+  <aside class="notes"><p>Leave this up for the last minute of the clock. These are prompts, not facts about RCC. Two groups can pick the same problem; they’ll still end up with different products.</p><p>Three more to say out loud if a group wants options: finding a quiet place to study, the group project where one person does it all, and food thrown out while students skip meals.</p><p class="bridge">Here’s how to dig into a problem, using parking.</p></aside>
+</section>
+
+<section class="slide" data-kind="beats" data-move="work" data-surface="mint" data-layout="flow" aria-label="Four questions">
+  <h2>Four questions, using parking</h2>
+  <div class="flow-head"><p class="label">Ask</p><p class="label">The question</p><p class="label">For parking</p></div>
+  <ol class="beats">
+    <li data-beat><span class="body"><span class="flow__signal">Who</span><span class="flow__lead">Who has it? Be exact.</span><span class="flow__entry">A student who drives in for a 9:00 class.</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">When</span><span class="flow__lead">When is it worst?</span><span class="flow__entry">Right before 9, when every row looks full.</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">Now</span><span class="flow__lead">What do they do now?</span><span class="flow__entry">Circle the lot, or park far away and run.</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">Why</span><span class="flow__lead">Why isn’t it fixed?</span><span class="flow__entry">Nobody can see where the open spots are.</span></span></li>
+  </ol>
+  <aside class="notes"><p>A made-up example, not RCC data. Click once per row. The last row matters most. If a group can’t answer “why,” they haven’t found the problem yet. “Now” matters too: whatever people do today is what your product has to beat.</p><p class="bridge">Then you put all four into one sentence.</p></aside>
+</section>
+
+<section class="slide" data-kind="contrast" data-move="work" data-surface="sand" data-layout="ledger" aria-label="One sentence">
+  <h2>Then say it in one sentence</h2>
+  <div class="ledger-rows">
+    <div class="ledger-head"><p class="label">What people say</p><p class="label">After digging</p></div>
+    <div class="contrast">
+      <p class="label contrast__tag">Parking</p>
+      <div class="is-weak"><p>Parking here is the worst.</p></div>
+      <div class="is-strong" data-beat><p><mark class="hl hl--verb" style="--hl-i:0">Students with 9:00 classes can’t find a spot</mark> <mark class="hl hl--impact" style="--hl-i:1">because they can’t see which ones are open.</mark></p></div>
+    </div>
+    <div class="contrast">
+      <p class="label contrast__tag">Tickets</p>
+      <div class="is-weak"><p>Scalpers ruin concerts.</p></div>
+      <div class="is-strong" data-beat><p><mark class="hl hl--verb" style="--hl-i:0">Fans can’t buy at face value</mark> <mark class="hl hl--impact" style="--hl-i:1">because bots buy faster than any person can click.</mark></p></div>
+    </div>
+  </div>
+  <p class="hl-key"><mark class="hl hl--verb">Who can’t do what</mark> <mark class="hl hl--impact">Because</mark></p>
+  <aside class="notes"><p>Two presses. The pattern is: someone can’t do something, because of a reason. The “because” is where the ideas come from.</p><p>For tickets, the because points at speed, so a fix is to make speed not matter. A real one: Ticketmaster’s Verified Fan presale has fans sign up ahead of time, screens out bots and known resellers, and sends the fans it picks a one-time code (Billboard; Music Week). Mention it only if a group picks tickets.</p><p class="bridge">Your turn. Ten minutes.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="600" data-surface="sun" aria-label="Dig into your problem">
+  <h2>Dig into your problem</h2>
+  <div class="card">
+    <p class="label">Ten minutes</p>
+    <ol class="card__lines">
+      <li>1. Who has it? Be exact.</li>
+      <li>2. When is it worst?</li>
+      <li>3. What do they do about it now?</li>
+      <li>4. Why hasn’t anyone fixed it?</li>
+      <li>5. Write it: ___ can’t ___ because ___.</li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>Officers walk around and ask: “Who exactly? A freshman? A parent?” and “How do you know?” If a group’s why is “nobody cares,” ask who would have to care and why they don’t. Groups that finish early: ask what someone with the problem would say if they heard the sentence.</p><p class="bridge">Now, ideas. A lot of them.</p></aside>
+</section>
+
+<!-- WORK: the ideas ======================================================= -->
+
+<section class="slide" data-kind="photo" data-move="work" data-surface="mint" data-layout="framed" aria-label="Crazy 8s">
+  <div class="photo__text">
+    <p class="eyebrow">Crazy 8s</p>
+    <h2>Eight ideas in eight minutes</h2>
+    <p class="sub">Fold a sheet into eight boxes. One idea per box, about a minute each.</p>
+  </div>
+  <figure class="photo" data-source="club">
+    <img src="2026-10-15-invent-a-product-media/crazy-8s-parking.svg" width="1632" height="1280" alt="A sheet of paper folded into eight boxes, each with one idea for fixing parking: live map, gate signs, valet parking, carpool match, stagger classes, far-lot shuttle, reserve a spot, and premium spots. Each box is tagged app, sign, business, rule, or service; only three are apps.">
+    <figcaption class="credit">Example sheet: GDG on Campus RCC</figcaption>
+  </figure>
+  <aside class="notes"><p>Crazy 8s is a standard design sprint exercise (Open Practice Library, openpracticelibrary.com/practice/crazy-8s; Google’s Design Sprint Kit has a page on it too). Fold a sheet in half three times and you get eight boxes.</p><p>These eight are parking ideas, and only three of them are apps. Read a few out loud: a live map of open spots, signs at each gate that show how many spots are left, valet parking, carpool matches by class time, staggered class start times, a shuttle from the far lot, reserving a spot the night before, and premium spots near the buildings that cost more. Words or quick doodles both count; nobody is grading drawings.</p><p class="bridge">Around idea four, most people get stuck. Try these.</p></aside>
+</section>
+
+<section class="slide" data-kind="beats" data-move="work" data-surface="sand" data-layout="tiles" aria-label="When you get stuck">
+  <p class="eyebrow">When you get stuck</p>
+  <h2>Try one of these</h2>
+  <ol class="beats">
+    <li data-beat><span class="body">Borrow it.<span class="detail">How would an airline, a restaurant, or a dating app handle this?</span></span></li>
+    <li data-beat><span class="body">Pay someone.<span class="detail">Who would fix this for money? Now it’s a business.</span></span></li>
+    <li data-beat><span class="body">Change a rule.<span class="detail">Could a new rule fix it with no app at all?</span></span></li>
+    <li data-beat><span class="body">Skip the step.<span class="detail">What if they never had to do the annoying part?</span></span></li>
+  </ol>
+  <aside class="notes"><p>Each one matches a box on the example sheet. Premium spots are borrowed from airline seats. Valet parking is paying someone. Staggered class times are a rule. Reserving a spot skips the circling.</p><p>Officers: during the clock, walk around and ask these out loud to anyone who’s stopped writing.</p><p class="bridge">Paper out. Eight minutes, on your own.</p></aside>
+</section>
+
+<section class="slide" data-kind="clock" data-move="work" data-room data-timer="480" data-surface="sun" aria-label="Fill all eight">
+  <p class="eyebrow">On your own · 8 minutes</p>
+  <h2>Fill all eight boxes.</h2>
+  <div class="clock"><p class="clock__digits">8:00</p><span class="clock__rail"><span class="clock__fill"></span></span><p class="clock__hint">One idea per box. Weird ideas count. At least one can’t be an app. No talking until time’s up.</p></div>
+  <aside class="notes"><p>Everyone does their own sheet, including the group’s writer. Call out each minute (“Box three!”) so people keep moving. Stalling at four is normal; the last four are usually the interesting ones.</p><p class="bridge">Pens down. Now pick one as a group.</p></aside>
+</section>
+
+<!-- WORK: the product ===================================================== -->
+
+<section class="slide" data-kind="statement" data-move="work" data-surface="sun" aria-label="Share and vote">
+  <p class="eyebrow">In your group · 3 minutes</p>
+  <h2>Read your best two out loud. Then vote.</h2>
+  <p class="sub">Everyone gets two votes. The most votes wins. Mixing two ideas is fine.</p>
+  <aside class="notes"><p>About two minutes to read and one to vote. People vote by marking the sheets. If one idea isn’t a clear winner, let the group combine the top two.</p><p class="bridge">Now turn the winner into a product.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="420" data-surface="sun" aria-label="Your product card">
+  <h2>Make it a product</h2>
+  <div class="card">
+    <p class="label">Your product card</p>
+    <ol class="card__lines">
+      <li>1. Name it.</li>
+      <li>2. The problem, in one sentence.</li>
+      <li>3. How it works, in three steps.</li>
+      <li>4. Why it beats what they do now.</li>
+      <li>5. Who pays for it?</li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>These five lines are page two of the printed worksheet. Line 2 is the sentence they already wrote, and it already says who the product is for. Line 3 is from the user’s side: what they tap, see, or do, not how the tech works. For line 5, the payer can be the users, a business, the school, or ads. “Nobody” is a real answer too, but then say who keeps it running.</p><p class="bridge">Pick one person to pitch. Your card is the script.</p></aside>
+</section>
+
+<section class="slide" data-kind="clock" data-move="work" data-room data-timer="60" data-surface="sun" aria-label="Pitches">
+  <p class="eyebrow">Pitches · 60 seconds each</p>
+  <h2>Read your card, top to bottom.</h2>
+  <div class="clock"><p class="clock__digits">1:00</p><span class="clock__rail"><span class="clock__fill"></span></span><p class="clock__hint">Name, problem, how it works, why it’s better, who pays. Then one question from the room.</p></div>
+  <aside class="notes"><p>For each group: R resets the clock, T starts it. Write each product’s name on the board as they go; the vote reads from that list. One question from the room per group. If nobody asks, ask “What could kill this?”</p><p>About 14 minutes for pitches. With more than seven groups, cut each pitch to 45 seconds.</p><p class="bridge">Every group’s done. Time to vote.</p></aside>
+</section>
+
+<section class="slide" data-kind="statement" data-move="work" data-surface="ink" aria-label="Vote">
+  <p class="eyebrow">Vote</p>
+  <h2>Which one would you actually use?</h2>
+  <p class="sub">Hands up for each one. You can vote for more than one.</p>
+  <aside class="notes"><p>Read each name off the board and count hands. Circle the top two.</p><p class="bridge">Look at the top two. Where did those ideas come from?</p></aside>
+</section>
+
+<!-- TURN ================================================================== -->
+
+<section class="slide" data-kind="statement" data-move="turn" data-surface="forest" data-layout="poster" aria-label="The best ideas">
+  <p class="eyebrow">What just happened</p>
+  <h2>The best ideas came from the why.</h2>
+  <p class="sub">Compare them to the parking ideas we shouted at the start.</p>
+  <aside class="notes"><p>Ask the top two groups to read their “because” out loud. Usually the winning idea answers the because directly. Then point at the parking list from the start: most of those were guesses made before anyone asked why.</p><p>This is the first step of every hackathon and every startup pitch: start from the problem, not the app.</p><p class="bridge">If you liked today, there’s a hackathon coming up where you do exactly this.</p></aside>
+</section>
+
+<section class="slide" data-kind="photo" data-move="turn" data-surface="sand" data-layout="framed" aria-label="NASA Space Apps Temecula">
+  <div class="photo__text">
+    <p class="eyebrow">NASA Space Apps · Nov 14 to 15</p>
+    <h2>Do this again at a NASA hackathon.</h2>
+    <p class="sub">In Temecula. Free, no coding needed, teams of 1 to 6.</p>
+    <a class="qr" href="https://temeculaspaceapps.vercel.app/"><span class="qr__tile"><img src="2026-10-08-story-and-vibe-images/qr-spaceapps-temecula.svg" width="37" height="37" alt="QR code for temeculaspaceapps.vercel.app"></span><span class="label">temeculaspaceapps<wbr>.vercel.app</span></a>
+  </div>
+  <figure class="photo" data-source="NASA Space Apps Temecula">
+    <img src="2026-10-08-story-and-vibe-images/spaceapps-temecula-site.jpg" width="1600" height="900" alt="The Space Apps Temecula home page: a drawn jet towing a banner that reads NASA Space Apps, November 14-15, Temecula, CA, and a control-panel button that says Apply Now.">
+    <figcaption class="credit">Screenshot: <a href="https://temeculaspaceapps.vercel.app/">temeculaspaceapps.vercel.app</a>, Oct 8</figcaption>
+  </figure>
+  <aside class="notes"><p>Same event as last week. From the Temecula site’s FAQ, as checked on 2026-10-08: free, anyone can join, no coding needed, teams of 1 to 6, with meals, mentors, and workshops. Teams work on NASA’s own challenges with NASA open data, so you can’t bring today’s product, but it’s the same skill: find the problem, then the fix.</p><p>[TBD: if the club is still going for NASA SUITS, proposals are due October 22. Mention it here only if Sam says so.]</p><p class="bridge">One thing before next week.</p></aside>
+</section>
+
+<!-- ASK =================================================================== -->
+
+<section class="slide" data-kind="ask" data-move="ask" data-room aria-label="Before next Thursday">
+  <div class="ask__main">
+    <p class="eyebrow">Before next Thursday</p>
+    <h2>Ask one person who has your problem if they’d use your idea.</h2>
+    <p class="sub">Bring back what they said, even if it’s no.</p>
+    <p class="ask__meta">Thursdays, 2:30 to 3:30 PM · BLCIS A-210</p>
+  </div>
+  <div class="ask__foot">
+    <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <img class="ask__lockup ask__lockup--light" src="../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+    <img class="ask__lockup ask__lockup--dark" src="../../../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
+  </div>
+  <aside class="notes"><p>Leave this up while people pack. Count attendance, numbers only. Take a photo of each group’s product card for the record: the cards only, no faces.</p></aside>
+</section>
+
+</main>
+</body>
+</html>

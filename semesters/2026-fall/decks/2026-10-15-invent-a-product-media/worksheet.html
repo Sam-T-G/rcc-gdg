@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invent a product · worksheet</title>
+<!--
+  Group worksheet for the 2026-10-15 meeting (deck: ../2026-10-15-invent-a-product.html).
+  Two US Letter pages, one sheet per group, printed both sides. Page 1 matches the
+  "Dig into your problem" slide and page 2 the "Your product card" slide, word for word.
+  The PDF beside this file is the print copy; print it at 100%, never "fit to page".
+  Rebuild it from the repo root with:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+      --use-mock-keychain --no-pdf-header-footer --virtual-time-budget=5000 \
+      --print-to-pdf=semesters/2026-fall/decks/2026-10-15-invent-a-product-media/worksheet.pdf \
+      "file://$PWD/semesters/2026-fall/decks/2026-10-15-invent-a-product-media/worksheet.html"
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400..700&family=Google+Sans+Code:wght@400..700&display=swap">
+<style>
+  :root {
+    --ink: #1e201e;
+    --variant: #444843;
+    --primary: #00732d;
+    --mint: #cff1d3;
+    --rule: #c4c8c2;
+    --paper: #ffffff;
+  }
+  @page { size: letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: "Google Sans", Inter, system-ui, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page {
+    width: 8.5in; height: 11in; padding: 0.5in 0.5in 0.45in;
+    display: flex; flex-direction: column; break-after: page; overflow: hidden;
+  }
+  .page:last-child { break-after: auto; }
+  .eyebrow { font-family: "Google Sans Code", ui-monospace, monospace; font-size: 10pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary); margin: 0 0 4pt; }
+  h1 { font-size: 28pt; line-height: 1.1; margin: 0 0 4pt; font-weight: 600; }
+  .lede { font-size: 12pt; color: var(--variant); margin: 0 0 14pt; }
+  .q { margin: 0 0 10pt; }
+  .q p { font-size: 13pt; font-weight: 600; margin: 0 0 2pt; }
+  .q .hint { font-size: 10.5pt; font-weight: 400; color: var(--variant); }
+  .lines { border-top: 0; }
+  .lines span { display: block; height: 0.36in; border-bottom: 1.25px solid var(--rule); }
+  .steps { display: grid; grid-template-columns: auto 1fr; column-gap: 8pt; align-items: end; }
+  .steps b { font-size: 12pt; color: var(--primary); padding-bottom: 3pt; }
+  .steps span { display: block; height: 0.36in; border-bottom: 1.25px solid var(--rule); }
+  .sentence { border: 2px solid var(--primary); border-radius: 12pt; background: var(--mint); padding: 10pt 14pt 6pt; margin: 4pt 0 0; }
+  .sentence p { font-size: 13pt; font-weight: 600; margin: 0 0 2pt; }
+  .sentence .frame { font-size: 15pt; font-weight: 500; margin: 6pt 0 0; letter-spacing: 0.01em; }
+  .sentence .lines span { border-color: #8fb89a; }
+  .grow { flex: 1; }
+  .ask { border-top: 2px solid var(--ink); padding-top: 8pt; margin-top: 6pt; }
+  .ask p { font-size: 12pt; margin: 0 0 2pt; }
+  .ask strong { font-weight: 600; }
+  footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 16pt; margin-top: 10pt; }
+  footer p { font-size: 8pt; line-height: 1.35; color: var(--variant); margin: 0; max-width: 4.6in; }
+  footer img { height: 0.42in; width: auto; display: block; }
+  @media screen {
+    body { background: #e8ebe7; padding: 24px 0; }
+    .page { margin: 0 auto 24px; background: var(--paper); box-shadow: 0 1px 4px rgb(0 0 0 / 0.2); }
+  }
+</style>
+</head>
+<body>
+
+<section class="page" aria-label="Page 1, your problem">
+  <p class="eyebrow">GDG on Campus RCC · October 15 · Page 1</p>
+  <h1>Your problem</h1>
+  <p class="lede">One sheet per group. One person writes.</p>
+
+  <div class="q">
+    <p>What annoyed you this week? <span class="hint">Everyone names one thing.</span></p>
+    <div class="lines"><span></span><span></span><span></span><span></span></div>
+  </div>
+  <div class="q">
+    <p>The one we picked</p>
+    <div class="lines"><span></span></div>
+  </div>
+  <div class="q">
+    <p>1. Who has it? Be exact.</p>
+    <div class="lines"><span></span></div>
+  </div>
+  <div class="q">
+    <p>2. When is it worst?</p>
+    <div class="lines"><span></span></div>
+  </div>
+  <div class="q">
+    <p>3. What do they do about it now?</p>
+    <div class="lines"><span></span></div>
+  </div>
+  <div class="q">
+    <p>4. Why hasn’t anyone fixed it?</p>
+    <div class="lines"><span></span><span></span></div>
+  </div>
+  <div class="sentence">
+    <p>5. Write it: ___ can’t ___ because ___.</p>
+    <div class="lines"><span></span><span></span></div>
+  </div>
+
+  <div class="grow"></div>
+  <footer>
+    <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <img src="../../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+  </footer>
+</section>
+
+<section class="page" aria-label="Page 2, your product card">
+  <p class="eyebrow">GDG on Campus RCC · October 15 · Page 2</p>
+  <h1>Your product card</h1>
+  <p class="lede">Your pitch is this card, read top to bottom, in 60 seconds.</p>
+
+  <div class="q">
+    <p>1. Name it.</p>
+    <div class="lines"><span></span></div>
+  </div>
+  <div class="q">
+    <p>2. The problem, in one sentence. <span class="hint">From page 1.</span></p>
+    <div class="lines"><span></span><span></span></div>
+  </div>
+  <div class="q">
+    <p>3. How it works, in three steps. <span class="hint">What the person taps, sees, or does.</span></p>
+    <div class="steps"><b>1</b><span></span><b>2</b><span></span><b>3</b><span></span></div>
+  </div>
+  <div class="q">
+    <p>4. Why it beats what they do now.</p>
+    <div class="lines"><span></span><span></span><span></span></div>
+  </div>
+  <div class="q">
+    <p>5. Who pays for it?</p>
+    <div class="lines"><span></span><span></span></div>
+  </div>
+
+  <div class="grow"></div>
+  <div class="ask">
+    <p><strong>Before next Thursday:</strong> ask one person who has your problem if they’d use your idea. What did they say?</p>
+    <div class="lines"><span></span><span></span></div>
+  </div>
+  <footer>
+    <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <img src="../../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+  </footer>
+</section>
+
+</body>
+</html>

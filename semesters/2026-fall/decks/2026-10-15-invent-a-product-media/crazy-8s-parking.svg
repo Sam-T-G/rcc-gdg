@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632 1280" width="1632" height="1280">
+<rect width="1632" height="1280" fill="#ffffff"/>
+<rect x="56" y="56" width="1520" height="1168" rx="12" fill="#fffdf7" stroke="#c4c8c2" stroke-width="4"/>
+<line x1="436.0" y1="56" x2="436.0" y2="1224" stroke="#9aa39b" stroke-width="4" stroke-dasharray="18 14"/>
+<line x1="816.0" y1="56" x2="816.0" y2="1224" stroke="#9aa39b" stroke-width="4" stroke-dasharray="18 14"/>
+<line x1="1196.0" y1="56" x2="1196.0" y2="1224" stroke="#9aa39b" stroke-width="4" stroke-dasharray="18 14"/>
+<line x1="56" y1="640.0" x2="1576" y2="640.0" stroke="#9aa39b" stroke-width="4" stroke-dasharray="18 14"/>
+<circle cx="132.0" cy="142.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="132.0" y="163.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">1</text>
+<text x="86.0" y="318.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Live</text>
+<text x="86.0" y="406.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">map</text>
+<rect x="86.0" y="512.0" width="134" height="80" rx="40" fill="#fffdf7" stroke="#00732d" stroke-width="4"/>
+<text x="153.0" y="568.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">app</text>
+<circle cx="512.0" cy="142.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="512.0" y="163.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">2</text>
+<text x="466.0" y="318.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Gate</text>
+<text x="466.0" y="406.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">signs</text>
+<rect x="466.0" y="512.0" width="164" height="80" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="4"/>
+<text x="548.0" y="568.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">sign</text>
+<circle cx="892.0" cy="142.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="892.0" y="163.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">3</text>
+<text x="846.0" y="318.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Valet</text>
+<text x="846.0" y="406.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">parking</text>
+<rect x="846.0" y="512.0" width="284" height="80" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="4"/>
+<text x="988.0" y="568.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">business</text>
+<circle cx="1272.0" cy="142.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="1272.0" y="163.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">4</text>
+<text x="1226.0" y="318.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Carpool</text>
+<text x="1226.0" y="406.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">match</text>
+<rect x="1226.0" y="512.0" width="134" height="80" rx="40" fill="#fffdf7" stroke="#00732d" stroke-width="4"/>
+<text x="1293.0" y="568.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">app</text>
+<circle cx="132.0" cy="726.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="132.0" y="747.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">5</text>
+<text x="86.0" y="902.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Stagger</text>
+<text x="86.0" y="990.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">classes</text>
+<rect x="86.0" y="1096.0" width="164" height="80" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="4"/>
+<text x="168.0" y="1152.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">rule</text>
+<circle cx="512.0" cy="726.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="512.0" y="747.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">6</text>
+<text x="466.0" y="902.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Far-lot</text>
+<text x="466.0" y="990.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">shuttle</text>
+<rect x="466.0" y="1096.0" width="254" height="80" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="4"/>
+<text x="593.0" y="1152.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">service</text>
+<circle cx="892.0" cy="726.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="892.0" y="747.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">7</text>
+<text x="846.0" y="902.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Reserve</text>
+<text x="846.0" y="990.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">a spot</text>
+<rect x="846.0" y="1096.0" width="134" height="80" rx="40" fill="#fffdf7" stroke="#00732d" stroke-width="4"/>
+<text x="913.0" y="1152.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">app</text>
+<circle cx="1272.0" cy="726.0" r="46" fill="#cff1d3" stroke="#00732d" stroke-width="5"/>
+<text x="1272.0" y="747.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="60" font-weight="700" fill="#1e201e" text-anchor="middle">8</text>
+<text x="1226.0" y="902.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">Premium</text>
+<text x="1226.0" y="990.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="76" font-weight="500" fill="#1e201e">spots</text>
+<rect x="1226.0" y="1096.0" width="284" height="80" rx="40" fill="#cff1d3" stroke="#00732d" stroke-width="4"/>
+<text x="1368.0" y="1152.0" font-family="Google Sans, Inter, system-ui, sans-serif" font-size="52" font-weight="500" fill="#2f5a3a" text-anchor="middle">business</text>
+</svg>
