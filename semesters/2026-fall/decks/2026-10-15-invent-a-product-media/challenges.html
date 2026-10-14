@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Challenge Cards · Organizers</title>
+<meta name="robots" content="noindex">
+<!--
+  Organizers' phone page for the 2026-10-15 meeting (deck: ../2026-10-15-invent-a-product.html).
+  Walk up to a group, ask what kind of idea it is, tap that kind, and read them one challenge:
+  a problem their idea would hit in real life. Works with scripts off (every card is listed).
+  Published with:
+    scripts/publish-page.sh semesters/2026-fall/decks/2026-10-15-invent-a-product-media/challenges.html guides/invent-a-product/challenges --push
+  which serves it at https://sam-t-g.github.io/rcc-gdg/guides/invent-a-product/challenges/.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400..700&family=Google+Sans+Code:wght@400..600&display=swap">
+<style>
+  :root {
+    --surface: #f7faf8;
+    --surface-container: #e8f0e9;
+    --on-surface: #1e201e;
+    --on-surface-variant: #575a58;
+    --outline-variant: #ccd4cd;
+    --primary: #00732d;
+    --on-primary: #ffffff;
+    --primary-container: #cff1d3;
+    --on-primary-container: #003a13;
+    --ink: #121412;
+    --on-ink: #e6e9e6;
+    --sun: #f9ab00;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--surface); color: var(--on-surface); font-family: "Google Sans", Inter, system-ui, sans-serif; font-size: 17px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 24px 0 8px; }
+  .eyebrow { font-family: "Google Sans Code", ui-monospace, monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin: 0 0 6px; }
+  h1 { font-size: 30px; line-height: 1.1; margin: 0 0 8px; font-weight: 650; }
+  .lede { margin: 0 0 16px; color: var(--on-surface-variant); }
+  .kinds { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .kinds button {
+    font: inherit; font-size: 15px; font-weight: 500; min-height: 44px; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    border: 2px solid var(--primary); background: var(--surface); color: var(--on-primary-container);
+  }
+  .kinds button[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); }
+  button:focus-visible, a:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+  .draw { background: var(--ink); color: var(--on-ink); border-radius: 20px; padding: 20px; margin: 0 0 12px; min-height: 190px; display: flex; flex-direction: column; }
+  .draw .eyebrow { color: #96d6a0; }
+  .draw__text { font-size: 26px; line-height: 1.25; font-weight: 600; margin: 4px 0 auto; }
+  .draw__hint { font-size: 14px; color: #b9bcba; margin: 14px 0 0; }
+  .actions { display: flex; gap: 8px; margin: 0 0 24px; }
+  .actions button {
+    flex: 1; font: inherit; font-weight: 600; font-size: 17px; min-height: 52px; border-radius: 14px; cursor: pointer; border: 0;
+    background: var(--primary); color: var(--on-primary);
+  }
+  .actions button.quiet { background: var(--primary-container); color: var(--on-primary-container); }
+  section.kind { padding: 16px 0 6px; border-top: 1px solid var(--outline-variant); }
+  section.kind h2 { font-size: 20px; margin: 0 0 8px; }
+  section.kind p.when { margin: -4px 0 10px; font-size: 15px; color: var(--on-surface-variant); }
+  section.kind ol { margin: 0 0 10px; padding-left: 22px; }
+  section.kind li { margin: 0 0 8px; }
+  .js .kind[hidden] { display: none; }
+  footer { padding: 16px 0 40px; font-size: 13px; color: var(--on-surface-variant); }
+  .nojs-only { display: block; }
+  .js .nojs-only { display: none; }
+  .js-only { display: none; }
+  .js .js-only { display: block; }
+  .js .actions.js-only, .js .kinds.js-only, .js .draw.js-only { display: flex; }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">For organizers · October 15</p>
+    <h1>Challenge cards</h1>
+    <p class="lede">Walk up to a group and ask what kind of idea they have. Tap that kind, draw a card, and read it to them. They pick a fix and write it down; it goes in their pitch.</p>
+  </header>
+
+  <ul class="kinds js-only" aria-label="Kind of idea"></ul>
+
+  <div class="draw js-only" aria-live="polite">
+    <p class="eyebrow" id="draw-kind">Any idea</p>
+    <p class="draw__text" id="draw-text">Tap “Draw a card.”</p>
+    <p class="draw__hint" id="draw-left"></p>
+  </div>
+  <div class="actions js-only">
+    <button type="button" id="draw">Draw a card</button>
+    <button type="button" class="quiet" id="list-toggle" aria-expanded="false" aria-controls="cards">Show all</button>
+  </div>
+
+  <p class="nojs-only lede">Every card is listed below, grouped by the kind of idea.</p>
+
+  <div id="cards">
+    <section class="kind" data-kind="any">
+      <h2>Any idea</h2>
+      <ol>
+        <li>Look it up right now. Does it already exist? What does yours do that it doesn’t?</li>
+        <li>Who would hate this idea? What would they do about it?</li>
+        <li>What’s the smallest version you could test this week without building anything?</li>
+        <li>A thousand people use it tomorrow. What breaks first?</li>
+        <li>Why hasn’t someone already done this? Is there a reason?</li>
+      </ol>
+    </section>
+    <section class="kind" data-kind="app">
+      <h2>An app</h2>
+      <ol>
+        <li>Why would someone download an app for this instead of using what they already have?</li>
+        <li>They used it once. Why would they open it again next week?</li>
+        <li>Their phone is dead, or there’s no signal where they need it. Now what?</li>
+        <li>Who keeps it updated after your group graduates?</li>
+      </ol>
+    </section>
+    <section class="kind" data-kind="connect">
+      <h2>Connects two groups of people</h2>
+      <p class="when">Riders and drivers, buyers and sellers, tutors and students.</p>
+      <ol>
+        <li>Which side shows up first? Nobody joins an empty app.</li>
+        <li>Someone gets scammed or doesn’t show up. What happens, and who’s responsible?</li>
+        <li>Why would people keep using it instead of trading numbers and leaving?</li>
+        <li>One side has way more people than the other. Who waits, and for how long?</li>
+      </ol>
+    </section>
+    <section class="kind" data-kind="data">
+      <h2>Uses data or location</h2>
+      <ol>
+        <li>Where does your data come from, and who keeps it right?</li>
+        <li>The data is wrong once and someone misses class. Do they trust it again?</li>
+        <li>Would you want this collected about you? What do you promise your users?</li>
+        <li>Someone uses it to track a person who doesn’t want to be found. How do you stop that?</li>
+      </ol>
+    </section>
+    <section class="kind" data-kind="rule">
+      <h2>A new rule</h2>
+      <ol>
+        <li>Who has the power to make this rule? Have you ever talked to them?</li>
+        <li>Who loses if the rule passes? Will they fight it?</li>
+        <li>How would anyone know if people follow it?</li>
+        <li>The people in charge say “we tried that already.” What do you say back?</li>
+      </ol>
+    </section>
+    <section class="kind" data-kind="thing">
+      <h2>A physical thing</h2>
+      <p class="when">A sign, a sensor, a kiosk, a locker.</p>
+      <ol>
+        <li>Who pays to install it, and who fixes it when it breaks?</li>
+        <li>It gets rained on, kicked, or stolen. Then what?</li>
+        <li>Who has to say yes before you can put it on campus?</li>
+        <li>It needs power or Wi-Fi. Where does that come from?</li>
+      </ol>
+    </section>
+    <section class="kind" data-kind="service">
+      <h2>People do the work</h2>
+      <p class="when">A shuttle, valet, tutoring, delivery.</p>
+      <ol>
+        <li>Who does the work, and why do they keep doing it after week two?</li>
+        <li>Your best worker quits. What happens to your users?</li>
+        <li>How do you make sure it’s done well every time?</li>
+        <li>Everyone needs it at the same hour. How many people do you need then?</li>
+      </ol>
+    </section>
+    <section class="kind" data-kind="money">
+      <h2>Money</h2>
+      <ol>
+        <li>Would you pay for this yourself? How much, exactly?</li>
+        <li>It costs money to run every month. Where does that money come from in month one?</li>
+        <li>A free version shows up. Why do people still pay for yours?</li>
+        <li>Who pays: users, a business, the school, or ads? What happens if they stop?</li>
+      </ol>
+    </section>
+  </div>
+
+  <footer>
+    <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section.kind'));
+  var kinds = document.querySelector('.kinds'), text = document.getElementById('draw-text');
+  var label = document.getElementById('draw-kind'), left = document.getElementById('draw-left');
+  var toggle = document.getElementById('list-toggle'), current = 'any', showAll = false;
+  // Cards not yet drawn, per kind, so a group never hears the same card twice in a row.
+  var decks = {};
+  function cardsFor(kind) {
+    var s = sections.filter(function (x) { return x.getAttribute('data-kind') === kind; })[0];
+    return Array.prototype.map.call(s.querySelectorAll('li'), function (li) { return li.textContent; });
+  }
+  function nameOf(kind) {
+    return sections.filter(function (x) { return x.getAttribute('data-kind') === kind; })[0].querySelector('h2').textContent;
+  }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function render() {
+    Array.prototype.forEach.call(kinds.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', String(b.value === current)); });
+    sections.forEach(function (s) { s.hidden = !showAll && s.getAttribute('data-kind') !== current; });
+    toggle.textContent = showAll ? 'Show this kind' : 'Show all';
+    toggle.setAttribute('aria-expanded', String(showAll));
+    label.textContent = nameOf(current);
+  }
+  sections.forEach(function (s) {
+    var li = document.createElement('li'), b = document.createElement('button');
+    b.type = 'button'; b.value = s.getAttribute('data-kind'); b.textContent = s.querySelector('h2').textContent;
+    b.addEventListener('click', function () {
+      current = b.value; text.textContent = 'Tap “Draw a card.”'; left.textContent = ''; render();
+    });
+    li.appendChild(b); kinds.appendChild(li);
+  });
+  document.getElementById('draw').addEventListener('click', function () {
+    if (!decks[current] || !decks[current].length) decks[current] = shuffle(cardsFor(current));
+    text.textContent = decks[current].pop();
+    var n = decks[current].length;
+    left.textContent = n ? n + (n === 1 ? ' card left' : ' cards left') + ' for this kind' : 'Last one. The next draw reshuffles.';
+  });
+  toggle.addEventListener('click', function () { showAll = !showAll; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

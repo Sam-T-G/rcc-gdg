@@ -6,8 +6,9 @@
 <title>Invent a product · worksheet</title>
 <!--
   Group worksheet for the 2026-10-15 meeting (deck: ../2026-10-15-invent-a-product.html).
-  Two US Letter pages, one sheet per group, printed both sides. Page 1 matches the
-  "Dig into your problem" slide and page 2 the "Your product card" slide, word for word.
+  Two US Letter pages, one sheet per group, printed both sides. Page 1 follows the
+  "What annoyed you" and "Why does it happen?" slides; page 2 follows "Pick one and build
+  it out", the challenge checks, and "Plan your pitch with STAR", in the slides' words.
   The PDF beside this file is the print copy; print it at 100%, never "fit to page".
   Rebuild it from the repo root with:
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
@@ -51,6 +52,12 @@
   .sentence p { font-size: 13pt; font-weight: 600; margin: 0 0 2pt; }
   .sentence .frame { font-size: 15pt; font-weight: 500; margin: 6pt 0 0; letter-spacing: 0.01em; }
   .sentence .lines span { border-color: #8fb89a; }
+  .sentence .hint { font-size: 10.5pt; font-weight: 400; color: var(--variant); }
+  .star { display: grid; grid-template-columns: 0.32in 1fr; column-gap: 8pt; row-gap: 4pt; margin: 6pt 0 0; }
+  .star b { font-size: 18pt; color: var(--primary); line-height: 1; padding-top: 2pt; }
+  .star small { display: block; font-size: 10pt; color: var(--variant); }
+  .star span { display: block; height: 0.28in; border-bottom: 1.25px solid #8fb89a; }
+  .sentence p.after { font-size: 11pt; font-weight: 500; margin: 6pt 0 2pt; }
   .grow { flex: 1; }
   .ask { border-top: 2px solid var(--ink); padding-top: 8pt; margin-top: 6pt; }
   .ask p { font-size: 12pt; margin: 0 0 2pt; }
@@ -107,36 +114,42 @@
   </footer>
 </section>
 
-<section class="page" aria-label="Page 2, your product card">
+<section class="page" aria-label="Page 2, build it and pitch it">
   <p class="eyebrow">GDG on Campus RCC · October 15 · Page 2</p>
-  <h1>Your product card</h1>
-  <p class="lede">Your pitch is this card, read top to bottom, in 60 seconds.</p>
+  <h1>Build it and pitch it</h1>
+  <p class="lede">Everything you write here goes in your 60-second pitch.</p>
 
   <div class="q">
-    <p>1. Name it.</p>
+    <p>Give it a name.</p>
     <div class="lines"><span></span></div>
   </div>
   <div class="q">
-    <p>2. The problem, in one sentence. <span class="hint">From page 1.</span></p>
-    <div class="lines"><span></span><span></span></div>
-  </div>
-  <div class="q">
-    <p>3. How it works, in three steps. <span class="hint">What the person taps, sees, or does.</span></p>
+    <p>How does it work? Three steps. <span class="hint">What the person taps, sees, or does.</span></p>
     <div class="steps"><b>1</b><span></span><b>2</b><span></span><b>3</b><span></span></div>
   </div>
   <div class="q">
-    <p>4. Why it beats what they do now.</p>
-    <div class="lines"><span></span><span></span><span></span></div>
+    <p>Who pays for it?</p>
+    <div class="lines"><span></span></div>
   </div>
   <div class="q">
-    <p>5. Who pays for it?</p>
+    <p>Challenge check <span class="hint">The one that hurt your idea most, and what you changed.</span></p>
     <div class="lines"><span></span><span></span></div>
+  </div>
+  <div class="sentence">
+    <p>Plan your pitch with STAR <span class="hint">60 seconds. Spend most of it on the A.</span></p>
+    <div class="star">
+      <b>S</b><div><small>Who has the problem, and when?</small><span></span></div>
+      <b>T</b><div><small>What has to change? Your because.</small><span></span></div>
+      <b>A</b><div><small>What you built, in three steps.</small><span></span><span></span></div>
+      <b>R</b><div><small>What gets better, and who pays.</small><span></span></div>
+    </div>
+    <p class="after">Then one challenge you fixed.</p>
   </div>
 
   <div class="grow"></div>
   <div class="ask">
     <p><strong>Before next Thursday:</strong> ask one person who has your problem if they’d use your idea. What did they say?</p>
-    <div class="lines"><span></span><span></span></div>
+    <div class="lines"><span></span></div>
   </div>
   <footer>
     <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>

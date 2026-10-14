@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invent a Product · Cheat Sheet</title>
+<meta name="description" content="Every step from the GDG on Campus RCC meeting on October 15, 2026, on one page: pick a problem, find the why, Crazy 8s, build it, challenge checks, and a STAR pitch.">
+<!--
+  Student cheat sheet for the 2026-10-15 meeting (deck: ../2026-10-15-invent-a-product.html,
+  slide 5 carries the QR). It sums up the deck and its speaker notes in one phone page; when
+  the deck's wording changes, change this page to match. Published with:
+    scripts/publish-page.sh semesters/2026-fall/decks/2026-10-15-invent-a-product-media/cheatsheet.html guides/invent-a-product --push
+  which serves it at https://sam-t-g.github.io/rcc-gdg/guides/invent-a-product/.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400..700&family=Google+Sans+Code:wght@400..600&display=swap">
+<style>
+  :root {
+    --surface: #f7faf8;
+    --surface-container: #e8f0e9;
+    --on-surface: #1e201e;
+    --on-surface-variant: #575a58;
+    --outline-variant: #ccd4cd;
+    --primary: #00732d;
+    --on-primary: #ffffff;
+    --primary-container: #cff1d3;
+    --on-primary-container: #003a13;
+    --sun: #f9ab00;
+    --sun-container: #fff1cc;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--surface); color: var(--on-surface);
+    font-family: "Google Sans", Inter, system-ui, sans-serif; font-size: 17px; line-height: 1.5;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+  header.top { padding: 28px 0 8px; }
+  .lockup { display: block; width: 220px; height: auto; margin-bottom: 20px; }
+  .eyebrow {
+    font-family: "Google Sans Code", ui-monospace, monospace; font-size: 13px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--primary); margin: 0 0 6px;
+  }
+  h1 { font-size: 34px; line-height: 1.1; margin: 0 0 8px; font-weight: 650; }
+  .lede { margin: 0; color: var(--on-surface-variant); }
+  nav.steps {
+    position: sticky; top: 0; z-index: 2; background: var(--surface);
+    border-bottom: 1px solid var(--outline-variant); margin: 16px 0 0;
+  }
+  nav.steps ol {
+    list-style: none; margin: 0 auto; max-width: 640px; padding: 10px 16px;
+    display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  }
+  nav.steps ol::-webkit-scrollbar { display: none; }
+  nav.steps a {
+    display: block; white-space: nowrap; text-decoration: none; color: var(--on-primary-container);
+    background: var(--primary-container); border-radius: 999px; padding: 8px 14px; font-size: 15px; font-weight: 500;
+    min-height: 40px;
+  }
+  nav.steps a:focus-visible, a:focus-visible, button:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+  section.step { padding: 28px 0 8px; border-bottom: 1px solid var(--outline-variant); }
+  .step__head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+  .num {
+    flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--primary); color: var(--on-primary); font-weight: 700; font-size: 18px; transform: translateY(6px);
+  }
+  h2 { font-size: 24px; line-height: 1.2; margin: 0; font-weight: 650; }
+  .time { display: block; font-size: 14px; color: var(--on-surface-variant); font-weight: 400; margin-top: 2px; }
+  p { margin: 0 0 12px; }
+  ul, ol.qs { margin: 0 0 14px; padding-left: 22px; }
+  li { margin: 0 0 6px; }
+  ol.qs li::marker { color: var(--primary); font-weight: 700; }
+  .frame {
+    background: var(--primary-container); color: var(--on-primary-container); border-radius: 14px;
+    padding: 14px 16px; margin: 0 0 14px; font-weight: 600; font-size: 19px;
+  }
+  .example {
+    background: var(--surface-container); border-radius: 14px; padding: 12px 16px; margin: 0 0 14px; font-size: 16px;
+  }
+  .example b { display: block; font-family: "Google Sans Code", ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-surface-variant); font-weight: 500; margin-bottom: 4px; }
+  .example p:last-child { margin-bottom: 0; }
+  .check {
+    border-left: 5px solid var(--sun); background: var(--sun-container); border-radius: 4px 14px 14px 4px;
+    padding: 10px 14px; margin: 0 0 14px;
+  }
+  .check strong { font-weight: 700; }
+  dl.pushes { margin: 0 0 14px; }
+  dl.pushes dt { font-weight: 650; margin-top: 10px; }
+  dl.pushes dd { margin: 2px 0 0; color: var(--on-surface-variant); }
+  .star { display: grid; grid-template-columns: 44px 1fr; gap: 8px 12px; margin: 0 0 14px; }
+  .star .l {
+    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-weight: 700; font-size: 22px;
+    background: var(--primary-container); color: var(--on-primary-container);
+  }
+  .star p { margin: 0; align-self: center; }
+  .star p span { color: var(--on-surface-variant); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; padding: 0; list-style: none; }
+  .tags li { margin: 0; background: var(--surface-container); border-radius: 999px; padding: 4px 12px; font-size: 15px; }
+  .ask { background: var(--primary); color: var(--on-primary); border-radius: 18px; padding: 18px; margin: 28px 0 16px; }
+  .ask .eyebrow { color: var(--primary-container); }
+  .ask p { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.3; }
+  .ask p + p { margin-top: 8px; font-size: 16px; font-weight: 400; }
+  .more { padding: 8px 0 16px; }
+  .more a { color: var(--primary); font-weight: 600; }
+  footer { padding: 16px 0 40px; font-size: 13px; color: var(--on-surface-variant); }
+  footer p { margin: 0 0 8px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <img class="lockup" src="../../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+    <p class="eyebrow">Cheat sheet · Thursday, October 15</p>
+    <h1>Invent a product</h1>
+    <p class="lede">Everything from today on one page. No code needed. Your group picks a real problem, finds out why it happens, and invents a fix.</p>
+  </header>
+</div>
+
+<nav class="steps" aria-label="Steps">
+  <ol>
+    <li><a href="#problem">1 Problem</a></li>
+    <li><a href="#why">2 Why</a></li>
+    <li><a href="#ideas">3 Ideas</a></li>
+    <li><a href="#build">4 Build</a></li>
+    <li><a href="#checks">5 Checks</a></li>
+    <li><a href="#pitch">6 Pitch</a></li>
+  </ol>
+</nav>
+
+<main class="wrap">
+
+  <section class="step" id="problem">
+    <div class="step__head"><span class="num" aria-hidden="true">1</span><h2>Pick a problem<span class="time">5 minutes, in your group</span></h2></div>
+    <p>Everyone names one thing that annoyed them this week, big or small. Write them all down, then pick one you’ve felt yourself.</p>
+    <p>Stuck? Try one of these:</p>
+    <ul class="tags">
+      <li>Parking before class</li>
+      <li>Scalpers and concert tickets</li>
+      <li>Textbook access codes</li>
+      <li>Getting into a full class</li>
+      <li>Splitting bills with roommates</li>
+      <li>A quiet place to study</li>
+      <li>One person doing the whole group project</li>
+      <li>Food thrown out while students skip meals</li>
+    </ul>
+    <p class="check"><strong>Check:</strong> Who do you know who has this problem? If nobody, pick another one.</p>
+  </section>
+
+  <section class="step" id="why">
+    <div class="step__head"><span class="num" aria-hidden="true">2</span><h2>Find out why it happens<span class="time">8 minutes, one question at a time</span></h2></div>
+    <ol class="qs">
+      <li>Who has it? Be exact.</li>
+      <li>When is it worst?</li>
+      <li>What do they do about it now?</li>
+      <li>Why hasn’t anyone fixed it?</li>
+    </ol>
+    <p>Then put it in one sentence:</p>
+    <p class="frame">___ can’t ___ because ___.</p>
+    <div class="example">
+      <b>Example · parking</b>
+      <p>Students with 9:00 classes can’t find a spot because they can’t see which ones are open.</p>
+    </div>
+    <div class="example">
+      <b>Example · tickets</b>
+      <p>Fans can’t buy at face value because bots buy faster than any person can click.</p>
+    </div>
+    <p>The “because” is where your ideas come from. If the because is “nobody can see the open spots,” the fix is showing people the spots, not building a garage.</p>
+    <p class="check"><strong>Check:</strong> How do you know? Did someone tell you, or are you guessing? Ask why one more time.</p>
+  </section>
+
+  <section class="step" id="ideas">
+    <div class="step__head"><span class="num" aria-hidden="true">3</span><h2>Get eight ideas (Crazy 8s)<span class="time">8 minutes, on your own</span></h2></div>
+    <p>Fold a sheet of paper in half three times so it has eight boxes. Put one idea in each box, about a minute each. Words or doodles both count. No talking until time’s up.</p>
+    <p>When you get stuck:</p>
+    <dl class="pushes">
+      <dt>Borrow it.</dt><dd>How would an airline, a restaurant, or a dating app handle this?</dd>
+      <dt>Pay someone.</dt><dd>Who would fix this for money? Now it’s a business.</dd>
+      <dt>Change a rule.</dt><dd>Could a new rule fix it with no app at all?</dd>
+      <dt>Skip the step.</dt><dd>What if they never had to do the annoying part?</dd>
+      <dt>Go weird.</dt><dd>At least one of your eight can’t be an app.</dd>
+    </dl>
+    <div class="example">
+      <b>Example · eight parking ideas</b>
+      <p>Live map of open spots (app) · signs at each gate with the open count (sign) · valet parking (business) · carpool matches by class time (app) · staggered class start times (rule) · a shuttle from the far lot (service) · reserve a spot the night before (app) · premium spots near the buildings that cost more (business).</p>
+    </div>
+  </section>
+
+  <section class="step" id="build">
+    <div class="step__head"><span class="num" aria-hidden="true">4</span><h2>Pick one and build it out<span class="time">6 minutes, in your group</span></h2></div>
+    <ol class="qs">
+      <li>Share your best two ideas. Everyone gets two votes. Mixing two ideas is fine.</li>
+      <li>Give it a name.</li>
+      <li>How does it work? Three steps, from the user’s side: what they tap, see, or do.</li>
+      <li>Who pays for it? The users, a business, the school, or ads.</li>
+    </ol>
+    <p class="check"><strong>Check:</strong> Look it up. Does it already exist? That’s normal. What does yours do that the other one doesn’t, or who does it miss?</p>
+  </section>
+
+  <section class="step" id="checks">
+    <div class="step__head"><span class="num" aria-hidden="true">5</span><h2>Challenge checks<span class="time">5 minutes, in your group</span></h2></div>
+    <p>Real life asks these. Pick the one that hurts your idea most, change your idea to handle it, and write down what you changed. It goes in your pitch.</p>
+    <p class="check">Who are your first 10 users, and where do you find them?</p>
+    <p class="check">It costs money to run every month. Who pays?</p>
+    <p class="check">The school says no. What’s plan B?</p>
+    <p class="check">A big company copies you. Why do people stay with yours?</p>
+    <p class="check">Would people trust it with their info? What do you promise them?</p>
+    <p>An organizer might also come by with a challenge made for your idea.</p>
+  </section>
+
+  <section class="step" id="pitch">
+    <div class="step__head"><span class="num" aria-hidden="true">6</span><h2>Pitch it with STAR<span class="time">5 minutes to plan, 60 seconds to pitch</span></h2></div>
+    <p>Same STAR as last week, used for a pitch instead of a story. Spend most of your time on the A.</p>
+    <div class="star">
+      <span class="l" aria-hidden="true">S</span><p><b>Situation.</b> <span>Who has the problem, and when?</span></p>
+      <span class="l" aria-hidden="true">T</span><p><b>Task.</b> <span>What has to change? Say your because.</span></p>
+      <span class="l" aria-hidden="true">A</span><p><b>Action.</b> <span>What you built, in three steps.</span></p>
+      <span class="l" aria-hidden="true">R</span><p><b>Result.</b> <span>What gets better for them, and who pays.</span></p>
+    </div>
+    <p>Then name one challenge you fixed. After your pitch, the room gets one question. Then everyone votes on which product they’d actually use.</p>
+  </section>
+
+  <div class="ask">
+    <p class="eyebrow">Before next Thursday</p>
+    <p>Ask one person who has your problem if they’d use your idea.</p>
+    <p>Bring back what they said, even if it’s no.</p>
+  </div>
+
+  <div class="more">
+    <p><b>Want to do this again?</b> NASA Space Apps in Temecula is this same kind of thing for a weekend, November 14 to 15. Free, no coding needed, teams of 1 to 6. <a href="https://temeculaspaceapps.vercel.app/">temeculaspaceapps.vercel.app</a></p>
+  </div>
+
+  <footer>
+    <p>GDG on Campus RCC meets Thursdays, 2:30 to 3:30 PM, in BLCIS A-210.</p>
+    <p>GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+  </footer>
+
+</main>
+</body>
+</html>
