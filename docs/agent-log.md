@@ -11,6 +11,22 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
 
+## 2026-10-14 · Sam (via Claude Code)
+
+**Changed:**
+
+- 10-15 deck reworked on Sam's review (`488dcee`): 16 slides, 144 of 144 checks, not published. Less up-front teaching: each work phase is one card slide with its clock, and every press adds the next tip or challenge check while the clock keeps running (checked with real key presses). New: a challenge-check round, a five-minute STAR pitch plan, and a QR on slide 5 to the cheat sheet. The worked-example, problem-board, idea-push, product-card, and Space Apps slides are gone; that content is in the notes and the cheat sheet.
+- `2026-10-15-invent-a-product-media/cheatsheet.html`: the student cheat sheet, one phone page summing up every step. `challenges.html`: organizers' challenge cards by kind of idea (an app, connects two groups, uses data, a rule, a physical thing, a service, money), with a draw button. `qr-cheatsheet.svg` decodes to `https://sam-t-g.github.io/rcc-gdg/guides/invent-a-product/`. Worksheet page 2 now follows build it, the challenge check, and STAR.
+- `scripts/publish-page.sh` (`9f7dac5`): publishes a standalone page to `gh-pages` at `<path>/`, replacing only that `index.html`.
+- `deck-kit/check.mjs` (`940d64f`): the presenter test looked for a slide by `.beats` items only, so a deck whose presses are all card lines crashed it; it now counts every `data-beat`.
+- The 10-15 calendar event carries the new block and both page links.
+
+**Decided:** Sam: tips and challenge checks drip in while groups work; organizers pose challenges table by table; the hour ends with STAR pitch prep; students get a cheat sheet by QR early in the deck.
+
+**Issues:** The cheat sheet QR points at a page that is not live until `publish-page.sh ... --push` runs. rcc-acm's `check.mjs` has the same `.beats`-only lookup.
+
+**Next:** on Sam's go-ahead, publish the deck, the cheat sheet, and the challenge cards together, then scan the slide 5 QR with a phone.
+
 ## 2026-10-13 · Sam (via Claude Code)
 
 **Changed:**
