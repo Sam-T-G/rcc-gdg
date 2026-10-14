@@ -148,6 +148,8 @@ const info = await evaluate(`(() => {
   return slides.map((s, i) => ({
     i, kind: s.getAttribute('data-kind'), move: s.getAttribute('data-move'), room: s.hasAttribute('data-room'),
     beats: s.querySelectorAll('.beats > li').length,
+    // Every press a slide takes, on any archetype: what the presenter view counts.
+    presses: s.querySelectorAll('[data-beat]').length,
     words: s.getAttribute('data-kind') === 'statement' ? (s.querySelector('h2')?.textContent.trim().split(/\\s+/).length || 0) : 0,
     versions: s.querySelectorAll('.compress-src > li').length,
     timer: +s.getAttribute('data-timer') || 0,
@@ -512,14 +514,19 @@ const pvRead = `(() => { const d = document.getElementById('pv-test').contentDoc
 let where = '';
 for (let i = 0; i < 60 && !/^Slide 1 /.test(where); i++) { await sleep(150); where = await evaluate(pvRead); }
 check(/^Slide 1 of/.test(where), `the presenter view reports the deck's slide (${where || 'nothing'})`);
-const pvAt = info.findIndex((s) => s.beats > 0);
-await evaluate(`location.hash = '#${pvAt + 1}'`); await sleep(600);
-for (let k = 0; k < info[pvAt].beats; k++) { await press('right'); await settle(); }
-await sleep(400);
-const due = await evaluate(`(() => { const d = document.getElementById('pv-test').contentDocument; return { where: d.querySelector('.pv__where').textContent, next: d.querySelector('.pv__upnext').textContent, due: d.querySelector('.pv-bridge').classList.contains('is-due'), bridge: !!d.querySelector('.pv-bridge__text') }; })()`);
-check(due.where.startsWith(`Slide ${pvAt + 1} of`) && due.where.includes(`press ${info[pvAt].beats} of ${info[pvAt].beats}`), `presses in the deck move the presenter view (${due.where})`);
-check(/^Next slide: /.test(due.next), `on the last press, the presenter shows the next slide (${due.next})`);
-check(!due.bridge || due.due, 'on the last press, the bridge line is lit');
+// The first slide that takes presses, on any archetype (a card can reveal its lines too).
+const pvAt = info.findIndex((s) => s.presses > 0);
+if (pvAt < 0) {
+  pass('no slide takes presses, so the press-by-press presenter test is skipped (informational)');
+} else {
+  await evaluate(`location.hash = '#${pvAt + 1}'`); await sleep(600);
+  for (let k = 0; k < info[pvAt].presses; k++) { await press('right'); await settle(); }
+  await sleep(400);
+  const due = await evaluate(`(() => { const d = document.getElementById('pv-test').contentDocument; return { where: d.querySelector('.pv__where').textContent, next: d.querySelector('.pv__upnext').textContent, due: d.querySelector('.pv-bridge').classList.contains('is-due'), bridge: !!d.querySelector('.pv-bridge__text') }; })()`);
+  check(due.where.startsWith(`Slide ${pvAt + 1} of`) && due.where.includes(`press ${info[pvAt].presses} of ${info[pvAt].presses}`), `presses in the deck move the presenter view (${due.where})`);
+  check(/^Next slide: /.test(due.next), `on the last press, the presenter shows the next slide (${due.next})`);
+  check(!due.bridge || due.due, 'on the last press, the bridge line is lit');
+}
 // A clicker plugged into the laptop types into whichever window has focus: a
 // press with the presenter focused must move the deck.
 await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: 960, y: 1060, button: 'left', clickCount: 1 });
