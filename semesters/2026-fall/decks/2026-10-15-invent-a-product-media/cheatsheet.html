@@ -2,20 +2,19 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#f7faf8">
 <title>Invent a Product · GDG on Campus RCC</title>
-<meta name="description" content="The group companion for the GDG on Campus RCC meeting on October 15, 2026: pick a problem, find out why it happens, get eight ideas, build one out, handle real-world checks, and pitch it with STAR.">
+<meta name="description" content="The six steps from the GDG on Campus RCC meeting on October 15, 2026: pick a problem, find out why it happens, get eight ideas, build one out, handle the challenge checks, and pitch it with STAR.">
 <!--
-  Group companion for the 2026-10-15 meeting (deck: ../2026-10-15-invent-a-product.html; the QR on
-  slide 5 points here). One phone per group. Six steps that follow the deck; groups type as they go,
-  hints come one at a time on request, and step 6 turns their answers into a STAR pitch with a
-  60-second practice view. Answers stay in this browser only (localStorage), nothing is sent anywhere.
-  With scripts off it is a readable stack of all six steps.
+  Cheat sheet for the 2026-10-15 meeting (deck: ../2026-10-15-invent-a-product.html; the QR on
+  slide 5 points here). A glance, not a tool (Sam, 2026-10-14): each step carries the same lines
+  as its slide, in the same order, so a student can check it and get back to work. No inputs,
+  no saved state, no script. When the deck's wording changes, change this page to match.
   Built on docs/04-brand/design-system/tokens.css (inlined by the bundler). Light only, like the
-  landing page: the horizontal lockup exists only as a light file. The rail is the screen's Step.
-  When the deck's wording changes, change this page to match. Published with:
+  landing page: the horizontal lockup exists only as a light file.
+  Published with:
     scripts/publish-page.sh semesters/2026-fall/decks/2026-10-15-invent-a-product-media/cheatsheet.html guides/invent-a-product --push
   which serves it at https://sam-t-g.github.io/rcc-gdg/guides/invent-a-product/.
 -->
@@ -23,510 +22,174 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:wght@400..600&display=swap">
 <link rel="stylesheet" href="../../../../docs/04-brand/design-system/tokens.css">
-<script>document.documentElement.classList.add('js');</script>
 <style>
   /* Values come from tokens.css. Page-only rules below. */
   body { background: var(--rcc-surface); overflow-x: clip; }
-  .wrap { max-width: calc(40rem + var(--rcc-page-margin) * 2); margin-inline: auto; padding-inline: var(--rcc-page-margin); }
-  [hidden] { display: none !important; }   /* component display rules would otherwise beat the attribute */
+  html { scroll-padding-top: 4.5rem; }
+  .wrap { max-width: calc(36rem + var(--rcc-page-margin) * 2); margin-inline: auto; padding-inline: var(--rcc-page-margin); }
+  p, ul, ol { max-width: none; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-  /* Skip link: off screen until focused, then a Primary button. */
-  .skip { position: absolute; z-index: 20; inset-block-start: var(--rcc-space-2); inset-inline-start: 50%; transform: translate(-50%, calc(-100% - var(--rcc-space-6))); }
-  .skip:focus { transform: translate(-50%, 0); }
-
-  /* --- Masks: content arrives by rising through its own box (motion.md 5.7). */
-  .mask { display: block; overflow: hidden; padding-block-end: 0.12em; margin-block-end: -0.12em; }
-  .mask > span { display: inline-block; will-change: transform; }
-  .js .rise-pre .mask > span, .js .mask.rise-pre > span { transform: translateY(108%); transition: none !important; }
-
-  /* --- Top ----------------------------------------------------------------- */
-  .top { padding-block: var(--rcc-space-8) var(--rcc-space-4); }
+  /* --- Top: the headline rises through its mask once (motion.md 5.7). ---- */
+  .top { padding-block: var(--rcc-space-8) var(--rcc-space-5); }
   .top .rcc-ledger { margin: 0 0 var(--rcc-space-3); }
   .top h1 { margin: 0 0 var(--rcc-space-3); font-size: var(--rcc-size-display-lg); line-height: var(--rcc-lh-display-lg); letter-spacing: var(--rcc-track-display-lg); }
-  .top h1 .mask { display: inline-block; vertical-align: top; }
-  .top h1 .mask > span { transition: transform var(--rcc-dur-move) var(--rcc-ease-arrive); }
-  .top h1 .mask:nth-child(2) > span { transition-delay: 60ms; }
-  .top h1 .mask:nth-child(3) > span { transition-delay: 120ms; }
-  .lede { font-size: var(--rcc-size-body-lg); line-height: var(--rcc-lh-body-lg); color: var(--rcc-on-surface-variant); margin: 0; }
-  .saved { margin: var(--rcc-space-3) 0 0; font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant); display: none; }
-  .js .saved { display: block; }
-  .saved::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--rcc-primary); margin-inline-end: var(--rcc-space-2); vertical-align: 1px; }
-  .saved[data-off]::before { background: var(--rcc-outline); }
+  .mask { display: inline-block; overflow: hidden; vertical-align: top; padding-block-end: 0.1em; margin-block-end: -0.1em; }
+  .mask > span { display: inline-block; animation: rise var(--rcc-dur-move) var(--rcc-ease-arrive) both; }
+  .mask:nth-child(2) > span { animation-delay: 60ms; }
+  .mask:nth-child(3) > span { animation-delay: 120ms; }
+  @keyframes rise { from { transform: translateY(108%); } to { transform: none; } }
+  .lede { margin: 0 0 var(--rcc-space-6); font-size: var(--rcc-size-body-lg); line-height: var(--rcc-lh-body-lg); color: var(--rcc-on-surface-variant); }
+  .top .rcc-step-rule { color: var(--rcc-primary); }
 
-  /* --- The rail: six treads, the screen's Step (visual-voice.md 9.6). ------ */
-  .rail { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--rcc-surface) 88%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-block-end: var(--rcc-hairline) solid var(--rcc-outline-variant); }
-  .rail .wrap { padding-block: var(--rcc-space-3) 0; }
-  .rail__stair { display: block; width: 100%; height: 40px; overflow: visible; }
-  .rail__base { stroke: var(--rcc-outline-variant); }
-  .rail__done { stroke: var(--rcc-primary); stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset var(--rcc-dur-slow-spatial) var(--rcc-ease-standard); }
-  .rail__dot { fill: var(--rcc-primary); stroke: var(--rcc-surface); stroke-width: 3px; transition: transform var(--rcc-dur-slow-spatial) var(--rcc-ease-spatial); }
-  .no-js-rail .rail__done, .no-js-rail .rail__dot { display: none; }
-  .rail ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); max-width: none; }
-  .rail li { margin: 0; }
-  .rail a {
-    position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-block-size: var(--rcc-target-min);
-    font-size: var(--rcc-size-label-md); line-height: var(--rcc-lh-label-md); letter-spacing: var(--rcc-track-label-md); font-weight: var(--rcc-weight-strong);
-    color: var(--rcc-on-surface-variant); text-decoration: none; border-radius: var(--rcc-radius-sm);
+  /* --- Jump row ------------------------------------------------------------- */
+  nav.jump { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--rcc-surface) 90%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-block-end: var(--rcc-hairline) solid var(--rcc-outline-variant); }
+  nav.jump ol { list-style: none; margin: 0 auto; padding: var(--rcc-space-2) var(--rcc-page-margin); max-width: calc(36rem + var(--rcc-page-margin) * 2); display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--rcc-space-1); }
+  nav.jump li { margin: 0; }
+  nav.jump a {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; min-block-size: var(--rcc-target-min);
+    border-radius: var(--rcc-radius-sm); text-decoration: none; color: var(--rcc-on-surface-variant);
+    font-size: var(--rcc-size-label-md); line-height: var(--rcc-lh-label-md); font-weight: var(--rcc-weight-strong);
   }
-  .rail a::after { content: ""; position: absolute; inset-inline: 22%; inset-block-end: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--rcc-primary); transform: scaleX(0); transition: transform var(--rcc-dur-default-spatial) var(--rcc-ease-standard); }
-  .rail a[aria-current="step"] { color: var(--rcc-primary); }
-  .rail a[aria-current="step"]::after { transform: scaleX(1); }
-  .rail a .n { font-family: var(--rcc-font-code); font-size: var(--rcc-size-code-sm); }
+  nav.jump a b { font-family: var(--rcc-font-code); font-size: var(--rcc-size-code-sm); color: var(--rcc-primary); }
 
-  /* --- Steps --------------------------------------------------------------- */
-  main { padding-block-end: var(--rcc-space-8); }
-  .step { padding-block: var(--rcc-space-8) var(--rcc-space-6); }
-  .js .step:not(.is-current) { display: none; }
-  .no-js-steps .step + .step { border-block-start: var(--rcc-hairline) solid var(--rcc-outline-variant); }
-  .step > header .rcc-ledger { margin: 0 0 var(--rcc-space-2); color: var(--rcc-primary); }
-  .step h2 { margin: 0 0 var(--rcc-space-2); outline: none; }
-  .step h2:focus { outline: none; box-shadow: none; }
-  .step h2 .mask > span { transition: transform var(--rcc-dur-slow-spatial) var(--rcc-ease-arrive); }
-  .step > header p { margin: 0 0 var(--rcc-space-6); color: var(--rcc-on-surface-variant); }
-  .context { display: grid; gap: 2px; margin: calc(var(--rcc-space-2) * -1) 0 var(--rcc-space-6); padding: var(--rcc-space-3) var(--rcc-space-4); border-radius: var(--rcc-radius-md); background: var(--rcc-surface-container-low); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline-variant); max-width: none; }
-  .context .rcc-ledger { margin: 0; }
-  .context span:last-child { font-weight: var(--rcc-weight-strong); }
-  .js main:not([data-at="6"]) > .ask, .js main:not([data-at="6"]) > .more { display: none; }
-  h3 { margin: var(--rcc-space-8) 0 var(--rcc-space-3); font-size: var(--rcc-size-title-lg); line-height: var(--rcc-lh-title-lg); }
-
-  /* Fields */
-  .field { margin: 0 0 var(--rcc-space-5); }
-  .field label, .field legend { display: block; font-weight: var(--rcc-weight-strong); margin: 0 0 var(--rcc-space-2); padding: 0; }
-  .field .help { display: block; font-weight: var(--rcc-weight-body); font-size: var(--rcc-size-body-md); color: var(--rcc-on-surface-variant); }
-  fieldset.field { border: 0; margin-inline: 0; padding: 0; min-width: 0; }
-  input[type="text"], textarea {
-    width: 100%; font: inherit; font-size: 1rem; line-height: 1.5; color: var(--rcc-on-surface);
-    background: var(--rcc-surface-container-lowest); border: 0; border-radius: var(--rcc-radius-md);
-    box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline); padding: 0.7rem 0.9rem; min-block-size: var(--rcc-target-min);
-    transition: box-shadow var(--rcc-dur-fast-effects) var(--rcc-ease-standard);
+  /* --- Steps ---------------------------------------------------------------- */
+  main { padding-block: var(--rcc-space-6) var(--rcc-space-10); display: grid; gap: var(--rcc-space-4); }
+  .step {
+    background: var(--rcc-surface-container-lowest); border-radius: var(--rcc-radius-lg);
+    box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline-variant); padding: var(--rcc-space-5);
   }
-  textarea { resize: none; min-block-size: 5.2rem; display: block; }
-  .js textarea { overflow: hidden; }
-  input[type="text"]:focus-visible, textarea:focus-visible { outline: 2px solid transparent; box-shadow: inset 0 0 0 2px var(--rcc-primary); }
-  ::placeholder { color: var(--rcc-on-surface-variant); opacity: 0.75; }
-  .row { display: flex; gap: var(--rcc-space-2); align-items: stretch; }
-  .row input { flex: 1; min-width: 0; }
-
-  /* Small action buttons inside fields */
-  .use {
-    flex: none; font: inherit; font-size: var(--rcc-size-label-lg); font-weight: var(--rcc-weight-strong); cursor: pointer;
-    min-block-size: var(--rcc-target-min); padding-inline: var(--rcc-space-4); border: 0; border-radius: var(--rcc-radius-full);
-    background: var(--rcc-surface-container-high); color: var(--rcc-on-surface);
-    transition: border-radius var(--rcc-dur-fast-spatial) var(--rcc-ease-spatial);
+  .step__head { display: grid; grid-template-columns: 2.25rem 1fr; gap: 0 var(--rcc-space-3); align-items: start; margin-block-end: var(--rcc-space-3); }
+  .num {
+    grid-row: span 2; width: 2.25rem; height: 2.25rem; border-radius: 50%; display: grid; place-items: center;
+    background: var(--rcc-primary); color: var(--rcc-on-primary); font-weight: var(--rcc-weight-loud); font-size: var(--rcc-size-title-lg);
   }
-  .use:active { border-radius: var(--rcc-radius-sm); }
-  .use[aria-pressed="true"] { background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-primary); }
-  .no-js .use, html:not(.js) .use, html:not(.js) .js-only { display: none !important; }
-
-  /* Chips: real radio inputs with labels (components.md 7.5). */
-  .chips { display: flex; flex-wrap: wrap; gap: var(--rcc-space-2); margin: 0; padding: 0; list-style: none; max-width: none; }
-  .chips li { margin: 0; }
-  .chip { position: relative; display: inline-flex; }
-  .chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-  .chip span, .chip button {
-    display: inline-flex; align-items: center; min-block-size: 40px; padding: 6px 16px; border-radius: var(--rcc-radius-full);
-    font: inherit; font-size: var(--rcc-size-label-lg); font-weight: var(--rcc-weight-strong); line-height: 1.2; cursor: pointer; border: 0;
-    background: var(--rcc-surface-container-high); color: var(--rcc-on-surface); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline);
-    transition: background-color var(--rcc-dur-default-effects) var(--rcc-ease-standard), border-radius var(--rcc-dur-fast-spatial) var(--rcc-ease-spatial);
+  .step__head .rcc-ledger { margin: 0; line-height: 1.25rem; }
+  .step h2 { margin: 0.125rem 0 0; font-size: var(--rcc-size-headline-sm); line-height: var(--rcc-lh-headline-sm); letter-spacing: var(--rcc-track-headline-sm); }
+  .lines { list-style: none; margin: 0; padding: 0; }
+  .lines li { margin: 0; padding-block: 0.6rem; border-block-start: var(--rcc-hairline) solid var(--rcc-outline-variant); font-size: var(--rcc-size-body-lg); line-height: 1.5rem; }
+  .lines li:first-child { border-block-start: 0; padding-block-start: var(--rcc-space-1); }
+  .tag {
+    display: inline-block; margin-inline-end: 0.35em; padding: 0.05em 0.5em; border-radius: var(--rcc-radius-xs);
+    background: var(--rcc-highlight-container); color: var(--rcc-on-highlight-container); font-weight: var(--rcc-weight-loud); font-size: 0.9em;
   }
-  .chip input:checked + span { background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); box-shadow: inset 0 0 0 2px var(--rcc-primary); }
-  .chip input:focus-visible + span, .chip button:focus-visible { outline: 2px solid transparent; box-shadow: 0 0 0 3px var(--rcc-focus-gap), 0 0 0 6px var(--rcc-focus-ring); }
-  .chip button:active { border-radius: var(--rcc-radius-sm); }
-  .chip button { position: relative; }
-  .chip button::after { content: ""; position: absolute; inset: -4px 0; }
-  .chip { padding-block: 4px; }
-
-  /* The sentence, built live */
-  .sentence {
-    background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); border-radius: var(--rcc-radius-lg);
-    padding: var(--rcc-space-5); margin: 0 0 var(--rcc-space-5); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-primary);
+  .frame {
+    margin: var(--rcc-space-3) 0 0; padding: var(--rcc-space-3) var(--rcc-space-4); border-radius: var(--rcc-radius-md);
+    background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-primary);
   }
-  .sentence .rcc-ledger { color: var(--rcc-on-primary-container); margin: 0 0 var(--rcc-space-2); }
-  .sentence p.rcc-ledger { font-size: var(--rcc-size-code-sm); line-height: var(--rcc-lh-code-sm); letter-spacing: var(--rcc-track-ledger); font-weight: var(--rcc-weight-strong); }
-  .sentence p { margin: 0; font-size: var(--rcc-size-headline-sm); line-height: var(--rcc-lh-headline-sm); letter-spacing: var(--rcc-track-headline-sm); font-weight: var(--rcc-weight-strong); max-width: none; }
-  .sentence b { font-weight: var(--rcc-weight-loud); }
-  .sentence .blank { color: var(--rcc-on-primary-container); opacity: 0.55; font-weight: var(--rcc-weight-body); }
-  .js .sentence-static { display: none; }
-  html:not(.js) .sentence-live { display: none; }
+  .frame b { display: block; font-size: var(--rcc-size-title-lg); line-height: var(--rcc-lh-title-lg); font-weight: var(--rcc-weight-loud); }
+  .frame span { display: block; margin-top: var(--rcc-space-1); font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); }
+  .small { margin: var(--rcc-space-3) 0 0; font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); color: var(--rcc-on-surface-variant); }
 
-  /* Examples and hints */
-  .example { background: var(--rcc-surface-container-low); border-radius: var(--rcc-radius-md); padding: var(--rcc-space-4) var(--rcc-space-5); margin: 0 0 var(--rcc-space-5); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline-variant); }
-  .example .rcc-ledger { margin: 0 0 var(--rcc-space-1); }
-  .example p { margin: 0; }
-  .example p + p { margin-top: var(--rcc-space-2); }
-  details.example summary { cursor: pointer; font-weight: var(--rcc-weight-strong); color: var(--rcc-primary); list-style: none; min-block-size: 32px; display: flex; align-items: center; }
-  details.example summary::-webkit-details-marker { display: none; }
-  details.example summary::after { content: "+"; margin-inline-start: auto; font-size: 1.4rem; line-height: 1; }
-  details.example[open] summary::after { content: "−"; }
-  details.example[open] summary { margin-bottom: var(--rcc-space-2); }
-
-  .hints { margin: var(--rcc-space-6) 0 0; }
-  .hints ol { list-style: none; margin: 0 0 var(--rcc-space-3); padding: 0; display: grid; gap: var(--rcc-space-2); max-width: none; }
-  .hints li { margin: 0; }
-  .js .hints li[data-hidden] { display: none; }
-  .tip, .check {
-    border-radius: var(--rcc-radius-md); padding: var(--rcc-space-3) var(--rcc-space-4); margin: 0;
-    font-size: var(--rcc-size-body-lg); line-height: var(--rcc-lh-body-lg); max-width: none;
-  }
-  .tip { background: var(--rcc-surface-container-high); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline); }
-  .check { background: var(--rcc-highlight-container); color: var(--rcc-on-highlight-container); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline); }
-  .tip b, .check b { font-weight: var(--rcc-weight-loud); }
-  .hints li .mask > span { display: block; transition: transform var(--rcc-dur-default-spatial) var(--rcc-ease-arrive); }
-  .hints__more { display: flex; align-items: center; gap: var(--rcc-space-3); }
-  .hints__more small { font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant); }
-
-  /* The eight boxes: the folded sheet from the deck's Crazy 8s slide */
-  .sheet { display: grid; grid-template-columns: repeat(2, 1fr); background: var(--rcc-surface-container-lowest); border-radius: var(--rcc-radius-lg); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline); overflow: hidden; margin: 0 0 var(--rcc-space-4); }
-  .box { position: relative; padding: var(--rcc-space-3); border-inline-end: 2px dashed var(--rcc-outline-variant); border-block-end: 2px dashed var(--rcc-outline-variant); display: flex; flex-direction: column; gap: var(--rcc-space-2); min-width: 0; }
-  .box:nth-child(2n) { border-inline-end: 0; }
-  .box:nth-last-child(-n+2) { border-block-end: 0; }
-  .box__head { display: flex; align-items: center; justify-content: space-between; gap: var(--rcc-space-2); }
-  .box__n { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: var(--rcc-weight-loud); font-size: var(--rcc-size-label-md); background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); box-shadow: inset 0 0 0 1.5px var(--rcc-primary); }
-  .box__top { font-size: var(--rcc-size-label-md); font-weight: var(--rcc-weight-strong); color: var(--rcc-on-primary); background: var(--rcc-primary); border-radius: var(--rcc-radius-full); padding: 2px 10px; }
-  .box__top[hidden] { display: none; }
-  .box textarea { min-block-size: 4.6rem; font-size: 0.95rem; padding: 0.55rem 0.65rem; background: transparent; box-shadow: none; border-radius: var(--rcc-radius-sm); }
-  .box textarea:focus-visible { background: var(--rcc-surface-container-low); box-shadow: inset 0 0 0 2px var(--rcc-primary); }
-  .box.is-top { background: var(--rcc-surface-container-low); }
-  .votes { display: flex; align-items: center; justify-content: space-between; gap: var(--rcc-space-1); }
-  .votes button {
-    width: 40px; height: 40px; position: relative; border: 0; border-radius: var(--rcc-radius-full); cursor: pointer; font: inherit; font-size: 1.25rem; line-height: 1; font-weight: var(--rcc-weight-strong);
-    background: var(--rcc-surface-container-high); color: var(--rcc-on-surface); transition: border-radius var(--rcc-dur-fast-spatial) var(--rcc-ease-spatial);
-  }
-  .votes button::after { content: ""; position: absolute; inset: -4px; }
-  .votes button:active { border-radius: var(--rcc-radius-sm); }
-  .votes button[data-v="+"] { background: var(--rcc-primary); color: var(--rcc-on-primary); }
-  .votes output { font-size: var(--rcc-size-label-md); font-weight: var(--rcc-weight-strong); color: var(--rcc-on-surface-variant); text-align: center; flex: 1; }
-  .votes .dots { display: block; letter-spacing: 2px; color: var(--rcc-primary); font-size: 0.9rem; min-height: 1em; }
-
-  /* Challenge picks */
-  .picks { display: grid; gap: var(--rcc-space-2); margin: 0 0 var(--rcc-space-5); padding: 0; list-style: none; max-width: none; }
-  .picks li { margin: 0; }
-  .pick { position: relative; display: block; }
-  .pick input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-  .pick span {
-    display: block; padding: var(--rcc-space-3) var(--rcc-space-4) var(--rcc-space-3) 3rem; border-radius: var(--rcc-radius-md); position: relative;
-    background: var(--rcc-surface-container-lowest); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline); font-size: var(--rcc-size-body-lg); line-height: var(--rcc-lh-body-lg);
-    transition: background-color var(--rcc-dur-default-effects) var(--rcc-ease-standard);
-  }
-  .pick span::before { content: ""; position: absolute; inset-inline-start: 1rem; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--rcc-outline); background: var(--rcc-surface-container-lowest); }
-  .pick input:checked + span { background: var(--rcc-highlight-container); color: var(--rcc-on-highlight-container); box-shadow: inset 0 0 0 2px var(--rcc-on-highlight-container); }
-  .pick input:checked + span::before { box-shadow: inset 0 0 0 5px var(--rcc-on-highlight-container); }
-  .pick input:focus-visible + span { box-shadow: 0 0 0 3px var(--rcc-focus-gap), 0 0 0 6px var(--rcc-focus-ring); }
+  /* Step 5 sits dark, like its slide. */
+  .step--dark { background: var(--rcc-inverse-surface); color: var(--rcc-inverse-on-surface); box-shadow: none; }
+  .step--dark .num { background: var(--rcc-inverse-primary); color: var(--rcc-on-primary-container); }
+  .step--dark .rcc-ledger { color: var(--rcc-inverse-primary); }
+  .step--dark .lines li { border-color: color-mix(in srgb, var(--rcc-inverse-on-surface) 22%, transparent); }
+  .step--dark .small { color: var(--rcc-inverse-on-surface); opacity: 0.85; }
 
   /* STAR */
-  .star { display: grid; gap: var(--rcc-space-4); margin: 0 0 var(--rcc-space-5); }
-  .star__row { display: grid; grid-template-columns: 2.75rem 1fr; gap: var(--rcc-space-3); align-items: start; }
-  .star__l { width: 2.75rem; height: 2.75rem; border-radius: var(--rcc-radius-md); display: grid; place-items: center; font-weight: var(--rcc-weight-loud); font-size: 1.35rem; background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); box-shadow: inset 0 0 0 1.5px var(--rcc-primary); }
-  .star__row label { display: block; font-weight: var(--rcc-weight-strong); margin: 0 0 var(--rcc-space-1); }
-  .star__row label small { display: block; font-weight: var(--rcc-weight-body); font-size: var(--rcc-size-body-md); color: var(--rcc-on-surface-variant); }
-  .star__row textarea { min-block-size: 4.2rem; }
-  .actions { display: flex; flex-wrap: wrap; gap: var(--rcc-space-2); margin: 0 0 var(--rcc-space-4); }
-  .note { font-size: var(--rcc-size-body-md); color: var(--rcc-on-surface-variant); margin: 0 0 var(--rcc-space-4); }
+  .star li { display: grid; grid-template-columns: 2rem 1fr; gap: var(--rcc-space-3); align-items: baseline; }
+  .star .l { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: var(--rcc-radius-sm); align-self: center; background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); font-weight: var(--rcc-weight-loud); }
 
-  /* Step navigation */
-  .step__nav { display: none; gap: var(--rcc-space-3); justify-content: space-between; margin-top: var(--rcc-space-8); padding-top: var(--rcc-space-5); border-top: var(--rcc-hairline) solid var(--rcc-outline-variant); }
-  .js .step__nav { display: flex; }
-  .step__nav .rcc-button { min-block-size: var(--rcc-target-min); }
-  .step__nav [data-go="next"] { margin-inline-start: auto; }
-
-  /* Pitch view */
-  dialog.pitchview { inset: 0; width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 0; border: 0; background: var(--rcc-surface); color: var(--rcc-on-surface); }
-  .pv { display: grid; grid-template-rows: auto 1fr auto; height: 100%; }
-  .pv__bar { padding: max(var(--rcc-space-4), env(safe-area-inset-top)) var(--rcc-page-margin) var(--rcc-space-3); border-bottom: var(--rcc-hairline) solid var(--rcc-outline-variant); }
-  .pv__clock { display: flex; align-items: baseline; justify-content: space-between; gap: var(--rcc-space-3); }
-  .pv__digits { font-family: var(--rcc-font-brand); font-size: 2.75rem; line-height: 1; font-weight: var(--rcc-weight-loud); font-variant-numeric: tabular-nums; }
-  .pv__track { margin-top: var(--rcc-space-3); height: 8px; border-radius: 8px; background: var(--rcc-surface-container-high); overflow: hidden; }
-  .pv__fill { height: 100%; width: 100%; background: var(--rcc-primary); transform-origin: left center; }
-  .pv[data-over] .pv__digits { background: var(--rcc-highlight-container); color: var(--rcc-on-highlight-container); border-radius: var(--rcc-radius-sm); padding: 0.1em 0.3em; }
-  .pv__body { overflow-y: auto; padding: var(--rcc-space-6) var(--rcc-page-margin); }
-  .pv__body .rcc-ledger { margin: 0 0 var(--rcc-space-2); color: var(--rcc-primary); }
-  .pv__name { margin: 0 0 var(--rcc-space-6); font-size: var(--rcc-size-display-sm); line-height: var(--rcc-lh-display-sm); }
-  .pv__part { display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--rcc-space-3); margin: 0 0 var(--rcc-space-5); max-width: 40rem; }
-  .pv__part b { font-size: 1.5rem; color: var(--rcc-primary); line-height: 1.3; }
-  .pv__part p { margin: 0; font-size: var(--rcc-size-headline-sm); line-height: 1.4; }
-  .pv__foot { display: flex; gap: var(--rcc-space-2); padding: var(--rcc-space-3) var(--rcc-page-margin) max(var(--rcc-space-4), env(safe-area-inset-bottom)); border-top: var(--rcc-hairline) solid var(--rcc-outline-variant); }
-  .pv__foot .rcc-button { flex: 1; }
-
-  /* --- Bottom -------------------------------------------------------------- */
-  .ask { background: var(--rcc-primary); color: var(--rcc-on-primary); border-radius: var(--rcc-radius-xl); padding: var(--rcc-space-6); margin: var(--rcc-space-4) 0 var(--rcc-space-6); }
+  .ask { background: var(--rcc-primary); color: var(--rcc-on-primary); border-radius: var(--rcc-radius-lg); padding: var(--rcc-space-5); }
   .ask .rcc-ledger { color: var(--rcc-primary-container); margin: 0 0 var(--rcc-space-2); }
-  .ask p { margin: 0; max-width: none; }
+  .ask p { margin: 0; }
   .ask .big { font-size: var(--rcc-size-headline-sm); line-height: var(--rcc-lh-headline-sm); font-weight: var(--rcc-weight-strong); }
-  .ask .big + p { margin-top: var(--rcc-space-2); opacity: 0.92; }
-  .more p { margin: 0 0 var(--rcc-space-4); }
-  .reset { margin: 0 0 var(--rcc-space-8); }
-  footer.rcc-footer { padding-block: var(--rcc-space-8) var(--rcc-space-12); }
-  footer .lockup { display: block; width: min(16rem, 70%); height: auto; }
-  footer .rcc-footer__notice { margin-block-start: var(--rcc-space-6); }
-  footer .meta { margin: var(--rcc-space-4) 0 0; font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant); }
+  .ask .big + p { margin-top: var(--rcc-space-2); }
+
+  footer.rcc-footer { padding-block: var(--rcc-space-8) var(--rcc-space-10); }
+  footer .lockup { display: block; width: min(15rem, 66%); height: auto; }
+  footer .rcc-footer__notice { margin-block-start: var(--rcc-space-5); }
+  footer .meta { margin: var(--rcc-space-3) 0 0; font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant); }
 </style>
 </head>
 <body>
-<a class="rcc-button skip" href="#main">Skip to the steps</a>
 
 <header class="top wrap">
   <p class="rcc-ledger">GDG on Campus RCC · Thursday, October 15</p>
-  <h1 class="rise-pre" id="title"><span class="mask"><span>Invent</span></span> <span class="mask"><span>a</span></span> <span class="mask"><span>product</span></span></h1>
-  <p class="lede">One phone per group. Fill it in as you go, and at the end it turns your answers into a pitch.</p>
-  <p class="saved" id="saved" aria-live="polite">Saved on this phone</p>
+  <h1><span class="mask"><span>Invent</span></span> <span class="mask"><span>a</span></span> <span class="mask"><span>product</span></span></h1>
+  <p class="lede">No code. Pick a real problem, find out why it happens, and pitch a fix.</p>
+  <div class="rcc-step-rule" aria-hidden="true"></div>
 </header>
 
-<nav class="rail" aria-label="Steps">
-  <div class="wrap">
-    <svg class="rail__stair" viewBox="0 0 360 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path class="rail__base" d="M0 42H60V35H120V28H180V21H240V14H300V7H360" fill="none" stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-      <path class="rail__done" id="rail-done" d="M0 42H60V35H120V28H180V21H240V14H300V7H360" pathLength="1" fill="none" stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-    </svg>
-    <ol>
-      <li><a href="#s1" data-step="1"><span class="n">1</span>Problem</a></li>
-      <li><a href="#s2" data-step="2"><span class="n">2</span>Why</a></li>
-      <li><a href="#s3" data-step="3"><span class="n">3</span>Ideas</a></li>
-      <li><a href="#s4" data-step="4"><span class="n">4</span>Build</a></li>
-      <li><a href="#s5" data-step="5"><span class="n">5</span>Checks</a></li>
-      <li><a href="#s6" data-step="6"><span class="n">6</span>Pitch</a></li>
-    </ol>
-  </div>
+<nav class="jump" aria-label="Steps">
+  <ol>
+    <li><a href="#s1"><b>1</b>Problem</a></li>
+    <li><a href="#s2"><b>2</b>Why</a></li>
+    <li><a href="#s3"><b>3</b>Ideas</a></li>
+    <li><a href="#s4"><b>4</b>Build</a></li>
+    <li><a href="#s5"><b>5</b>Checks</a></li>
+    <li><a href="#s6"><b>6</b>Pitch</a></li>
+  </ol>
 </nav>
 
-<main id="main" class="wrap no-js-steps" tabindex="-1">
+<main class="wrap">
 
-  <!-- 1 ======================================================================== -->
-  <section class="step" id="s1" data-step="1" aria-labelledby="t1">
-    <header>
-      <p class="rcc-ledger">Step 1 of 6 · 5 minutes</p>
-      <h2 id="t1" tabindex="-1"><span class="mask"><span>Pick a problem</span></span></h2>
-      <p>Everyone names one thing that annoyed them this week. Big or small.</p>
-    </header>
-
-    <fieldset class="field">
-      <legend>What annoyed you this week?<span class="help">One line each. Tap “Use” on the one your group wants to fix.</span></legend>
-      <div class="field"><div class="row"><input type="text" data-key="list.0" aria-label="Person 1" placeholder="Person 1"><button type="button" class="use" data-use="list.0" aria-label="Use person 1’s problem">Use</button></div></div>
-      <div class="field"><div class="row"><input type="text" data-key="list.1" aria-label="Person 2" placeholder="Person 2"><button type="button" class="use" data-use="list.1" aria-label="Use person 2’s problem">Use</button></div></div>
-      <div class="field"><div class="row"><input type="text" data-key="list.2" aria-label="Person 3" placeholder="Person 3"><button type="button" class="use" data-use="list.2" aria-label="Use person 3’s problem">Use</button></div></div>
-      <div class="field"><div class="row"><input type="text" data-key="list.3" aria-label="Person 4" placeholder="Person 4"><button type="button" class="use" data-use="list.3" aria-label="Use person 4’s problem">Use</button></div></div>
-    </fieldset>
-
-    <div class="field">
-      <label for="problem">The problem we picked</label>
-      <input type="text" id="problem" data-key="problem" placeholder="Finding parking before class">
-    </div>
-
-    <div class="field">
-      <p class="note" id="board-label">Nothing good on your list? Take one of these.</p>
-      <ul class="chips" aria-labelledby="board-label">
-        <li class="chip"><button type="button" data-board>Finding parking before class</button></li>
-        <li class="chip"><button type="button" data-board>Scalpers buying up concert tickets</button></li>
-        <li class="chip"><button type="button" data-board>Textbook access codes</button></li>
-        <li class="chip"><button type="button" data-board>Getting into a full class</button></li>
-        <li class="chip"><button type="button" data-board>Splitting bills with roommates</button></li>
-        <li class="chip"><button type="button" data-board>Finding a quiet place to study</button></li>
-        <li class="chip"><button type="button" data-board>One person doing the whole group project</button></li>
-        <li class="chip"><button type="button" data-board>Food thrown out while students skip meals</button></li>
-      </ul>
-    </div>
-
-    <div class="hints" data-hints="s1">
-      <ol>
-        <li><p class="tip"><span class="mask"><span>Pick one you’ve felt yourself. Small and real beats big and vague.</span></span></p></li>
-        <li><p class="check"><span class="mask"><span><b>Check:</b> Who do you know who has this problem? If nobody, pick another one.</span></span></p></li>
-      </ol>
-      <div class="hints__more js-only"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-more>Need a push?</button><small data-left></small></div>
-    </div>
-
-    <div class="step__nav"><button type="button" class="rcc-button rcc-state" data-go="next">Next: Find out why</button></div>
+  <section class="step" id="s1" aria-labelledby="t1">
+    <div class="step__head"><span class="num" aria-hidden="true">1</span><p class="rcc-ledger">5 minutes · in your group</p><h2 id="t1">What annoyed you this week?</h2></div>
+    <ul class="lines">
+      <li>Everyone names one thing.</li>
+      <li>Pick one you’ve felt yourself.</li>
+      <li>Stuck? Try parking, scalpers, textbook codes, or getting into a full class.</li>
+      <li><span class="tag">Check</span>Who do you know who has it?</li>
+    </ul>
   </section>
 
-  <!-- 2 ======================================================================== -->
-  <section class="step" id="s2" data-step="2" aria-labelledby="t2">
-    <header>
-      <p class="rcc-ledger">Step 2 of 6 · 8 minutes</p>
-      <h2 id="t2" tabindex="-1"><span class="mask"><span>Find out why it happens</span></span></h2>
-      <p>Answer one at a time. The last one matters most.</p>
-      <p class="context js-only" data-context="2" hidden><span class="rcc-ledger">Your problem</span><span></span></p>
-    </header>
-
-    <div class="field"><label for="who">Who has it? <span class="help">Be exact.</span></label><input type="text" id="who" data-key="who" placeholder="A student who drives in for a 9:00 class"></div>
-    <div class="field"><label for="when">When is it worst?</label><input type="text" id="when" data-key="when" placeholder="Right before 9, when every row looks full"></div>
-    <div class="field"><label for="now">What do they do about it now?</label><input type="text" id="now" data-key="now" placeholder="Circle the lot, or park far away and run"></div>
-    <div class="field"><label for="why">Why hasn’t anyone fixed it?</label><textarea id="why" data-key="why" rows="2" placeholder="Nobody can see where the open spots are"></textarea></div>
-
-    <h3>Put it in one sentence</h3>
-    <div class="sentence" aria-live="off">
-      <p class="rcc-ledger">Your sentence</p>
-      <p class="sentence-live" id="sentence"></p>
-      <p class="sentence-static">___ can’t ___ because ___.</p>
-    </div>
-    <div class="field"><label for="s-who">Who</label><input type="text" id="s-who" data-key="sWho" placeholder="Students with 9:00 classes"></div>
-    <div class="field"><label for="s-cant">can’t…</label><input type="text" id="s-cant" data-key="sCant" placeholder="find a spot"></div>
-    <div class="field"><label for="s-because">because…</label><input type="text" id="s-because" data-key="sBecause" placeholder="they can’t see which ones are open"></div>
-
-    <details class="example">
-      <summary>See two examples</summary>
-      <p><b>Parking.</b> Students with 9:00 classes can’t find a spot because they can’t see which ones are open.</p>
-      <p><b>Tickets.</b> Fans can’t buy at face value because bots buy faster than any person can click.</p>
-      <p>The “because” is where your ideas come from. If nobody can see the open spots, the fix is showing people the spots, not building a garage.</p>
-    </details>
-
-    <div class="hints" data-hints="s2">
-      <ol>
-        <li><p class="tip"><span class="mask"><span>If your “why” is “nobody cares,” ask who would have to care, and why they don’t.</span></span></p></li>
-        <li><p class="check"><span class="mask"><span><b>Check:</b> How do you know? Did someone tell you, or are you guessing?</span></span></p></li>
-        <li><p class="tip"><span class="mask"><span>Ask “why” one more time. The first answer is usually not the real one.</span></span></p></li>
-      </ol>
-      <div class="hints__more js-only"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-more>Need a push?</button><small data-left></small></div>
-    </div>
-
-    <div class="step__nav"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-go="prev">Back</button><button type="button" class="rcc-button rcc-state" data-go="next">Next: Get eight ideas</button></div>
+  <section class="step" id="s2" aria-labelledby="t2">
+    <div class="step__head"><span class="num" aria-hidden="true">2</span><p class="rcc-ledger">8 minutes · in your group</p><h2 id="t2">Why does it happen?</h2></div>
+    <ul class="lines">
+      <li>Who has it? Be exact.</li>
+      <li>When is it worst?</li>
+      <li>What do they do about it now?</li>
+      <li>Why hasn’t anyone fixed it?</li>
+    </ul>
+    <p class="frame"><b>___ can’t ___ because ___.</b><span>Students with 9:00 classes can’t find a spot because they can’t see which ones are open.</span></p>
   </section>
 
-  <!-- 3 ======================================================================== -->
-  <section class="step" id="s3" data-step="3" aria-labelledby="t3">
-    <header>
-      <p class="rcc-ledger">Step 3 of 6 · 8 minutes, then vote</p>
-      <h2 id="t3" tabindex="-1"><span class="mask"><span>Get eight ideas</span></span></h2>
-      <p>Do Crazy 8s on paper first: fold a sheet into eight boxes, one idea per box, no talking. Then put each person’s best two here and vote.</p>
-      <p class="context js-only" data-context="3" hidden><span class="rcc-ledger">Your sentence</span><span></span></p>
-    </header>
-
-    <div class="sheet" role="group" aria-label="Your group’s best ideas">
-      <div class="box" data-box="0"><div class="box__head"><span class="box__n" aria-hidden="true">1</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.0" rows="3" aria-label="Idea 1" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 1">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 1">+</button></div></div>
-      <div class="box" data-box="1"><div class="box__head"><span class="box__n" aria-hidden="true">2</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.1" rows="3" aria-label="Idea 2" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 2">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 2">+</button></div></div>
-      <div class="box" data-box="2"><div class="box__head"><span class="box__n" aria-hidden="true">3</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.2" rows="3" aria-label="Idea 3" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 3">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 3">+</button></div></div>
-      <div class="box" data-box="3"><div class="box__head"><span class="box__n" aria-hidden="true">4</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.3" rows="3" aria-label="Idea 4" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 4">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 4">+</button></div></div>
-      <div class="box" data-box="4"><div class="box__head"><span class="box__n" aria-hidden="true">5</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.4" rows="3" aria-label="Idea 5" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 5">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 5">+</button></div></div>
-      <div class="box" data-box="5"><div class="box__head"><span class="box__n" aria-hidden="true">6</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.5" rows="3" aria-label="Idea 6" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 6">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 6">+</button></div></div>
-      <div class="box" data-box="6"><div class="box__head"><span class="box__n" aria-hidden="true">7</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.6" rows="3" aria-label="Idea 7" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 7">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 7">+</button></div></div>
-      <div class="box" data-box="7"><div class="box__head"><span class="box__n" aria-hidden="true">8</span><span class="box__top" hidden>Top pick</span></div><textarea data-key="ideas.7" rows="3" aria-label="Idea 8" placeholder="An idea"></textarea><div class="votes js-only"><button type="button" data-v="-" aria-label="Take a vote from idea 8">−</button><output aria-live="polite"><span class="dots"></span><span class="count">0 votes</span></output><button type="button" data-v="+" aria-label="Vote for idea 8">+</button></div></div>
-    </div>
-    <p class="note js-only" id="vote-note">Everyone gets two votes. Mixing two ideas is fine.</p>
-
-    <details class="example">
-      <summary>See eight parking ideas</summary>
-      <p>A live map of open spots (an app) · signs at each gate with the open count (a sign) · valet parking (a business) · carpool matches by class time (an app) · staggered class start times (a rule) · a shuttle from the far lot (a service) · reserving a spot the night before (an app) · premium spots near the buildings that cost more (a business).</p>
-      <p>Only three of the eight are apps.</p>
-    </details>
-
-    <div class="hints" data-hints="s3">
-      <ol>
-        <li><p class="tip"><span class="mask"><span><b>Borrow it.</b> How would an airline, a restaurant, or a dating app handle this?</span></span></p></li>
-        <li><p class="tip"><span class="mask"><span><b>Pay someone.</b> Who would fix this for money? Now it’s a business.</span></span></p></li>
-        <li><p class="tip"><span class="mask"><span><b>Change a rule.</b> Could a new rule fix it with no app at all?</span></span></p></li>
-        <li><p class="tip"><span class="mask"><span><b>Skip the step.</b> What if they never had to do the annoying part?</span></span></p></li>
-        <li><p class="check"><span class="mask"><span><b>Check:</b> At least one of your eight can’t be an app.</span></span></p></li>
-      </ol>
-      <div class="hints__more js-only"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-more>Stuck? Get a push</button><small data-left></small></div>
-    </div>
-
-    <div class="step__nav"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-go="prev">Back</button><button type="button" class="rcc-button rcc-state" data-go="next">Next: Build it out</button></div>
+  <section class="step" id="s3" aria-labelledby="t3">
+    <div class="step__head"><span class="num" aria-hidden="true">3</span><p class="rcc-ledger">8 minutes · on your own</p><h2 id="t3">Fill all eight boxes.</h2></div>
+    <ul class="lines">
+      <li>Crazy 8s. Fold a sheet into eight boxes, one idea per box. No talking yet.</li>
+      <li>Box 3: How would an airline do it?</li>
+      <li>Box 4: Who’d fix this for money?</li>
+      <li>Box 5: Fix it with a new rule.</li>
+      <li>Box 7: Your weirdest idea.</li>
+    </ul>
   </section>
 
-  <!-- 4 ======================================================================== -->
-  <section class="step" id="s4" data-step="4" aria-labelledby="t4">
-    <header>
-      <p class="rcc-ledger">Step 4 of 6 · 6 minutes</p>
-      <h2 id="t4" tabindex="-1"><span class="mask"><span>Build it out</span></span></h2>
-      <p>Turn the winning idea into a product someone could use.</p>
-      <p class="context js-only" data-context="4" hidden><span class="rcc-ledger">Your sentence</span><span></span></p>
-    </header>
-
-    <div class="field">
-      <label for="idea">The idea, in one line</label>
-      <div class="row"><input type="text" id="idea" data-key="idea" placeholder="Your top pick from step 3"><button type="button" class="use" id="use-top">Use top pick</button></div>
-    </div>
-    <div class="field"><label for="name">Give it a name</label><input type="text" id="name" data-key="name" placeholder="SpotCheck"></div>
-
-    <fieldset class="field">
-      <legend>How does it work? Three steps.<span class="help">From their side: what they tap, see, or do. Not how the tech works.</span></legend>
-      <div class="field"><input type="text" data-key="how.0" aria-label="Step one" placeholder="1. They open the map before leaving home"></div>
-      <div class="field"><input type="text" data-key="how.1" aria-label="Step two" placeholder="2. It shows which lots have open spots"></div>
-      <div class="field"><input type="text" data-key="how.2" aria-label="Step three" placeholder="3. They drive straight to one"></div>
-    </fieldset>
-
-    <fieldset class="field">
-      <legend>Who pays for it?</legend>
-      <ul class="chips">
-        <li class="chip"><input type="radio" name="pays" value="the people who use it" data-key="pays" id="pay-1"><span><label for="pay-1">The people who use it</label></span></li>
-        <li class="chip"><input type="radio" name="pays" value="a business" data-key="pays" id="pay-2"><span><label for="pay-2">A business</label></span></li>
-        <li class="chip"><input type="radio" name="pays" value="the school" data-key="pays" id="pay-3"><span><label for="pay-3">The school</label></span></li>
-        <li class="chip"><input type="radio" name="pays" value="ads" data-key="pays" id="pay-4"><span><label for="pay-4">Ads</label></span></li>
-        <li class="chip"><input type="radio" name="pays" value="other" data-key="pays" id="pay-5"><span><label for="pay-5">Someone else</label></span></li>
-      </ul>
-      <div class="field" style="margin-top: var(--rcc-space-3)"><input type="text" data-key="paysOther" aria-label="Who else pays, or how" placeholder="Who, and how? (optional)"></div>
-    </fieldset>
-
-    <div class="hints" data-hints="s4">
-      <ol>
-        <li><p class="tip"><span class="mask"><span>A name you can say out loud beats a clever one. Say it to your group once.</span></span></p></li>
-        <li><p class="check"><span class="mask"><span><b>Check:</b> Look it up. Does it already exist? That’s normal. What does yours do that it doesn’t, or who does it miss?</span></span></p></li>
-      </ol>
-      <div class="hints__more js-only"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-more>Need a push?</button><small data-left></small></div>
-    </div>
-
-    <div class="field" style="margin-top: var(--rcc-space-6)">
-      <label for="diff">Does it already exist? What’s different about yours?</label>
-      <div class="actions js-only"><a class="rcc-button rcc-button--secondary rcc-state" id="lookup" href="https://www.google.com/search" target="_blank" rel="noopener">Look it up</a></div>
-      <textarea id="diff" data-key="diff" rows="2" placeholder="The school’s parking page only shows permits. Ours shows open spots live."></textarea>
-    </div>
-
-    <div class="step__nav"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-go="prev">Back</button><button type="button" class="rcc-button rcc-state" data-go="next">Next: Challenge checks</button></div>
+  <section class="step" id="s4" aria-labelledby="t4">
+    <div class="step__head"><span class="num" aria-hidden="true">4</span><p class="rcc-ledger">6 minutes · in your group</p><h2 id="t4">Pick one and build it out.</h2></div>
+    <ul class="lines">
+      <li>Share your best two, then vote.</li>
+      <li>Give it a name.</li>
+      <li>How does it work? Three steps.</li>
+      <li>Who pays for it?</li>
+      <li><span class="tag">Check</span>Look it up. Does it exist?</li>
+    </ul>
   </section>
 
-  <!-- 5 ======================================================================== -->
-  <section class="step" id="s5" data-step="5" aria-labelledby="t5">
-    <header>
-      <p class="rcc-ledger">Step 5 of 6 · 5 minutes</p>
-      <h2 id="t5" tabindex="-1"><span class="mask"><span>What would actually happen?</span></span></h2>
-      <p>Real life asks these. Pick the one that hurts your idea most, then change your idea to handle it.</p>
-      <p class="context js-only" data-context="5" hidden><span class="rcc-ledger">Your product</span><span></span></p>
-    </header>
-
-    <fieldset class="field">
-      <legend class="sr-only">The challenge that hurts most</legend>
-      <ul class="picks">
-        <li class="pick"><input type="radio" name="check" value="We need our first 10 users." data-key="check" id="c1"><span><label for="c1">Who are your first 10 users, and where do you find them?</label></span></li>
-        <li class="pick"><input type="radio" name="check" value="It costs money to run every month." data-key="check" id="c2"><span><label for="c2">It costs money to run every month. Who pays?</label></span></li>
-        <li class="pick"><input type="radio" name="check" value="The school could say no." data-key="check" id="c3"><span><label for="c3">The school says no. What’s plan B?</label></span></li>
-        <li class="pick"><input type="radio" name="check" value="A big company could copy us." data-key="check" id="c4"><span><label for="c4">A big company copies you. Why do people stay with yours?</label></span></li>
-        <li class="pick"><input type="radio" name="check" value="People have to trust it with their info." data-key="check" id="c5"><span><label for="c5">Would people trust it with their info? What do you promise them?</label></span></li>
-        <li class="pick"><input type="radio" name="check" value="other" data-key="check" id="c6"><span><label for="c6">One an organizer gave us</label></span></li>
-      </ul>
-      <div class="field"><input type="text" data-key="checkOther" aria-label="The challenge an organizer gave you" placeholder="Write the organizer’s challenge here"></div>
-    </fieldset>
-
-    <div class="field"><label for="change">What did you change?</label><textarea id="change" data-key="change" rows="3" placeholder="We start with one lot and ask the first 10 drivers who park there to try it."></textarea></div>
-
-    <div class="step__nav"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-go="prev">Back</button><button type="button" class="rcc-button rcc-state" data-go="next">Next: Plan the pitch</button></div>
+  <section class="step step--dark" id="s5" aria-labelledby="t5">
+    <div class="step__head"><span class="num" aria-hidden="true">5</span><p class="rcc-ledger">Challenge checks · 5 minutes</p><h2 id="t5">What would actually happen?</h2></div>
+    <ul class="lines">
+      <li>Who are your first 10 users?</li>
+      <li>It costs money every month. Who pays?</li>
+      <li>The school says no. What’s plan B?</li>
+      <li>A big company copies you. Now what?</li>
+      <li>Would people trust it with their info?</li>
+    </ul>
+    <p class="small">Pick the one that hurts your idea most, and change your idea to handle it.</p>
   </section>
 
-  <!-- 6 ======================================================================== -->
-  <section class="step" id="s6" data-step="6" aria-labelledby="t6">
-    <header>
-      <p class="rcc-ledger">Step 6 of 6 · 5 minutes to plan, 60 seconds to pitch</p>
-      <h2 id="t6" tabindex="-1"><span class="mask"><span>Pitch it with STAR</span></span></h2>
-      <p>Same STAR as last week, used for a pitch. Spend most of your time on the A.</p>
-    </header>
-
-    <div class="actions js-only">
-      <button type="button" class="rcc-button rcc-button--secondary rcc-state" id="fill">Fill in from our answers</button>
-    </div>
-    <p class="note js-only" id="fill-note">Fills any empty box below with what you wrote in steps 1 to 5. Change anything.</p>
-
-    <div class="star">
-      <div class="star__row"><span class="star__l" aria-hidden="true">S</span><div><label for="pS">Situation<small>Who has the problem, and when?</small></label><textarea id="pS" data-key="pS" rows="3"></textarea></div></div>
-      <div class="star__row"><span class="star__l" aria-hidden="true">T</span><div><label for="pT">Task<small>What has to change? Say your because.</small></label><textarea id="pT" data-key="pT" rows="3"></textarea></div></div>
-      <div class="star__row"><span class="star__l" aria-hidden="true">A</span><div><label for="pA">Action<small>What you built, in three steps.</small></label><textarea id="pA" data-key="pA" rows="4"></textarea></div></div>
-      <div class="star__row"><span class="star__l" aria-hidden="true">R</span><div><label for="pR">Result<small>What gets better for them, and who pays.</small></label><textarea id="pR" data-key="pR" rows="3"></textarea></div></div>
-      <div class="star__row"><span class="star__l" aria-hidden="true">+</span><div><label for="pC">One challenge you fixed<small>The check from step 5, and your change.</small></label><textarea id="pC" data-key="pC" rows="3"></textarea></div></div>
-    </div>
-
-    <div class="actions js-only">
-      <button type="button" class="rcc-button rcc-state" id="practice">Practice the pitch</button>
-      <button type="button" class="rcc-button rcc-button--secondary rcc-state" id="copy">Copy it</button>
-    </div>
-    <p class="note js-only" id="copy-note" aria-live="polite"></p>
-
-    <div class="step__nav"><button type="button" class="rcc-button rcc-button--secondary rcc-state" data-go="prev">Back</button></div>
+  <section class="step" id="s6" aria-labelledby="t6">
+    <div class="step__head"><span class="num" aria-hidden="true">6</span><p class="rcc-ledger">5 minutes · 60-second pitch</p><h2 id="t6">Plan your pitch with STAR</h2></div>
+    <ul class="lines star">
+      <li><span class="l" aria-hidden="true">S</span><span><span class="sr-only">Situation: </span>Who has the problem, and when?</span></li>
+      <li><span class="l" aria-hidden="true">T</span><span><span class="sr-only">Task: </span>What has to change? Your because.</span></li>
+      <li><span class="l" aria-hidden="true">A</span><span><span class="sr-only">Action: </span>What you built, in three steps.</span></li>
+      <li><span class="l" aria-hidden="true">R</span><span><span class="sr-only">Result: </span>What gets better, and who pays.</span></li>
+    </ul>
+    <p class="small">Then one challenge you fixed. Spend most of the time on the A.</p>
   </section>
 
   <div class="ask">
@@ -535,267 +198,15 @@
     <p>Bring back what they said, even if it’s no.</p>
   </div>
 
-  <div class="more">
-    <p><b>Want to do this again?</b> NASA Space Apps in Temecula is this same kind of thing for a weekend, November 14 to 15. Free, no coding needed, teams of 1 to 6. <a href="https://temeculaspaceapps.vercel.app/" data-xref>temeculaspaceapps.vercel.app</a></p>
-  </div>
-  <p class="reset js-only"><button type="button" class="rcc-button rcc-button--text rcc-state" id="reset">Start over on this phone</button></p>
 </main>
-
-<dialog class="pitchview" id="pv" aria-labelledby="pv-name">
-  <div class="pv">
-    <div class="pv__bar">
-      <div class="pv__clock"><span class="pv__digits" id="pv-digits">1:00</span><span class="rcc-ledger">60-second pitch</span></div>
-      <div class="pv__track"><div class="pv__fill" id="pv-fill"></div></div>
-    </div>
-    <div class="pv__body">
-      <p class="rcc-ledger">Your pitch</p>
-      <h2 class="pv__name" id="pv-name">Your product</h2>
-      <div id="pv-parts"></div>
-    </div>
-    <div class="pv__foot">
-      <button type="button" class="rcc-button rcc-state" id="pv-go">Start</button>
-      <button type="button" class="rcc-button rcc-button--secondary rcc-state" id="pv-reset">Reset</button>
-      <button type="button" class="rcc-button rcc-button--secondary rcc-state" id="pv-close">Done</button>
-    </div>
-  </div>
-</dialog>
 
 <footer class="rcc-footer" role="contentinfo">
   <div class="wrap">
     <img class="lockup" src="../../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
     <p class="rcc-footer__notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
-    <p class="meta">Thursdays, 2:30 to 3:30 PM, BLCIS A-210. Your answers stay on this phone; nothing is sent anywhere. Updated October 14, 2026.</p>
+    <p class="meta">Thursdays, 2:30 to 3:30 PM, BLCIS A-210. Updated October 14, 2026.</p>
   </div>
 </footer>
 
-<script>
-(function () {
-  'use strict';
-  var KEY = 'rcc-gdg-invent-2026-10-15';
-  var root = document.documentElement, main = document.getElementById('main');
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  var $ = function (s, el) { return (el || document).querySelector(s); };
-  var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
-
-  // ---- State, saved in this browser only. --------------------------------------
-  var blank = function () {
-    return { step: 1, list: ['', '', '', ''], problem: '', who: '', when: '', now: '', why: '', sWho: '', sCant: '', sBecause: '',
-      ideas: ['', '', '', '', '', '', '', ''], votes: [0, 0, 0, 0, 0, 0, 0, 0], idea: '', name: '', how: ['', '', ''], pays: '', paysOther: '',
-      diff: '', check: '', checkOther: '', change: '', pS: '', pT: '', pA: '', pR: '', pC: '', hints: {} };
-  };
-  var state = blank(), canSave = true, saveTimer = 0;
-  try { var raw = localStorage.getItem(KEY); if (raw) { var got = JSON.parse(raw); Object.keys(state).forEach(function (k) { if (got[k] !== undefined) state[k] = got[k]; }); } }
-  catch (e) { canSave = false; }
-  var savedEl = document.getElementById('saved');
-  if (!canSave) { savedEl.textContent = 'Not saving on this phone (private browsing?)'; savedEl.setAttribute('data-off', ''); }
-  function save() {
-    if (!canSave) return;
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(function () {
-      try { localStorage.setItem(KEY, JSON.stringify(state)); savedEl.textContent = 'Saved on this phone'; }
-      catch (e) { canSave = false; savedEl.textContent = 'Not saving on this phone'; savedEl.setAttribute('data-off', ''); }
-    }, 250);
-  }
-  function get(path) { var p = path.split('.'); return p.length === 2 ? state[p[0]][+p[1]] : state[p[0]]; }
-  function set(path, v) { var p = path.split('.'); if (p.length === 2) state[p[0]][+p[1]] = v; else state[p[0]] = v; save(); derive(); }
-
-  // ---- Bind every field. ------------------------------------------------------------
-  $$('[data-key]').forEach(function (el) {
-    var k = el.getAttribute('data-key');
-    if (el.type === 'radio') {
-      el.checked = get(k) === el.value;
-      el.addEventListener('change', function () { if (el.checked) set(k, el.value); });
-    } else {
-      el.value = get(k) || '';
-      el.addEventListener('input', function () { set(k, el.value); });
-    }
-  });
-  // Textareas grow with what's typed, so nothing hides behind a scroll box.
-  function grow(el) { if (!el.offsetParent) return; el.style.height = 'auto'; el.style.height = el.scrollHeight + 2 + 'px'; }
-  $$('textarea').forEach(function (el) { el.addEventListener('input', function () { grow(el); }); });
-  function put(k, v) { var el = $('[data-key="' + k + '"]'); if (el) { el.value = v; if (el.tagName === 'TEXTAREA') grow(el); } set(k, v); }
-
-  // ---- Step 1: use a line from the list, or one from the board. ----------------------
-  $$('[data-use]').forEach(function (b) {
-    b.addEventListener('click', function () { var v = get(b.getAttribute('data-use')).trim(); if (!v) { $('[data-key="' + b.getAttribute('data-use') + '"]').focus(); return; } put('problem', v); });
-  });
-  $$('[data-board]').forEach(function (b) { b.addEventListener('click', function () { put('problem', b.textContent); }); });
-
-  // ---- Hints: one at a time, on request. ----------------------------------------------
-  $$('[data-hints]').forEach(function (box) {
-    var id = box.getAttribute('data-hints'), items = $$('li', box), more = $('[data-more]', box), left = $('[data-left]', box);
-    var shown = Math.min(state.hints[id] || 0, items.length);
-    function paint(animate) {
-      items.forEach(function (li, k) {
-        var was = !li.hasAttribute('data-hidden');
-        if (k < shown) li.removeAttribute('data-hidden'); else li.setAttribute('data-hidden', '');
-        if (animate && !was && k < shown) rise(li);
-      });
-      var n = items.length - shown;
-      more.hidden = n === 0;
-      left.textContent = n ? (shown ? n + ' more' : '') : '';
-    }
-    more.addEventListener('click', function () { shown = Math.min(shown + 1, items.length); state.hints[id] = shown; save(); paint(true); });
-    paint(false);
-  });
-
-  // ---- Rise through a mask (motion.md 5.7). Instant under reduced motion. -----------
-  function rise(el) {
-    if (reduce.matches) return;
-    el.classList.add('rise-pre');
-    void el.offsetWidth;
-    requestAnimationFrame(function () { el.classList.remove('rise-pre'); });
-  }
-
-  // ---- Derived displays: the sentence, votes, the top pick. --------------------------
-  var sentenceEl = document.getElementById('sentence');
-  function clean(s) { return (s || '').trim().replace(/[.\s]+$/, ''); }
-  function lower(s) { s = clean(s); return s && /^[A-Z][a-z]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
-  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function part(v, fallback) { v = clean(v); return v ? '<b>' + esc(v) + '</b>' : '<span class="blank">' + fallback + '</span>'; }
-  function parts() {
-    return { who: clean(state.sWho) || clean(state.who), cant: lower(state.sCant), because: lower(state.sBecause) || lower(state.why) };
-  }
-  function sentenceText() { var p = parts(); return p.who && p.cant && p.because ? p.who + ' can’t ' + p.cant + ' because ' + p.because + '.' : ''; }
-  function top() {
-    var best = -1, bv = 0;
-    state.votes.forEach(function (v, k) { if (v > bv && clean(state.ideas[k])) { bv = v; best = k; } });
-    return best;
-  }
-  function derive() {
-    var p = parts();
-    sentenceEl.innerHTML = part(p.who, 'Who') + ' can’t ' + part(p.cant, 'do what') + ' because ' + part(p.because, 'why') + '.';
-    var t = top(), total = 0;
-    $$('.box').forEach(function (box, k) {
-      var v = state.votes[k] || 0; total += v;
-      $('.dots', box).textContent = v ? new Array(Math.min(v, 12) + 1).join('●') : '';
-      $('.count', box).textContent = v === 1 ? '1 vote' : v + ' votes';
-      $('[data-v="-"]', box).disabled = v === 0;
-      $('.box__top', box).hidden = k !== t;
-      box.classList.toggle('is-top', k === t);
-    });
-    document.getElementById('vote-note').textContent = total ? total + (total === 1 ? ' vote so far.' : ' votes so far.') + ' Everyone gets two.' : 'Everyone gets two votes. Mixing two ideas is fine.';
-    var idea = document.getElementById('idea'), ut = document.getElementById('use-top');
-    idea.placeholder = t >= 0 ? clean(state.ideas[t]) : 'Your top pick from step 3';
-    ut.disabled = t < 0;
-    var q = clean(state.idea) || (t >= 0 ? clean(state.ideas[t]) : '') || clean(state.problem);
-    document.getElementById('lookup').href = 'https://www.google.com/search?q=' + encodeURIComponent(q || 'app for ' + (clean(state.problem) || 'campus parking'));
-    var sent = sentenceText() || clean(state.problem), prod = [clean(state.name), clean(state.idea)].filter(Boolean).join(': ');
-    [['2', clean(state.problem)], ['3', sent], ['4', sent], ['5', prod]].forEach(function (c) {
-      var el = $('[data-context="' + c[0] + '"]'); el.hidden = !c[1]; $('span:last-child', el).textContent = c[1];
-    });
-  }
-  $$('.box').forEach(function (box, k) {
-    $$('[data-v]', box).forEach(function (b) {
-      b.addEventListener('click', function () {
-        var v = state.votes[k] || 0;
-        state.votes[k] = b.getAttribute('data-v') === '+' ? Math.min(v + 1, 40) : Math.max(v - 1, 0);
-        save(); derive();
-      });
-    });
-  });
-  document.getElementById('use-top').addEventListener('click', function () { var t = top(); if (t >= 0) put('idea', clean(state.ideas[t])); });
-
-  // ---- Step 6: build the pitch from earlier answers. ---------------------------------
-  function pays() { return state.pays === 'other' ? clean(state.paysOther) : [state.pays, clean(state.paysOther)].filter(Boolean).join(', '); }
-  function draft() {
-    var p = parts(), steps = state.how.map(clean).filter(Boolean);
-    var S = [clean(state.who) || p.who, lower(state.when)].filter(Boolean).join(', ');
-    var T = sentenceText() || clean(state.problem);
-    var A = (clean(state.name) ? clean(state.name) + '. ' : '') + (clean(state.idea) ? clean(state.idea) + '. ' : '') +
-            steps.map(function (s, k) { s = s.replace(/^\d+[.)]\s*/, ''); return (k === 0 ? 'First, ' : k === steps.length - 1 ? 'Then ' : 'Next, ') + lower(s) + '.'; }).join(' ');
-    var R = [clean(state.diff) ? clean(state.diff) + '.' : '', pays() ? 'It’s paid for by ' + pays() + '.' : ''].filter(Boolean).join(' ');
-    var check = state.check === 'other' ? clean(state.checkOther) : clean(state.check);
-    var C = [check ? check.replace(/[?.]$/, '') + '.' : '', clean(state.change) ? clean(state.change) + '.' : ''].filter(Boolean).join(' ');
-    return { pS: S ? S + '.' : '', pT: T, pA: A.trim(), pR: R, pC: C };
-  }
-  document.getElementById('fill').addEventListener('click', function () {
-    var d = draft(), n = 0;
-    Object.keys(d).forEach(function (k) { if (!clean(state[k]) && d[k]) { put(k, d[k]); n++; } });
-    var note = document.getElementById('fill-note');
-    if (n) note.textContent = 'Filled ' + n + (n === 1 ? ' box.' : ' boxes.') + ' Read it out loud once and fix anything that sounds stiff.';
-    else if (Object.keys(d).some(function (k) { return d[k]; }) && confirm('Every box already has words in it. Replace them with your answers from steps 1 to 5?')) {
-      Object.keys(d).forEach(function (k) { if (d[k]) put(k, d[k]); });
-      note.textContent = 'Replaced with your answers. Change anything.';
-    } else if (!Object.keys(d).some(function (k) { return d[k]; })) note.textContent = 'Nothing to fill in yet. Go back and answer steps 1 to 5 first.';
-  });
-  function pitchText() {
-    var name = clean(state.name) || 'Our product';
-    return name + '\n\nS: ' + clean(state.pS) + '\nT: ' + clean(state.pT) + '\nA: ' + clean(state.pA) + '\nR: ' + clean(state.pR) + (clean(state.pC) ? '\nChallenge: ' + clean(state.pC) : '');
-  }
-  document.getElementById('copy').addEventListener('click', function () {
-    var note = document.getElementById('copy-note'), text = pitchText();
-    function done() { note.textContent = 'Copied. Paste it anywhere.'; }
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { note.textContent = 'Couldn’t copy on this browser. Press and hold the boxes to copy instead.'; });
-    else note.textContent = 'Couldn’t copy on this browser. Press and hold the boxes to copy instead.';
-  });
-
-  // ---- Practice view: the pitch in big type with a 60-second clock. ------------------
-  var pv = document.getElementById('pv'), pvGo = document.getElementById('pv-go'), digits = document.getElementById('pv-digits'), fill = document.getElementById('pv-fill');
-  var LIMIT = 60000, elapsed = 0, startedAt = 0, raf = 0;
-  function fmt(ms) { var s = Math.ceil(Math.max(0, LIMIT - ms) / 1000); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
-  function paintClock() {
-    var ms = elapsed + (startedAt ? performance.now() - startedAt : 0);
-    digits.textContent = ms >= LIMIT ? 'Time' : fmt(ms);
-    fill.style.transform = 'scaleX(' + Math.max(0, 1 - ms / LIMIT) + ')';
-    if (ms >= LIMIT) { pv.querySelector('.pv').setAttribute('data-over', ''); stop(); return; }
-    if (startedAt) raf = requestAnimationFrame(paintClock);
-  }
-  function start() { if (startedAt || elapsed >= LIMIT) return; startedAt = performance.now(); pvGo.textContent = 'Pause'; raf = requestAnimationFrame(paintClock); }
-  function stop() { if (startedAt) { elapsed += performance.now() - startedAt; startedAt = 0; } cancelAnimationFrame(raf); pvGo.textContent = elapsed >= LIMIT ? 'Start' : (elapsed ? 'Keep going' : 'Start'); }
-  function resetClock() { stop(); elapsed = 0; pv.querySelector('.pv').removeAttribute('data-over'); pvGo.textContent = 'Start'; paintClock(); }
-  pvGo.addEventListener('click', function () { if (startedAt) stop(); else { if (elapsed >= LIMIT) resetClock(); start(); } });
-  document.getElementById('pv-reset').addEventListener('click', resetClock);
-  document.getElementById('pv-close').addEventListener('click', function () { stop(); pv.close(); });
-  pv.addEventListener('close', function () { stop(); document.getElementById('practice').focus(); });
-  document.getElementById('practice').addEventListener('click', function () {
-    document.getElementById('pv-name').textContent = clean(state.name) || 'Your product';
-    var rows = [['S', state.pS], ['T', state.pT], ['A', state.pA], ['R', state.pR], ['+', state.pC]].filter(function (r) { return clean(r[1]); });
-    document.getElementById('pv-parts').innerHTML = rows.length ? rows.map(function (r) { return '<div class="pv__part"><b aria-hidden="true">' + r[0] + '</b><p>' + esc(clean(r[1])) + '.</p></div>'; }).join('').replace(/([.?!])\.<\/p>/g, '$1</p>') :
-      '<p>Nothing here yet. Tap “Fill in from our answers” first, or write in the STAR boxes.</p>';
-    resetClock();
-    if (typeof pv.showModal === 'function') pv.showModal(); else pv.setAttribute('open', '');
-  });
-
-  // ---- Start over. --------------------------------------------------------------------
-  document.getElementById('reset').addEventListener('click', function () {
-    if (!confirm('Clear everything your group wrote on this phone?')) return;
-    try { localStorage.removeItem(KEY); } catch (e) {}
-    location.hash = '#s1'; location.reload();
-  });
-
-  // ---- Steps: one at a time, the rail climbs to where you are. -----------------------
-  var steps = $$('.step'), links = $$('.rail a'), done = document.getElementById('rail-done');
-  function railTo(n) {
-    // The rail path is 360 across plus five rises of 7 in viewBox units; pathLength="1" makes this a fraction.
-    var along = (30 + 60 * (n - 1)) + 7 * (n - 1);
-    done.style.strokeDashoffset = String(1 - along / (360 + 35));
-    links.forEach(function (a) { if (+a.getAttribute('data-step') === n) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current'); });
-  }
-  function show(n, focus) {
-    n = Math.max(1, Math.min(6, n || 1));
-    steps.forEach(function (s) { s.classList.toggle('is-current', +s.getAttribute('data-step') === n); });
-    state.step = n; save(); main.setAttribute('data-at', String(n));
-    if (focus) railTo(n); else requestAnimationFrame(function () { requestAnimationFrame(function () { railTo(n); }); });
-    var s = steps[n - 1], h = $('h2', s);
-    rise(h);
-    $$('textarea', s).forEach(grow);
-    if (focus) { h.focus({ preventScroll: true }); window.scrollTo({ top: Math.max(0, s.getBoundingClientRect().top + window.scrollY - document.querySelector('.rail').offsetHeight - 8), behavior: reduce.matches ? 'auto' : 'smooth' }); }
-    if (location.hash !== '#s' + n) history.replaceState(null, '', '#s' + n);
-  }
-  links.forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); show(+a.getAttribute('data-step'), true); }); });
-  $$('[data-go]').forEach(function (b) { b.addEventListener('click', function () { var cur = state.step; show(b.getAttribute('data-go') === 'next' ? cur + 1 : cur - 1, true); }); });
-  main.classList.remove('no-js-steps');
-  var fromHash = /^#s([1-6])$/.exec(location.hash);
-  derive();
-  show(fromHash ? +fromHash[1] : state.step, false);
-
-  // ---- The headline rises once on load (the landing page's entrance). ---------------
-  var title = document.getElementById('title');
-  if (reduce.matches) title.classList.remove('rise-pre');
-  else requestAnimationFrame(function () { requestAnimationFrame(function () { title.classList.remove('rise-pre'); }); });
-})();
-</script>
-<noscript><style>.rail__done, .rail__dot { display: none; } #title.rise-pre .mask > span { transform: none; }</style></noscript>
 </body>
 </html>
