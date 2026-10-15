@@ -21,7 +21,7 @@ Remove a line once it is answered and note the answer in that day's entry.
 - `deck-kit/check.mjs` (`940d64f`): the presenter test looked for a slide by `.beats` items only, so a deck whose presses are all card lines crashed it; it now counts every `data-beat`.
 - The 10-15 calendar event carries the new block and both page links.
 
-**Decided:** Sam: tips and challenge checks drip in while groups work; organizers pose challenges table by table; the hour ends with STAR pitch prep; students get a cheat sheet by QR early in the deck: concise, the same information as the slides, for a quick glance, at the decks' level of polish, and not an interactive app (Sam, third review, same day).
+**Decided:** Sam: tips and challenge checks drip in while groups work; organizers pose challenges table by table; the hour ends with STAR pitch prep; students get a cheat sheet by QR early in the deck: concise, the same information as the slides, for a quick glance, at the decks' level of polish, and not an interactive app (Sam, third review, same day). Sam: no "who pays" anywhere, because it constrains the idea before it has a form; STAR's R is "What's different for them after?" and A is "Your idea, in three steps".
 
 - `f043a9a`: slide 5's QR renders whole as a tour figure (a landscape frame had cropped its top and bottom rows); it decodes from the slide screenshot.
 
