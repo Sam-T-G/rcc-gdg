@@ -16,18 +16,18 @@ Remove a line once it is answered and note the answer in that day's entry.
 **Changed:**
 
 - 10-15 deck reworked on Sam's review (`488dcee`): 16 slides, 144 of 144 checks, not published. Less up-front teaching: each work phase is one card slide with its clock, and every press adds the next tip or challenge check while the clock keeps running (checked with real key presses). New: a challenge-check round, a five-minute STAR pitch plan, and a QR on slide 5 to the cheat sheet. The worked-example, problem-board, idea-push, product-card, and Space Apps slides are gone; that content is in the notes and the cheat sheet.
-- `2026-10-15-invent-a-product-media/cheatsheet.html` (`14b0375`), rebuilt on Sam's second review as the group companion: one phone per group works through the six steps (problem list and board, the four whys with the sentence built live, the best eight ideas with votes, the build, the challenge fixed), and step 6 fills STAR boxes from every earlier answer, with a 60-second practice view. Hints come one at a time. Answers stay in `localStorage` on that phone. Built on `tokens.css`; checked at 390 px with real taps and typing (25 checks), with reduced motion, and with scripts off. `challenges.html`: organizers' challenge cards by kind of idea (an app, connects two groups, uses data, a rule, a physical thing, a service, money), with a draw button. `qr-cheatsheet.svg` decodes to `https://sam-t-g.github.io/rcc-gdg/guides/invent-a-product/`. Worksheet page 2 now follows build it, the challenge check, and STAR.
+- `2026-10-15-invent-a-product-media/cheatsheet.html`: the cheat sheet behind the slide 5 QR. A second review asked for more polish and it became an interactive group companion (`14b0375`); a third asked for no app at all, only the slides' information to glance at, so it is now six cards with each work slide's lines in order, built on `tokens.css`, no script. `challenges.html`: organizers' challenge cards by kind of idea (an app, connects two groups, uses data, a rule, a physical thing, a service, money), with a draw button. `qr-cheatsheet.svg` decodes to `https://sam-t-g.github.io/rcc-gdg/guides/invent-a-product/`. Worksheet page 2 follows build it, the challenge check, and STAR.
 - `scripts/publish-page.sh` (`9f7dac5`): publishes a standalone page to `gh-pages` at `<path>/`, replacing only that `index.html`.
 - `deck-kit/check.mjs` (`940d64f`): the presenter test looked for a slide by `.beats` items only, so a deck whose presses are all card lines crashed it; it now counts every `data-beat`.
 - The 10-15 calendar event carries the new block and both page links.
 
-**Decided:** Sam: tips and challenge checks drip in while groups work; organizers pose challenges table by table; the hour ends with STAR pitch prep; students get a companion by QR early in the deck, an online tool they use as they go, at the decks' level of polish (second review, same day).
+**Decided:** Sam: tips and challenge checks drip in while groups work; organizers pose challenges table by table; the hour ends with STAR pitch prep; students get a cheat sheet by QR early in the deck: concise, the same information as the slides, for a quick glance, at the decks' level of polish, and not an interactive app (Sam, third review, same day).
 
-- `f043a9a`: slide 5 introduces the companion, and its QR renders whole as a tour figure (a landscape frame had cropped its top and bottom rows); it decodes from the slide screenshot.
+- `f043a9a`: slide 5's QR renders whole as a tour figure (a landscape frame had cropped its top and bottom rows); it decodes from the slide screenshot.
 
 **Issues:** The slide 5 QR points at a page that is not live until `publish-page.sh ... --push` runs. rcc-acm's `check.mjs` has the same `.beats`-only lookup.
 
-**Next:** on Sam's go-ahead, publish the deck, the companion, and the challenge cards together, then scan the slide 5 QR with a phone.
+**Next:** on Sam's go-ahead, publish the deck, the cheat sheet, and the challenge cards together, then scan the slide 5 QR with a phone.
 
 ## 2026-10-13 · Sam (via Claude Code)
 
