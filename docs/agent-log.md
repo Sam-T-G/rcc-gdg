@@ -11,6 +11,14 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
 
+## 2026-10-15 · Sam (via Claude Code)
+
+**Changed:**
+
+- Published the 10-15 cheat sheet to `guides/invent-a-product/` (gh-pages `84137d8`, from `0cf7489`) during the meeting. The slide 5 QR already encoded that URL (decoded to check); it returned 404 because the page had not been published. The live page loads at phone width with no sideways scroll.
+
+**Next:** publish the deck and the organizers' challenge cards if Sam wants them live.
+
 ## 2026-10-14 · Sam (via Claude Code)
 
 **Changed:**
