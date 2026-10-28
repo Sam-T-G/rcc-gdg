@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GDG on Campus RCC · Thursday, October 29</title>
+<!--
+  GDG on Campus RCC, Thursday 2026-10-29, 2:30 PM, BLCIS A-210. Event deck built
+  from Sam's brief (2026-10-27): five minutes on Gus (the club's Cal Hacks 13.0
+  project), how a product team ships, then the room splits into small product
+  teams by interest and builds something with AI in 45 minutes. Each team has a
+  lead running a coding agent in a live repo and members in fixed seats (PM,
+  Designer, QA + Trust, Launch). Roles stay with the seat, so anyone can switch
+  teams; the team sheet (TEAM.md in each team's folder) is how a newcomer catches
+  up and what the agent reads before each pass.
+  Not decided yet (agent-log): whether this replaces "What You Are Owed" on the
+  calendar; two teams or three; whether leads hand the keyboard to a member.
+  By the clock: 2:30 Gus · 2:35 how a team ships and the roles · 2:40 pick a
+  brief and a seat (2) · 2:42 sprint 0 (8) · 2:50 sprint 1 (14) · 3:04 review (3) ·
+  3:07 sprint 2 (12) · 3:19 launch (8) · 3:27 the turn and the ask.
+  Publish with:
+    scripts/publish-deck.sh semesters/2026-fall/decks/2026-10-29-build-with-ai.html build-with-ai --push
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&display=swap">
+<link rel="stylesheet" href="../../../deck-kit/deck.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="../../../deck-kit/deck.js" defer></script>
+<script src="../../../deck-kit/presenter.js" defer></script>
+<script src="../../../deck-kit/review.js" defer></script>
+</head>
+<body>
+<main class="deck" data-deck="2026-fall-build-with-ai" data-ledger="GDG on Campus RCC · Thursday, October 29">
+
+<!-- ARRIVE ================================================================ -->
+
+<section class="slide" data-kind="cover" data-move="arrive" data-starts="14:30" aria-label="Build something with AI">
+  <img class="cover__lockup cover__lockup--light" src="../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+  <img class="cover__lockup cover__lockup--dark" src="../../../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
+  <p class="eyebrow">This week</p>
+  <h1>Let’s build something with AI.</h1>
+  <p class="sub">Small teams, real roles, and an AI agent writing the code. Demos at the end.</p>
+  <div class="cover__step" aria-hidden="true"></div>
+  <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+  <aside class="notes"><p>Up while people arrive. First thing, out loud: “We’re an independent group. Our activities and opinions aren’t Google’s.”</p><p>Before 2:30: each lead’s laptop has its team folder open, the starter app running, the key in <code>.env</code> tested, and the agent session open. Print the role cards and one team sheet per team. Plug the first demo laptop into the projector.</p><p class="bridge">Here’s what a few of us did last weekend.</p></aside>
+</section>
+
+<!-- TENSION =============================================================== -->
+
+<section class="slide" data-kind="statement" data-move="tension" data-surface="sand" data-layout="poster" aria-label="Gus">
+  <p class="eyebrow">Cal Hacks 13.0 · last weekend</p>
+  <h2>We built Gus, a robot that keeps tickets away from bots.</h2>
+  <p class="sub">One weekend, a small team, and a lot of AI agents.</p>
+  <aside class="notes"><p>[TBD: Sam picks a 60-second video or a live demo of the iPhone app. The iPad face check is still untested with a real face, so don’t try it live.]</p><p>Cal Hacks 13.0 ran October 23 to 25 at the Palace of Fine Arts in San Francisco.</p><p class="bridge">Here’s what it does, start to finish.</p></aside>
+</section>
+
+<section class="slide" data-kind="beats" data-move="tension" aria-label="What Gus does">
+  <h2>What Gus does</h2>
+  <ol class="beats">
+    <li data-beat><span class="body">You say what you like in one sentence.<span class="detail">Gus turns it into a profile.</span></span></li>
+    <li data-beat><span class="body">Gus picks shows for you and your friends.<span class="detail">Each pick says why it fits.</span></span></li>
+    <li data-beat><span class="body">Gus checks your face when you claim tickets.<span class="detail">A bot can’t pass a live face check.</span></span></li>
+    <li data-beat><span class="body">Your face data is deleted at the door.<span class="detail">You see the receipt on your phone.</span></span></li>
+  </ol>
+  <aside class="notes"><p>[TBD: Sam, check these four lines against what we actually demoed.] Keep this to about a minute. The point for the room is not the tech; it’s that a few people built it in a weekend.</p><p class="bridge">The part that made it possible wasn’t the code.</p></aside>
+</section>
+
+<section class="slide" data-kind="statement" data-move="tension" data-surface="forest" data-layout="poster" aria-label="Like a company">
+  <p class="eyebrow">How we did it</p>
+  <h2>We ran it like a small company.</h2>
+  <p class="sub">Each person owned one part. One page kept everyone on the same idea.</p>
+  <aside class="notes"><p>Examples from Gus: one person on the face check, one on the backend, one on the iPhone app, one on the robot’s body, and one page (the scope doc) that said what was in, what was out, and what came next. Every big decision got written down, so nobody had to ask twice.</p><p class="bridge">Real tech companies run on the same idea, just bigger.</p></aside>
+</section>
+
+<!-- WORK ================================================================== -->
+
+<section class="slide" data-kind="beats" data-move="work" aria-label="How a team ships">
+  <h2>How a product team ships</h2>
+  <ol class="beats">
+    <li data-beat><span class="body">Find the problem.<span class="detail">Who has it, and why does it keep happening?</span></span></li>
+    <li data-beat><span class="body">Write it down.<span class="detail">One page everyone builds from.</span></span></li>
+    <li data-beat><span class="body">Build in small steps.<span class="detail">Something that runs, then something better.</span></span></li>
+    <li data-beat><span class="body">Review, then launch.<span class="detail">Fresh eyes before real people see it.</span></span></li>
+  </ol>
+  <aside class="notes"><p>At a big company each step has its own people: researchers, product managers, designers, engineers, testers, privacy reviewers, and marketing. Two weeks ago you did step one, finding the problem. Today you do all four in 45 minutes.</p><p class="bridge">We shrink that company down to one table.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="mint" aria-label="Your team">
+  <h2>Your team is a tiny company.</h2>
+  <div class="card">
+    <p class="label">Your seat · the job at a real company</p>
+    <ol class="card__lines">
+      <li>Lead · the engineering manager</li>
+      <li data-beat>PM · the product manager</li>
+      <li data-beat>Designer · the UX designer</li>
+      <li data-beat>QA + Trust · testing and privacy</li>
+      <li data-beat>Launch · product marketing</li>
+    </ol>
+  </div>
+  <div class="card__side"></div>
+  <aside class="notes"><p>The AI agent is the engineering team. The lead runs it, and everyone else decides what it builds. Each seat has a card; the next five slides are those cards, about 30 seconds each. The printed cards carry the detail.</p><p>[TBD: Sam decides whether leads hand the keyboard to a member after sprint 0. If yes, add the Engineer seat: one change per instruction, point the agent at the team sheet, read the result before the next ask.]</p><p class="bridge">Start with the seat that holds the team together.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="sun" aria-label="PM">
+  <h2>The PM keeps everyone on one idea.</h2>
+  <div class="card">
+    <p class="label">Product manager · in priority order</p>
+    <ol class="card__lines">
+      <li>Who it’s for. Every change serves them.</li>
+      <li data-beat>One must-do. Everything else waits.</li>
+      <li data-beat>The team sheet matches what’s built.</li>
+      <li data-beat>Call the clock. Cut scope, not time.</li>
+      <li data-beat>Split team? Decide in 30 seconds.</li>
+    </ol>
+  </div>
+  <div class="card__side"></div>
+  <aside class="notes"><p>The PM owns the team sheet and the next instruction for the agent. When the build and the sheet disagree, stop and fix the sheet first.</p><p>Handoff line if you move: “We’re building ___ for ___. The next ask is ___. We cut ___.”</p><p class="bridge">Next, the seat that decides what people actually see.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="mint" aria-label="Designer">
+  <h2>The designer owns the screen.</h2>
+  <div class="card">
+    <p class="label">UX designer · in priority order</p>
+    <ol class="card__lines">
+      <li>One screen, sketched on paper first.</li>
+      <li data-beat>Write every word on the screen.</li>
+      <li data-beat>A stranger gets it in 5 seconds.</li>
+      <li data-beat>Plan for loading, empty, and errors.</li>
+    </ol>
+  </div>
+  <div class="card__side"></div>
+  <aside class="notes"><p>The designer owns the paper sketch and the “On screen” line of the team sheet. The agent builds whatever words it’s given, so plain words on paper become plain words in the app.</p><p>Handoff line: “The screen is this sketch. The words are in the sheet. The weak spot is ___.”</p><p class="bridge">Then someone has to try to break it.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="ink" aria-label="QA and Trust">
+  <h2>QA + Trust finds what breaks first.</h2>
+  <div class="card">
+    <p class="label">Testing and privacy · in priority order</p>
+    <ol class="card__lines">
+      <li>Three tests with real input.</li>
+      <li data-beat>What does it see, send, and keep?</li>
+      <li data-beat>What if someone uses it wrong?</li>
+      <li data-beat>Run the demo once before freeze.</li>
+    </ol>
+  </div>
+  <div class="card__side"></div>
+  <aside class="notes"><p>Real input means the real camera, a real photo, a real search. Not “it looks right.” The second line is the same question we asked about Gus: what happens to someone’s face, photo, or location after the app sees it?</p><p>Handoff line: “Tests 1 and 3 pass, 2 fails on ___. The demo path is ___.”</p><p class="bridge">And someone has to make the room care.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="sand" aria-label="Launch">
+  <h2>Launch sells it in two minutes.</h2>
+  <div class="card">
+    <p class="label">Product marketing · in priority order</p>
+    <ol class="card__lines">
+      <li>Open with the person and their problem.</li>
+      <li data-beat>Let the demo do most of the talking.</li>
+      <li data-beat>End on what changed for them.</li>
+      <li data-beat>Rehearse once with QA’s demo path.</li>
+    </ol>
+  </div>
+  <div class="card__side"></div>
+  <aside class="notes"><p>This is STAR again from 10-08, with a live demo as the A. The R is what’s different for the person after.</p><p>Handoff line: “The pitch opens with ___ and ends with ___. ___ speaks.”</p><p class="bridge">Last seat, the one at the keyboard.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="sun" aria-label="Lead">
+  <h2>The lead keeps the agent busy.</h2>
+  <div class="card">
+    <p class="label">Engineering manager · one per team</p>
+    <ol class="card__lines">
+      <li>The app always runs.</li>
+      <li data-beat>The agent never sits idle.</li>
+      <li data-beat>Stuck for a minute? Cut it.</li>
+      <li data-beat>Say out loud what you tell the agent.</li>
+    </ol>
+  </div>
+  <div class="card__side"></div>
+  <aside class="notes"><p>Leads are the officers running agents in the live repo. Small changes only; if a change breaks the app, roll it back and tell the PM. Leads don’t switch teams; the laptop stays put.</p><p class="bridge">So how does everyone stay in sync while things move this fast?</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-surface="mint" aria-label="Team sheet">
+  <h2>One sheet keeps everyone aligned.</h2>
+  <div class="card">
+    <p class="label">The team sheet · the agent reads it too</p>
+    <ol class="card__lines">
+      <li>For · one real person</li>
+      <li data-beat>Problem · what goes wrong today</li>
+      <li data-beat>Must do · the one thing it does</li>
+      <li data-beat>Not doing · what we cut</li>
+      <li data-beat>Next ask · the agent’s next job</li>
+    </ol>
+  </div>
+  <div class="card__side"></div>
+  <aside class="notes"><p>It lives as TEAM.md in each team’s folder, and a printed copy sits on the table. The full sheet also has “On screen” (the designer’s words), “Tests” (QA’s three checks), and “Who’s here.” The agent is told to read it before every pass, so the people and the agent build from the same page.</p><p class="bridge">That sheet is also what lets you move.</p></aside>
+</section>
+
+<section class="slide" data-kind="beats" data-move="work" data-surface="forest" data-layout="tiles" aria-label="Switch teams">
+  <h2>Anyone can switch teams.</h2>
+  <ol class="beats">
+    <li data-beat><span class="body">Move at a break.<span class="detail">Or say your handoff line first.</span></span></li>
+    <li data-beat><span class="body">Take the open seat.<span class="detail">Roles stay with the team.</span></span></li>
+    <li data-beat><span class="body">Read the sheet.<span class="detail">You’re caught up in 30 seconds.</span></span></li>
+    <li data-beat><span class="body">QA tests another team.<span class="detail">Fresh eyes during review.</span></span></li>
+  </ol>
+  <aside class="notes"><p>If an idea from one team helps another, walk it over. If a seat empties, it merges: on a team of four, the PM also does Launch; on a team of three, the designer also does QA. The leaving person’s handoff line goes on the sheet.</p><p class="bridge">Three briefs. Pick the one that pulls you in.</p></aside>
+</section>
+
+<section class="slide" data-kind="beats" data-move="work" data-layout="tiles" aria-label="Pick a brief">
+  <h2>Pick a brief.</h2>
+  <ol class="beats">
+    <li data-beat><span class="body">Eyes<span class="detail">The laptop camera tracks hands, faces, or poses. Nothing leaves the laptop.</span></span></li>
+    <li data-beat><span class="body">Words<span class="detail">Gemini reads a photo or some text and hands back clean data.</span></span></li>
+    <li data-beat><span class="body">Places<span class="detail">Events from Ticketmaster on a map, with the weather.</span></span></li>
+  </ol>
+  <aside class="notes"><p>Each brief fixes the tech and leaves the problem open. The team picks who it’s for. Starting ideas, only if a team is stuck: Eyes, count raised hands or flip slides with a gesture. Words, turn a photo of a flyer into a calendar event. Places, find something to do near campus this weekend.</p><p>Under the hood: Eyes uses MediaPipe in the browser, no key. Words uses the Gemini API with a key from AI Studio. Places uses the Ticketmaster Discovery API, Leaflet with OpenStreetMap tiles, and Open-Meteo for weather. [TBD: if there are only two leads, the room votes one brief out here.]</p><p class="bridge">Stand by the one you want.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-timer="120" data-surface="sun" aria-label="Find your seat">
+  <h2>Find your team and your seat.</h2>
+  <div class="card">
+    <p class="label">2 minutes</p>
+    <ol class="card__lines">
+      <li>Stand by the brief you want.</li>
+      <li data-beat>Leads hand out the role cards.</li>
+      <li data-beat>Team of four? PM also does Launch.</li>
+      <li data-beat>Team of three? Designer also does QA.</li>
+      <li data-beat>Write your names on the sheet.</li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>Press T. If a brief gets too many people, ask who’d take a second choice. Leads hand out roles by interest and major: business and the undecided to PM, art and comms to Designer, sciences and CS to QA + Trust, anyone who likes talking to Launch. Names stay on the paper sheet only; nothing with names goes in the repo.</p><p class="bridge">Clocks start now, and the agent starts first.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="480" data-surface="sun" aria-label="Sprint 0">
+  <h2>Sprint 0, set the target</h2>
+  <div class="card">
+    <p class="label">8 minutes · the agent starts right away</p>
+    <ol class="card__lines">
+      <li>Lead starts the agent on the basic version.</li>
+      <li data-beat>PM fills in For, Problem, and Must do.</li>
+      <li data-beat>Designer sketches the one screen.</li>
+      <li data-beat>QA and Launch pitch in on the person.</li>
+      <li data-beat><mark class="hl hl--verb" style="--hl-i:0">Check:</mark> Could a stranger say who it’s for?</li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>Press T, then add a line about every 90 seconds. The basic version doesn’t need a problem yet: the camera with tracking drawn on it, a photo in and data out, or events on a map. The agent builds that while the team decides who it’s for, so nobody waits.</p><p>Challenges to pose while you walk: “Who exactly? Name a person you know.” “Is that a problem, or did it only happen once?”</p><p class="bridge">Target’s set. Now the real build.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="840" data-surface="sun" aria-label="Sprint 1">
+  <h2>Sprint 1, build the must-do</h2>
+  <div class="card">
+    <p class="label">14 minutes · stay ahead of the agent</p>
+    <ol class="card__lines">
+      <li>PM sends the first real ask.</li>
+      <li data-beat>Designer writes the words on screen.</li>
+      <li data-beat>QA writes three real-input tests.</li>
+      <li data-beat>Launch drafts the pitch.</li>
+      <li data-beat>PM has the next ask ready early.</li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>Press T, then add a line about every three minutes. The rhythm: while the agent builds one thing, the team decides the next. When the agent finishes and there’s no next ask waiting, the team fell behind.</p><p>Challenges to pose: “Does this change serve the person on your sheet?” “What did you cut to make room for that?”</p><p class="bridge">Hands off for a few minutes. Let’s look at what we have.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="180" data-surface="ink" aria-label="Review">
+  <h2>Review, one change each</h2>
+  <div class="card">
+    <p class="label">3 minutes · the agent waits</p>
+    <ol class="card__lines">
+      <li>See the app as it is right now.</li>
+      <li data-beat>Each seat asks for one change.</li>
+      <li data-beat>PM ranks them. The top two go in.</li>
+      <li data-beat>Same seats huddle, 60 seconds.</li>
+      <li data-beat>QA tests another team’s app.</li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>This is a design review the way a company runs one. One change per seat keeps it short. In the huddle, all the PMs meet, all the designers, and so on; steal anything useful. QA brings back what broke on the other team’s app.</p><p class="bridge">Back to work, and this time there’s a deadline.</p></aside>
+</section>
+
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="720" data-surface="sun" aria-label="Sprint 2">
+  <h2>Sprint 2, polish and freeze</h2>
+  <div class="card">
+    <p class="label">12 minutes · freeze at 3:19</p>
+    <ol class="card__lines">
+      <li>The agent builds the top two changes.</li>
+      <li data-beat>QA runs all three tests for real.</li>
+      <li data-beat>PM cuts whatever won’t finish.</li>
+      <li data-beat>Launch rehearses with the demo path.</li>
+      <li data-beat>Freeze. Nobody touches the keyboard.</li>
+    </ol>
+  </div>
+  <div class="card__side" data-clock-slot></div>
+  <aside class="notes"><p>Press T, then add a line about every three minutes; the last line goes in at 0:00. Leads: if a change breaks the app in the last three minutes, roll it back. A working smaller app beats a broken bigger one. If an API is down, switch to the saved sample data.</p><p class="bridge">Freeze. Time to launch.</p></aside>
+</section>
+
+<section class="slide" data-kind="clock" data-move="work" data-timer="150" data-surface="sun" aria-label="Launch demos">
+  <p class="eyebrow">Launch · 2½ minutes each</p>
+  <h2>Show it running.</h2>
+  <div class="clock"><p class="clock__digits">2:30</p><span class="clock__rail"><span class="clock__fill"></span></span><p class="clock__hint">Who it’s for, the app running, what’s different for them after. Then one question from the room.</p></div>
+  <aside class="notes"><p>For each team: R resets the clock, T starts it. Switch the projector to that lead’s laptop. One question from the room per team; if nobody asks, ask QA what broke and how they fixed it.</p><p class="bridge">Every team shipped. One thing to notice.</p></aside>
+</section>
+
+<!-- TURN ================================================================== -->
+
+<section class="slide" data-kind="statement" data-move="turn" data-surface="forest" data-layout="poster" aria-label="The sheet">
+  <p class="eyebrow">What just happened</p>
+  <h2>Which team’s app matched its sheet best?</h2>
+  <p class="sub">Every team had the same kind of agent. The people decided what got built.</p>
+  <aside class="notes"><p>Hold up each team’s sheet next to its demo. Ask the PMs what they cut and why. Then tie it back to Gus: the agents wrote most of the code, and the hard part was keeping a few people building the same thing.</p><p class="bridge">One thing before next week.</p></aside>
+</section>
+
+<!-- ASK =================================================================== -->
+
+<section class="slide" data-kind="ask" data-move="ask" data-room aria-label="Before next Thursday">
+  <div class="ask__main">
+    <p class="eyebrow">Before next Thursday</p>
+    <h2>Show your team’s app to one person who has the problem.</h2>
+    <p class="sub">Bring back what they said, good or bad.</p>
+    <p class="ask__meta">Thursdays, 2:30 to 3:30 PM · BLCIS A-210</p>
+  </div>
+  <div class="ask__foot">
+    <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <img class="ask__lockup ask__lockup--light" src="../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+    <img class="ask__lockup ask__lockup--dark" src="../../../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
+  </div>
+  <aside class="notes"><p>Leave this up while people pack. Count attendance, numbers only. Photograph each team sheet with the names covered; sheets only, no faces.</p></aside>
+</section>
+
+</main>
+</body>
+</html>
