@@ -8,8 +8,19 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 - The Fall 2026 program shifted a week on 2026-09-17; the session cards and the club calendar still show the old dates. Which dates are right?
 - Who invited the club to NASA SUITS and NASA Space Apps Temecula, and what did they ask for? The 10-08 slides say only "we were invited" (`[TBD]` in the notes). SUITS proposals are due 2026-10-22 and need a faculty advisor who can go to Houston.
+- 10-29: does "Build something with AI" replace Meeting 7 "What You Are Owed" in `calendar.md`, or push it a week? Two teams or three (depends on a third lead)?
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
+
+## 2026-10-27 · Sam (via Claude Code)
+
+**Changed:**
+
+- `61d1da3`: 10-29 deck draft, `semesters/2026-fall/decks/2026-10-29-build-with-ai.html`, 22 slides, 156 of 156 checks, not published. Five minutes on Gus (Cal Hacks 13.0), how a product team ships, one card per seat (Lead, PM, Designer, QA + Trust, Launch, each with priorities in order and a handoff line in the notes), the team sheet (TEAM.md, which the agent also reads), switching teams, three briefs (Eyes: MediaPipe; Words: Gemini API; Places: Ticketmaster + Leaflet + Open-Meteo), then sprint 0 (8), sprint 1 (14), review (3), sprint 2 (12), and launch (2.5 per team).
+
+**Decided:** Sam: roles are official titles with priorities listed under each; seats stay with the team so members can move between teams freely while iterating.
+
+**Next:** Sam's calls (status row), then the starter apps in a separate repo (keys must stay out of this public one), the TEAM.md template, and printable role cards.
 
 ## 2026-10-15 · Sam (via Claude Code)
 
