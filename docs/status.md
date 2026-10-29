@@ -22,4 +22,5 @@ Last updated: 2026-10-29 by Sam.
 - Review: `A` in a deck to annotate, `I` for the notes inbox, `?view=review` for the board, `node scripts/review.mjs` for agents. Google sign-in, limited to each club's member list on the relay.
 - Expressive layer (opt-in): `data-expressive` + `deck-kit/expressive/`; rules in motion.md §5.13 and presentation.md §13.14. Scene lab with every scene: `scratch/expressive-lab/` (gitignored, local only).
 - A visual on every slide where possible, with a real internet photo first (presentation.md §13.15). Cover, statement, figure, clock, rail, and hero slides are exempt.
+- Browser checks (optional): `npm install`, `npx playwright install chromium webkit`, then `npm run test:browser` opens every deck in Chrome and Safari and the deck media pages on an iPhone-sized Safari (deck-kit/README.md, "Checking it"). Python scripts run with `uv run`.
 - Presenter tools: `S` presenter view, `M` phone or tablet remote, `?view=runsheet` (`deck-kit/README.md`).
