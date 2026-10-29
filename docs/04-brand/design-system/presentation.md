@@ -271,3 +271,12 @@ All of it lives in `deck-kit/presenter.js`, loaded after `deck.js` (`weekly.html
 | `stack3d` | `scenes-three.js` (Three.js) | Layers of a thing pulled apart, one brought forward per press |
 
 The 10-29 deck uses `flow`, `dots`, `gallery`, and `strip`; the lab deck in `scratch/expressive-lab/` (gitignored) shows every scene. Also in the layer: `.qr-grid` (up to four QR codes on a `grid` slide) and the projector-safe highlighter (fills on paper, an under-stroke on mint, sand, and sun).
+
+## 13.15 A visual on every slide
+
+Added 2026-10-29 (Sam). Every slide gets something to look at besides words, whenever it can. Pick in this order:
+
+1. A real photo of the thing the slide is about, fetched from the internet ([visual-voice.md §9.3](visual-voice.md) type 4, `deck-kit/fetch-image.mjs`, `photo` or `grid` archetype).
+2. A picture of the idea: a diagram (§9.3 type 2), a room photo (type 3), a scene from §13.14, a live `demo`, a chart, or a QR code.
+
+The picture shows what the slide names. Never use one as decoration, and the never-fetch list in §9.3 still applies. Slides that already pull the eye on their own can go without: `cover`, `statement`, `figure`, `clock`, `rail`, and any hero or marquee slide. Any other slide that ships with only words says why in its notes.

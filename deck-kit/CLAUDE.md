@@ -15,6 +15,10 @@ Never fetch: people or faces, stock people at laptops, AI images of people, Goog
 
 Use the `photo` archetype (README.md; `data-layout` `bleed-right`, `bleed-left`, or `framed`). Do not hand-roll a photo layout inside a deck.
 
+## A visual on every slide
+
+Every slide gets something to look at besides words, whenever it can. A real photo from the internet comes first (steps above). Next best is a diagram, a room photo, a scene, a live demo, a chart, or a QR code. The picture shows what the slide names, never decoration. `cover`, `statement`, `figure`, `clock`, `rail`, and hero or marquee slides can go without because they already draw the eye. Any other slide that ships with only words says why in its notes. [presentation.md §13.15](../docs/04-brand/design-system/presentation.md).
+
 ## Variety
 
 Use the surfaces (`data-surface`, presentation.md §13.11) and the archetypes so no two neighboring slides read the same. Branding is the lockup with the independence sentence verbatim wherever it appears, the Step once per screen, and the club's own green.
