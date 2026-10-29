@@ -8,9 +8,24 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 - The Fall 2026 program shifted a week on 2026-09-17; the session cards and the club calendar still show the old dates. Which dates are right?
 - Who invited the club to NASA SUITS and NASA Space Apps Temecula, and what did they ask for? The 10-08 slides say only "we were invited" (`[TBD]` in the notes). SUITS proposals are due 2026-10-22 and need a faculty advisor who can go to Houston.
-- 10-29: does "Build something with AI" replace Meeting 7 "What You Are Owed" in `calendar.md`, or push it a week? Two teams or three (depends on a third lead)?
+- 10-29: does "Build something with AI" replace Meeting 7 "What You Are Owed" in `calendar.md`, or push it a week?
+- The 10-29 team docs are anyone-with-the-link edit, and their links are in this public repo (the deck's QRs). After the meeting: view-only, or new docs?
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
+
+## 2026-10-29 · Sam (via Claude Code)
+
+**Changed:**
+
+- `9be4a9f`: deck kit gains an opt-in expressive layer (`deck-kit/expressive/`): spring tokens `--rcc-ease-pop`/`--rcc-ease-settle` (also in tokens.css), the Step as a Rule under movement openers, a poster entrance, one GRAD keyword, a `carry` transition, projector-safe highlighter marks, and nine scenes (dots, flow, strip, bars, odometer, wipe, map, gallery, stack3d). check.mjs knows `scene` and `carry`, fails expressive pieces on a deck that hasn't opted in, and catches anything from another slide still showing. Old decks unchanged (10-15: 145 of 145). Rules in motion.md §5.13 and presentation.md §13.14.
+- `c5667c7`: 10-29 deck rebuilt, 21 slides, 158 of 158 checks: one app in three teams, what each ships by 3:21, seat priority lists (the last line of each says what to do when the list runs out), how an ask goes from the team doc to the lead to Claude, QRs for the four docs, moving teams through the Help board, and the 45 minutes (2:42 seats, 2:44 sprint 0, 2:52 sprint 1, 3:06 review, 3:09 sprint 2, freeze 3:21, launch 6).
+- Outside this repo: four Google Docs in Sam's Drive (Help board, Check-in, Live slides, Professor view), each with seats, team sheet, an agent queue with two starter asks, Done, screen words, and pitch. rcc-live-lecture got the team pages, shared tables and read functions, seed data, `/next` and `/freeze` commands, a doctor script, and `&bridge-site=` on the slide feed; deployed.
+
+**Decided:** Sam: plan three teams and fold to two if a lead is missing; one Google Doc per team for asks the leads pass to Claude; the expressive layer is an opt-in kit add-on (two written rules bend for opted-in decks, logged in the decision log).
+
+**Issues:** none of the expressive layer has been seen on the A-210 projector. The gallery scene (slide 9) draws in Three.js and needs the jsDelivr CDN; the deck notes say how to talk through it if that fails.
+
+**Next:** Sam's checklist in rcc-live-lecture `docs/meeting-1029.md` (doc sharing, OAuth origin, lead invites, `HOST_EMAILS`), then present with `?bridge=gdg.<key>&bridge-site=<each lead's dev deployment>,utmost-ibis-818`.
 
 ## 2026-10-27 · Sam (via Claude Code)
 
