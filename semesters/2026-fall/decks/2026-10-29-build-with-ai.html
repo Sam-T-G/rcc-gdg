@@ -49,7 +49,7 @@
   <img class="cover__lockup cover__lockup--dark" src="../../../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
   <p class="eyebrow">This week</p>
   <h1>Let’s build something with AI.</h1>
-  <p class="sub">Three teams build one class check-in app, with Claude writing the code. Demos at 3:21.</p>
+  <p class="sub">Three teams build an app for big lectures, with Claude writing the code. Demos at 3:21.</p>
   <div class="cover__step" aria-hidden="true"></div>
   <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
   <aside class="notes"><p>Up while people arrive. First thing, out loud: “We’re an independent group. Our activities and opinions aren’t Google’s.”</p><p>Before 2:30: each lead has rcc-live-lecture open with <code>npx convex dev</code> and <code>npm run dev</code> running, the lab page passing, and Claude open in the repo. The six docs (four team docs, Roles, Lead guide) are shared as “anyone with the link can edit,” and each lead has the Lead guide open. Present this deck with <code>?bridge=gdg.&lt;key&gt;&amp;bridge-site=&lt;each lead’s dev deployment&gt;,utmost-ibis-818</code> so every team’s page gets real slides.</p><p class="bridge">Here’s what a few of us built at Cal Hacks last weekend.</p></aside>
@@ -79,16 +79,21 @@
   <p class="eyebrow">How we did it</p>
   <h2>We ran it like a small <span class="kw">company</span>.</h2>
   <p class="sub">One person built the face check, one the backend, one the iPhone app, and one the robot. A scope doc listed what was in and what we cut.</p>
-  <aside class="notes"><p>[TBD: Sam, check that split matches who did what on Gus.] The scope doc said what was in, what was out, and what came next, and everyone checked it before starting something new.</p><p class="bridge">Today, each of you takes one of those jobs on a team.</p></aside>
+  <aside class="notes"><p>[TBD: Sam, check that split matches who did what on Gus.] The scope doc said what was in, what was out, and what came next, and everyone checked it before starting something new.</p><p class="bridge">Here’s today’s build, told the way we practiced STAR on October 8.</p></aside>
 </section>
 
 <!-- WORK ================================================================== -->
 
-<section class="slide" data-kind="statement" data-move="work" data-layout="poster" data-step="support" aria-label="One app">
-  <p class="eyebrow">Today</p>
-  <h2>We build one app, in three parts.</h2>
-  <p class="sub">Students check in at the door, follow the slides on their phones, and tap I’m lost when they stop following. The professor sees both.</p>
-  <aside class="notes"><p>Say it plainly: in a big lecture, the professor doesn’t know who’s there or who stopped following. This app shows both. You’re the test class: by 3:21, your phone should show this deck.</p><p class="bridge">Here’s how one check-in goes from the kiosk to the professor.</p></aside>
+<section class="slide" data-kind="beats" data-move="work" data-surface="sand" data-layout="flow" aria-label="Today with STAR">
+  <h2>Today’s build, with STAR</h2>
+  <div class="flow-head"><p class="label">Letter</p><p class="label">What it asks</p><p class="label">Today</p></div>
+  <ol class="beats">
+    <li data-beat><span class="body"><span class="flow__signal">Situation</span><span class="flow__lead">Where and when?</span><span class="flow__entry">Big-lecture professors can’t see who’s lost.</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">Task</span><span class="flow__lead">What’s our job?</span><span class="flow__entry">Help them see it while there’s time to help.</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">Action</span><span class="flow__lead">What do we do?</span><span class="flow__entry">Each team picks what to build.</span></span></li>
+    <li data-beat><span class="body"><span class="flow__signal">Result</span><span class="flow__lead">What changes?</span><span class="flow__entry">Open. We find out at 3:21.</span></span></li>
+  </ol>
+  <aside class="notes"><p>Same four letters as October 8. Click once per letter and say the full sentence. S: “In a big lecture, the professor talks to 200 people and can’t tell who showed up or who got lost on slide 4.” T: “Our job is to help the professor see that while there’s still time to do something about it.” A: “Three teams each start from one piece: check-in, the slides on your phone, and a professor’s screen. What you build from there is your team’s call.” R: “We don’t know yet. That’s the point. We’ll see what each team made at 3:21, and next week you’ll bring back what a real student or professor said.”</p><p>Don’t promise an outcome on the Result line. You’re the test class: if it works, your phone shows this deck by 3:21.</p><p>Words only: this is the STAR frame the club practiced on 10-08, and the flow diagram comes next.</p><p class="bridge">Here’s how one check-in could go from the kiosk to the professor.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="How it fits">
@@ -101,17 +106,18 @@
       <li data-d="Sees who checked in and who tapped I’m lost">Professor</li>
     </ol>
   </div>
-  <aside class="notes"><p>One press draws all four stops, left to right. The code changes every 20 seconds so nobody can text it to a friend at home. The server already exists: sign-in, QR codes, location, the slide feed, and AI calls are built and tested (rcc-live-lecture, the lab page). Teams build the screens and the rules on top.</p><p class="bridge">Each team builds one of these screens.</p></aside>
+  <aside class="notes"><p>One press draws all four stops, left to right. The code changes every 20 seconds so nobody can text it to a friend at home. The server already exists: sign-in, QR codes, location, the slide feed, and AI calls are built and tested (rcc-live-lecture, the lab page). Teams build the screens and the rules on top.</p><p class="bridge">Each team starts from one of these screens.</p></aside>
 </section>
 
 <section class="slide" data-kind="beats" data-move="work" data-layout="tiles" aria-label="Done at freeze">
-  <h2>What each team ships by 3:21</h2>
+  <h2>Where each team starts</h2>
   <ol class="beats">
-    <li data-beat><span class="body">Check-in<span class="detail">Scan the code, sign in, and your name shows up on the kiosk.</span></span></li>
-    <li data-beat><span class="body">Live slides<span class="detail">Your phone shows this slide, with an “I’m lost” button.</span></span></li>
-    <li data-beat><span class="body">Professor view<span class="detail">A hosts-only screen with the current slide and how many tapped I’m lost.</span></span></li>
+    <li data-beat><span class="body">Check-in<span class="detail">Starting idea: scan a code at the door and your name shows up on the kiosk.</span></span></li>
+    <li data-beat><span class="body">Live slides<span class="detail">Starting idea: your phone shows this slide, with an “I’m lost” button.</span></span></li>
+    <li data-beat><span class="body">Professor view<span class="detail">Starting idea: one screen with the current slide and how many are lost.</span></span></li>
+    <li data-beat><span class="body">Your team’s call<span class="detail">Change the idea if your team agrees. Write it as the Must do on your team sheet.</span></span></li>
   </ol>
-  <aside class="notes"><p>This is the Must do line on each team sheet, and it’s sized for the two starter asks already in each team doc. Anything past it is a bonus. [TBD: which lead takes which part.]</p><p><b>Only two leads?</b> Say: “Professor view isn’t running today.” Check-in adds the count of who’s here to its kiosk, and Live slides adds the I’m lost count under the slide. The team docs and the Lead guide say the same thing.</p><p>Words only: the flow diagram on the slide before already shows these three screens.</p><p class="bridge">With about ten of us, each team gets three or four people.</p></aside>
+  <aside class="notes"><p>These match the starter Must do line and the two starter asks in each team doc, so Claude has something to build in the first minute. If a team finds a better idea for the person it picked, the PM writes a new Must do and the team writes new asks. [TBD: which lead takes which part.]</p><p><b>Only two leads?</b> Say: “Professor view isn’t running today.” Check-in adds the count of who’s here to its kiosk, and Live slides adds the I’m lost count under the slide. The team docs and the Lead guide say the same thing.</p><p>Words only: the flow diagram on the slide before already shows these three screens.</p><p class="bridge">With about ten of us, each team gets three or four people.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="Teams and moving">
