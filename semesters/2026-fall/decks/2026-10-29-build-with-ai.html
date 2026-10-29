@@ -30,13 +30,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&display=swap">
 <link rel="stylesheet" href="../../../deck-kit/deck.css">
 <link rel="stylesheet" href="../../../deck-kit/expressive/expressive.css">
-<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script src="../../../deck-kit/expressive/scenes.js" defer></script>
 <script src="../../../deck-kit/deck.js" defer></script>
 <script src="../../../deck-kit/presenter.js" defer></script>
 <script src="../../../deck-kit/review.js" defer></script>
-<script type="module" src="../../../deck-kit/expressive/scenes-three.js"></script>
 <!-- Sends the current slide to rcc-live-lecture, only when opened with ?bridge=gdg.<key> (BLOCKS.md). -->
 <script src="https://sam-t-g.github.io/rcc-live-lecture/deck-bridge.js" data-site="https://utmost-ibis-818.convex.site" defer></script>
 </head>
@@ -127,18 +125,16 @@
   <aside class="notes"><p>Press 1, everyone. Press 2, three teams. Press 3, each team’s lead runs the AI on their laptop. Press 4, someone who finished their list walks to a team that posted on the Help board. Moving is normal; it keeps everyone busy.</p><p><b>Only two leads?</b> Say it here: Professor view people pick Check-in or Live slides.</p><p class="bridge">Every team has the same five seats, and each seat has a list.</p></aside>
 </section>
 
-<section class="slide" data-kind="scene" data-move="work" aria-label="Seats">
-  <p class="eyebrow">Your seat · do the highest line still open</p>
-  <div class="is-tall" data-scene="gallery" data-steps="4" data-dur="1.6" data-ease="sweep">
-    <ol class="gal-src">
-      <li data-label="Product manager (PM) · top line first" data-title="The PM decides what gets built first."><ul><li>Fill in For, Problem, and Must do.</li><li>Put the best ask at the top of the queue.</li><li>Cut any ask that won’t run by 3:19.</li><li>Call out the time every five minutes.</li><li>Free? Post needs on the Help board.</li></ul></li>
-      <li data-label="UX designer (Designer) · top line first" data-title="The designer plans the screen and its words."><ul><li>Sketch the one screen on paper.</li><li>Write every word in the Screen section.</li><li>Compare each new build to the sketch.</li><li>Write the words for loading and errors.</li><li>Still free? Sketch the next screen.</li></ul></li>
-      <li data-label="Quality assurance (QA) · testing and privacy" data-title="QA tests every build and tracks what data it keeps."><ul><li>Write three tests before anything’s built.</li><li>Write what the app collects and keeps.</li><li>New build? Run your three tests on it.</li><li>Nothing to test? Test another team’s app.</li><li>Run the demo once before 3:19.</li></ul></li>
-      <li data-label="Product marketing (Launch) · top line first" data-title="Launch gives the team’s 2-minute demo at 3:21."><ul><li>Name the person and their problem.</li><li>Write how the pitch opens and ends.</li><li>Get the exact demo taps from QA.</li><li>Free? Watch another team rehearse.</li><li>Rehearse once before 3:21.</li></ul></li>
-      <li data-label="Engineering lead (Lead) · one per team" data-title="The lead sends asks to the AI, one at a time."><ul><li>Keep the app running on your laptop.</li><li>Send the next ask as soon as the AI finishes.</li><li>Read each reply out loud.</li><li>Stuck a minute? Cut it and tell the PM.</li><li>Move it to Done, then send the next one.</li></ul></li>
-    </ol>
-  </div>
-  <aside class="notes"><p>One card per press, about 20 seconds each. Say each full role name once: product manager, UX designer (UX means user experience: what people see and tap), quality assurance, product marketing, engineering lead. After that, use the short names on the cards. The rule for every seat: do the highest line that’s still open. The last line is what you do when everything above it is done or blocked. QA runs out first, because nothing exists to test until sprint 1; that’s why its fourth line sends them to another team. The Roles doc (QR on slide 11) has each seat’s full list, block by block.</p><p>Team of three or four? The PM also does Launch, and the Designer also does QA.</p><p class="bridge">Every ask for the AI starts in your team’s doc.</p></aside>
+<section class="slide" data-kind="beats" data-move="work" data-surface="mint" data-layout="flow" aria-label="Seats">
+  <h2>Pick one of four seats</h2>
+  <div class="flow-head"><p class="label">Seat</p><p class="label">Your job</p><p class="label">Start with</p></div>
+  <ol class="beats">
+    <li><span class="body"><span class="flow__signal">Product manager (PM)</span><span class="flow__lead">Picks the idea and orders the asks</span><span class="flow__entry">For, Problem, and Must do</span></span></li>
+    <li><span class="body"><span class="flow__signal">UX designer</span><span class="flow__lead">Plans the screen and every word on it</span><span class="flow__entry">A sketch on paper</span></span></li>
+    <li><span class="body"><span class="flow__signal">Quality assurance (QA)</span><span class="flow__lead">Tests every build and what data it keeps</span><span class="flow__entry">Three tests</span></span></li>
+    <li><span class="body"><span class="flow__signal">Product marketing (Launch)</span><span class="flow__lead">Gives the 2-minute demo at 3:21</span><span class="flow__entry">The person and their problem</span></span></li>
+  </ol>
+  <aside class="notes"><p>All four rows show at once; no presses. Say each full name once: product manager, UX designer (UX means user experience: what people see and tap), quality assurance, product marketing. The engineering lead seat is already taken: Sam and two officers each lead a team and run the AI on their laptop.</p><p>Each seat has a priority list in the Roles doc (QR on slide 11). The rule for every seat: do the highest line that’s still open, and when your list runs out, go to the Help board. QA runs out first, because nothing exists to test until sprint 1.</p><p>Team of three or four? The PM also does Launch, and the Designer also does QA.</p><p>Words only: a four-row table the room reads in one look; the full lists live in the Roles doc.</p><p class="bridge">Every ask for the AI starts in your team’s doc.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="How an ask travels">
