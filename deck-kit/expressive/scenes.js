@@ -99,7 +99,8 @@
 
   /* flow: each press adds the next stop; the line to it draws and a dot carries
      the data along it. <div data-scene="flow" data-steps="N"><ol class="flow-src">
-     <li data-d="what it does">Name</li> ... */
+     <li data-d="what it does">Name</li> ... With fewer steps than stops
+     (data-steps="1"), each press draws its share of the stops in order. */
   var flowCount = 0;
   function flow(host, v, ctx) {
     var S = host._s;
@@ -128,6 +129,7 @@
         S.nodes.push(g);
       });
     }
+    v *= S.nodes.length / Math.max(1, Math.min(ctx.steps || S.nodes.length, S.nodes.length));
     var cur = Math.round(v);
     S.nodes.forEach(function (g, i) {
       // The first stop arrives in its step; each later one after its line draws.

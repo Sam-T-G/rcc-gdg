@@ -261,7 +261,7 @@ All of it lives in `deck-kit/presenter.js`, loaded after `deck.js` (`weekly.html
 | Scene | Script | Use it for |
 |---|---|---|
 | `dots` | `scenes.js` | People arrive, sort into teams, get a lead, and (optional fourth step) move to another team |
-| `flow` | `scenes.js` | A pipeline: each press adds a stop, draws the arrow, and sends a dot along it |
+| `flow` | `scenes.js` | A pipeline: each press adds a stop, draws the arrow, and sends a dot along it. `data-steps="1"` draws every stop in one press |
 | `strip` | `scenes.js` | A row of cards wider than the stage that scrolls one per press, with a time bar |
 | `bars` | `scenes.js` | Bars grow in order, re-sort by size, then a highlighted set gets a bracket and a total |
 | `odometer` | `scenes.js` | One big number that rolls from value to value, with its caption |
@@ -270,7 +270,7 @@ All of it lives in `deck-kit/presenter.js`, loaded after `deck.js` (`weekly.html
 | `gallery` | `scenes-three.js` (Three.js) | Cards on a drum; the camera tracks to the next card. At rest a real HTML card takes the drawn card's place, so text is sharp |
 | `stack3d` | `scenes-three.js` (Three.js) | Layers of a thing pulled apart, one brought forward per press |
 
-The 10-29 deck uses `flow`, `dots`, `gallery`, and `strip`; the lab deck in `scratch/expressive-lab/` (gitignored) shows every scene. Also in the layer: `.qr-grid` (up to four QR codes on a `grid` slide) and the projector-safe highlighter (fills on paper, an under-stroke on mint, sand, and sun).
+The 10-29 deck uses `flow`, `dots`, `gallery`, and `strip`; the lab deck in `scratch/expressive-lab/` (gitignored) shows every scene. Also in the layer: `.qr-grid` (up to five QR codes on a `grid` slide) and the projector-safe highlighter (fills on paper, an under-stroke on mint, sand, and sun).
 
 ## 13.15 A visual on every slide
 
