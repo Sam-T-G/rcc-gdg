@@ -17,8 +17,8 @@
   Three teams if three leads are in the room; with two, Professor view folds into
   the other two (notes on slide 7).
   By the clock: 2:30 Gus · 2:35 what we build, teams, seats, docs, moving · 2:42
-  seats (2) · 2:44 sprint 0 (8) · 2:52 sprint 1 (14) · 3:06 review (3) · 3:09
-  sprint 2 (12; leads run /freeze at 3:19) · 3:21 deploy and launch (2 per team) · 3:27
+  seats (2) · 2:44 build (22; idea picked by 2:49) · 3:06 check gate (3) · 3:09
+  build (10) · 3:19 final polish (2; leads run /freeze) · 3:21 deploy and launch (2 per team) · 3:27
   the turn and the ask. Leads follow the Lead guide doc; everyone else has the Roles
   doc (QR on slide 11). Both are in Sam's Drive beside the team docs.
   Uses the opt-in expressive layer (deck-kit/expressive, motion.md §5.13).
@@ -3267,7 +3267,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <li><span class="body"><span class="flow__signal">Quality assurance (QA)</span><span class="flow__lead">Tests every build and what data it keeps</span><span class="flow__entry">Three tests</span></span></li>
     <li><span class="body"><span class="flow__signal">Product marketing (Launch)</span><span class="flow__lead">Gives the 2-minute demo at 3:21</span><span class="flow__entry">The person and their problem</span></span></li>
   </ol>
-  <aside class="notes"><p>All four rows show at once; no presses. Say each full name once: product manager, UX designer (UX means user experience: what people see and tap), quality assurance, product marketing. The engineering lead seat is already taken: Sam and two officers each lead a team and run the AI on their laptop.</p><p>Each seat has a priority list in the Roles doc (QR on slide 11). The rule for every seat: do the highest line that’s still open, and when your list runs out, go to the Help board. QA runs out first, because nothing exists to test until sprint 1.</p><p>Team of three or four? The PM also does Launch, and the Designer also does QA.</p><p>Words only: a four-row table the room reads in one look; the full lists live in the Roles doc.</p><p class="bridge">Every ask for the AI starts in your team’s doc.</p></aside>
+  <aside class="notes"><p>All four rows show at once; no presses. Say each full name once: product manager, UX designer (UX means user experience: what people see and tap), quality assurance, product marketing. The engineering lead seat is already taken: Sam and two officers each lead a team and run the AI on their laptop.</p><p>Each seat has a priority list in the Roles doc (QR on slide 11). The rule for every seat: do the highest line that’s still open, and when your list runs out, go to the Help board. QA runs out first, because nothing exists to test in the first few minutes.</p><p>Team of three or four? The PM also does Launch, and the Designer also does QA.</p><p>Words only: a four-row table the room reads in one look; the full lists live in the Roles doc.</p><p class="bridge">Every ask for the AI starts in your team’s doc.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="How an ask travels">
@@ -3311,14 +3311,14 @@ document.addEventListener('DOMContentLoaded', function () {
   <div data-scene="strip" data-steps="5">
     <ol class="strip-src">
       <li data-min="2" data-label="2:42 · Seats">Open your team doc and pick a seat.</li>
-      <li data-min="8" data-label="2:44 · Sprint 0">Pick an idea. The AI starts on ask 1.</li>
-      <li data-min="14" data-label="2:52 · Sprint 1">Build the Must do on the team sheet.</li>
-      <li data-min="3" data-label="3:06 · Review">Each seat asks for one change.</li>
-      <li data-min="12" data-label="3:09 · Sprint 2">Top two changes. Leads run /freeze at 3:19.</li>
+      <li data-min="22" data-label="2:44 · Build">Pick an idea by 2:49, then build it.</li>
+      <li data-min="3" data-label="3:06 · Check gate">Try the app. One change each.</li>
+      <li data-min="10" data-label="3:09 · Build">Build the top two changes.</li>
+      <li data-min="2" data-label="3:19 · Final polish">Two minutes left.</li>
       <li data-min="6" data-label="3:21 · Launch">Each team demos for 2 minutes.</li>
     </ol>
   </div>
-  <aside class="notes"><p>One press per block. The card slides that follow have the same blocks, each with what every seat does in it. At 3:19 each lead runs /freeze, which commits and pushes their team’s work; after that, nobody touches a keyboard, and Sam deploys at 3:21.</p><p class="bridge">Stand up and go to the lead for the part you want to build.</p></aside>
+  <aside class="notes"><p>One press per block. The slides that follow have the same blocks. During the last two minutes each lead runs /freeze, which commits and pushes their team’s work, and Sam deploys at 3:21.</p><p class="bridge">Stand up and go to the lead for the part you want to build.</p></aside>
 </section>
 
 <section class="slide" data-kind="card" data-move="work" data-timer="120" data-surface="sun" aria-label="Find your seat">
@@ -3336,67 +3336,57 @@ document.addEventListener('DOMContentLoaded', function () {
   <aside class="notes"><p>Press T. If one team gets more than five, ask who’d take another part. Seats by interest: business and the undecided to product manager, art and comms to UX designer, sciences and CS to QA, anyone who likes talking to Launch. Two seats each: the PM also does Launch, the Designer also does QA. Names stay in the docs, never in the repo.</p><p class="bridge">Leads, send the AI your first message now.</p></aside>
 </section>
 
-<section class="slide" data-kind="card" data-move="work" data-room data-timer="480" data-surface="sun" aria-label="Sprint 0">
-  <h2>Sprint 0, set the target</h2>
+<section class="slide" data-kind="card" data-move="work" data-room data-timer="1320" data-surface="sun" aria-label="Build">
+  <h2>Build, part 1</h2>
   <div class="card">
-    <p class="label">8 minutes · the AI starts on ask 1</p>
+    <p class="label">22 minutes · pick an idea by 2:49</p>
     <ol class="card__lines">
       <li>Lead: first message, then ask 1, by 2:46.</li>
       <li data-beat>Team: pitch ideas. PM picks one by 2:49.</li>
-      <li data-beat>Designer: sketch the screen on paper.</li>
-      <li data-beat>QA: three tests. Launch: name the person.</li>
-      <li data-beat><mark class="hl hl--verb">Check:</mark> is ask 2 written yet?</li>
-    </ol>
-  </div>
-  <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Press T, then add a line about every 90 seconds. The first message to the AI is at the bottom of each team doc; the lead pastes it, then sends ask 1 with /next (the Lead guide has the steps). The AI builds the base screen while the team pitches, so nobody waits.</p><p>The pitch: everyone says one idea in one sentence (what a student does, and what changes on screen), and the team doc’s idea table holds them. The PM picks one by 2:49 and writes it as the Must do. Ask 2 is its first step.</p><p>Walk the room and ask: “What would you actually tap in a lecture? Name a class you’d use it in.”</p><p class="bridge">Now build the Must do from your team sheet.</p></aside>
-</section>
-
-<section class="slide" data-kind="card" data-move="work" data-room data-timer="840" data-surface="sun" aria-label="Sprint 1">
-  <h2>Sprint 1, build the must-do</h2>
-  <div class="card">
-    <p class="label">14 minutes · send asks back to back</p>
-    <ol class="card__lines">
-      <li>Lead: send, read the reply out loud, repeat.</li>
-      <li data-beat>PM: have the next ask ready.</li>
-      <li data-beat>Designer: compare builds to the sketch.</li>
+      <li data-beat>Lead: send, read the reply out loud, repeat.</li>
       <li data-beat>QA: test each build on the lead’s laptop.</li>
       <li data-beat><mark class="hl hl--verb">Nothing to do?</mark> Check the Help board.</li>
     </ol>
   </div>
   <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Press T, then add a line about every three minutes. While the AI builds one ask, the team writes the next. If the AI finishes and the queue is empty, the PM writes the next ask on the spot.</p><p>QA tests on the lead’s laptop because phones can’t reach a laptop. Phones work after the 3:06 deploy.</p><p>Check the Help board once in the middle. If a team posted a need and someone is free, send them.</p><p class="bridge">Stop sending asks and look at what your app does right now.</p></aside>
+  <aside class="notes"><p>Press T once at 2:44; the clock runs to 3:06. Add the first two lines in the first five minutes, then one line about every five minutes.</p><p>The first message to the AI is at the bottom of each team doc; the lead pastes it, then sends ask 1 with /next (the Lead guide has the steps). The AI builds the base screen while the team pitches. The pitch: everyone says one idea in one sentence (what a student does, and what changes on screen), the PM picks one by 2:49 and writes it as the Must do, and ask 2 is its first step.</p><p>While the AI builds one ask, the team writes the next. The Designer sketches the screen and compares each build to it; Launch names the person and writes the pitch. QA tests on the lead’s laptop because phones can’t reach a laptop until the 3:06 deploy.</p><p>Walk the room and ask: “What would you actually tap in a lecture? Name a class you’d use it in.” Check the Help board once in the middle.</p><p class="bridge">Stop sending asks and look at what your app does right now.</p></aside>
 </section>
 
 <section class="slide" data-kind="card" data-move="work" data-room data-timer="180" data-surface="ink" aria-label="Review">
-  <h2>Review, one change each</h2>
+  <h2>Check gate, one change each</h2>
   <div class="card">
     <p class="label">3 minutes · leads run /freeze once</p>
     <ol class="card__lines">
       <li>Lead: run /freeze to practice, then tell Sam.</li>
-      <li data-beat>Each seat tries the app, then asks for one change.</li>
+      <li data-beat>Each seat tries it, then asks for one change.</li>
       <li data-beat>PM ranks them. Top two go in the queue.</li>
       <li data-beat>QA tests another team’s app.</li>
     </ol>
   </div>
   <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Each lead runs /freeze once now: it builds, commits only that team’s files, pulls, and pushes. Then run scripts/deploy.sh in rcc-live-lecture so the app is on the live site and QA can test on phones. A conflict now (usually convex/schema.ts or src/index.css) is cheap to fix; at 3:19 it isn’t.</p><p>Companies run reviews like this too. One change per seat keeps it to three minutes. This is also the easiest time to move teams.</p><p class="bridge">Twelve minutes left, and leads run /freeze at 3:19.</p></aside>
+  <aside class="notes"><p>Each lead runs /freeze once now: it builds, commits only that team’s files, pulls, and pushes. Then run scripts/deploy.sh in rcc-live-lecture so the app is on the live site and QA can test on phones. A conflict now (usually convex/schema.ts or src/index.css) is cheap to fix; at 3:21 it isn’t.</p><p>Companies run check-ins like this too. One change per seat keeps it to three minutes. This is also the easiest time to move teams.</p><p class="bridge">Ten more minutes to build the top two changes.</p></aside>
 </section>
 
-<section class="slide" data-kind="card" data-move="work" data-room data-timer="720" data-surface="sun" aria-label="Sprint 2">
-  <h2>Sprint 2, polish and freeze</h2>
+<section class="slide" data-kind="card" data-move="work" data-timer="600" data-surface="sun" aria-label="Sprint 2">
+  <h2>Build, part 2</h2>
   <div class="card">
-    <p class="label">12 minutes · leads run /freeze at 3:19</p>
+    <p class="label">10 minutes · the top two changes</p>
     <ol class="card__lines">
-      <li>Lead: send the top two changes, then stop.</li>
+      <li>Lead: send the top two changes.</li>
       <li data-beat>QA: all three tests on a phone.</li>
       <li data-beat>PM: cut whatever won’t finish by 3:19.</li>
       <li data-beat>Launch: rehearse with QA’s demo taps.</li>
-      <li data-beat><mark class="hl hl--verb">3:19</mark> Leads run /freeze. Then hands off.</li>
     </ol>
   </div>
   <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Press T, then add a line about every two and a half minutes; the last line goes in with 2:00 left (3:19). QA tests on the live site from the 3:06 deploy. Leads: if a change breaks the app after 3:15, tell the AI “Undo your last change and run npm run build.” A smaller app that runs beats a bigger one that doesn’t. People who moved go back to their own team now.</p><p class="bridge">Hands off. Check-in demos first while the deploy runs.</p></aside>
+  <aside class="notes"><p>Press T, then add a line about every two and a half minutes. QA tests on the live site from the 3:06 deploy. Leads: if a change breaks the app, tell the AI “Undo your last change and run npm run build.” A smaller app that runs beats a bigger one that doesn’t. People who moved go back to their own team now.</p><p class="bridge">Two minutes left for final polish.</p></aside>
+</section>
+
+<section class="slide" data-kind="clock" data-move="work" data-room data-timer="120" data-surface="ink" aria-label="Final polish">
+  <p class="eyebrow">3:19 · final polish</p>
+  <h2>Two minutes left.</h2>
+  <div class="clock"><p class="clock__digits">2:00</p><span class="clock__rail"><span class="clock__fill"></span></span><p class="clock__hint">Finish what you’re on. Leads run /freeze before the clock hits zero.</p></div>
+  <aside class="notes"><p>Press T. No new asks now: finish the one in progress. Each lead runs /freeze before 0:00 and tells Sam it’s pushed; Sam runs git pull and scripts/deploy.sh at 3:21.</p><p class="bridge">Time’s up. Check-in demos first while the deploy runs.</p></aside>
 </section>
 
 <section class="slide" data-kind="clock" data-move="work" data-timer="120" data-surface="sun" aria-label="Launch demos">
