@@ -21,4 +21,5 @@ Last updated: 2026-10-29 by Sam.
 - Collaborators push to `main` through `scripts/sync.sh push` (since 2026-10-07; see the decision log). Branch protection blocks force-pushes and deletion only.
 - Review: `A` in a deck to annotate, `I` for the notes inbox, `?view=review` for the board, `node scripts/review.mjs` for agents. Google sign-in, limited to each club's member list on the relay.
 - Expressive layer (opt-in): `data-expressive` + `deck-kit/expressive/`; rules in motion.md §5.13 and presentation.md §13.14. Scene lab with every scene: `scratch/expressive-lab/` (gitignored, local only).
+- A visual on every slide where possible, with a real internet photo first (presentation.md §13.15). Cover, statement, figure, clock, rail, and hero slides are exempt.
 - Presenter tools: `S` presenter view, `M` phone or tablet remote, `?view=runsheet` (`deck-kit/README.md`).
