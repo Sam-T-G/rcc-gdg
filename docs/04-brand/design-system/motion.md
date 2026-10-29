@@ -234,7 +234,6 @@ Sourced from the club's own shipped artifacts rather than from Google: the maske
 
 **Last updated: 2026-09-29.**
 
-
 ## 5.13 The expressive tier (opt-in)
 
 Added 2026-10-29 from the motion and presentation research (Material 3 Expressive, IBM Carbon, Stripe, Figma Config). A deck turns it on with `data-expressive` on `<main class="deck">` and `deck-kit/expressive/expressive.css`; without both, the kit runs exactly as before and `check.mjs` fails a deck that uses a piece of it without turning it on.

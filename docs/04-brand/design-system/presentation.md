@@ -254,7 +254,6 @@ All of it lives in `deck-kit/presenter.js`, loaded after `deck.js` (`weekly.html
 
 **Last updated: 2026-10-01.**
 
-
 ## 13.14 Scenes and the expressive layer
 
 `data-kind="scene"` holds one `[data-scene]` element: a stepped picture whose content comes from a plain list inside it, so the list is also the text for the stacked view and screen readers. `data-steps` is how many presses it takes; the engine moves a value from one step to the next and the scene draws from that value alone, so a fast press lands exactly and going back plays it in reverse. `data-dur` lengthens a press (camera moves) and `data-ease="sweep"` eases in and out.
