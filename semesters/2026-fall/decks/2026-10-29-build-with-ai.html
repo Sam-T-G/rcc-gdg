@@ -10,7 +10,7 @@
   Cal Hacks 13.0 project), then three teams each invent and build a way for students
   to take part in a lecture, live, in 45 minutes. The spot is fixed (at the door, on
   every phone, on the big screen); the idea is the team's.
-  Each team has a lead running a Claude agent in rcc-live-lecture and members in
+  Each team has a lead running an AI agent (Claude Code) in rcc-live-lecture and members in
   seats with a priority list. Anyone writes asks in the team's Google Doc, the PM
   orders them, the lead sends them. When your list runs out, you move to the team
   that needs hands (the Help board doc).
@@ -50,10 +50,10 @@
   <img class="cover__lockup cover__lockup--dark" src="../../../assets/gdg-on-campus-stacked-dark.svg" width="960" height="1330" alt="GDG on Campus Riverside City College">
   <p class="eyebrow">This week</p>
   <h1>Let’s build something with AI.</h1>
-  <p class="sub">Three teams invent new ways to take part in a lecture, live, with Claude writing the code. Demos at 3:21.</p>
+  <p class="sub">Three teams invent new ways to take part in a lecture, live, with AI writing the code. Demos at 3:21.</p>
   <div class="cover__step" aria-hidden="true"></div>
   <p class="notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
-  <aside class="notes"><p>Up while people arrive. First thing, out loud: “We’re an independent group. Our activities and opinions aren’t Google’s.”</p><p>Before 2:30: each lead has rcc-live-lecture open with <code>npx convex dev</code> and <code>npm run dev</code> running, the lab page passing, and Claude open in the repo. The six docs (four team docs, Roles, Lead guide) are shared as “anyone with the link can edit,” and each lead has the Lead guide open. Present this deck with <code>?bridge=gdg.&lt;key&gt;&amp;bridge-site=&lt;each lead’s dev deployment&gt;,utmost-ibis-818</code> so every team’s page gets real slides.</p><p class="bridge">Here’s what a few of us built at Cal Hacks last weekend.</p></aside>
+  <aside class="notes"><p>Up while people arrive. First thing, out loud: “We’re an independent group. Our activities and opinions aren’t Google’s.”</p><p>Before 2:30: each lead has rcc-live-lecture open with <code>npx convex dev</code> and <code>npm run dev</code> running, the lab page passing, and Claude Code open in the repo. The six docs (four team docs, Roles, Lead guide) are shared as “anyone with the link can edit,” and each lead has the Lead guide open. Present this deck with <code>?bridge=gdg.&lt;key&gt;&amp;bridge-site=&lt;each lead’s dev deployment&gt;,utmost-ibis-818</code> so every team’s page gets real slides.</p><p class="bridge">Here’s what a few of us built at Cal Hacks last weekend.</p></aside>
 </section>
 
 <!-- TENSION =============================================================== -->
@@ -94,7 +94,7 @@
     <li data-beat><span class="body"><span class="flow__signal">Action</span><span class="flow__lead">What do we do?</span><span class="flow__entry">Each team invents one and builds it.</span></span></li>
     <li data-beat><span class="body"><span class="flow__signal">Result</span><span class="flow__lead">What changes?</span><span class="flow__entry">Open. We find out at 3:21.</span></span></li>
   </ol>
-  <aside class="notes"><p>Same four letters as October 8. Click once per letter and say the full sentence. S: “In a 200-person lecture, most of us sit, listen, and drift off by slide 10. Nothing on our phones has anything to do with the class.” T: “Our job today is to find ways for students to take part during the lecture, live. People learn more when they do something in class instead of only listening; teachers call that active learning.” A: “Each team invents its own way and builds it with Claude. Voting, reactions, questions, a game, something nobody’s tried: your team’s call.” R: “We don’t know yet. We’ll try every team’s idea at 3:21, and next week you’ll bring back what a real student or professor said.”</p><p>Don’t promise an outcome on the Result line, and don’t hand out a list of ideas. The examples in the Action line are there to show how wide it is; say them quickly and move on. You’re the test class: by 3:21 your phones should be part of this deck.</p><p>Words only: this is the STAR frame the club practiced on 10-08, and the flow diagram comes next.</p><p class="bridge">Here’s what happens in the app when one student taps something.</p></aside>
+  <aside class="notes"><p>Same four letters as October 8. Click once per letter and say the full sentence. S: “In a 200-person lecture, most of us sit, listen, and drift off by slide 10. Nothing on our phones has anything to do with the class.” T: “Our job today is to find ways for students to take part during the lecture, live. People learn more when they do something in class instead of only listening; teachers call that active learning.” A: “Each team invents its own way and builds it with AI. Voting, reactions, questions, a game, something nobody’s tried: your team’s call.” R: “We don’t know yet. We’ll try every team’s idea at 3:21, and next week you’ll bring back what a real student or professor said.”</p><p>Don’t promise an outcome on the Result line, and don’t hand out a list of ideas. The examples in the Action line are there to show how wide it is; say them quickly and move on. You’re the test class: by 3:21 your phones should be part of this deck.</p><p>Words only: this is the STAR frame the club practiced on 10-08, and the flow diagram comes next.</p><p class="bridge">Here’s what happens in the app when one student taps something.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="How it fits">
@@ -118,13 +118,13 @@
     <li data-beat><span class="body">Professor view<span class="detail">On the big screen: what the room is doing, shown back.</span></span></li>
     <li data-beat><span class="body">Your team’s idea<span class="detail">Pick one by 2:49. Write it as the Must do on your team sheet.</span></span></li>
   </ol>
-  <aside class="notes"><p>The spot is the only thing fixed. Ask 1 in each team doc builds the base screen for that spot (the join page, the phone page with the slide, the professor’s screen with the slide), so Claude starts in the first minute while the team pitches ideas. Ask 2 onward is the team’s own idea. [TBD: which lead takes which team.]</p><p><b>Only two leads?</b> Say: “Professor view isn’t running today.” Check-in and Live slides each show the room’s responses on their own screen. The team docs and the Lead guide say the same thing.</p><p>Words only: the flow diagram on the slide before already shows these three screens.</p><p class="bridge">With about ten of us, each team gets three or four people.</p></aside>
+  <aside class="notes"><p>The spot is the only thing fixed. Ask 1 in each team doc builds the base screen for that spot (the join page, the phone page with the slide, the professor’s screen with the slide), so the AI starts in the first minute while the team pitches ideas. Ask 2 onward is the team’s own idea. The three engineering leads are Sam and two officers (names stay out of this public repo; they’re in the Lead guide). [TBD: which lead takes which team.] Sam leads a team and presents, so set the sprint clocks with T before sitting down, and keep the presenter remote (M) at your seat.</p><p><b>Only two leads?</b> Say: “Professor view isn’t running today.” Check-in and Live slides each show the room’s responses on their own screen. The team docs and the Lead guide say the same thing.</p><p>Words only: the flow diagram on the slide before already shows these three screens.</p><p class="bridge">With about ten of us, each team gets three or four people.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="Teams and moving">
   <h2>About ten of us, three teams.</h2>
   <div data-scene="dots" data-steps="4" data-teams="4,3,3" data-names="Check-in,Live slides,Professor view" data-row="Everyone in the room" data-lead="Lead" data-moves="3:1"></div>
-  <aside class="notes"><p>Press 1, everyone. Press 2, three teams. Press 3, each team’s lead runs Claude on their laptop. Press 4, someone who finished their list walks to a team that posted on the Help board. Moving is normal; it keeps everyone busy.</p><p><b>Only two leads?</b> Say it here: Professor view people pick Check-in or Live slides.</p><p class="bridge">Every team has the same five seats, and each seat has a list.</p></aside>
+  <aside class="notes"><p>Press 1, everyone. Press 2, three teams. Press 3, each team’s lead runs the AI on their laptop. Press 4, someone who finished their list walks to a team that posted on the Help board. Moving is normal; it keeps everyone busy.</p><p><b>Only two leads?</b> Say it here: Professor view people pick Check-in or Live slides.</p><p class="bridge">Every team has the same five seats, and each seat has a list.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="Seats">
@@ -135,23 +135,23 @@
       <li data-label="UX designer (Designer) · top line first" data-title="The designer plans the screen and its words."><ul><li>Sketch the one screen on paper.</li><li>Write every word in the Screen section.</li><li>Compare each new build to the sketch.</li><li>Write the words for loading and errors.</li><li>Still free? Sketch the next screen.</li></ul></li>
       <li data-label="Quality assurance (QA) · testing and privacy" data-title="QA tests every build and tracks what data it keeps."><ul><li>Write three tests before anything’s built.</li><li>Write what the app collects and keeps.</li><li>New build? Run your three tests on it.</li><li>Nothing to test? Test another team’s app.</li><li>Run the demo once before 3:19.</li></ul></li>
       <li data-label="Product marketing (Launch) · top line first" data-title="Launch gives the team’s 2-minute demo at 3:21."><ul><li>Name the person and their problem.</li><li>Write how the pitch opens and ends.</li><li>Get the exact demo taps from QA.</li><li>Free? Watch another team rehearse.</li><li>Rehearse once before 3:21.</li></ul></li>
-      <li data-label="Engineering lead (Lead) · one per team" data-title="The lead sends asks to Claude, one at a time."><ul><li>Keep the app running on your laptop.</li><li>Send the next ask as soon as Claude finishes.</li><li>Read each reply out loud.</li><li>Stuck a minute? Cut it and tell the PM.</li><li>Move it to Done, then send the next one.</li></ul></li>
+      <li data-label="Engineering lead (Lead) · one per team" data-title="The lead sends asks to the AI, one at a time."><ul><li>Keep the app running on your laptop.</li><li>Send the next ask as soon as the AI finishes.</li><li>Read each reply out loud.</li><li>Stuck a minute? Cut it and tell the PM.</li><li>Move it to Done, then send the next one.</li></ul></li>
     </ol>
   </div>
-  <aside class="notes"><p>One card per press, about 20 seconds each. Say each full role name once: product manager, UX designer (UX means user experience: what people see and tap), quality assurance, product marketing, engineering lead. After that, use the short names on the cards. The rule for every seat: do the highest line that’s still open. The last line is what you do when everything above it is done or blocked. QA runs out first, because nothing exists to test until sprint 1; that’s why its fourth line sends them to another team. The Roles doc (QR on slide 11) has each seat’s full list, block by block.</p><p>Team of three or four? The PM also does Launch, and the Designer also does QA.</p><p class="bridge">Every ask for Claude starts in your team’s doc.</p></aside>
+  <aside class="notes"><p>One card per press, about 20 seconds each. Say each full role name once: product manager, UX designer (UX means user experience: what people see and tap), quality assurance, product marketing, engineering lead. After that, use the short names on the cards. The rule for every seat: do the highest line that’s still open. The last line is what you do when everything above it is done or blocked. QA runs out first, because nothing exists to test until sprint 1; that’s why its fourth line sends them to another team. The Roles doc (QR on slide 11) has each seat’s full list, block by block.</p><p>Team of three or four? The PM also does Launch, and the Designer also does QA.</p><p class="bridge">Every ask for the AI starts in your team’s doc.</p></aside>
 </section>
 
 <section class="slide" data-kind="scene" data-move="work" aria-label="How an ask travels">
-  <h2>How an ask gets to Claude</h2>
+  <h2>How an ask gets to the AI</h2>
   <div data-scene="flow" data-steps="1" data-dur="3">
     <ol class="flow-src">
       <li data-d="Writes an ask in the doc’s Agent queue">Anyone</li>
       <li data-d="Moves the most important ask to the top">PM</li>
-      <li data-d="Pastes the top ask into Claude with /next">Lead</li>
-      <li data-d="Builds it and says what to tap to try it">Claude</li>
+      <li data-d="Pastes the top ask into the AI with /next">Lead</li>
+      <li data-d="Builds it and says what to tap to try it">AI</li>
     </ol>
   </div>
-  <aside class="notes"><p>One press draws all four stops. Each ask has three lines: Ask (what to build), Why, and Done when (how we’ll know it works). Two starter asks are already in every team’s queue, so Claude starts in the first minute. The lead reads Claude’s reply out loud and moves the ask to Done.</p><p class="bridge">Open your team’s doc and the Roles doc now.</p></aside>
+  <aside class="notes"><p>One press draws all four stops. Each ask has three lines: Ask (what to build), Why, and Done when (how we’ll know it works). Two starter asks are already in every team’s queue, so the AI starts in the first minute. The lead reads the AI’s reply out loud and moves the ask to Done.</p><p class="bridge">Open your team’s doc and the Roles doc now.</p></aside>
 </section>
 
 <section class="slide" data-kind="grid" data-move="work" aria-label="Team docs">
@@ -182,7 +182,7 @@
   <div data-scene="strip" data-steps="5">
     <ol class="strip-src">
       <li data-min="2" data-label="2:42 · Seats">Open your team doc and pick a seat.</li>
-      <li data-min="8" data-label="2:44 · Sprint 0">Pick an idea. Claude starts on ask 1.</li>
+      <li data-min="8" data-label="2:44 · Sprint 0">Pick an idea. The AI starts on ask 1.</li>
       <li data-min="14" data-label="2:52 · Sprint 1">Build the Must do on the team sheet.</li>
       <li data-min="3" data-label="3:06 · Review">Each seat asks for one change.</li>
       <li data-min="12" data-label="3:09 · Sprint 2">Top two changes. Leads run /freeze at 3:19.</li>
@@ -204,13 +204,13 @@
     </ol>
   </div>
   <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Press T. If one team gets more than five, ask who’d take another part. Seats by interest: business and the undecided to product manager, art and comms to UX designer, sciences and CS to QA, anyone who likes talking to Launch. Two seats each: the PM also does Launch, the Designer also does QA. Names stay in the docs, never in the repo.</p><p class="bridge">Leads, send Claude your first message now.</p></aside>
+  <aside class="notes"><p>Press T. If one team gets more than five, ask who’d take another part. Seats by interest: business and the undecided to product manager, art and comms to UX designer, sciences and CS to QA, anyone who likes talking to Launch. Two seats each: the PM also does Launch, the Designer also does QA. Names stay in the docs, never in the repo.</p><p class="bridge">Leads, send the AI your first message now.</p></aside>
 </section>
 
 <section class="slide" data-kind="card" data-move="work" data-room data-timer="480" data-surface="sun" aria-label="Sprint 0">
   <h2>Sprint 0, set the target</h2>
   <div class="card">
-    <p class="label">8 minutes · Claude starts on ask 1</p>
+    <p class="label">8 minutes · the AI starts on ask 1</p>
     <ol class="card__lines">
       <li>Lead: first message, then ask 1, by 2:46.</li>
       <li data-beat>Team: pitch ideas. PM picks one by 2:49.</li>
@@ -220,7 +220,7 @@
     </ol>
   </div>
   <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Press T, then add a line about every 90 seconds. The first message to Claude is at the bottom of each team doc; the lead pastes it, then sends ask 1 with /next (the Lead guide has the steps). Claude builds the base screen while the team pitches, so nobody waits.</p><p>The pitch: everyone says one idea in one sentence (what a student does, and what changes on screen), and the team doc’s idea table holds them. The PM picks one by 2:49 and writes it as the Must do. Ask 2 is its first step.</p><p>Walk the room and ask: “What would you actually tap in a lecture? Name a class you’d use it in.”</p><p class="bridge">Now build the Must do from your team sheet.</p></aside>
+  <aside class="notes"><p>Press T, then add a line about every 90 seconds. The first message to the AI is at the bottom of each team doc; the lead pastes it, then sends ask 1 with /next (the Lead guide has the steps). The AI builds the base screen while the team pitches, so nobody waits.</p><p>The pitch: everyone says one idea in one sentence (what a student does, and what changes on screen), and the team doc’s idea table holds them. The PM picks one by 2:49 and writes it as the Must do. Ask 2 is its first step.</p><p>Walk the room and ask: “What would you actually tap in a lecture? Name a class you’d use it in.”</p><p class="bridge">Now build the Must do from your team sheet.</p></aside>
 </section>
 
 <section class="slide" data-kind="card" data-move="work" data-room data-timer="840" data-surface="sun" aria-label="Sprint 1">
@@ -236,7 +236,7 @@
     </ol>
   </div>
   <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Press T, then add a line about every three minutes. While Claude builds one ask, the team writes the next. If Claude finishes and the queue is empty, the PM writes the next ask on the spot.</p><p>QA tests on the lead’s laptop because phones can’t reach a laptop. Phones work after the 3:06 deploy.</p><p>Check the Help board once in the middle. If a team posted a need and someone is free, send them.</p><p class="bridge">Stop sending asks and look at what your app does right now.</p></aside>
+  <aside class="notes"><p>Press T, then add a line about every three minutes. While the AI builds one ask, the team writes the next. If the AI finishes and the queue is empty, the PM writes the next ask on the spot.</p><p>QA tests on the lead’s laptop because phones can’t reach a laptop. Phones work after the 3:06 deploy.</p><p>Check the Help board once in the middle. If a team posted a need and someone is free, send them.</p><p class="bridge">Stop sending asks and look at what your app does right now.</p></aside>
 </section>
 
 <section class="slide" data-kind="card" data-move="work" data-room data-timer="180" data-surface="ink" aria-label="Review">
@@ -267,7 +267,7 @@
     </ol>
   </div>
   <div class="card__side" data-clock-slot></div>
-  <aside class="notes"><p>Press T, then add a line about every two and a half minutes; the last line goes in with 2:00 left (3:19). QA tests on the live site from the 3:06 deploy. Leads: if a change breaks the app after 3:15, tell Claude “Undo your last change and run npm run build.” A smaller app that runs beats a bigger one that doesn’t. People who moved go back to their own team now.</p><p class="bridge">Hands off. Check-in demos first while the deploy runs.</p></aside>
+  <aside class="notes"><p>Press T, then add a line about every two and a half minutes; the last line goes in with 2:00 left (3:19). QA tests on the live site from the 3:06 deploy. Leads: if a change breaks the app after 3:15, tell the AI “Undo your last change and run npm run build.” A smaller app that runs beats a bigger one that doesn’t. People who moved go back to their own team now.</p><p class="bridge">Hands off. Check-in demos first while the deploy runs.</p></aside>
 </section>
 
 <section class="slide" data-kind="clock" data-move="work" data-timer="120" data-surface="sun" aria-label="Launch demos">
@@ -282,8 +282,8 @@
 <section class="slide" data-kind="statement" data-move="turn" data-surface="forest" data-layout="poster" data-step="support" aria-label="The sheet">
   <p class="eyebrow">What just happened</p>
   <h2>Which idea would you want in your own lectures?</h2>
-  <p class="sub">Every team used the same Claude. The ideas came from the teams.</p>
-  <aside class="notes"><p>Ask for a show of hands on each team’s idea. Then ask each PM what ideas they didn’t pick and why, and ask anyone who moved what they did on the other team. Tie it back to Gus: Claude wrote most of the code, and the hard part was deciding what Gus should do.</p><p class="bridge">This week, try your team’s idea on someone who sits in a real lecture.</p></aside>
+  <p class="sub">Every team used the same AI. The ideas came from the teams.</p>
+  <aside class="notes"><p>Ask for a show of hands on each team’s idea. Then ask each PM what ideas they didn’t pick and why, and ask anyone who moved what they did on the other team. Tie it back to Gus: the AI wrote most of the code, and the hard part was deciding what Gus should do.</p><p class="bridge">This week, try your team’s idea on someone who sits in a real lecture.</p></aside>
 </section>
 
 <!-- ASK =================================================================== -->
