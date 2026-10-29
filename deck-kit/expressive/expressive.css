@@ -4,9 +4,10 @@
 
 @property --kw { syntax: "<number>"; inherits: true; initial-value: 1; }
 
-/* qr-grid: up to four QR codes in a row on a grid slide, each with its name under it */
+/* qr-grid: up to five QR codes in a row on a grid slide, each with its name under it; five get smaller tiles to fit the stage */
 .qr-grid li { align-items: center; }
 .qr-grid .qr__tile { width: calc(340 * var(--u)); height: calc(340 * var(--u)); }
+.qr-grid:has(> li:nth-child(5)) .qr__tile { width: calc(300 * var(--u)); height: calc(300 * var(--u)); }
 .qr-grid b { font-size: var(--s-body); text-align: center; }
 .qr-grid .qr--help .qr__tile { box-shadow: inset 0 0 0 calc(6 * var(--u)) var(--rcc-primary); }
 
