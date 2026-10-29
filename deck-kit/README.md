@@ -149,6 +149,18 @@ It needs Node 22 and Google Chrome, nothing else. It fails first on any fill mar
 
 The check brings the headless tab to the front on purpose. Without that, headless Chrome marks the page hidden after the first real key event, stops producing frames, and every tween freezes until the next press fast-forwards it, so a walk passes with no animation having run.
 
+**Every deck and page in Chrome and Safari (Playwright).** One-time setup: `npm install`, then `npx playwright install chromium webkit`. Then:
+
+```sh
+npm run test:browser                              # every deck and deck page
+npx playwright test -g 2026-10-29                 # just the ones whose path has 2026-10-29
+npx playwright show-report                        # what failed, with a step-by-step trace
+```
+
+It opens every meeting deck in Chrome and desktop Safari, presses Right until the deck moves, and fails on a script error or a file from this repo that doesn't load. Every page in a deck's media folder (cheat sheets, cards; printed worksheets are left out) also opens on an iPhone-sized Safari and fails if it scrolls sideways. The list of what it opens is `tests/browser/targets.mjs`. It adds to `check.mjs` and doesn't replace it. The same setup is in rcc-acm and pcolee/explorAI.
+
+**Python scripts run with uv.** A Python script that needs a package lists it in a `# /// script` block at the top (see rcc-acm's `deck-kit/templates/`), so `uv run <script.py>` sets up the environment itself. No venv to find or make.
+
 ## Sharing it
 
 ```sh
