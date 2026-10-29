@@ -169,7 +169,7 @@ const info = await evaluate(`(() => {
     }),
   }));
 })()`);
-const KINDS = ['cover', 'statement', 'contrast', 'beats', 'card', 'compress', 'figure', 'clock', 'rail', 'photo', 'grid', 'demo', 'ask'];
+const KINDS = ['cover', 'statement', 'contrast', 'beats', 'card', 'compress', 'figure', 'clock', 'rail', 'photo', 'grid', 'demo', 'scene', 'ask'];
 const MOVES = ['arrive', 'tension', 'work', 'turn', 'ask'];
 check(info.every((s) => KINDS.includes(s.kind)), `every slide has a known data-kind (${info.length} slides)`);
 check(info.every((s) => MOVES.includes(s.move)), 'every slide has a known data-move');
@@ -363,11 +363,29 @@ console.log('surfaces and stage transitions');
 await load();
 {
   const SURFACES = ['', 'paper', 'mint', 'sand', 'sun', 'forest', 'ink'], LAYOUTS = ['', 'poster', 'tiles', 'panel', 'bleed-right', 'bleed-left', 'framed', 'framed-left', 'ledger', 'flow'];
-  const STYLES = ['', 'rise', 'step', 'sweep', 'rotate', 'deal'];
+  const STYLES = ['', 'rise', 'step', 'sweep', 'rotate', 'deal', 'carry'];
   const attrs = await evaluate(`[...document.querySelectorAll('.deck > .slide')].map((s) => ({ surface: s.dataset.surface || '', layout: s.dataset.layout || '', transition: s.dataset.transition || '', kind: s.dataset.kind }))`);
   check(attrs.every((a) => SURFACES.includes(a.surface)), 'every data-surface is known');
   check(attrs.every((a) => LAYOUTS.includes(a.layout)), 'every data-layout is known');
   check(attrs.every((a) => STYLES.includes(a.transition)), 'every data-transition is known');
+  // The expressive layer is opt-in (motion.md §5.13): its pieces need the deck to turn it on.
+  const xp = await evaluate(`({ on: document.querySelector('.deck').hasAttribute('data-expressive'),
+    uses: document.querySelectorAll('[data-scene], .slide[data-transition="carry"], .slide[data-step], .kw').length,
+    css: [...document.styleSheets].some((s) => /expressive\\.css/.test(s.href || '')) })`);
+  if (xp.uses || xp.on) check(xp.on && xp.css, `expressive pieces (${xp.uses}) sit on a deck with data-expressive and expressive.css loaded`);
+  // Visit every slide, come back to the first, and look for anything from another slide
+  // still showing: an inline visibility: visible escapes its hidden slide.
+  const leaks = await evaluate(`(async () => {
+    const slides = [...document.querySelectorAll('.deck > .slide')], wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    for (let i = 1; i <= slides.length; i++) { location.hash = '#' + i; await wait(160); }
+    location.hash = '#1'; await wait(400);
+    const out = [];
+    slides.forEach((s, i) => { if (s.classList.contains('is-current')) return;
+      for (const el of s.querySelectorAll('*')) { const r = el.getBoundingClientRect();
+        if (r.width && r.height && getComputedStyle(el).visibility === 'visible' && getComputedStyle(el).display !== 'none') { out.push('slide ' + (i + 1) + ' ' + (el.className.baseVal ?? el.className)); break; } } });
+    return out;
+  })()`);
+  check(!leaks.length, `after visiting every slide, nothing from another slide shows on the first${leaks.length ? ': ' + leaks.join('; ') : ''}`);
   check(attrs.every((a) => !['cover', 'ask'].includes(a.kind) || ['', 'paper'].includes(a.surface)), 'cover and ask stay on paper (the lockup is raster, black wordmark)');
   // Contrast: every text node against the nearest opaque background under it.
   const low = await evaluate(`(() => {

@@ -103,6 +103,10 @@ Three more devices (2026-09-29, [presentation.md §13.12](../docs/04-brand/desig
 - **Ledger.** `data-layout="ledger"` on a contrast slide: wrap the rows in `div.ledger-rows` (never `.ledger`, which is the chrome line's class), open with `div.ledger-head` holding two `p.label`, and start each `.contrast` row with `p.label.contrast__tag`.
 - **Flow.** `data-layout="flow"` on a beats slide: a `div.flow-head` of three `p.label`, then each `li data-beat` holds `span.body` with `span.flow__signal`, `span.flow__lead`, and `span.flow__entry`. Four rows at most.
 
+## The expressive layer (opt-in)
+
+For a deck that wants more motion and the scene types: put `data-expressive` on `<main class="deck">`, load `expressive/expressive.css` after `deck.css`, and `expressive/scenes.js` before `deck.js` (plus `expressive/scenes-three.js` as a module with the Three.js import map, or `expressive/scenes-map.js`, only if the deck uses them). The 10-29 deck is the worked example. Rules: motion.md §5.13; scenes and their markup: presentation.md §13.14.
+
 ## Presenter view, phone remote, run sheet
 
 [presentation.md §13.13](../docs/04-brand/design-system/presentation.md) has the rules. In a deck:

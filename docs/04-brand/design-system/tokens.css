@@ -267,6 +267,12 @@ img, svg, video { max-width: 100%; height: auto; }
   --rcc-dur-beat: 700ms;
   --rcc-dur-move: 1100ms;
   --rcc-ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Expressive tier springs (motion.md §5.10): M3 Expressive fast spatial (damping 0.6,
+     stiffness 800) and default spatial (damping 0.8), sampled as linear(). Position, size,
+     and scale only: color and opacity never overshoot. */
+  --rcc-ease-pop: linear(0, 0.1041 5%, 0.33 10%, 0.5794 15%, 0.7945 20%, 0.9503 25%, 1.0444 30%, 1.0872 35%, 1.094 40%, 1.0799 45%, 1.0572 50%, 1.034 55%, 1.015 60%, 1.0018 65%, 0.9943 70%, 0.9913 75%, 0.9913 80%, 0.993 85%, 0.9952 90%, 0.9973 95%, 1);
+  --rcc-ease-settle: linear(0, 0.0714 5%, 0.2269 10%, 0.405 15%, 0.5719 20%, 0.7116 25%, 0.8195 30%, 0.8975 35%, 0.9503 40%, 0.9834 45%, 1.0024 50%, 1.0117 55%, 1.015 60%, 1.0147 65%, 1.0127 70%, 1.01 75%, 1.0074 80%, 1.0051 85%, 1.0033 90%, 1.0019 95%, 1);
 }
 
 /* ============================== DARK ====================================

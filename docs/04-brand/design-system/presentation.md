@@ -253,3 +253,22 @@ All of it lives in `deck-kit/presenter.js`, loaded after `deck.js` (`weekly.html
 ---
 
 **Last updated: 2026-10-01.**
+
+
+## 13.14 Scenes and the expressive layer
+
+`data-kind="scene"` holds one `[data-scene]` element: a stepped picture whose content comes from a plain list inside it, so the list is also the text for the stacked view and screen readers. `data-steps` is how many presses it takes; the engine moves a value from one step to the next and the scene draws from that value alone, so a fast press lands exactly and going back plays it in reverse. `data-dur` lengthens a press (camera moves) and `data-ease="sweep"` eases in and out.
+
+| Scene | Script | Use it for |
+|---|---|---|
+| `dots` | `scenes.js` | People arrive, sort into teams, get a lead, and (optional fourth step) move to another team |
+| `flow` | `scenes.js` | A pipeline: each press adds a stop, draws the arrow, and sends a dot along it |
+| `strip` | `scenes.js` | A row of cards wider than the stage that scrolls one per press, with a time bar |
+| `bars` | `scenes.js` | Bars grow in order, re-sort by size, then a highlighted set gets a bracket and a total |
+| `odometer` | `scenes.js` | One big number that rolls from value to value, with its caption |
+| `wipe` | `scenes.js` | Before and after in one frame, divider sweeping on each press |
+| `map` | `scenes-map.js` | A camera that flies between places (pull out, travel, drop in), pins on arrival. Needs internet for OpenStreetMap tiles |
+| `gallery` | `scenes-three.js` (Three.js) | Cards on a drum; the camera tracks to the next card. At rest a real HTML card takes the drawn card's place, so text is sharp |
+| `stack3d` | `scenes-three.js` (Three.js) | Layers of a thing pulled apart, one brought forward per press |
+
+The 10-29 deck uses `flow`, `dots`, `gallery`, and `strip`; the lab deck in `scratch/expressive-lab/` (gitignored) shows every scene. Also in the layer: `.qr-grid` (up to four QR codes on a `grid` slide) and the projector-safe highlighter (fills on paper, an under-stroke on mint, sand, and sun).

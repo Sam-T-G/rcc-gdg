@@ -28,6 +28,9 @@
   var NS = 'http://www.w3.org/2000/svg';
   var STAGGER = 0.056;              // 8% of the beat, motion.md §5.7
   var STAGGER_CAP = 5;              // six groups: 0..5
+  // The expressive layer (motion.md §5.13) is opt-in: <main class="deck" data-expressive>
+  // plus deck-kit/expressive/expressive.css. Off, the kit behaves exactly as before.
+  var LAB = { on: deck.hasAttribute('data-expressive') };
 
   root.classList.add('deck-live');
   if (!gsap) root.classList.add('no-gsap');
@@ -82,13 +85,32 @@
     exit: curve('--rcc-ease-exit', [0.4, 0, 1, 1]),
     standard: curve('--rcc-ease-standard', [0.2, 0, 0, 1])
   };
+  // A CSS linear() token as an ease function, so GSAP and CSS share one spring.
+  function linearEase(name, fallback) {
+    var m = /linear\((.*)\)/.exec(token(name));
+    if (!m) return fallback;
+    var raw = m[1].split(',').map(function (s) { s = s.trim().split(/\s+/); return { y: parseFloat(s[0]), x: s[1] ? parseFloat(s[1]) / 100 : null }; });
+    raw[0].x = raw[0].x == null ? 0 : raw[0].x; raw[raw.length - 1].x = raw[raw.length - 1].x == null ? 1 : raw[raw.length - 1].x;
+    for (var a = 1; a < raw.length; a++) if (raw[a].x == null) {
+      var z = a; while (raw[z].x == null) z++;
+      for (var q = a; q < z; q++) raw[q].x = raw[a - 1].x + (raw[z].x - raw[a - 1].x) * (q - a + 1) / (z - a + 1);
+    }
+    return function (x) {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      for (var k = 1; k < raw.length; k++) if (x <= raw[k].x) return lerp(raw[k - 1].y, raw[k].y, (x - raw[k - 1].x) / ((raw[k].x - raw[k - 1].x) || 1));
+      return 1;
+    };
+  }
+  EASE.pop = linearEase('--rcc-ease-pop', EASE.arrive);
+  EASE.settle = linearEase('--rcc-ease-settle', EASE.arrive);
+  window.__deckEase = EASE;
   function motionOn() { return !!gsap && !reduceMQ.matches; }
   function dur(kind) { return seconds(kind === 'move' ? '--rcc-dur-move' : '--rcc-dur-beat'); }
 
   /* ---------- Units: what rises through a mask ---------------------------- */
   var TEXT = 'h1, h2, h3, p, li, .eyebrow, .label';
-  var BLOCK = '.card, .clock, .figure, .compress';
-  var NOSPLIT = '.notes, .notice, .qr, .compress, .compress-src, .rung, .rung-src, .cover__starts, .cover__lockup, .card, .clock, .figure, [data-static], svg, script, style';
+  var BLOCK = '.card, .clock, .figure, .compress, [data-scene]';
+  var NOSPLIT = '.notes, .notice, .qr, .compress, .compress-src, .rung, .rung-src, .cover__starts, .cover__lockup, .card, .clock, .figure, [data-static], [data-scene], svg, script, style';
 
   function splitWords(el) {
     var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), nodes = [], words = [];
@@ -175,7 +197,12 @@
     var u = deck.clientWidth / 1920 || 1, d = dur('beat') * (back || 1);
     list.forEach(function (x, k) {
       var when = at + k * 0.07;
-      if (x.dot) tl.fromTo(x.el, { '--pop': 0 }, { '--pop': 1, duration: d * 0.9, ease: 'back.out(2.2)' }, when);
+      if (x.dot) tl.fromTo(x.el, { '--pop': 0 }, { '--pop': 1, duration: LAB.on ? 0.36 : d * 0.9, ease: LAB.on ? EASE.pop : 'back.out(2.2)' }, when);
+      else if (LAB.on) {
+        // Expressive: the wipe stays on arrive; the lift lands on the settle spring from deeper.
+        tl.fromTo(x.el, { clipPath: boxClip(x.el, 100, 0) }, { clipPath: boxClip(x.el, 0, 0), duration: d * 1.15, ease: EASE.arrive }, when);
+        tl.fromTo(x.el, { y: 72 * u, scale: 0.97 }, { y: 0, scale: 1, duration: 0.6, ease: EASE.settle }, when);
+      }
       else tl.fromTo(x.el, { clipPath: boxClip(x.el, 100, 0), y: 32 * u }, { clipPath: boxClip(x.el, 0, 0), y: 0, duration: d * 1.15, ease: EASE.arrive }, when);
     });
   }
@@ -392,6 +419,72 @@
       el.style.minWidth = 'calc(' + r2(el.getBoundingClientRect().width / u) + ' * var(--u))';
     }
     return { render: render, reserve: reserve, state: { p: 1 } };
+  }
+
+  /* ---------- Expressive layer (opt-in, motion.md §5.13) ------------------ */
+  // The Step in its support role: a Rule drawn under the heading of a movement
+  // opener, rise at the deck's arc. data-step="support" on the slide.
+  function makeStep(slide) {
+    if (slide.getAttribute('data-step') !== 'support') return null;
+    var h = one('h1, h2', slide); if (!h) return null;
+    var W = 1100, H = 96, s = 12, arc = parseFloat(token('--rcc-step-arc')) / 100 || 0.12;
+    var svg = svgEl('svg', { class: 'step-rule', viewBox: '0 0 ' + W + ' ' + H, 'aria-hidden': 'true', focusable: 'false' });
+    var path = svgEl('path', { d: 'M0 ' + (H - s / 2) + 'H' + r2(W * arc) + 'V' + s / 2 + 'H' + W, pathLength: 1,
+      fill: 'none', stroke: 'currentColor', 'stroke-width': s, 'stroke-linecap': 'butt', 'stroke-linejoin': 'round' }, svg);
+    h.parentNode.insertBefore(svg, h.nextSibling);
+    var st = { p: 1 };
+    function render(p) { st.p = p; path.style.strokeDasharray = '1 1'; path.style.strokeDashoffset = r2(1 - clamp(p, 0, 1)); }
+    return { el: svg, render: render, state: st };
+  }
+  // Scenes: a stepped picture that is the slide's content (lab.js, lab-three.js).
+  // Pure function of v in [0, steps]: the engine tweens v, so a press in flight
+  // lands exactly and going back plays the same picture in reverse.
+  function makeScene(slide) {
+    var el = one('[data-scene]', slide); if (!el) return null;
+    var type = el.getAttribute('data-scene'), steps = parseInt(el.getAttribute('data-steps') || '0', 10);
+    // data-dur scales the press (camera flights need longer), data-ease="sweep" eases in and out.
+    var mult = parseFloat(el.getAttribute('data-dur') || '1'), sweep = el.getAttribute('data-ease') === 'sweep';
+    var st = { v: 0 };
+    function render(v) {
+      st.v = v;
+      var fn = (window.DeckScenes || {})[type];
+      if (fn) { el.classList.add('is-drawn'); fn(el, v, { u: deck.clientWidth / 1920 || 1, ease: EASE, steps: steps }); }
+    }
+    return { el: el, type: type, steps: steps, render: render, state: st, mult: mult, sweep: sweep };
+  }
+  window.__deckRerender = function () { slides.forEach(function (s) { if (s._scene) s._scene.render(s._scene.state.v); }); };
+  // Things that settle into place when a slide arrives forward: the Step draws,
+  // [data-draw] paths draw, a .kw keyword swells. `at` is the timeline position.
+  function labEnter(tl, to, at, dir) {
+    if (!LAB.on || dir < 0) return;
+    var u = deck.clientWidth / 1920 || 1, move = dur('move');
+    if (to._step) {
+      to._step.render(0);
+      tl.to(to._step.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._step.render(to._step.state.p); } }, at + 0.25);
+      tl.fromTo(to._step.el, { y: 28 * u }, { y: 0, duration: 0.36, ease: EASE.pop }, at + 0.25);
+    }
+    all('[data-draw] path', to).forEach(function (p, k) {
+      p.style.strokeDasharray = '1 1';
+      tl.fromTo(p, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: move, ease: EASE.arrive }, at + 0.3 + k * 0.12);
+    });
+    all('.kw', to).forEach(function (k) {
+      tl.fromTo(k, { '--kw': 0 }, { '--kw': 1, duration: seconds('--rcc-dur-slow-effects') * 3, ease: EASE.standard }, at + move * 0.85);
+    });
+  }
+  function labRest(slide) {
+    if (slide._step) { gsap && gsap.set(slide._step.el, { clearProps: 'transform' }); slide._step.render(1); }
+    all('[data-draw] path', slide).forEach(function (p) { p.style.strokeDashoffset = '0'; });
+    all('.kw', slide).forEach(function (k) { k.style.removeProperty('--kw'); });
+    all('[data-carry]', slide).forEach(function (c) { c.style.transform = ''; c.style.transformOrigin = ''; });
+    if (slide._scene && (slide.classList.contains('is-current') || !S.presenting)) slide._scene.render(slide._scene.state.v);
+  }
+  // Carry: an element with the same data-carry on both slides flies from where it
+  // was to where it lands (FLIP: measure both, then interpolate a transform).
+  function carryPairs(from, to) {
+    return all('[data-carry]', to).map(function (b) {
+      var a = one('[data-carry="' + b.getAttribute('data-carry') + '"]', from);
+      return a ? { a: a, b: b, ra: a.getBoundingClientRect(), rb: b.getBoundingClientRect() } : null;
+    }).filter(Boolean);
   }
 
   /* ---------- Clock -------------------------------------------------------- */
@@ -688,10 +781,12 @@
     slide._figure = makeFigure(slide);
     slide._rung = makeRung(slide);
     slide._tours = all('figure.photo[data-tour]', slide).map(buildTour);
+    slide._step = makeStep(slide);
+    slide._scene = makeScene(slide);
     slide._units = buildUnits(slide);
     slide._boxes = buildBoxes(slide);
     slide._beatEls = all('[data-beat]', slide);
-    slide._beats = slide._compress ? slide._compress.steps : slide._beatEls.length;
+    slide._beats = slide._compress ? slide._compress.steps : slide._scene ? slide._scene.steps : slide._beatEls.length;
   });
 
   /* ---------- State -------------------------------------------------------- */
@@ -733,6 +828,8 @@
     if (slide._compress) { slide._compress.state.v = b; slide._compress.render(b); }
     if (slide._figure) { slide._figure.state.p = 1; slide._figure.render(1); }
     if (slide._rung) { slide._rung.state.p = 1; slide._rung.render(1); }
+    if (slide._scene) slide._scene.state.v = b;
+    slides.forEach(labRest);
     var rt = railTarget(i); R.t = rt.t; R.fill = rt.fill; R.draw = 1; renderRail();
     chromeText();
   }
@@ -804,9 +901,10 @@
   // name the style it arrives with; going back plays the style that brought the
   // current slide in, mirrored. Otherwise: a new movement climbs (step), a new
   // surface sweeps in, and anything else is the plain rise.
-  var STYLES = ['rise', 'step', 'sweep', 'rotate', 'deal'];
+  var STYLES = ['rise', 'step', 'sweep', 'rotate', 'deal', 'carry'];
   function styleOf(kind, from, to, dir) {
     var named = (dir < 0 ? from : to).getAttribute('data-transition');
+    if (named === 'carry' && !LAB.on) named = null;
     if (named && STYLES.indexOf(named) >= 0) return named;
     if (kind === 'turn') return 'step';
     return surf(from) !== surf(to) ? 'sweep' : 'rise';
@@ -899,6 +997,9 @@
     if (kind === 'hold') {
       if (from._compress) {
         tl.to(from._compress.state, { v: nb, duration: 2 * beat * back, ease: 'none', onUpdate: function () { from._compress.render(from._compress.state.v); } });
+      } else if (from._scene) {
+        var sc = from._scene;
+        tl.to(sc.state, { v: nb, duration: move * back * sc.mult, ease: sc.sweep ? IN_OUT : EASE.arrive, onUpdate: function () { sc.render(sc.state.v); } });
       } else if (dir > 0) {
         setBeats(from, nb);
         var inU = unitsFor(from, nb, nb).map(function (u) { return u.el; });
@@ -917,13 +1018,19 @@
 
     var style = styleOf(kind, from, to, dir);
     S.style = style;
-    if (style !== 'rise') { stageGo(tl, style, from, to, ni, nb, dir, kind, back); return; }
+    if (style !== 'rise' && style !== 'carry') { stageGo(tl, style, from, to, ni, nb, dir, kind, back); return; }
+    var pairs = style === 'carry' ? carryPairs(from, to) : [];
 
     // Ascend, Turn, Unfold. Forward climbs: out goes up, in rises from below.
     // Backward runs the other way at the tier below (§5.9).
     var D = (kind === 'ascend' ? beat : move) * back;
-    var outEls = unitsFor(from, 0, b).map(function (u) { return u.el; });
-    var inList = unitsFor(to, 0, nb), inEls = inList.map(function (u) { return u.el; }), inK = inList.map(function (u) { return u.k; });
+    // Expressive: a statement is a poster; its lines rise slower and further apart.
+    var poster = LAB.on && to._kind === 'statement', STG = poster ? STAGGER * 2.2 : STAGGER;
+    if (poster) D = move * back;
+    // A carried element neither exits nor rises: it flies.
+    function flying(u, side) { return pairs.some(function (c) { return c[side].contains(u.el); }); }
+    var outEls = unitsFor(from, 0, b).filter(function (u) { return !flying(u, 'a'); }).map(function (u) { return u.el; });
+    var inList = unitsFor(to, 0, nb).filter(function (u) { return !flying(u, 'b'); }), inEls = inList.map(function (u) { return u.el; }), inK = inList.map(function (u) { return u.k; });
     var sign = dir < 0 ? -1 : 1;
     tl.to(outEls, { yPercent: -110 * sign, duration: 0.3 * beat, ease: EASE.exit });
     boxesOut(tl, boxesFor(from, 0, b), 0, sign);
@@ -936,15 +1043,33 @@
       if (to._figure) to._figure.render(dir > 0 ? 0 : 1);
       if (to._rung) to._rung.render(dir > 0 ? 0 : 1);
       renderTour(to, nb, true);
+      if (to._scene) { to._scene.state.v = nb; to._scene.render(nb); }
       chromeText();
       if (from._clock) from._clock.pause();
+      // Carry: each paired element starts where its twin was, then flies home.
+      pairs.forEach(function (c) {
+        var s = c.ra.height / (c.rb.height || 1);
+        c.b.style.transformOrigin = '0 0';
+        c.b.style.transform = 'translate(' + r2(c.ra.left - c.rb.left) + 'px, ' + r2(c.ra.top - c.rb.top) + 'px) scale(' + r2(s * 1000) / 1000 + ')';
+      });
     });
     // On a climb rung the camera moves first; the heading rises as it settles.
     var hold = dir > 0 && to._rung && to._rung.camera ? to._rung.duration * 0.62 : 0;
     var rt = railTarget(ni);
     tl.to(R, { t: rt.t, fill: rt.fill, duration: D, ease: EASE.arrive, onUpdate: renderRail });
-    tl.to(inEls, { yPercent: 0, duration: D, delay: hold, ease: EASE.arrive, stagger: function (q) { return inK[q] * STAGGER; } }, '<');
+    var enterAt = tl.recent().startTime();
+    if (pairs.length) {
+      var P = { p: 0 };
+      tl.to(P, { p: 1, duration: move * back, ease: EASE.settle, onUpdate: function () {
+        pairs.forEach(function (c) {
+          var s0 = c.ra.height / (c.rb.height || 1), s = lerp(s0, 1, P.p);
+          c.b.style.transform = 'translate(' + r2((c.ra.left - c.rb.left) * (1 - P.p)) + 'px, ' + r2((c.ra.top - c.rb.top) * (1 - P.p)) + 'px) scale(' + r2(s * 1000) / 1000 + ')';
+        });
+      } }, enterAt);
+    }
+    tl.to(inEls, { yPercent: 0, duration: D, delay: hold + (pairs.length ? move * 0.35 * back : 0), ease: EASE.arrive, stagger: function (q) { return inK[q] * STG; } }, enterAt);
     boxesIn(tl, boxesFor(to, 0, nb), tl.recent().startTime() + hold, back);
+    labEnter(tl, to, enterAt, dir);
     if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, '<0.25'); }
     if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, '<'); }
     announce(to, 0);
@@ -964,6 +1089,7 @@
     if (to._figure) to._figure.render(dir > 0 ? 0 : 1);
     if (to._rung) to._rung.render(dir > 0 ? 0 : 1);
     renderTour(to, nb, true);
+    if (to._scene) { to._scene.state.v = nb; to._scene.render(nb); }
     if (from._clock) from._clock.pause();
     chromeText();
     deck.classList.add('is-moving');
@@ -986,6 +1112,7 @@
       // The slide itself is moving on a turn or a deal; its boxes land a beat after it.
       boxesIn(tl, boxesFor(to, 0, nb), D * 0.55, back);
     }
+    labEnter(tl, to, D * 0.26, dir);
     var late = D * 0.6;
     if (dir > 0 && to._figure) { to._figure.state.p = 0; tl.to(to._figure.state, { p: 1, duration: move, ease: EASE.arrive, onUpdate: function () { to._figure.render(to._figure.state.p); } }, late); }
     if (dir > 0 && to._rung) { to._rung.state.p = 0; tl.to(to._rung.state, { p: 1, duration: to._rung.duration, ease: 'none', onUpdate: function () { to._rung.render(to._rung.state.p); } }, late); }
@@ -1101,6 +1228,7 @@
         s._beatEls.forEach(function (el) { el.classList.remove('is-pending', 'is-past'); });
         if (s._figure) s._figure.render(1);
         if (s._rung) s._rung.render(1);
+        if (s._scene) { s._scene.state.v = s._scene.steps; s._scene.render(s._scene.steps); }
       });
     } else applyState(S.i, S.b);
   }

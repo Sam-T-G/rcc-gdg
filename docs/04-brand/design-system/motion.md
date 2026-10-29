@@ -233,3 +233,21 @@ Sourced from the club's own shipped artifacts rather than from Google: the maske
 ---
 
 **Last updated: 2026-09-29.**
+
+
+## 5.13 The expressive tier (opt-in)
+
+Added 2026-10-29 from the motion and presentation research (Material 3 Expressive, IBM Carbon, Stripe, Figma Config). A deck turns it on with `data-expressive` on `<main class="deck">` and `deck-kit/expressive/expressive.css`; without both, the kit runs exactly as before and `check.mjs` fails a deck that uses a piece of it without turning it on.
+
+| Piece | What it does | Rule |
+|---|---|---|
+| `--rcc-ease-pop`, `--rcc-ease-settle` | Two springs as `linear()` tokens (M3 Expressive damping 0.6 and 0.8). Number dots pop; tiles lift and settle. | Position, size, and scale only. Color and opacity never overshoot; they stay on `--rcc-ease-standard`. |
+| Step in support | `data-step="support"` on a movement opener draws a Rule under the heading, rise at the deck's arc. | Movement openers only. Never on dense slides, never in chrome. |
+| Poster entrance | Statement lines rise on `--rcc-dur-move` with a wider stagger. | Still rise, never fade. |
+| Keyword | `<span class="kw">` thickens one word through GRAD after its line lands. | One per slide. No line moves. |
+| Carry | `data-transition="carry"`: an element with the same `data-carry` on two slides flies from one to the other. | Only for the same thing on both slides (a number that grows into the slide). |
+| Scenes | Stepped pictures that are the slide's content (presentation.md §13.14). | Each press moves the picture one step; nothing moves between presses. |
+
+The budget is one expressive moment per slide: a pop, a carry, a keyword, or a Step draw. No major system publishes a number, so this one is the club's. Reduced motion, room mode, and a running clock still cut every transition, and scenes land on their end state.
+
+Not in the tier, on purpose: shader or gradient backgrounds, particle fields, glow, dark stages, and View Transitions (the browser runs them, so they can't land on a pressed state, and they default to a fade). §5.6's rule on ambient motion and presentation.md §13.11's flat surfaces stand.

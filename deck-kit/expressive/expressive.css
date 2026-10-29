@@ -1,0 +1,153 @@
+/* GDG deck kit: the expressive layer. Opt-in per deck: load this after deck.css and
+   put data-expressive on <main class="deck">. Rules: docs/04-brand/design-system/
+   motion.md §5.13 and presentation.md §13.14. Spring tokens live in deck.css. */
+
+@property --kw { syntax: "<number>"; inherits: true; initial-value: 1; }
+
+/* qr-grid: up to four QR codes in a row on a grid slide, each with its name under it */
+.qr-grid li { align-items: center; }
+.qr-grid .qr__tile { width: calc(340 * var(--u)); height: calc(340 * var(--u)); }
+.qr-grid b { font-size: var(--s-body); text-align: center; }
+.qr-grid .qr--help .qr__tile { box-shadow: inset 0 0 0 calc(6 * var(--u)) var(--rcc-primary); }
+
+
+/* --- 1. The Step, support role ------------------------------------------- */
+.step-rule { display: block; width: calc(1100 * var(--u)); height: calc(96 * var(--u)); color: var(--rcc-primary); overflow: visible; flex: none; }
+
+/* --- 2. One big thing in the card's empty column ------------------------- */
+.big { display: flex; flex-direction: column; gap: calc(12 * var(--u)); }
+.big__num { font-size: calc(300 * var(--u)); line-height: 0.85; font-weight: 500; letter-spacing: -0.04em; color: var(--rcc-primary); font-variant-numeric: tabular-nums lining-nums; }
+.big__unit { font-size: var(--s-body); line-height: 1.15; font-weight: 500; }
+.slide .big__num { font-size: calc(300 * var(--u)); line-height: 0.85; }
+.big--hero { flex-direction: row; align-items: baseline; gap: calc(48 * var(--u)); }
+.slide .big--hero .big__num { font-size: calc(400 * var(--u)); }
+.big--hero .big__unit { font-size: var(--s-head); line-height: 1.06; letter-spacing: -0.02em; max-width: calc(980 * var(--u)); }
+/* the carried number's line box must hug the glyphs, so its mask and its flight agree */
+.big__num .w { padding-block: 0.02em 0.06em; margin-block: -0.02em -0.06em; }
+.stair { width: calc(560 * var(--u)); height: auto; color: var(--rcc-primary); overflow: visible; }
+.stair__labels { display: flex; justify-content: space-between; width: calc(560 * var(--u)); }
+
+/* --- 3. Highlighter marks that hold on a projector ----------------------- */
+.deck[data-expressive] .hl--verb { --hl-c: #449d64; }      /* ink 4.88:1, vs paper 3.20:1 */
+.deck[data-expressive] .hl--impact { --hl-c: #b98000; }    /* ink 4.80:1, vs paper 3.25:1 */
+/* On mint, sand, and sun no fill passes both checks, so the mark is an under-stroke. */
+.deck[data-expressive] .slide:is([data-surface="mint"], [data-surface="sand"], [data-surface="sun"]) .hl {
+  background: linear-gradient(var(--hl-u), var(--hl-u)) 0 100% / 100% 0.13em no-repeat;
+  padding-bottom: 0.04em; border-radius: 0;
+}
+.deck[data-expressive] .slide:is([data-surface="mint"], [data-surface="sand"], [data-surface="sun"]) .hl--verb { --hl-u: var(--rcc-primary); }
+.deck[data-expressive] .slide:is([data-surface="mint"], [data-surface="sand"], [data-surface="sun"]) .hl--impact { --hl-u: var(--rcc-on-surface); }
+@keyframes hl-under { from { background-size: 0% 0.13em; } to { background-size: 100% 0.13em; } }
+.deck-live.is-presenting .deck[data-expressive] .slide.is-current:is([data-surface="mint"], [data-surface="sand"], [data-surface="sun"]) .hl { animation-name: hl-under; }
+
+/* --- 5. One keyword swells (GRAD: thicker strokes, no line moves) -------- */
+.kw {
+  font-variation-settings: "GRAD" calc(var(--rcc-grad) + var(--kw) * 200);
+  color: var(--rcc-primary);   /* a plain token, so contrast checks read it; only the weight swells */
+}
+
+/* --- Scenes: a stepped picture that is the content ----------------------- */
+.slide[data-kind="scene"] { justify-content: flex-start; gap: calc(28 * var(--u)); }
+.slide[data-kind="scene"] > .blk { flex: 1; min-height: 0; }
+.slide[data-kind="scene"] > .blk > .blk__in { height: 100%; }
+[data-scene] { position: relative; width: 100%; height: calc(640 * var(--u)); }
+[data-scene].is-tall { height: calc(740 * var(--u)); }
+/* The source list is the content and the no-script fallback; once a scene draws, it hides. */
+[data-scene].is-drawn > :is(.flow-src, .strip-src, .s3-src, .bars-src, .odo-src, .map-src, .gal-src) { display: none; }
+[data-scene] > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.sc-label { font-family: var(--rcc-font-brand); font-weight: 500; fill: var(--rcc-on-surface); }
+.sc-ledger { font-family: var(--rcc-font-code); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--rcc-on-surface-variant); }
+
+.sc-detail { font-family: var(--rcc-font-brand); fill: var(--rcc-on-surface-variant); }
+/* dots */
+.sc-dot { fill: var(--rcc-primary-container); stroke: var(--rcc-primary); stroke-width: 5; }
+.sc-dot--lead { fill: var(--rcc-primary); }
+.sc-ledger--on { fill: var(--rcc-primary); }
+.sc-ring { fill: none; stroke: var(--rcc-on-surface); stroke-width: 6; stroke-dasharray: 12 10; opacity: 0; }   /* dashed ink: 3:1 on every surface */
+/* flow */
+.sc-box { fill: var(--rcc-surface-container-lowest); stroke: var(--rcc-outline-variant); stroke-width: 3; transition: fill var(--rcc-dur-slow-effects) var(--rcc-ease-standard), stroke var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+.sc-node.is-current .sc-box { fill: var(--rcc-primary-container); stroke: var(--rcc-primary); }
+.sc-link { fill: none; stroke: var(--rcc-primary); stroke-width: 8; }
+.sc-head { fill: var(--rcc-primary); }
+.sc-packet { fill: var(--rcc-highlight); stroke: var(--rcc-on-surface); stroke-width: 3; }
+
+/* strip: a track of cards that scrolls one card per press */
+.strip { position: absolute; inset: 0; overflow: visible; }
+.strip__track { position: absolute; left: 0; top: calc(40 * var(--u)); display: flex; gap: calc(40 * var(--u)); will-change: transform; }
+.strip__card {
+  flex: none; width: calc(560 * var(--u)); height: calc(480 * var(--u)); border-radius: calc(28 * var(--u));
+  padding: calc(48 * var(--u)) calc(52 * var(--u)); display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--rcc-surface-container-lowest); box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant);
+  color: var(--rcc-on-surface);
+}
+.strip__card .label { color: inherit; opacity: 0.8; }
+.strip__min { font-size: calc(200 * var(--u)); line-height: 0.85; font-weight: 500; letter-spacing: -0.04em; font-variant-numeric: tabular-nums lining-nums; }
+.strip__min small { font-size: var(--s-body); letter-spacing: 0; margin-left: calc(16 * var(--u)); }
+.strip__line { font-size: var(--s-body); line-height: 1.2; font-weight: 500; }
+.strip__bar { position: absolute; left: 0; right: 0; bottom: calc(24 * var(--u)); height: calc(8 * var(--u)); background: var(--rcc-outline-variant); border-radius: 99px; }
+.strip__fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--rcc-primary); border-radius: 99px; }
+
+/* bars */
+.sc-bar { fill: var(--rcc-primary-container); stroke: var(--rcc-primary); stroke-width: 3; }
+.sc-value { font-family: var(--rcc-font-brand); font-weight: 500; fill: var(--rcc-on-surface); font-variant-numeric: tabular-nums; }
+.sc-bracket { fill: none; stroke: var(--rcc-primary); stroke-width: 8; stroke-linejoin: round; }
+.sc-total { font-family: var(--rcc-font-brand); font-weight: 500; fill: var(--rcc-primary); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+
+/* odometer */
+.odo { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: calc(24 * var(--u)); }
+.odo__num { display: flex; font-size: calc(380 * var(--u)); line-height: 1; font-weight: 500; letter-spacing: -0.04em; color: var(--rcc-primary); font-variant-numeric: tabular-nums lining-nums; }
+.odo__col { display: block; height: 1em; overflow: hidden; width: 0.62em; flex: none; }
+.odo__strip { display: flex; flex-direction: column; will-change: transform; }
+.odo__strip > span { display: block; height: 1em; text-align: center; }
+.odo__caps { position: relative; height: calc(var(--s-head) * 1.2); overflow: hidden; }
+.odo__cap { position: absolute; left: 0; top: 0; margin: 0; font-size: var(--s-head); line-height: 1.1; font-weight: 500; letter-spacing: -0.02em; white-space: nowrap; }
+
+/* wipe */
+.wipe__a, .wipe__b { position: absolute; inset: 0; border-radius: calc(28 * var(--u)); overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: calc(32 * var(--u)); padding: calc(64 * var(--u)) calc(80 * var(--u)); box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); }
+.wipe__a { background: var(--rcc-surface-container-lowest); }
+.wipe__b { background: var(--rcc-surface-container-lowest); }
+.wipe__a h3, .wipe__b h3 { font-size: var(--s-head); line-height: 1.1; font-weight: 500; letter-spacing: -0.02em; margin: 0; }
+/* simulated room light: ambient light adds to every pixel, so black lifts and contrast drops */
+.washed::after { content: ""; position: absolute; inset: 0; background: rgb(255 255 255 / 0.32); pointer-events: none; }
+.wipe__a .hl.old--verb { --hl-c: #a8e6b4; } .wipe__a .hl.old--impact { --hl-c: #ffd166; }
+.wipe__b .hl.new--verb { --hl-c: #449d64; } .wipe__b .hl.new--impact { --hl-c: #b98000; }
+.wipe__a .hl, .wipe__b .hl { animation: none !important; background-size: 100% 42% !important; }
+.wipe__handle { position: absolute; top: calc(-16 * var(--u)); bottom: calc(-16 * var(--u)); width: 0; z-index: 2; }
+.wipe__handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(-4 * var(--u)); width: calc(8 * var(--u)); background: var(--rcc-primary); border-radius: 99px; }
+.wipe__grip { position: absolute; top: 50%; left: 0; width: calc(72 * var(--u)); height: calc(72 * var(--u)); transform: translate(-50%, -50%); border-radius: 50%; background: var(--rcc-primary); box-shadow: 0 0 0 calc(6 * var(--u)) var(--rcc-surface); }
+.wipe__chip { position: absolute; top: calc(40 * var(--u)); font-family: var(--rcc-font-code); font-size: var(--s-ledger); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: calc(8 * var(--u)) calc(18 * var(--u)); border-radius: 99px; background: var(--rcc-primary); color: var(--rcc-on-primary); white-space: nowrap; transition: opacity var(--rcc-dur-slow-effects) var(--rcc-ease-standard); }
+.wipe__chip--a { right: calc(24 * var(--u)); }
+.wipe__chip--b { left: calc(24 * var(--u)); }
+
+/* map */
+.map { position: absolute; inset: 0; border-radius: calc(28 * var(--u)); overflow: hidden; box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--rcc-outline-variant); }
+.map canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map__pin { position: absolute; left: 0; top: 0; width: 0; height: 0; --pin: 0; --ping: 0; }
+.map__dot { position: absolute; left: calc(-22 * var(--u)); top: calc(-22 * var(--u)); width: calc(44 * var(--u)); height: calc(44 * var(--u)); border-radius: 50%; background: var(--rcc-primary); box-shadow: 0 0 0 calc(8 * var(--u)) #fff; transform: scale(var(--pin)); }
+.map__ping { position: absolute; left: calc(-22 * var(--u)); top: calc(-22 * var(--u)); width: calc(44 * var(--u)); height: calc(44 * var(--u)); border-radius: 50%; border: calc(6 * var(--u)) solid var(--rcc-primary); transform: scale(calc(1 + var(--ping) * 4)); opacity: calc((1 - var(--ping)) * min(1, var(--ping) * 20)); }
+.map__tag { position: absolute; left: calc(40 * var(--u)); top: calc(-34 * var(--u)); white-space: nowrap; font-size: var(--s-body); font-weight: 500; line-height: 1; padding: calc(10 * var(--u)) calc(22 * var(--u)); background: #fff; border-radius: calc(16 * var(--u)); box-shadow: 0 calc(4 * var(--u)) calc(16 * var(--u)) rgb(0 0 0 / 0.12); transform-origin: 0 50%; transform: scale(var(--pin)); }
+.map__title { position: absolute; left: calc(48 * var(--u)); bottom: calc(40 * var(--u)); height: calc(var(--s-head) * 1.2); width: calc(1200 * var(--u)); overflow: hidden; }
+.map__title p { position: absolute; left: 0; top: 0; margin: 0; font-size: var(--s-head); line-height: 1.1; font-weight: 500; letter-spacing: -0.02em; white-space: nowrap; color: var(--rcc-on-surface); text-shadow: 0 0 calc(18 * var(--u)) var(--rcc-surface), 0 0 calc(6 * var(--u)) var(--rcc-surface); }
+.map__credit { position: absolute; right: calc(24 * var(--u)); bottom: calc(16 * var(--u)); margin: 0; font-family: var(--rcc-font-code); font-size: var(--s-ledger); color: var(--rcc-on-surface-variant); background: rgb(255 255 255 / 0.8); padding: calc(4 * var(--u)) calc(12 * var(--u)); border-radius: calc(8 * var(--u)); }
+
+/* gallery: the wall runs to the slide's edges, past the content margins */
+.slide[data-kind="scene"] > .blk:has([data-scene="gallery"]) { margin-inline: calc(-96 * var(--u)); }
+.gal { position: absolute; inset: 0; }
+.gal canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+.gal__face { position: absolute; left: 0; top: 0; transform-origin: 0 0; display: none; pointer-events: none; }
+.gal__card { position: absolute; background: #fff; border-radius: 56px; box-shadow: inset 0 0 0 4px var(--rcc-outline-variant), 0 28px 60px rgba(16, 32, 20, 0.16); }
+.gal__card > div { position: absolute; white-space: nowrap; margin: 0; }
+.gal__label { font: 500 46px/56px var(--rcc-font-code); letter-spacing: 3px; color: var(--rcc-primary); }
+.gal__title { font: 500 88px var(--rcc-font-brand); color: var(--rcc-on-surface); }
+.gal__line { font: 400 62px var(--rcc-font-brand); color: var(--rcc-on-surface-variant); }
+.gal__num { width: 76px; height: 76px; border-radius: 50%; box-shadow: inset 0 0 0 5px var(--rcc-primary); display: grid; place-items: center; font: 500 44px/1 var(--rcc-font-code); color: var(--rcc-primary); padding-top: 2px; box-sizing: border-box; }
+
+/* stack3d: a WebGL canvas plus HTML labels that stay crisp */
+.s3 { position: absolute; inset: 0; display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center; }
+.s3__view { position: relative; height: 100%; }
+.s3__view canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+.s3__list { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(36 * var(--u)); }
+.s3__list li { font-size: var(--s-body); line-height: 1.2; color: var(--rcc-on-surface-variant); }
+.s3__list li b { display: block; font-weight: 500; color: var(--rcc-on-surface); font-size: calc(64 * var(--u)); letter-spacing: -0.02em; }
+.s3__list li.is-on b { color: var(--rcc-primary); }
+.s3__list li.is-on { color: var(--rcc-on-surface); }
