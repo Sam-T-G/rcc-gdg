@@ -10,8 +10,22 @@ Remove a line once it is answered and note the answer in that day's entry.
 - Who invited the club to NASA SUITS and NASA Space Apps Temecula, and what did they ask for? The 10-08 slides say only "we were invited" (`[TBD]` in the notes). SUITS proposals are due 2026-10-22 and need a faculty advisor who can go to Houston.
 - 10-29: does "Build something with AI" replace Meeting 7 "What You Are Owed" in `calendar.md`, or push it a week?
 - The 10-29 team docs are anyone-with-the-link edit, and their links are in this public repo (the deck's QRs). After the meeting: view-only, or new docs?
+- Get into GEAR: run it before the campaign ends 2026-11-20, or wait for Google's next round? Google asks for the free-access request 5 to 6 weeks before the event.
+- STEM support app: how many GDG teams, what each builds, and how a team's project plugs into the one app. Is the chemistry demo (Lewis dot and VSEPR) being built in another session part of it?
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
+
+## 2026-11-12 · Sam (via Claude Code)
+
+**Changed:**
+
+- `2e95056`: new deck `semesters/2026-fall/decks/2026-11-12-opportunities.html`, 7 slides, 122 of 122 checks, not published. Cover, DevFest Los Angeles (Sat 2026-12-12, 9 AM to 4 PM, Braille Institute LA, venue photo + QR to the gdg.community.dev event page), Get into GEAR (figure slide: 11 hours on Google Skills, 90% by 2026-11-20 gets a Googler career panel), Cutie Hack (Sat 2026-11-21, 8 AM to 8 PM, UCR Winston Chung Hall, site screenshot + QR), the STEM app statement, a diagram of GDG teams each building one project that goes into one app, and the ask. GEAR facts are from Google's GDG on Campus organizer emails (October newsletter, 2026-11-10 reminder); no Google imagery used.
+
+**Decided:** Sam: the DevFest is DevFest Los Angeles on 2026-12-12. Sam: the STEM app pitch is one app that brings in several teams' projects, with the teams formed through GDG.
+
+**Issues:** DevFest student ticket price, Cutie Hack cost, and rides are `[TBD]` in the notes. A GDG Fresno carpool page lists the Pasadena Convention Center for DevFest LA; the main listing says the Braille Institute. The club Discord could not be read (not signed in on Chrome), so GEAR info came from email only.
+
+**Next:** Sam presents at 2:30; publish with `scripts/publish-deck.sh semesters/2026-fall/decks/2026-11-12-opportunities.html opportunities --push` if he wants it live.
 
 ## 2026-10-29 · Sam (via Claude Code)
 
