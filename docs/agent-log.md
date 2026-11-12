@@ -25,7 +25,9 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 **Issues:** DevFest student ticket price, Cutie Hack cost, and rides are `[TBD]` in the notes. A GDG Fresno carpool page lists the Pasadena Convention Center for DevFest LA; the main listing says the Braille Institute. The club Discord could not be read (not signed in on Chrome), so GEAR info came from email only.
 
-**Next:** Sam presents at 2:30; publish with `scripts/publish-deck.sh semesters/2026-fall/decks/2026-11-12-opportunities.html opportunities --push` if he wants it live.
+- Published at Sam's request to `https://sam-t-g.github.io/rcc-gdg/decks/opportunities/` (122 of 122 checks; the bake step printed "the built deck does not match its source"). `d98692a`: the deck's `data-live-url` from that first publish.
+
+**Next:** Sam presents at 2:30 from the live URL. Answer the two new open questions (GEAR timing, STEM app teams).
 
 ## 2026-10-29 · Sam (via Claude Code)
 
