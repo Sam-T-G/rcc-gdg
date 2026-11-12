@@ -27,6 +27,10 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 - Published at Sam's request to `https://sam-t-g.github.io/rcc-gdg/decks/opportunities/` (122 of 122 checks; the bake step printed "the built deck does not match its source"). `d98692a`: the deck's `data-live-url` from that first publish.
 
+- `0a882f0`, republished 13:10: the "Tell an officer" ask slide is gone. The STEM pitch says members pick their subject and app team, slide 6 shows example subject teams (chemistry, calculus, physics) feeding one app, and the deck ends on slide 7, an example chemistry team with the roles of a tech company's app team (PM, UX designer, engineers, QA, Launch). Slide 7 carries `data-move="ask"` and the independence sentence because the check requires the deck to end in Ask with it.
+
+**Decided (later):** Sam: no sign-up ask; pitch the app teams, with members choosing the subject and team, and team structures that copy real tech development teams.
+
 **Next:** Sam presents at 2:30 from the live URL. Answer the two new open questions (GEAR timing, STEM app teams).
 
 ## 2026-10-29 · Sam (via Claude Code)
