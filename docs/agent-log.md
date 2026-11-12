@@ -29,7 +29,9 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 - `0a882f0`, republished 13:10: the "Tell an officer" ask slide is gone. The STEM pitch says members pick their subject and app team, slide 6 shows example subject teams (chemistry, calculus, physics) feeding one app, and the deck ends on slide 7, an example chemistry team with the roles of a tech company's app team (PM, UX designer, engineers, QA, Launch). Slide 7 carries `data-move="ask"` and the independence sentence because the check requires the deck to end in Ask with it.
 
-**Decided (later):** Sam: no sign-up ask; pitch the app teams, with members choosing the subject and team, and team structures that copy real tech development teams.
+- `9b734a5`, republished: new slide 2 explains DevFest from Google's DevFest page and FAQ, with DevFest LA's own banner (cropped to leave out the photo of a person) and a QR to developers.google.com/community/devfest; slide 3 is DevFest LA's schedule (card) with the ticket QR. The Braille Institute photo is gone. 8 slides, 128 of 128 checks.
+
+**Decided (later):** Sam: DevFest slides use official GDG and DevFest material, not a venue photo, and explain what DevFest is. Sam: no sign-up ask; pitch the app teams, with members choosing the subject and team, and team structures that copy real tech development teams.
 
 **Next:** Sam presents at 2:30 from the live URL. Answer the two new open questions (GEAR timing, STEM app teams).
 
