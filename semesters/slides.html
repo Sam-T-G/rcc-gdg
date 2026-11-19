@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f7faf8">
+<title>GDG Slides</title>
+<meta name="description" content="GDG on Campus RCC meeting slides, Fall 2026: this week's deck and every earlier one.">
+<!--
+  Slides menu: this week's deck on top, every earlier meeting under it.
+  Each week: move the "This week" block's deck into the top of the Earlier list, then put the new deck in "This week".
+  Published with:
+    scripts/publish-page.sh semesters/slides.html slides --push
+  which serves it at https://sam-t-g.github.io/rcc-gdg/slides/. Links are full URLs (publish-page.sh rejects relative ones).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:wght@400..600&display=swap">
+<link rel="stylesheet" href="../docs/04-brand/design-system/tokens.css">
+<style>
+  body { background: var(--rcc-surface); overflow-x: clip; }
+  .wrap { max-width: calc(44rem + var(--rcc-page-margin) * 2); margin-inline: auto; padding-inline: var(--rcc-page-margin); }
+  p, ul { max-width: none; }
+
+  .top { padding-block: var(--rcc-space-8) var(--rcc-space-5); }
+  .top .rcc-ledger { margin: 0 0 var(--rcc-space-3); }
+  .top h1 { margin: 0 0 var(--rcc-space-3); font-size: var(--rcc-size-display-lg); line-height: var(--rcc-lh-display-lg); letter-spacing: var(--rcc-track-display-lg); }
+  .lede { margin: 0 0 var(--rcc-space-5); font-size: var(--rcc-size-body-lg); line-height: var(--rcc-lh-body-lg); color: var(--rcc-on-surface-variant); }
+  .top .rcc-step-rule { color: var(--rcc-primary); }
+
+  main { padding-block: var(--rcc-space-4) var(--rcc-space-8); display: grid; gap: var(--rcc-space-6); }
+  .now { background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); border-radius: var(--rcc-radius-lg); padding: var(--rcc-space-6); }
+  .now .rcc-ledger { margin: 0 0 var(--rcc-space-2); color: var(--rcc-on-primary-container); }
+  .now h2 { margin: 0 0 var(--rcc-space-2); max-width: none; font-size: var(--rcc-size-headline-lg); line-height: var(--rcc-lh-headline-lg); letter-spacing: var(--rcc-track-headline-lg); }
+  .now p:not(.rcc-ledger) { margin: 0 0 var(--rcc-space-5); font-size: var(--rcc-size-body-lg); line-height: var(--rcc-lh-body-lg); }
+  .now .actions { display: flex; flex-wrap: wrap; gap: var(--rcc-space-3); align-items: center; margin: 0; }
+  .now .actions a:not(.rcc-button) { color: var(--rcc-on-primary-container); font-weight: var(--rcc-weight-strong); }
+
+  .earlier > .rcc-ledger { margin: 0 0 var(--rcc-space-1); }
+  .earlier h2 { margin: 0 0 var(--rcc-space-4); font-size: var(--rcc-size-headline-sm); line-height: var(--rcc-lh-headline-sm); letter-spacing: var(--rcc-track-headline-sm); }
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--rcc-space-3); }
+  .list li { margin: 0; background: var(--rcc-surface-container-lowest); border-radius: var(--rcc-radius-lg); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline-variant); padding: var(--rcc-space-5); }
+  .list h3 { margin: 0 0 var(--rcc-space-1); font-size: var(--rcc-size-title-lg); line-height: var(--rcc-lh-title-lg); }
+  .list p { margin: 0; font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); color: var(--rcc-on-surface-variant); }
+  .list .links { margin-block-start: var(--rcc-space-3); color: var(--rcc-on-surface); font-weight: var(--rcc-weight-strong); }
+  .list .links a { color: var(--rcc-primary); text-underline-offset: 3px; }
+
+  footer.rcc-footer { padding-block: var(--rcc-space-8) var(--rcc-space-10); }
+  footer .lockup { display: block; width: min(15rem, 66%); height: auto; }
+  footer .rcc-footer__notice { margin-block-start: var(--rcc-space-5); }
+  footer .meta { margin: var(--rcc-space-3) 0 0; font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant); }
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <p class="rcc-ledger">GDG on Campus RCC · Fall 2026</p>
+  <h1>Meeting slides</h1>
+  <p class="lede">This week's deck first, then every meeting before it.</p>
+  <div class="rcc-step-rule" aria-hidden="true"></div>
+</header>
+
+<main class="wrap">
+  <section class="now" aria-labelledby="now-title">
+    <p class="rcc-ledger">This week · Thu Nov 19</p>
+    <h2 id="now-title">Stand out before you transfer</h2>
+    <p>Research, jobs, internships, transfer programs, and hackathons you can apply to from RCC.</p>
+    <p class="actions"><a class="rcc-button" href="https://sam-t-g.github.io/rcc-gdg/decks/stand-out/">Open the slides</a> <a href="https://sam-t-g.github.io/rcc-gdg/guides/stand-out/">Links and due dates</a></p>
+  </section>
+
+  <section class="earlier" aria-labelledby="earlier-title">
+    <p class="rcc-ledger">Fall 2026</p>
+    <h2 id="earlier-title">Earlier meetings</h2>
+    <ul class="list">
+      <li><h3>Four things you can join</h3><p>Thu Nov 12 · DevFest LA, Get into GEAR, Cutie Hack, and the STEM app.</p><p class="links"><a href="https://sam-t-g.github.io/rcc-gdg/decks/opportunities/">Slides</a></p></li>
+      <li><h3>Let's build something with AI</h3><p>Thu Oct 29 · Teams built a way for students to take part in a lecture live, using AI.</p><p class="links"><a href="https://sam-t-g.github.io/rcc-gdg/decks/build-with-ai/">Slides</a></p></li>
+      <li><h3>Let's invent a product</h3><p>Thu Oct 15 · Invent a product as a team, no code.</p><p class="links"><a href="https://sam-t-g.github.io/rcc-gdg/guides/invent-a-product/">Cheat sheet</a></p></li>
+      <li><h3>Start with a story</h3><p>Thu Oct 8 · STAR stories and vibe coding.</p><p class="links"><a href="https://sam-t-g.github.io/rcc-gdg/decks/story-and-vibe-coding/">Slides</a></p></li>
+      <li><h3>Set it up once</h3><p>Thu Oct 1 · LinkedIn and your resume.</p><p class="links"><a href="https://sam-t-g.github.io/rcc-gdg/decks/linkedin-and-resume/">Slides</a></p></li>
+      <li><h3>Welcome to GDG</h3><p>Thu Sep 24 · First meeting.</p><p class="links"><a href="https://sam-t-g.github.io/rcc-gdg/decks/first-meeting/">Slides</a></p></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="rcc-footer" role="contentinfo">
+  <div class="wrap">
+    <img class="lockup" src="../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+    <p class="rcc-footer__notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <p class="meta">Thursdays, 2:30 to 3:30 PM, BLCIS A-210. Open any deck and press the arrow keys to move through it. Updated November 19, 2026.</p>
+  </div>
+</footer>
+</body>
+</html>
