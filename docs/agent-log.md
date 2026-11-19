@@ -22,7 +22,10 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 - `757db97`: cut to 19 slides from a talk track Sam asked for ("best judgement to optimize all"). Cut Where are you and Join these early, merged campus jobs and Riverside internships, moved the big-tech slide up to slide 3 (panel layout). Every slide's notes open with a "Say:" line. Republished at Sam's call; the live deck has 19 slides, and its map loaded 212 tiles with none blocked. The bake step again printed "does not match its source".
 
-**Next:** The resource page and PDF are unchanged and still list everything.
+- `3177667`: walkthrough slides at Sam's request. Each program slide is now that program's own page, with the kit's tour marks stepping through how to apply, plus a QR and the link as its caption: NSF ETAP, DOE CCI, NIH SIP, Handshake, USAJOBS Pathways, NASA STEM Gateway, Simplify's Summer 2027 tech internship list, UC TAP. Six hackathon sites on one slide. Both deadline slides are QR grids. No photo credits left on slides: the Creative Commons photos are gone, and every image is a screenshot of the program's page (`CREDITS.md`). Steps and dates come from each official page, checked 2026-11-19. Research notes are in Sam's session scratchpad, not the repo. 22 slides, check.mjs 199 of 199. Republished; the live map loaded 225 tiles with none blocked.
+- `ed036d4`: resource page and PDF updated with the walkthrough links, a Tech internships list, and 10 hackathons. Republished at `/guides/stand-out/`. Rose Hack links to rosehackucr.com, because ACM at UCR's page still links rosehack.com, which now redirects to a gambling site.
+
+**Next:** Tell ACM at UCR, or whoever runs acm.cs.ucr.edu, that its Rose Hack link goes to a gambling site. Post the new PDF on the Discord. Citrus Hack and the Berkeley AI Hackathon haven't posted 2027 dates.
 
 ## 2026-11-18 · Sam (via Claude Code)
 
