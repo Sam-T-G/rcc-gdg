@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f7faf8">
+<title>Stand Out Before You Transfer · GDG on Campus RCC</title>
+<meta name="description" content="Research, jobs, internships, and transfer programs RCC students can apply to, with links and due dates, from the GDG on Campus RCC meeting on November 19, 2026.">
+<!--
+  Resource page for the 2026-11-19 meeting (deck: ../2026-11-19-stand-out.html; the cover and last
+  slide QR point here). Every program was checked on its official page on 2026-11-18; the source
+  tables with eligibility quotes are in scratch/2026-11-19-research/ (gitignored).
+  The same file prints to the PDF for Discord (stand-out-resources.pdf in this folder):
+    Chrome headless --print-to-pdf, US Letter, links stay clickable.
+  Published with:
+    scripts/publish-page.sh semesters/2026-fall/decks/2026-11-19-stand-out-media/resources.html guides/stand-out --push
+  which serves it at https://sam-t-g.github.io/rcc-gdg/guides/stand-out/.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,GRAD,opsz,wght@0,-50..200,17..18,400..700;1,-50..200,17..18,400..700&family=Google+Sans+Code:wght@400..600&display=swap">
+<link rel="stylesheet" href="../../../../docs/04-brand/design-system/tokens.css">
+<style>
+  /* Values come from tokens.css. Page-only rules below. */
+  body { background: var(--rcc-surface); overflow-x: clip; }
+  html { scroll-padding-top: 4.5rem; }
+  .wrap { max-width: calc(44rem + var(--rcc-page-margin) * 2); margin-inline: auto; padding-inline: var(--rcc-page-margin); }
+  p, ul, ol { max-width: none; }
+
+  .top { padding-block: var(--rcc-space-8) var(--rcc-space-5); display: grid; grid-template-columns: 1fr auto; gap: var(--rcc-space-5); align-items: end; }
+  .top .rcc-ledger { margin: 0 0 var(--rcc-space-3); }
+  .top h1 { margin: 0 0 var(--rcc-space-3); font-size: var(--rcc-size-display-lg); line-height: var(--rcc-lh-display-lg); letter-spacing: var(--rcc-track-display-lg); }
+  .lede { margin: 0; font-size: var(--rcc-size-body-lg); line-height: var(--rcc-lh-body-lg); color: var(--rcc-on-surface-variant); }
+  .top .qr { display: none; }
+  .top .qr img { display: block; width: 7rem; height: 7rem; }
+  .top .qr span { display: block; margin-top: var(--rcc-space-1); font-size: var(--rcc-size-label-md); text-align: center; color: var(--rcc-on-surface-variant); }
+  .rule { grid-column: 1 / -1; }
+  .rule .rcc-step-rule { color: var(--rcc-primary); }
+
+  nav.jump { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--rcc-surface) 92%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-block-end: var(--rcc-hairline) solid var(--rcc-outline-variant); }
+  nav.jump ol { list-style: none; margin: 0 auto; padding: var(--rcc-space-2) var(--rcc-page-margin); max-width: calc(44rem + var(--rcc-page-margin) * 2); display: flex; flex-wrap: wrap; gap: var(--rcc-space-1) var(--rcc-space-2); }
+  nav.jump li { margin: 0; }
+  nav.jump a { display: inline-flex; align-items: center; min-block-size: var(--rcc-target-min); padding-inline: var(--rcc-space-2); border-radius: var(--rcc-radius-sm); text-decoration: none; color: var(--rcc-on-surface-variant); font-size: var(--rcc-size-label-lg); font-weight: var(--rcc-weight-strong); }
+  nav.jump a:hover { background: var(--rcc-surface-container); color: var(--rcc-on-surface); }
+
+  main { padding-block: var(--rcc-space-6) var(--rcc-space-8); display: grid; gap: var(--rcc-space-5); }
+  .block { background: var(--rcc-surface-container-lowest); border-radius: var(--rcc-radius-lg); box-shadow: inset 0 0 0 var(--rcc-hairline) var(--rcc-outline-variant); padding: var(--rcc-space-5); }
+  .block > .rcc-ledger { margin: 0 0 var(--rcc-space-1); }
+  .block h2 { margin: 0 0 var(--rcc-space-3); font-size: var(--rcc-size-headline-sm); line-height: var(--rcc-lh-headline-sm); letter-spacing: var(--rcc-track-headline-sm); }
+  .block h3 { margin: var(--rcc-space-4) 0 var(--rcc-space-1); font-size: var(--rcc-size-title-md); line-height: var(--rcc-lh-title-md); color: var(--rcc-primary); }
+  .items { list-style: none; margin: 0; padding: 0; }
+  .items li { margin: 0; padding-block: 0.7rem; border-block-start: var(--rcc-hairline) solid var(--rcc-outline-variant); display: grid; grid-template-columns: 1fr auto; gap: 0.15rem var(--rcc-space-3); }
+  .items li:first-child { border-block-start: 0; padding-block-start: var(--rcc-space-1); }
+  .items .name { min-width: 0; }
+  .head { break-after: avoid; }
+  .items a { font-weight: var(--rcc-weight-loud); font-size: var(--rcc-size-body-lg); color: var(--rcc-on-surface); text-decoration-color: var(--rcc-primary); text-underline-offset: 3px; }
+  .items .when { justify-self: end; align-self: start; padding: 0.1em 0.55em; border-radius: var(--rcc-radius-xs); background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); font-family: var(--rcc-font-code); font-size: var(--rcc-size-label-md); font-weight: 600; white-space: nowrap; }
+  .items .when.past { background: var(--rcc-surface-container-high); color: var(--rcc-on-surface-variant); }
+  .items p { grid-column: 1 / -1; margin: 0; font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); color: var(--rcc-on-surface-variant); }
+
+  .due { width: 100%; border-collapse: collapse; font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); }
+  .due th, .due td { text-align: start; vertical-align: top; padding: 0.55rem 0; border-block-start: var(--rcc-hairline) solid var(--rcc-outline-variant); }
+  .due tr:first-child th, .due tr:first-child td { border-block-start: 0; }
+  .due th { width: 6.5rem; padding-inline-end: var(--rcc-space-3); font-family: var(--rcc-font-code); font-weight: 600; color: var(--rcc-primary); white-space: nowrap; }
+  .due a { font-weight: var(--rcc-weight-strong); color: var(--rcc-on-surface); }
+
+  .steps { margin: 0; padding-inline-start: 1.4rem; font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); }
+  .steps li { margin: 0 0 0.35rem; }
+
+  .sem { display: grid; gap: var(--rcc-space-3); grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .sem div { border-radius: var(--rcc-radius-md); background: var(--rcc-primary-container); color: var(--rcc-on-primary-container); padding: var(--rcc-space-3) var(--rcc-space-4); }
+  .sem b { display: block; font-size: var(--rcc-size-title-lg); line-height: var(--rcc-lh-title-lg); }
+  .sem ul { margin: var(--rcc-space-1) 0 0; padding-inline-start: 1.1rem; font-size: var(--rcc-size-body-md); line-height: var(--rcc-lh-body-md); }
+  .sem li { margin: 0 0 0.25rem; }
+
+  .note { margin: var(--rcc-space-3) 0 0; font-size: var(--rcc-size-body-sm); line-height: var(--rcc-lh-body-sm); color: var(--rcc-on-surface-variant); }
+
+  footer.rcc-footer { padding-block: var(--rcc-space-8) var(--rcc-space-10); }
+  footer .lockup { display: block; width: min(15rem, 66%); height: auto; }
+  footer .rcc-footer__notice { margin-block-start: var(--rcc-space-5); }
+  footer .meta { margin: var(--rcc-space-3) 0 0; font-size: var(--rcc-size-body-sm); color: var(--rcc-on-surface-variant); }
+
+  @media (max-width: 34rem) {
+    .top { grid-template-columns: 1fr; }
+    nav.jump { position: static; }
+    .due th { width: 5.2rem; }
+  }
+
+  @page { size: letter; margin: 0.45in 0.5in; }
+  @media print {
+    body { background: #fff; font-size: 9.5pt; }
+    a[href^="http"]::after { content: none; }
+    nav.jump { display: none; }
+    .wrap { max-width: none; padding-inline: 0; }
+    .top { padding-block: 0 0.1in; }
+    .top h1 { font-size: 24pt; line-height: 1.1; }
+    .lede { font-size: 10.5pt; }
+    .top .qr { display: block; }
+    .top .qr img { width: 0.95in; height: 0.95in; }
+    main { padding-block: 0.08in 0; gap: 0.12in; }
+    .block { padding: 0.12in 0.16in; box-shadow: none; border: 1px solid #c8d1cb; border-radius: 8px; }
+    .block h2 { font-size: 13pt; line-height: 1.2; margin-bottom: 0.05in; }
+    .block h3 { font-size: 10.5pt; margin: 0.08in 0 0; }
+    .items { columns: 2; column-gap: 0.25in; }
+    .items li { padding-block: 0.045in; break-inside: avoid; border-block-start: 0; border-block-end: 1px solid #dfe5e1; }
+    .block h3 { break-after: avoid; }
+    .due { table-layout: fixed; }
+    .due th { width: 0.75in; }
+    .due td { max-width: none; width: auto; }
+    #due, #money, #hack, #plan { break-inside: avoid; }
+    .items a { font-size: 10pt; color: #0b5a2b; }
+    .items p, .due, .steps, .sem ul, .note { font-size: 8.8pt; line-height: 1.32; }
+    .items .when { font-size: 8pt; }
+    .due th, .due td { padding: 0.035in 0; }
+    .due a { color: #0b5a2b; }
+    .sem { grid-template-columns: repeat(4, 1fr); gap: 0.08in; }
+    .sem div { padding: 0.07in 0.09in; break-inside: avoid; }
+    .sem b { font-size: 10.5pt; }
+    footer.rcc-footer { padding-block: 0.12in 0; background: none; }
+    footer .lockup { width: 1.9in; }
+    footer .rcc-footer__notice { font-size: 7.5pt; margin-top: 0.06in; padding-top: 0.05in; }
+    footer .meta { font-size: 8pt; margin-top: 0.03in; }
+  }
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <div>
+    <p class="rcc-ledger">GDG on Campus RCC · November 19, 2026</p>
+    <h1>Stand out before you transfer</h1>
+    <p class="lede">Research, jobs, internships, and transfer programs you can apply to from RCC, with due dates. Checked November 18, 2026. “Last year” means this year’s date isn’t posted yet.</p>
+  </div>
+  <a class="qr" href="https://sam-t-g.github.io/rcc-gdg/guides/stand-out/"><img src="qr-resources.svg" width="41" height="41" alt="QR code for this page online"><span>This page online</span></a>
+  <div class="rule"><div class="rcc-step-rule" aria-hidden="true"></div></div>
+</header>
+
+<nav class="jump" aria-label="Sections">
+  <ol>
+    <li><a href="#due">Due soon</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#jobs">Jobs and internships</a></li>
+    <li><a href="#transfer">Transfer</a></li>
+    <li><a href="#money">Scholarships</a></li>
+    <li><a href="#hack">Hackathons</a></li>
+    <li><a href="#plan">Four semesters</a></li>
+  </ol>
+</nav>
+
+<main class="wrap">
+
+  <section class="block" id="due" aria-labelledby="h-due">
+    <div class="head"><p class="rcc-ledger">Next 3 months</p>
+    <h2 id="h-due">Due soon</h2></div>
+    <table class="due">
+      <tr><th scope="row">Nov 21</th><td><a href="https://cutiehack.com/">Cutie Hack</a> at UCR. A 12-hour beginner hackathon, any major, no coding needed.</td></tr>
+      <tr><th scope="row">Nov 30</th><td><a href="https://admission.universityofcalifornia.edu/how-to-apply/applying-as-a-transfer/dates-and-deadlines.html">UC application</a> and CSU priority filing for fall 2027. CSUSB stays open to Jan 31 for most majors.</td></tr>
+      <tr><th scope="row">Nov 30</th><td><a href="https://www.cpp.edu/outreach/transfer-success-pathway.shtml">CSU Transfer Success Pathway</a> at Cal Poly Pomona and <a href="https://www.csusb.edu/join-the-pack/future-students/program-specific-requirements/transfer-success-pathway-tsp">CSUSB</a>. Only for students in their first community college term.</td></tr>
+      <tr><th scope="row">Dec 4</th><td><a href="https://ncur.secure-platform.com/2027/page/faqs">NCUR 2027</a> abstracts. A national undergrad research conference that takes two-year college students.</td></tr>
+      <tr><th scope="row">Dec 9</th><td><a href="https://www.jkcf.org/our-scholarships/undergraduate-transfer-scholarship/">Jack Kent Cooke Transfer Scholarship</a>. Up to $55,000 a year.</td></tr>
+      <tr><th scope="row">Jan 6</th><td><a href="https://science.osti.gov/wdts/cci">DOE Community College Internships</a> and <a href="https://science.osti.gov/wdts/suli">DOE SULI</a>. Paid summer at a national lab.</td></tr>
+      <tr><th scope="row">Jan 17</th><td><a href="https://rcc.edu/become-a-student/how-to-pay-for-school/scholarships.html">RCCD Foundation scholarships</a>. One application for 250+ scholarships.</td></tr>
+      <tr><th scope="row">Jan 26</th><td><a href="https://www.training.nih.gov/research-training/pb/sip/">NIH Summer Internship Program</a>. Paid research, any science.</td></tr>
+      <tr><th scope="row">Feb 1</th><td><a href="https://calbridge.org/fast-program/">Cal-Bridge FAST</a> summer research (after its winter workshop).</td></tr>
+      <tr><th scope="row">Feb 15</th><td><a href="https://www.cpp.edu/camp-reu/application-instructions.shtml">Cal Poly Pomona CAMP REU</a>. $7,000 for summer research.</td></tr>
+      <tr><th scope="row">Mar 1</th><td><a href="https://www.nasa.gov/learning-resources/internship-programs/">NASA internships</a> for summer 2027.</td></tr>
+      <tr><th scope="row">Mar 2</th><td><a href="https://studentaid.gov/h/apply-for-aid/fafsa">FAFSA</a> or CA Dream Act, and Cal Grant GPA verification.</td></tr>
+    </table>
+  </section>
+
+  <section class="block" id="research" aria-labelledby="h-research">
+    <div class="head"><p class="rcc-ledger">Paid summer research, open to community college students</p>
+    <h2 id="h-research">Research</h2></div>
+    <h3>Start at RCC</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://www.rcc.edu/about/news/2025-stem-connect-summer-research.html">RCC STEM Connect</a></span><span class="when past">2027 [TBD]</span><p>Paid summer research with professors at UCR, CSUSB, CSU Fullerton, and RCC. 114 RCC students in 2025, stipends $500 to $4,000. Ask your STEM professors or the STEM Engagement Center (MLK 306) when it opens.</p></li>
+      <li><span class="name"><a href="https://rise.ucr.edu/programs/research-opportunities/rcc-b2b">RCC-UCR Bridges to the Baccalaureate</a></span><span class="when past">Rolling</span><p>Research in UCR labs while you’re at RCC. 3.0 GPA, two faculty letters, and an interview.</p></li>
+    </ul>
+    <h3>National programs</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://science.osti.gov/wdts/cci">DOE Community College Internships (CCI)</a></span><span class="when">Jan 6</span><p>Only for community college students. 10 weeks at one of the DOE national labs, $650 a week plus housing help. 2.7 GPA, US citizen or permanent resident.</p></li>
+      <li><span class="name"><a href="https://science.osti.gov/wdts/suli">DOE SULI</a></span><span class="when">Jan 6</span><p>Same labs and stipend. Full-time students at a community college or university, 3.0 GPA.</p></li>
+      <li><span class="name"><a href="https://www.training.nih.gov/research-training/pb/sip/">NIH Summer Internship Program</a></span><span class="when">Jan 26</span><p>Open to students at least half-time at a community college. Science fields, including psychology, nursing, and social science. About $3,000 a month; no housing.</p></li>
+      <li><span class="name"><a href="https://www.nsf.gov/funding/initiatives/reu/search">NSF REU sites (search all of them)</a></span><span class="when">Jan to Mar</span><p>Paid summer research at a university, about $700 a week, often with housing. NSF asks every site to fill half its spots from schools with less research, including two-year colleges.</p></li>
+      <li><span class="name"><a href="https://www.cpp.edu/camp-reu/application-instructions.shtml">Cal Poly Pomona CAMP REU</a></span><span class="when">Feb 15</span><p>$7,000 summer research, close to Riverside. Needs Calculus 3.</p></li>
+      <li><span class="name"><a href="https://grad.ucsd.edu/oar2/undergraduate-students/stars/index.html">UCSD STARS</a></span><span class="when">Summer 2027</span><p>Summer research at UC San Diego, June 20 to August 13, 2027. Community college students in any field; AB 540 students can apply.</p></li>
+      <li><span class="name"><a href="https://calbridge.org/fast-program/">Cal-Bridge FAST</a> and <a href="https://calbridge.org/summer-program/">Summer Program</a></span><span class="when">Feb 1</span><p>Paid summer research for California community college students in physics, astronomy, CS, engineering, and math. Housing and travel covered for the Summer Program.</p></li>
+      <li><span class="name"><a href="https://nasa-ncas.org/student-timeline/">NASA Community College Aerospace Scholars</a></span><span class="when past">2027 [TBD]</span><p>Online challenge for community college students: webinars with NASA staff, then a project. Finishers get $500.</p></li>
+    </ul>
+    <h3>Show your work</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://www.honorstransfercouncil.org/">Honors Transfer Council research conference</a></span><span class="when past">Spring 2027</span><p>Community college honors students present their research at a UC campus.</p></li>
+      <li><span class="name"><a href="https://ncur.secure-platform.com/2027/page/faqs">NCUR 2027</a></span><span class="when">Dec 4</span><p>National conference for undergrad research. Two-year college students welcome.</p></li>
+    </ul>
+    <h3>No program? Email a professor</h3>
+    <ol class="steps">
+      <li>Go to office hours with an RCC professor. Ask about STEM Connect, B2B, and who they know at UCR.</li>
+      <li>Find 5 to 10 professors at UCR or CSUSB whose lab pages match what you want to learn.</li>
+      <li>Email from your school address. Three short paragraphs: who you are, why their lab, and when you’re free. Attach your resume.</li>
+      <li>Follow up once.</li>
+    </ol>
+    <p class="note">From the research guides at <a href="https://www.ucr.edu/">UCR</a>, UCLA, and UT Austin.</p>
+  </section>
+
+  <section class="block" id="jobs" aria-labelledby="h-jobs">
+    <div class="head"><p class="rcc-ledger">Paid work and experience for your resume</p>
+    <h2 id="h-jobs">Jobs and internships</h2></div>
+    <h3>On campus</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://rcc.edu/student-support/tutorial-services.html">Tutor at RCC</a></span><span class="when">Rolling</span><p>$17.00 to $17.75 an hour (advanced $19.00 to $19.75). An A or B in the subject and a 3.0 GPA.</p></li>
+      <li><span class="name"><a href="https://rcc.edu/become-a-student/how-to-pay-for-school/student-employment.html">RCC student jobs</a></span><span class="when">Rolling</span><p>Campus jobs up to 20 hours a week, $16.90 to $20.75 an hour in 2026-27. Postings are on the <a href="https://pa379.peopleadmin.com/">district job portal</a>. Federal Work-Study needs a FAFSA.</p></li>
+      <li><span class="name"><a href="https://rcc.edu/student-support/college-corps.html">College Corps at RCC</a></span><span class="when past">Interest list</span><p>A paid year of community service, 450 hours, up to $7,000 plus a $3,000 award. Full-time RCC students. This year’s round is closed; join the interest list.</p></li>
+    </ul>
+    <h3>Riverside and nearby</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://riversideca.gov/human/node/1726">City of Riverside internships</a></span><span class="when">Rolling</span><p>Paid and unpaid internships in city departments for college students.</p></li>
+      <li><span class="name"><a href="https://rc-hr.com/files/2026-02/RivCo%20Internship%20Guidelines%20-%20January%202026.pdf">County of Riverside internships</a></span><span class="when">Rolling</span><p>Unpaid spots are open to any college student. Paid spots need a bachelor’s program.</p></li>
+      <li><span class="name"><a href="https://www.ieua.org/intern-program">Inland Empire Utilities Agency</a></span><span class="when">Rolling</span><p>Paid internship at a regional water agency, $21 an hour.</p></li>
+    </ul>
+    <h3>Federal</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://www.opm.gov/policy-data-oversight/hiring-information/students-recent-graduates/">Federal Pathways internships</a></span><span class="when">Rolling</span><p>Paid internships at federal agencies, open to community college students. Posted on <a href="https://www.usajobs.gov/Search/Results">USAJOBS</a>.</p></li>
+      <li><span class="name"><a href="https://www.nasa.gov/learning-resources/internship-programs/">NASA internships</a></span><span class="when">Mar 1</span><p>Paid, STEM and non-STEM majors. 3.0 GPA, US citizen.</p></li>
+    </ul>
+    <h3>Where to look and get help</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://rccd.edu/handshake/index.html">Handshake</a></span><span class="when">Free</span><p>Job and internship board. Log in with your RCCD student email.</p></li>
+      <li><span class="name"><a href="https://rcc.edu/student-support/career-center.html">RCC Career Center</a></span><span class="when">Kane 101</span><p>Resume help, mock interviews, and two free outfits a semester from the Career Closet.</p></li>
+    </ul>
+    <p class="note">Microsoft Explore, Amazon, Capital One, and Salesforce list “bachelor’s” in who can apply. Google STEP had no postings on November 18.</p>
+  </section>
+
+  <section class="block" id="transfer" aria-labelledby="h-transfer">
+    <div class="head"><p class="rcc-ledger">Moves that make a transfer application stronger</p>
+    <h2 id="h-transfer">Transfer</h2></div>
+    <h3>UC</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://uctap.universityofcalifornia.edu/students/">UC Transfer Admission Planner (UC TAP)</a></span><span class="when">Semester 1</span><p>Track your classes for the UCs. You file TAG here, and it’s step 1 for UCR R-STEP and UCLA CCCP.</p></li>
+      <li><span class="name"><a href="https://admission.universityofcalifornia.edu/admission-requirements/transfer-requirements/uc-transfer-programs/transfer-admission-guarantee-tag.html">UC Transfer Admission Guarantee (TAG)</a></span><span class="when past">Sept 1 to 30</span><p>Guaranteed spot at one of Davis, Irvine, Merced, Riverside, Santa Barbara, or Santa Cruz. Some majors are left out: for fall 2027, Davis left out CS and Irvine left out all of its computer science school; UCR takes CS with a 3.6. Starting fall 2028, Irvine drops TAG for several engineering majors, biology, economics, and psychology. Check the <a href="https://admission.universityofcalifornia.edu/_assets/files/transfer-requirements/updated_202728-tag-matrix_ada.pdf">TAG matrix</a>.</p></li>
+      <li><span class="name"><a href="https://admission.universityofcalifornia.edu/admission-requirements/transfer-requirements/uc-transfer-programs/pathways-plus.html">UC Pathways+</a></span><span class="when">Free</span><p>Take one of 27 UC Transfer Pathway majors’ classes and add a TAG for a guaranteed spot.</p></li>
+      <li><span class="name"><a href="https://connect.ucr.edu/portal/roadtoriverside?tab=home">UCR Road to Riverside</a></span><span class="when">Rolling</span><p>Only for RCCD students headed to UCR: a UCR counselor twice a year and the option to take UCR classes.</p></li>
+      <li><span class="name"><a href="https://connect.ucr.edu/portal/r-step">UCR R-STEP</a></span><span class="when">Free</span><p>Free one-on-one transfer help from UCR admissions for any community college student.</p></li>
+      <li><span class="name"><a href="https://cccp.ucla.edu/scholars-program/apply/">UCLA CCCP Scholars</a></span><span class="when past">May to June, last year</span><p>A summer program at UCLA for community college students with a 3.0 UC GPA.</p></li>
+      <li><span class="name"><a href="https://cep.berkeley.edu/ccts">UC Berkeley Community College Transfer Services</a></span><span class="when">Open now</span><p>Transfer prep for any California community college student, for any UC.</p></li>
+    </ul>
+    <h3>At RCC</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://www.rcc.edu/academics/honors/index.html">RCC Honors</a> and <a href="https://admission.ucla.edu/apply/transfer/ucla-transfer-alliance-program">UCLA TAP</a></span><span class="when">Fall or spring</span><p>Priority review at UCLA (not a guarantee) for UCLA College majors. Engineering (including CS), Arts, Music, Nursing, and Theater/Film don’t take part.</p></li>
+      <li><span class="name"><a href="https://www.rcc.edu/student-support/student-support/eops-care.html">EOPS</a></span><span class="when">Before 45 units</span><p>Priority registration, book vouchers, counseling. Only students under 45 units can join.</p></li>
+      <li><span class="name"><a href="https://www.rcc.edu/student-support/cultural-engagement-resources/mesa.html">MESA</a></span><span class="when">Rolling</span><p>STEM counseling, tutoring, and research and internship help for first-generation students in calculus-based majors.</p></li>
+      <li><span class="name"><a href="https://www.rcc.edu/student-support/cultural-engagement-resources/la-casa.html">Puente</a> and <a href="https://www.rcc.edu/student-support/cultural-engagement-resources/umoja.html">Umoja</a></span><span class="when">Rolling</span><p>A year with the same counselor and mentors, built around transferring.</p></li>
+      <li><span class="name"><a href="https://www.rcc.edu/transfercenter">RCC Transfer Center</a></span><span class="when">CAK 101</span><p>Transfer counseling, the Transfer Fair in September, and TAG help.</p></li>
+    </ul>
+    <h3>CSU</h3>
+    <ul class="items">
+      <li><span class="name"><a href="https://www.rcc.edu/transfercenter">Associate Degree for Transfer (ADT)</a></span><span class="when">Jan 1 to Feb 15</span><p>Priority admission at the CSUs for a similar major. Apply for the ADT in MyPortal by Feb 15 for fall transfer.</p></li>
+      <li><span class="name"><a href="https://icangotocollege.com/hbcu-transfer-opportunities">HBCU Transfer Guarantee</a></span><span class="when">Rolling</span><p>Guaranteed admission to 30+ HBCUs with a 2.0 GPA and an ADT or 30 UC/CSU units.</p></li>
+    </ul>
+  </section>
+
+  <section class="block" id="money" aria-labelledby="h-money">
+    <div class="head"><p class="rcc-ledger">Money for school</p>
+    <h2 id="h-money">Scholarships</h2></div>
+    <ul class="items">
+      <li><span class="name"><a href="https://www.jkcf.org/our-scholarships/undergraduate-transfer-scholarship/">Jack Kent Cooke Transfer Scholarship</a></span><span class="when">Dec 9</span><p>Up to $55,000 a year after you transfer. 3.5 GPA, family income $95,000 or less, sophomore by Jan 1, 2027.</p></li>
+      <li><span class="name"><a href="https://rcc.edu/become-a-student/how-to-pay-for-school/scholarships.html">RCCD Foundation scholarships</a></span><span class="when">Jan 17</span><p>One application covers 250+ scholarships for any admitted RCC student.</p></li>
+      <li><span class="name"><a href="https://www.hsf.net/scholarship">Hispanic Scholarship Fund</a></span><span class="when past">Feb 15, last year</span><p>$500 to $5,000 for students of Hispanic heritage headed to a four-year school.</p></li>
+      <li><span class="name"><a href="https://icangotocollege.com/hbcu-transfer-opportunities">Cal-HBCU Transfer Grant</a></span><span class="when">Rolling</span><p>Up to $5,000 for transferring to a partner HBCU.</p></li>
+    </ul>
+  </section>
+
+  <section class="block" id="hack" aria-labelledby="h-hack">
+    <div class="head"><p class="rcc-ledger">Build something with a team</p>
+    <h2 id="h-hack">Hackathons</h2></div>
+    <ul class="items">
+      <li><span class="name"><a href="https://cutiehack.com/">Cutie Hack, UCR</a></span><span class="when">Nov 21</span><p>12 hours, for beginners, any major.</p></li>
+      <li><span class="name"><a href="https://hack.caltech.edu/">Hacktech, Caltech</a></span><span class="when">Feb 26 to 28</span><p>Free. Its FAQ says community college students are welcome. 18 and older.</p></li>
+      <li><span class="name"><a href="https://lahacks.com/">LA Hacks, UCLA</a></span><span class="when">Mid-April</span><p>36 hours, free, 1,000+ students.</p></li>
+      <li><span class="name"><a href="https://acm.cs.ucr.edu/hacks/citrushack">Citrus Hack</a> and <a href="https://acm.cs.ucr.edu/hacks/rosehack">Rose Hack</a>, UCR</span><span class="when past">2027 [TBD]</span><p>Citrus Hack is 24 hours (April last year). Rose Hack is a 24-hour hackathon centered on women in tech.</p></li>
+    </ul>
+  </section>
+
+  <section class="block" id="plan" aria-labelledby="h-plan">
+    <div class="head"><p class="rcc-ledger">What to do when</p>
+    <h2 id="h-plan">Your four semesters</h2></div>
+    <div class="sem">
+      <div><b>Semester 1</b><ul><li>Make a UC TAP account</li><li>Join EOPS, MESA, Puente, or Umoja if you qualify</li><li>Start RCC Honors if it fits your major</li><li>Set up Handshake</li><li>First term: CSU Transfer Success Pathway</li></ul></div>
+      <div><b>Semester 2 and summer</b><ul><li>Apply for summer research and internships, December to March</li><li>Tutor or take a campus job</li><li>RCCD Foundation scholarships in January</li><li>Go to a hackathon</li><li>Reach 30 UC units by summer for a TAG</li></ul></div>
+      <div><b>Semester 3</b><ul><li>TAG in September</li><li>UC and CSU applications, October 1 to November 30</li><li>Jack Kent Cooke by early December</li></ul></div>
+      <div><b>Semester 4</b><ul><li>UC Transfer Academic Update in January</li><li>ADT petition by February 15</li><li>FAFSA by March 2</li><li>Decisions March to May</li></ul></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rcc-footer" role="contentinfo">
+  <div class="wrap">
+    <img class="lockup" src="../../../../assets/gdg-on-campus-horizontal-light.svg" width="1920" height="390" alt="GDG on Campus Riverside City College">
+    <p class="rcc-footer__notice">GDG on Campus Riverside City College is an independent group; our activities and the opinions expressed here should in no way be linked to Google, the corporation.</p>
+    <p class="meta">Thursdays, 2:30 to 3:30 PM, BLCIS A-210. Checked November 18, 2026. Online: sam-t-g.github.io/rcc-gdg/guides/stand-out</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -12,7 +12,6 @@ Remove a line once it is answered and note the answer in that day's entry.
 - The 10-29 team docs are anyone-with-the-link edit, and their links are in this public repo (the deck's QRs). After the meeting: view-only, or new docs?
 - Get into GEAR: run it before the campaign ends 2026-11-20, or wait for Google's next round? Google asks for the free-access request 5 to 6 weeks before the event.
 - STEM support app: how many GDG teams, what each builds, and how a team's project plugs into the one app. Is the chemistry demo (Lewis dot and VSEPR) being built in another session part of it?
-- 11-19: the career and transfer resources meeting replaces Meeting 10 "The Failure Story" in `calendar.md`. Move that card to another date, or drop it?
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
 ## 2026-11-18 · Sam (via Claude Code)
@@ -23,7 +22,9 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 **Issues:** no RCC Phi Theta Kappa chapter found; RCC Honors GPA is 3.0 on one RCC page and 3.2 on another; RCC STEM Connect's program page is down; Google STEP had no postings.
 
-**Next:** Sam decides on a deck and a resource page with every link (proposed in the plan), and where The Failure Story goes.
+- Later: Sam dropped The Failure Story (calendar row now points at the 11-19 plan). Built the deck `semesters/2026-fall/decks/2026-11-19-stand-out.html` (18 slides, check passes), the resource page `2026-11-19-stand-out-media/resources.html` (published to `guides/stand-out/`), and `stand-out-resources.pdf` (5 pages, printed from the page, for the Discord). Copy pass on all of it at Sam's request: cut narrating lines and drawings that repeated the text.
+
+**Next:** Sam decides whether to publish the deck. Confirm STEM Connect runs in 2027 and the RCC Honors GPA.
 
 
 ## 2026-11-12 · Sam (via Claude Code)

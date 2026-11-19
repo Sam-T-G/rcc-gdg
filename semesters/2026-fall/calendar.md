@@ -39,7 +39,7 @@ Academic dates below are from the RCCD 2026-2027 academic calendar (Fall 2026: c
 | 2026-11-05 | Meeting 8: [Office Hours](sessions/2026-11-05-office-hours.md) (Ask, ship). **Receipt: a booked appointment with someone with power.** Wi-fi must be confirmed the day before. | meeting | President | planned |
 | 2026-11-11 | Holiday (no classes; Wednesday, does not affect the Thursday slot) | break | | n/a |
 | 2026-11-12 | Meeting 9: [Nobody Saw You Do It](sessions/2026-11-12-nobody-saw-you-do-it.md) (Evidence, install) | meeting | President | planned |
-| 2026-11-19 | Meeting 10: [The Failure Story](sessions/2026-11-19-the-failure-story.md) (Evidence, pressure). Demo Day guest invitations go out. | meeting | President | planned |
+| 2026-11-19 | Meeting 10: Stand out before you transfer (research, jobs, internships, and transfer programs; [plan](meetings/2026-11-19-plan.md)). Replaces The Failure Story, dropped by Sam 2026-11-18. Demo Day guest invitations go out. | meeting | President | planned |
 | 2026-11-23 | No classes November 23 to 29 | break | | n/a |
 | 2026-11-26 | Dark Thursday, no meeting (no-class week) | break | | n/a |
 | [TBD] | Officer elections | milestone | President | planned |
