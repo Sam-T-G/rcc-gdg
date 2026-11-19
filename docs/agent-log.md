@@ -20,7 +20,9 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 - `3a35978`: design pass at Sam's request (text-only cards and off-topic photos). Each program now shows its own source: NSF's REU page, a DOE photo of a SULI intern at Berkeley Lab, a NASA Pathways intern at NASA Armstrong (new NASA internships slide), the Hacktech site, RCC's quad, Riverside City Hall. Start research at RCC is a map scene (RCC, UCR, CSUSB, CSU Fullerton), so the deck now loads the expressive layer, and the map needs internet for its tiles. The email slide is laid out as the email; both deadline cards are photo grids. 22 slides, check.mjs 168 of 168, Playwright 5 of 5.
 
-**Next:** The live deck at `/decks/stand-out/` is still the old order until Sam says publish (`scripts/publish-deck.sh semesters/2026-fall/decks/2026-11-19-stand-out.html stand-out --push`). The resource page and PDF are unchanged.
+- `757db97`: cut to 19 slides from a talk track Sam asked for ("best judgement to optimize all"). Cut Where are you and Join these early, merged campus jobs and Riverside internships, moved the big-tech slide up to slide 3 (panel layout). Every slide's notes open with a "Say:" line. Republished at Sam's call; the live deck has 19 slides, and its map loaded 212 tiles with none blocked. The bake step again printed "does not match its source".
+
+**Next:** The resource page and PDF are unchanged and still list everything.
 
 ## 2026-11-18 · Sam (via Claude Code)
 
