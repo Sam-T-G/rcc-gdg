@@ -12,8 +12,19 @@ Remove a line once it is answered and note the answer in that day's entry.
 - The 10-29 team docs are anyone-with-the-link edit, and their links are in this public repo (the deck's QRs). After the meeting: view-only, or new docs?
 - Get into GEAR: run it before the campaign ends 2026-11-20, or wait for Google's next round? Google asks for the free-access request 5 to 6 weeks before the event.
 - STEM support app: how many GDG teams, what each builds, and how a team's project plugs into the one app. Is the chemistry demo (Lewis dot and VSEPR) being built in another session part of it?
+- 11-19: the career and transfer resources meeting replaces Meeting 10 "The Failure Story" in `calendar.md`. Move that card to another date, or drop it?
 
 <!-- newest entry below: add "## YYYY-MM-DD · Name (via Claude Code)" here and end it with a blank line -->
+## 2026-11-18 · Sam (via Claude Code)
+
+**Changed:**
+
+- New plan `semesters/2026-fall/meetings/2026-11-19-plan.md`: how RCC students stand out before transfer. Run of show, a deadlines list for the next 3 months, talking points for research, jobs and internships, and transfer moves, a four-semester timeline, and a do-it-in-the-room receipt list. Every program was checked on its official page on 2026-11-18 by three research agents; their full tables (eligibility quotes, URLs) are in `scratch/2026-11-19-research/` (gitignored, this machine only).
+
+**Issues:** no RCC Phi Theta Kappa chapter found; RCC Honors GPA is 3.0 on one RCC page and 3.2 on another; RCC STEM Connect's program page is down; Google STEP had no postings.
+
+**Next:** Sam decides on a deck and a resource page with every link (proposed in the plan), and where The Failure Story goes.
+
 
 ## 2026-11-12 · Sam (via Claude Code)
 
