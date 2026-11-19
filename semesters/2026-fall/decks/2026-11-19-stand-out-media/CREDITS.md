@@ -1,21 +1,20 @@
 # Image credits
 
-Every photo in this folder, where it came from, and its license. Written by `deck-kit/fetch-image.mjs`; the slide that uses a photo shows the same credit.
+Every image in this folder is a screenshot of a program's or event's own public page, taken 2026-11-19 with headless Chrome. Each walkthrough slide links that page in its caption and its QR code. The QR codes (`qr-*.svg`) were made with segno; the two deadline slides inline theirs.
 
-| File | Title | Creator | License | Source |
-| --- | --- | --- | --- | --- |
-| argonne.jpg | Argonne aerial | John Hill for Argonne National Laboratory | CC BY-SA 2.0 | <https://commons.wikimedia.org/wiki/File:Argonne_aerial.jpg> |
-| ucr.jpg | UC Riverside campus as viewed from Box Spring Mountain | Advythr | CC BY-SA 4.0 | <https://commons.wikimedia.org/wiki/File:UC_Riverside_campus_as_viewed_from_Box_Spring_Mountain.jpg> |
-| tutoring.jpg | Tutoring Center, Tulane University 2009 | Tulane Public Relations | CC BY 2.0 | <https://commons.wikimedia.org/wiki/File:Tutoring_Center,_Tulane_University_2009.jpg> |
-| nasa-intern.jpg | NASA Pathways Intern Adjusts Equipment for Air Taxi Tests (AFRC2024-0181-10) | NASA Armstrong Flight Research Center / NASA/Genaro Vavuris | Public domain | <https://commons.wikimedia.org/wiki/File:NASA_Pathways_Intern_Adjusts_Equipment_for_Air_Taxi_Tests_(AFRC2024-0181-10).jpg> |
-| poster-session.jpg | Summer Interns Display NASA Stennis Work (SSC-20240807-s00811) | NASA Stennis Space Center / Danny Nowlin | Public domain | <https://commons.wikimedia.org/wiki/File:Summer_Interns_Display_NASA_Stennis_Work_(SSC-20240807-s00811).jpg> |
-| berkeley-lab-suli.jpg | SCIENCE (54934637651) | U.S. Department of Energy | Public domain | <https://commons.wikimedia.org/wiki/File:SCIENCE_(54934637651).jpg> |
-| rcc-quad.jpg | Riverside City College Quadrangle Interior | Josiah.r.white | CC0 | <https://commons.wikimedia.org/wiki/File:Riverside_City_College_Quadrangle_Interior.jpg> |
-| nih.jpg | NIH campus - aerial (1) | National Cancer Institute | Public domain | <https://commons.wikimedia.org/wiki/File:NIH_campus_-_aerial_(1).jpg> |
-| hackathon.jpg | Junction 2015 | Vmuru | CC BY-SA 4.0 | <https://commons.wikimedia.org/wiki/File:Junction_2015.jpg> |
-| cal-poly-pomona.jpg | Cal Poly Pomona campus 1 | TheMexicanGentleman (talk) | Public domain | <https://commons.wikimedia.org/wiki/File:Cal_Poly_Pomona_campus_1.JPG> |
-| nsf-reu-page.jpg | Screenshot of the NSF REU page (hero photo: Iowa Economic Development Authority) | nsf.gov | Screenshot for reference | <https://www.nsf.gov/funding/initiatives/reu> |
-| hacktech-site.jpg | Screenshot of the Hacktech site | Hacktech, Caltech | Screenshot for reference | <https://hack.caltech.edu/> |
-| nasa-internships-page.jpg | Screenshot of NASA Internship Programs | nasa.gov | Screenshot for reference | <https://www.nasa.gov/learning-resources/internship-programs/> |
-| jkcf-page.jpg | Screenshot of the Cooke Undergraduate Transfer Scholarship page | Jack Kent Cooke Foundation | Screenshot for reference | <https://www.jkcf.org/our-scholarships/undergraduate-transfer-scholarship/> |
-| cutiehack-site.jpg | Screenshot of the Cutie Hack site (copied from the 11-12 deck) | Cutie Hack, UCR | Screenshot for reference | <https://cutiehack.com/> |
+| File | Page | Source |
+| --- | --- | --- |
+| walk-etap.jpg | NSF ETAP opportunity search | <https://etap.nsf.gov/search> |
+| walk-doe.jpg | DOE Community College Internships | <https://science.osti.gov/wdts/cci> |
+| walk-nih.jpg | NIH Summer Internship Program, application steps | <https://www.training.nih.gov/research-training/pb/sip/> |
+| walk-handshake.jpg | Handshake log in | <https://app.joinhandshake.com/login> |
+| walk-usajobs.jpg | USAJOBS search, Students hiring path, California | <https://www.usajobs.gov/search/results/?hp=student&l=California> |
+| walk-nasa.jpg | NASA STEM Gateway, Explore Opportunities | <https://stemgateway.nasa.gov/public/s/explore-opportunities> |
+| walk-simplify.jpg | Simplify Summer 2027 Internships list on GitHub | <https://github.com/SimplifyJobs/Summer2027-Internships> |
+| walk-uctap.jpg | UC Transfer Admission Planner | <https://uctap.universityofcalifornia.edu/> |
+| hack-cutiehack.jpg | Cutie Hack 2026 | <https://cutiehack.com/> |
+| hack-sbhacks.jpg | SB Hacks XIII | <https://www.sbhacks.com/> |
+| hack-rosehack.jpg | RoseHack 2027 | <https://rosehackucr.com/> |
+| hack-hacktech.jpg | Hacktech 2027 | <https://hack.caltech.edu/> |
+| hack-citrushack.jpg | Citrus Hack (2026 dates still posted) | <https://citrushack.com/> |
+| hack-aihack.jpg | UC Berkeley AI Hackathon (2026 dates still posted) | <https://ai.hackberkeley.org/> |
