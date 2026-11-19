@@ -19,7 +19,7 @@ Last updated: 2026-11-19 by Sam.
 ## Standing facts
 
 - Meetings: Thursdays 2:30 to 3:30 pm, BLCIS A-210.
-- Live decks: `https://sam-t-g.github.io/rcc-gdg/decks/<slug>/`, published from `main` with `scripts/publish-deck.sh` (the `gh-pages` branch). Pages that go with a deck (a cheat sheet, organizers' cards) publish to `guides/<slug>/` with `scripts/publish-page.sh`. The landing page is `https://sam-t-g.github.io/rcc-gdg/`.
+- Live decks: `https://sam-t-g.github.io/rcc-gdg/decks/<slug>/`, published from `main` with `scripts/publish-deck.sh` (the `gh-pages` branch). Pages that go with a deck (a cheat sheet, organizers' cards) publish to `guides/<slug>/` with `scripts/publish-page.sh`. The landing page is `https://sam-t-g.github.io/rcc-gdg/`. The slides menu (this week plus every earlier deck) is `https://sam-t-g.github.io/rcc-gdg/slides/`, from `semesters/slides.html`: each week move This week into Earlier, put the new deck on top, and run `scripts/publish-page.sh semesters/slides.html slides --push`.
 - Collaborators push to `main` through `scripts/sync.sh push` (since 2026-10-07; see the decision log). Branch protection blocks force-pushes and deletion only.
 - Review: `A` in a deck to annotate, `I` for the notes inbox, `?view=review` for the board, `node scripts/review.mjs` for agents. Google sign-in, limited to each club's member list on the relay.
 - Expressive layer (opt-in): `data-expressive` + `deck-kit/expressive/`; rules in motion.md §5.13 and presentation.md §13.14. Scene lab with every scene: `scratch/expressive-lab/` (gitignored, local only).
