@@ -11,7 +11,6 @@ Every photo in this folder, where it came from, and its license. Written by `dec
 | poster-session.jpg | Summer Interns Display NASA Stennis Work (SSC-20240807-s00811) | NASA Stennis Space Center / Danny Nowlin | Public domain | <https://commons.wikimedia.org/wiki/File:Summer_Interns_Display_NASA_Stennis_Work_(SSC-20240807-s00811).jpg> |
 | berkeley-lab-suli.jpg | SCIENCE (54934637651) | U.S. Department of Energy | Public domain | <https://commons.wikimedia.org/wiki/File:SCIENCE_(54934637651).jpg> |
 | rcc-quad.jpg | Riverside City College Quadrangle Interior | Josiah.r.white | CC0 | <https://commons.wikimedia.org/wiki/File:Riverside_City_College_Quadrangle_Interior.jpg> |
-| riverside-city-hall.jpg | Riverside City Hall Exterior | Josiah.r.white | CC0 | <https://commons.wikimedia.org/wiki/File:Riverside_City_Hall_Exterior.jpg> |
 | nih.jpg | NIH campus - aerial (1) | National Cancer Institute | Public domain | <https://commons.wikimedia.org/wiki/File:NIH_campus_-_aerial_(1).jpg> |
 | hackathon.jpg | Junction 2015 | Vmuru | CC BY-SA 4.0 | <https://commons.wikimedia.org/wiki/File:Junction_2015.jpg> |
 | cal-poly-pomona.jpg | Cal Poly Pomona campus 1 | TheMexicanGentleman (talk) | Public domain | <https://commons.wikimedia.org/wiki/File:Cal_Poly_Pomona_campus_1.JPG> |
