@@ -18,6 +18,8 @@ Remove a line once it is answered and note the answer in that day's entry.
 
 **Changed:** `a9c9563`: the 11-19 stand-out deck was reordered at Sam's request. The new order: why it matters (the UC transfer application has 20 activity entries and 4 PIQs, checked on UC's transfer guide), all four options in one photo grid, each one up close (research, jobs and internships, transfer programs, hackathons), what each one gets you and who it helps most, then a where-do-you-want-to-end-up tiles slide (grad school or AI research, software or engineering job, medicine or health, not sure), the four semesters, and the date cards. The Jan 6 statement slide is gone. 21 slides, check.mjs 170 of 170, Playwright 5 of 5. Plan run of show updated. New photo `tutoring.jpg` (CC BY 2.0).
 
+- `3a35978`: design pass at Sam's request (text-only cards and off-topic photos). Each program now shows its own source: NSF's REU page, a DOE photo of a SULI intern at Berkeley Lab, a NASA Pathways intern at NASA Armstrong (new NASA internships slide), the Hacktech site, RCC's quad, Riverside City Hall. Start research at RCC is a map scene (RCC, UCR, CSUSB, CSU Fullerton), so the deck now loads the expressive layer, and the map needs internet for its tiles. The email slide is laid out as the email; both deadline cards are photo grids. 22 slides, check.mjs 168 of 168, Playwright 5 of 5.
+
 **Next:** The live deck at `/decks/stand-out/` is still the old order until Sam says publish (`scripts/publish-deck.sh semesters/2026-fall/decks/2026-11-19-stand-out.html stand-out --push`). The resource page and PDF are unchanged.
 
 ## 2026-11-18 · Sam (via Claude Code)
