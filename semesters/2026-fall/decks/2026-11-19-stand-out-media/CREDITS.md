@@ -8,3 +8,4 @@ Every photo in this folder, where it came from, and its license. Written by `dec
 | argonne.jpg | Argonne aerial | John Hill for Argonne National Laboratory | CC BY-SA 2.0 | <https://commons.wikimedia.org/wiki/File:Argonne_aerial.jpg> |
 | caltech.jpg | Beckman auditorium, Caltech | en:User:Geographer | CC BY 1.0 | <https://commons.wikimedia.org/wiki/File:Beckman_auditorium,_Caltech.jpg> |
 | ucr.jpg | UC Riverside campus as viewed from Box Spring Mountain | Advythr | CC BY-SA 4.0 | <https://commons.wikimedia.org/wiki/File:UC_Riverside_campus_as_viewed_from_Box_Spring_Mountain.jpg> |
+| tutoring.jpg | Tutoring Center, Tulane University 2009 | Tulane Public Relations | CC BY 2.0 | <https://commons.wikimedia.org/wiki/File:Tutoring_Center,_Tulane_University_2009.jpg> |
